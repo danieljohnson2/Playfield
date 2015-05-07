@@ -15,36 +15,56 @@ public class MapController : MonoBehaviour
 {	
 	public TextAsset mapData;
 	public GameObject[] prefabs;
-	private GameObject[,] terrainObjects;
-	private readonly List<GameObject> entities = new List<GameObject> ();
+	private Dictionary<string, MapPopulation> mapPopulations = new Dictionary<string, MapPopulation> ();
+	private Dictionary<GameObject, MapPopulation> entityPlacements = new Dictionary<GameObject, MapPopulation> ();
 
-	private Map map;
-
-	void Start ()
+	private class MapPopulation
 	{
-		map = LoadMap ();
-		var pf = new PlayfieldGenerator (map.width, map.height);
-		entities.Clear ();
+		public Map map;
+		public GameObject[,] terrainObjects;
+		public readonly List<GameObject> entities = new List<GameObject> ();
 
-		for (int y = 0; y < map.height; ++y) {
-			for (int x = 0; x < map.width; ++x) {
-				ReadOnlyCollection<GameObject> templates = map [x, y];
-
-				if (templates.Count > 0) {
-					pf [x, y] = templates [0];
-
-					foreach (GameObject t in templates.Skip (1)) {
-						GameObject go = Instantiate (t);
-						go.transform.parent = transform;
-						go.transform.position = new Location (x, y, map).ToPosition ();
-						entities.Add (go);
+		public MapPopulation (Map map, MapController mapController)
+		{
+			this.map = map;
+			var pf = new PlayfieldGenerator (map.width, map.height);
+			entities.Clear ();
+			
+			for (int y = 0; y < map.height; ++y) {
+				for (int x = 0; x < map.width; ++x) {
+					ReadOnlyCollection<GameObject> templates = map [x, y];
+					
+					if (templates.Count > 0) {
+						pf [x, y] = templates [0];
+						
+						foreach (GameObject t in templates.Skip (1)) {
+							GameObject go = Instantiate (t);
+							go.transform.parent = mapController.transform;
+							go.transform.position = new Location (x, y, map).ToPosition ();
+							entities.Add (go);
+							mapController.entityPlacements.Add (go, this);
+						}
 					}
 				}
 			}
+			
+			terrainObjects = pf.Generate (mapController.gameObject);
+
+			foreach (GameObject go in terrainObjects) {
+				if (go != null) {
+					mapController.entityPlacements.Add (go, this);
+				}
+			}
 		}
+	}
 
-		terrainObjects = pf.Generate (gameObject);
+	void Awake ()
+	{
+		mapPopulations.Add (mapData.name, new MapPopulation (LoadMap (), this));
+	}
 
+	void Start ()
+	{
 		StartCoroutine (ExecuteTurns ());
 	}
 
@@ -55,6 +75,29 @@ public class MapController : MonoBehaviour
 		}
 	}
 
+	private MapPopulation GetPopulation (Map map)
+	{
+		return mapPopulations [map.name];
+	}
+
+	private MapPopulation GetPopulation (GameObject gameObject)
+	{
+		MapPopulation pop;
+		if (!entityPlacements.TryGetValue (gameObject, out pop)) {
+			pop = mapPopulations.Values.FirstOrDefault (
+				p => p.entities.Contains (gameObject));
+
+			if (pop == null) {
+				pop = mapPopulations.Values.FirstOrDefault (
+					p => p.terrainObjects.Cast<GameObject> ().Contains (gameObject));
+			}
+
+			entityPlacements.Add (gameObject, pop);
+		}
+
+		return pop;
+	}
+
 	private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
 
 	private IEnumerator ExecuteTurns ()
@@ -63,7 +106,7 @@ public class MapController : MonoBehaviour
 		do {
 			playerFound = false;
 
-			foreach (GameObject e in entities) {
+			foreach (GameObject e in EntityObjects()) {
 				var cc = e.GetComponent<CreatureController> ();
 
 				if (!playerFound && cc is PlayerController)
@@ -76,8 +119,8 @@ public class MapController : MonoBehaviour
 
 			while (pendingRemoval.Count>0) {
 				GameObject toRemove = pendingRemoval.Dequeue ();
-
-				this.entities.Remove (toRemove);
+				GetPopulation (toRemove).entities.Remove (toRemove);
+				entityPlacements.Remove (toRemove);
 				Destroy (toRemove);
 			}
 		} while(playerFound);
@@ -85,28 +128,34 @@ public class MapController : MonoBehaviour
 
 	public GameObject GetTerrain (Location location)
 	{
-		if (location.x >= 0 && location.x < terrainObjects.GetLength (0) &&
-			location.y >= 0 && location.y < terrainObjects.GetLength (1)) {
-			return terrainObjects [location.x, location.y];
+		MapPopulation pop = GetPopulation (location.map);
+		if (location.x >= 0 && location.x < pop.terrainObjects.GetLength (0) &&
+			location.y >= 0 && location.y < pop.terrainObjects.GetLength (1)) {
+			return pop.terrainObjects [location.x, location.y];
 		} else {
 			return null;
 		}
 	}
 
-	public Location GetLocation(GameObject gameObject) {
-		return Location.FromPosition (gameObject.transform.position, map);
+	public Location GetLocation (GameObject gameObject)
+	{
+		MapPopulation pop = GetPopulation (gameObject);
+		return Location.FromPosition (gameObject.transform.position, pop.map);
 	}
 
 	public IEnumerable<GameObject> EntityObjects ()
 	{
-		return entities;
+		return
+			from pop in mapPopulations.Values
+			from e in pop.entities
+			select e;
 	}
 	
 	public IEnumerable<GameObject> EntityObjectsAt (Location location)
 	{
 		return 
-			from go in entities
-			where location == GetLocation(go)
+			from go in GetPopulation (location.map).entities
+			where location == GetLocation (go)
 			select go;
 	}
 
