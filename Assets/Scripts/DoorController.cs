@@ -38,8 +38,7 @@ public class DoorController : MovementBlocker
 	/// </summary>
 	private bool isOpen {
 		get {
-			Location doorLoc = Location.Of (transform);
-
+			Location doorLoc = mapController.GetLocation (gameObject);
 			return mapController.EntityObjectsAt (doorLoc).Any ();
 		}
 	}

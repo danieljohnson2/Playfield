@@ -2,9 +2,15 @@
 using System;
 using System.Linq;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.IO;
 
+/// <summary>
+/// This class loads the map and places all game-objects; it keeps track of
+/// what it creates so we can find them again more efficiently, without
+/// depending upon tags.
+/// </summary>
 public class MapController : MonoBehaviour
 {	
 	public TextAsset mapData;
@@ -12,32 +18,25 @@ public class MapController : MonoBehaviour
 	private GameObject[,] terrainObjects;
 	private readonly List<GameObject> entities = new List<GameObject> ();
 
+	private Map map;
+
 	void Start ()
 	{
-		string[] mapText;
-		Dictionary<char, GameObject[]> mapLegend;
-		ReadLinesOf (mapData, out mapText, out mapLegend);
-
-		int width = mapText.Max (l => l.Length);
-		int height = mapText.Length;
-
-		var pf = new PlayfieldGenerator (width, height);
+		map = LoadMap ();
+		var pf = new PlayfieldGenerator (map.width, map.height);
 		entities.Clear ();
 
-		for (int y = 0; y < mapText.Length; ++y) {
-			string l = mapText [y];
+		for (int y = 0; y < map.height; ++y) {
+			for (int x = 0; x < map.width; ++x) {
+				ReadOnlyCollection<GameObject> templates = map [x, y];
 
-			for (int x = 0; x < l.Length; ++x) {
-				GameObject[] templates;
-
-				if (mapLegend.TryGetValue (l [x], out templates) &&
-					templates.Length > 0) {
+				if (templates.Count > 0) {
 					pf [x, y] = templates [0];
 
 					foreach (GameObject t in templates.Skip (1)) {
 						GameObject go = Instantiate (t);
 						go.transform.parent = transform;
-						go.transform.position = new Location (x, y).ToPosition ();
+						go.transform.position = new Location (x, y, map).ToPosition ();
 						entities.Add (go);
 					}
 				}
@@ -47,6 +46,13 @@ public class MapController : MonoBehaviour
 		terrainObjects = pf.Generate (gameObject);
 
 		StartCoroutine (ExecuteTurns ());
+	}
+
+	public Map LoadMap ()
+	{
+		using (var reader = new StringReader(mapData.text)) {
+			return Map.Load (mapData.name, reader, prefabs);
+		}
 	}
 
 	private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
@@ -87,6 +93,10 @@ public class MapController : MonoBehaviour
 		}
 	}
 
+	public Location GetLocation(GameObject gameObject) {
+		return Location.FromPosition (gameObject.transform.position, map);
+	}
+
 	public IEnumerable<GameObject> EntityObjects ()
 	{
 		return entities;
@@ -96,7 +106,7 @@ public class MapController : MonoBehaviour
 	{
 		return 
 			from go in entities
-			where location == Location.Of (go)
+			where location == GetLocation(go)
 			select go;
 	}
 
@@ -148,37 +158,6 @@ public class MapController : MonoBehaviour
 		return ComponentsInCell<MovementBlocker> (loc).All (mb => mb.pathable);
 	}
 
-	private void ReadLinesOf (TextAsset text, out string[] mapText, out Dictionary<char, GameObject[]> mapLegend)
-	{
-		var mapLegendByName = new Dictionary<char, string[]> ();
-		var buffer = new List<string> ();
-		
-		using (var reader = new StringReader(text.text)) {
-			string line;
-			while ((line = reader.ReadLine()) != null) {
-				if (line == "-")
-					break;
-				
-				buffer.Add (line);
-			}
-			
-			while ((line = reader.ReadLine()) != null) {
-				if (line.Length > 0) {
-					char ch = line [0];
-					string[] names = line.Substring (1).
-						Split (new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).
-							Select (n => n.Trim ()).
-							ToArray ();
-					
-					mapLegendByName.Add (ch, names);
-				}
-			}
-		}
-		
-		mapText = buffer.ToArray ();
-		mapLegend = CreateMapLegend (mapLegendByName);
-	}
-
 	public GameObject InstantiateByName (string name, Location location)
 	{
 		GameObject template = prefabs.First (go => go.name == name);
@@ -186,35 +165,5 @@ public class MapController : MonoBehaviour
 		obj.transform.parent = this.transform;
 		obj.transform.position = location.ToPosition ();
 		return obj;
-	}
-
-	private Dictionary<char, GameObject[]> CreateMapLegend (Dictionary<char, string[]> legendByName)
-	{
-		var byName = new NamedObjectDictionary (prefabs);
-
-		return legendByName.ToDictionary (
-			pair => pair.Key,
-			pair => byName.GetArray (pair.Value));
-	}
-
-	private sealed class NamedObjectDictionary : Dictionary<string, GameObject>
-	{
-		public NamedObjectDictionary (IEnumerable<GameObject> objects)
-		{
-			foreach (GameObject obj in objects)
-				Add (obj.name, obj);
-		}
-
-		public GameObject[] GetArray (string[] names)
-		{
-			return names.Select (delegate(string name) {
-				GameObject pf;
-				if (TryGetValue (name, out pf))
-					return pf;
-				
-				string msg = string.Format ("The prefab named '{0}' was not found.", name);
-				throw new KeyNotFoundException (msg);
-			}).ToArray ();
-		}
 	}
 }

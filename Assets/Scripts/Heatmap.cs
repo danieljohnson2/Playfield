@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 /// <summary>
 /// This class holds a heat value for each cell in your map;
@@ -46,7 +47,7 @@ public sealed class Heatmap : ICloneable
 		foreach (Location key in blocks.Keys) {
 			for (int ly = 0; ly < blockSize; ++ly) {
 				for (int lx = 0; lx < blockSize; ++lx) {
-					yield return new Location (key.x + lx, key.y + ly);
+					yield return key.WithOffset (lx, ly);
 				}
 			}
 		}
@@ -73,7 +74,7 @@ public sealed class Heatmap : ICloneable
 			picked = moves.ElementAt (index);
 			return true;
 		} else {
-			picked = new Location();
+			picked = new Location ();
 			return false;
 		}
 	}
@@ -84,20 +85,29 @@ public sealed class Heatmap : ICloneable
 	/// </summary>
 	public override string ToString ()
 	{
-		int minX = Locations ().Min (loc => loc.x);
-		int minY = Locations ().Min (loc => loc.y);
-		int maxX = Locations ().Max (loc => loc.x);
-		int maxY = Locations ().Max (loc => loc.y);
-		
-		var b = new System.Text.StringBuilder ();
-		
-		for (int y = minY; y <= maxY; ++y) {
-			for (int x = minX; x <= maxX; ++x) {
-				b.AppendFormat ("{0:X2}", Math.Abs (this [new Location (x, y)]));
+		var byMap = Locations ().GroupBy (l => l.map);
+		var b = new StringBuilder ();
+
+		foreach (var grp in byMap) {
+			if (grp.Key == null) {
+				continue;
 			}
-			b.AppendLine ();
-		}
+
+			b.AppendLine(grp.Key.name);
+
+			int minX = grp.Min (loc => loc.x);
+			int minY = grp.Min (loc => loc.y);
+			int maxX = grp.Max (loc => loc.x);
+			int maxY = grp.Max (loc => loc.y);
 		
+			for (int y = minY; y <= maxY; ++y) {
+				for (int x = minX; x <= maxX; ++x) {
+					b.AppendFormat ("{0:X2}", Math.Abs (this [new Location (x, y, grp.Key)]));
+				}
+				b.AppendLine ();
+			}
+		}
+
 		return b.ToString ().Trim ();
 	}
 
@@ -179,7 +189,7 @@ public sealed class Heatmap : ICloneable
 	/// </summary>
 	private Cell GetCell (Location location, bool createIfMissing)
 	{
-		var key = new Location (location.x & locationKeyMask, location.y & locationKeyMask);
+		var key = new Location (location.x & locationKeyMask, location.y & locationKeyMask, location.map);
 		short[,] block;
 		
 		if (!blocks.TryGetValue (key, out block) && createIfMissing) {

@@ -30,7 +30,7 @@ public class CreatureController : MovementBlocker
 		var attacker = mover.GetComponent<CreatureController> ();
 
 		if (attacker != null) {
-			mapController.InstantiateByName ("Slash", Location.Of (gameObject));
+			mapController.InstantiateByName ("Slash", mapController.GetLocation (gameObject));
 
 			hitPoints = Math.Max (0, hitPoints - attacker.damage);
 
@@ -44,9 +44,7 @@ public class CreatureController : MovementBlocker
 
 	public void Move (int dx, int dy)
 	{
-		Location loc = Location.Of (transform);
-		loc.x += dx;
-		loc.y += dy;
+		Location loc = mapController.GetLocation (gameObject).WithOffset (dx, dy);
 		MoveTo (loc);
 	}
 
