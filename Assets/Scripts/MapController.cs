@@ -89,7 +89,15 @@ public class MapController : MonoBehaviour
 
 	public IEnumerable<GameObject> EntityObjects ()
 	{
-		return entities ?? Enumerable.Empty<GameObject> ();
+		return entities;
+	}
+	
+	public IEnumerable<GameObject> EntityObjectsAt (Location location)
+	{
+		return 
+			from go in entities
+			where location == Location.Of (go)
+			select go;
 	}
 
 	public IEnumerable<T> EntityComponents<T> ()
@@ -107,30 +115,24 @@ public class MapController : MonoBehaviour
 		pendingRemoval.Enqueue (toRemove);
 	}
 
-	public List<GameObject> GetGameObjectsInCell (Location location)
+	public IEnumerable<GameObject> GameObjectsInCell (Location location)
 	{
-		var buffer = new List<GameObject> ();
-
 		GameObject terrain = GetTerrain (location);
 
 		if (terrain != null) {
-			buffer.Add (terrain);
+			yield return terrain;
 		}
 
-		foreach (GameObject go in entities) {
-			if (location == Location.Of (go)) {
-				buffer.Add (go);
-			}
+		foreach (GameObject go in EntityObjectsAt(location)) {
+			yield return go;
 		}
-
-		return buffer;
 	}
 
 	public IEnumerable<T> ComponentsInCell<T> (Location location)
 		where T : Component
 	{
 		return
-			from go in GetGameObjectsInCell (location)
+			from go in GameObjectsInCell (location)
 			select go.GetComponent<T> () into c
 			where c != null
 			select c;

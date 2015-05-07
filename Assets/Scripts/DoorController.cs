@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
+/// <summary>
+/// Doors don't block movement, but they do block AI
+/// pathfinding, and they look different when something
+/// is standing on them.
+/// </summary>
 public class DoorController : MovementBlocker
 {
 	public Sprite door;
@@ -18,7 +24,6 @@ public class DoorController : MovementBlocker
 		this.spriteRenderer = GetComponent<SpriteRenderer> ();
 	}
 
-	// Update is called once per frame
 	void Update ()
 	{
 		bool open = isOpen;
@@ -27,22 +32,15 @@ public class DoorController : MovementBlocker
 		spriteRenderer.sprite = open ? openDoor : door;
 	}
 
-	public override bool Block (GameObject mover)
-	{
-		return true;
-	}
-
+	/// <summary>
+	/// This is true if there is any entity standing on
+	/// the door's square; if true the door appears open.
+	/// </summary>
 	private bool isOpen {
 		get {
 			Location doorLoc = Location.Of (transform);
 
-			foreach (GameObject obj in mapController.EntityObjects()) {
-				if (doorLoc == Location.Of (obj)) {
-					return true;
-				}
-			}
-
-			return false;
+			return mapController.EntityObjectsAt (doorLoc).Any ();
 		}
 	}
 }

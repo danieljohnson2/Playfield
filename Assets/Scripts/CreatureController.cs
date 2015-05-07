@@ -20,6 +20,10 @@ public class CreatureController : MovementBlocker
 		DoTurn ();
 		return Enumerable.Empty<object> ().GetEnumerator ();
 	}
+	
+	public virtual void DoTurn ()
+	{
+	}
 
 	public override bool Block (GameObject mover)
 	{
@@ -36,10 +40,6 @@ public class CreatureController : MovementBlocker
 		}
 
 		return false;
-	}
-
-	public virtual void DoTurn ()
-	{
 	}
 
 	public void Move (int dx, int dy)
