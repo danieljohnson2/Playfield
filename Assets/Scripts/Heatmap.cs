@@ -139,12 +139,14 @@ public sealed class Heatmap : ICloneable
 	public Heatmap GetHeated (Func<Location, bool> passability)
 	{
 		Heatmap copy = Copy ();
+		var adjacentBuffer = new Location[4];
 
 		foreach (Location srcLoc in Locations ()) {
 			short min = GetCell (srcLoc, createIfMissing: false).GetReducedValue (1);
 			
 			if (min != 0) {
-				foreach (Location adj in srcLoc.GetAdjacent()) {
+				srcLoc.GetAdjacent (adjacentBuffer);
+				foreach (Location adj in adjacentBuffer) {
 					if (passability (adj)) {
 						copy.GetCell (adj, createIfMissing: true).IncreaseValue (min);
 					}

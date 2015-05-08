@@ -17,8 +17,6 @@ using System.IO;
 /// </summary>
 public sealed class Map
 {	
-	private static readonly ReadOnlyCollection<GameObject> noObjects =
-		new ReadOnlyCollection<GameObject> (new GameObject[0]);
 	private readonly MapLegend mapLegend;
 	private readonly string[] mapText;
 	public readonly string name;
@@ -34,24 +32,59 @@ public sealed class Map
 		this.height = mapText.Length;
 	}
 
+	public sealed class Cell
+	{
+		public readonly ReadOnlyCollection<GameObject> prefabs;
+		public readonly string destinationMap;
+		public readonly char destinationMark;
+		public static readonly Cell empty = new Cell (new ReadOnlyCollection<GameObject> (new GameObject[0]));
+
+		public Cell (ReadOnlyCollection<GameObject> prefabs) : this(prefabs, null, '\0')
+		{
+		}
+		
+		public Cell (ReadOnlyCollection<GameObject> prefabs, string destinationMap, char destinationMark)
+		{
+			this.prefabs = prefabs;
+			this.destinationMap = destinationMap;
+			this.destinationMark = destinationMark;
+		}
+	}
+
 	/// <summary>
 	/// This indexer retrives the prefabs for a given cell;
 	/// if x or y is out of range, this returns an empty collection.
 	/// </summary>
-	public ReadOnlyCollection<GameObject> this [int x, int y] {
+	public Cell this [int x, int y] {
 		get {
 			if (x >= 0 && x < width && y >= 0 && y < height) {
 				if (x < mapText [y].Length) {
 					char ch = mapText [y] [x];
 
-					ReadOnlyCollection<GameObject> prefabs;
-					if (mapLegend.TryGetValue (ch, out prefabs)) {
-						return prefabs;
+					Cell cell;
+					if (mapLegend.TryGetValue (ch, out cell)) {
+						return cell;
 					}
 				}
 			}
 
-			return noObjects;
+			return Cell.empty;
+		}
+	}
+
+	/// <summary>
+	/// This method executes teh action given ones for each cell in the map
+	/// whose character is 'mark'.
+	/// </summary>
+	public void ForEachMark (char mark, Action<int,int> action)
+	{
+		for (int y = 0; y < mapText.Length; ++y) {
+			string line = mapText [y];
+			for (int x =0; x<line.Length; ++x) {
+				if (line [x] == mark) {
+					action (x, y);
+				}
+			}
 		}
 	}
 
@@ -65,7 +98,7 @@ public sealed class Map
 	/// </summary>
 	public static Map Load (string name, TextReader reader, IEnumerable<GameObject> prefabs)
 	{
-		var mapLegendByName = new Dictionary<char, string[]> ();
+		var mapLegendByName = new Dictionary<char, string> ();
 		var buffer = new List<string> ();
 		
 		string line;
@@ -79,12 +112,7 @@ public sealed class Map
 		while ((line = reader.ReadLine()) != null) {
 			if (line.Length > 0) {
 				char ch = line [0];
-				string[] names = line.Substring (1).
-					Split (new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).
-						Select (n => n.Trim ()).
-						ToArray ();
-				
-				mapLegendByName.Add (ch, names);
+				mapLegendByName.Add (ch, line.Substring (1).Trim ());
 			}
 		}
 		
@@ -95,16 +123,16 @@ public sealed class Map
 	/// This class holds onto the list of prefabs for each map character;
 	/// it mainly exists to save typing, by having a short name!
 	/// </summary>
-	private sealed class MapLegend : Dictionary<char, ReadOnlyCollection<GameObject>>
+	private sealed class MapLegend : Dictionary<char, Cell>
 	{
-		public MapLegend (Dictionary<char, string[]> byName, NamedObjectDictionary namedPrefabs)
+		public MapLegend (Dictionary<char, string> byName, NamedObjectDictionary namedPrefabs)
 		{
 			foreach (var pair in byName) {
-				Add (pair.Key, namedPrefabs.GetRange (pair.Value));
+				Add (pair.Key, namedPrefabs.GetCell (pair.Value));
 			}
 		}
 
-		public MapLegend (Dictionary<char, string[]> byName, IEnumerable<GameObject> prefabs) :
+		public MapLegend (Dictionary<char, string> byName, IEnumerable<GameObject> prefabs) :
 			this(byName, new NamedObjectDictionary(prefabs))
 		{
 		}
@@ -122,18 +150,36 @@ public sealed class Map
 				Add (obj.name, obj);
 		}
 		
-		public ReadOnlyCollection<GameObject> GetRange (string[] names)
+		public Cell GetCell (string text)
 		{
-			IEnumerable<GameObject> resolved = names.Select (delegate(string name) {
-				GameObject pf;
-				if (TryGetValue (name, out pf))
-					return pf;
-				
-				string msg = string.Format ("The prefab named '{0}' was not found.", name);
-				throw new KeyNotFoundException (msg);
-			});
+			GameObject[] prefabs = new GameObject[0];
+			char destinationMark = '\0';
+			string destinationMap = null;
 
-			return new ReadOnlyCollection<GameObject> (resolved.ToArray ());
+			string[] parts = text.Split (new [] { "->" }, StringSplitOptions.RemoveEmptyEntries);
+
+			if (parts.Length > 0) {
+				string[] objNames = parts [0].Split (new []{','}, StringSplitOptions.RemoveEmptyEntries);
+				prefabs = objNames.Select (n => ResolvePrefab (n.Trim ())).ToArray ();
+
+				if (parts.Length > 2) {
+					destinationMap = parts [1].Trim ();
+					destinationMark = parts [2].Trim () [0];
+				}
+			}
+
+			return new Cell (new ReadOnlyCollection<GameObject> (prefabs), destinationMap, destinationMark);
+		}
+
+		public GameObject ResolvePrefab (string name)
+		{
+			GameObject prefab;
+			if (TryGetValue (name, out prefab)) {
+				return prefab;
+			}		
+
+			string msg = string.Format ("The prefab named '{0}' was not found.", name);
+			throw new KeyNotFoundException (msg);
 		}
 	}
 }

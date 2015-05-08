@@ -15,74 +15,18 @@ public class MapController : MonoBehaviour
 {	
 	public TextAsset[] mapTexts;
 	public GameObject[] prefabs;
-	private Map[] lazyMaps;
-	private GameObject[,] activeTerrainObjects;
-	private readonly List<GameObject> entities = new List<GameObject> ();
 
 	void Awake ()
 	{
-		entities.Clear ();
 		lazyMaps = new Map[mapTexts.Length];
-		activeMapIndex = 0;
-	}
-
-	private int storedActiveMapIndex = -1;
-
-	public int activeMapIndex {
-		get { return storedActiveMapIndex; }
-
-		set {
-			if (storedActiveMapIndex != value) {
-				Map map = GetMap (value);
-				storedActiveMapIndex = value;
-				PopulateMapObjects (map, value);
-			}
-		}
-	}
-
-	private void PopulateMapObjects (Map map, int mapIndex)
-	{
-		var pf = new PlayfieldGenerator (map.width, map.height);
-		entities.Clear ();
-
-		for (int y = 0; y < map.height; ++y) {
-			for (int x = 0; x < map.width; ++x) {
-				ReadOnlyCollection<GameObject> templates = map [x, y];
-				
-				if (templates.Count > 0) {
-					pf [x, y] = templates [0];
-					
-					foreach (GameObject t in templates.Skip (1)) {
-						GameObject go = Instantiate (t);
-						go.transform.parent = transform;
-						go.transform.position = new Location (x, y, mapIndex).ToPosition ();
-						entities.Add (go);
-					}
-				}
-			}
-		}
-		
-		activeTerrainObjects = pf.Generate (gameObject);
-	}
-
-	public Map GetMap (int mapIndex)
-	{
-		if (lazyMaps [mapIndex] == null) {
-			TextAsset textAsset = mapTexts [mapIndex];
-			using (var reader = new StringReader(textAsset.text)) {
-				lazyMaps [mapIndex] = Map.Load (textAsset.name, reader, prefabs);
-			}
-		}
-
-		return lazyMaps [mapIndex];
+		lazyMapContainers = new GameObject[mapTexts.Length];
 	}
 
 	void Start ()
 	{
+		activeMapIndex = 0;
 		StartCoroutine (ExecuteTurns ());
 	}
-
-	private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
 
 	private IEnumerator ExecuteTurns ()
 	{
@@ -90,11 +34,13 @@ public class MapController : MonoBehaviour
 		do {
 			playerFound = false;
 
-			foreach (GameObject e in EntityObjects()) {
+			foreach (GameObject e in EntityObjects().ToArray ()) {
 				var cc = e.GetComponent<CreatureController> ();
 
-				if (!playerFound && cc is PlayerController)
+				if (!playerFound && cc is PlayerController) {
 					playerFound = true;
+					activeMapIndex = Location.Of (e).mapIndex;
+				}
 
 				if (cc != null) {
 					yield return StartCoroutine (cc.DoTurnAsync ());
@@ -109,9 +55,113 @@ public class MapController : MonoBehaviour
 		} while(playerFound);
 	}
 
+	#region Active Map
+	
+	private int storedActiveMapIndex = -1;
+	private GameObject[] lazyMapContainers;
+
+	public int activeMapIndex {
+		get { return storedActiveMapIndex; }
+		
+		set {
+			if (storedActiveMapIndex != value) {
+				Map map = GetMap (value);
+				storedActiveMapIndex = value;
+				PopulateMapObjects (map, value);
+			}
+		}
+	}
+
+	private readonly HashSet<Location> loadedEntityLocations = new HashSet<Location> ();
+
+	private void PopulateMapObjects (Map map, int mapIndex)
+	{
+		if (activeTerrainObjects != null) {
+			foreach (GameObject go in activeTerrainObjects) {
+				Destroy (go);
+			}
+			activeTerrainObjects = null;
+		}
+
+		activeTerrainObjects = new GameObject[map.width, map.height];
+
+		GameObject mapContainer = lazyMapContainers [mapIndex];
+
+		if (mapContainer == null) {
+			mapContainer = new GameObject (map.name);
+			mapContainer.transform.parent = transform;
+			lazyMapContainers [mapIndex] = mapContainer;
+		}
+
+		for (int y = 0; y < map.height; ++y) {
+			for (int x = 0; x < map.width; ++x) {
+				Map.Cell cell = map [x, y];
+				
+				if (cell.prefabs.Count > 0) {
+					Location location = new Location (x, y, mapIndex);
+
+					GameObject terrain = Instantiate (cell.prefabs [0]);
+					activeTerrainObjects [x, y] = terrain;
+					terrain.transform.parent = mapContainer.transform;
+					terrain.transform.position = location.ToPosition ();
+
+					if (loadedEntityLocations.Add (location)) {
+						foreach (GameObject prefab in cell.prefabs.Skip (1)) {
+							GameObject go = Instantiate (prefab);
+							go.transform.parent = mapContainer.transform;
+							go.transform.position = location.ToPosition ();
+							entities.Add (go);
+						}
+					}
+				}
+			}
+		}
+
+		foreach (GameObject go in entities) {
+			go.SetActive (Location.Of (go).mapIndex == mapIndex);
+		}
+	}
+
+	#endregion
+
+	#region Maps
+
+	private Map[] lazyMaps;
+
+	public int FindMapIndex (string name)
+	{
+		for (int i = 0; i < mapTexts.Length; ++i) {
+			if (mapTexts [i].name == name) {
+				return i;
+			}
+		}
+
+		throw new KeyNotFoundException (string.Format (
+			"The map '{0}' could not be found.",
+			name));
+	}
+
+	public Map GetMap (int mapIndex)
+	{
+		if (lazyMaps [mapIndex] == null) {
+			TextAsset textAsset = mapTexts [mapIndex];
+			using (var reader = new StringReader(textAsset.text)) {
+				lazyMaps [mapIndex] = Map.Load (textAsset.name, reader, prefabs);
+			}
+		}
+		
+		return lazyMaps [mapIndex];
+	}
+
+	#endregion
+
+	#region Terrain and Movement
+
+	private GameObject[,] activeTerrainObjects;
+	
 	public GameObject GetTerrain (Location location)
 	{
-		if (activeMapIndex == location.mapIndex) {
+		if (activeMapIndex == location.mapIndex && activeTerrainObjects != null) {
 			if (location.x >= 0 && location.x < activeTerrainObjects.GetLength (0) &&
 				location.y >= 0 && location.y < activeTerrainObjects.GetLength (1)) {
 				return activeTerrainObjects [location.x, location.y];
@@ -120,14 +170,35 @@ public class MapController : MonoBehaviour
 			}
 		} else {
 			Map map = GetMap (location.mapIndex);
-			ReadOnlyCollection<GameObject> prefabs = map [location.x, location.y];
-			if (prefabs.Count > 0) {
-				return prefabs [0];
-			} else {
-				return null;
-			}
+			Map.Cell cell = map [location.x, location.y];
+			return cell.prefabs.FirstOrDefault ();
 		}
 	}
+
+	public bool IsPassable (Location loc)
+	{
+		if (GetTerrain (loc) == null) {
+			return false;
+		}
+
+		return ComponentsInCell<MovementBlocker> (loc).All (mb => mb.passable);
+	}
+
+	public bool IsPathable (Location loc)
+	{
+		if (GetTerrain (loc) == null) {
+			return false;
+		}
+
+		return ComponentsInCell<MovementBlocker> (loc).All (mb => mb.pathable);
+	}
+
+	#endregion
+	
+	#region Entity Objects
+
+	private readonly List<GameObject> entities = new List<GameObject> ();
+	private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
 
 	public IEnumerable<GameObject> EntityObjects ()
 	{
@@ -138,64 +209,47 @@ public class MapController : MonoBehaviour
 	{
 		return 
 			from go in entities
-			where location == Location.Of (go)
-			select go;
+				where location == Location.Of (go)
+				select go;
 	}
-
+	
 	public IEnumerable<T> EntityComponents<T> ()
 		where T : Component
 	{
 		return
 			from go in EntityObjects ()
-			select go.GetComponent<T> () into c
-			where c != null
-			select c;
+				select go.GetComponent<T> () into c
+				where c != null
+				select c;
 	}
-
+	
 	public void RemoveEntity (GameObject toRemove)
 	{
 		pendingRemoval.Enqueue (toRemove);
 	}
-
+	
 	public IEnumerable<GameObject> GameObjectsInCell (Location location)
 	{
 		GameObject terrain = GetTerrain (location);
-
+		
 		if (terrain != null) {
 			yield return terrain;
 		}
-
+		
 		foreach (GameObject go in EntityObjectsAt(location)) {
 			yield return go;
 		}
 	}
-
+	
 	public IEnumerable<T> ComponentsInCell<T> (Location location)
 		where T : Component
 	{
 		return
 			from go in GameObjectsInCell (location)
-			select go.GetComponent<T> () into c
-			where c != null
-			select c;
+				select go.GetComponent<T> () into c
+				where c != null
+				select c;
 	}
 	
-	public bool IsPassable (Location loc)
-	{
-		return ComponentsInCell<MovementBlocker> (loc).All (mb => mb.passable);
-	}
-
-	public bool IsPathable (Location loc)
-	{
-		return ComponentsInCell<MovementBlocker> (loc).All (mb => mb.pathable);
-	}
-
-	public GameObject InstantiateByName (string name, Location location)
-	{
-		GameObject template = prefabs.First (go => go.name == name);
-		GameObject obj = Instantiate (template);
-		obj.transform.parent = this.transform;
-		obj.transform.position = location.ToPosition ();
-		return obj;
-	}
+	#endregion
 }

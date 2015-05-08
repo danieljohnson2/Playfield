@@ -5,6 +5,10 @@ using System.Collections;
 /// This is a component that blocks other object's movement,
 /// so they either can't move into the same square as this one,
 /// or something happens if they do.
+/// 
+/// This is the most basic base-class for interactions in
+/// the game world; when a creature steps into a blocker,
+/// the blocker can take action.
 /// </summary>
 public class MovementBlocker : MonoBehaviour
 {

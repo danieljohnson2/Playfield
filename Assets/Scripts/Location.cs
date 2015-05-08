@@ -2,7 +2,9 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// This structure holds a position in the game-world.
+/// This structure holds a position in the game-world;
+/// the map is identified by its index in the mapController's
+/// map array. The entire location can be encoded into 
 /// </summary>
 [Serializable]
 public struct Location : IEquatable<Location>
@@ -18,6 +20,10 @@ public struct Location : IEquatable<Location>
 		this.mapIndex = mapIndex;
 	}
 
+	/// <summary>
+	/// This method applies a delta to the x and y co-ordinates
+	/// of this location, and returns the updated result.
+	/// </summary>
 	public Location WithOffset (int deltaX, int deltaY)
 	{
 		return new Location (x + deltaX, y + deltaY, mapIndex);
@@ -58,13 +64,23 @@ public struct Location : IEquatable<Location>
 	/// </summary>
 	public Location[] GetAdjacent ()
 	{
-		return new[] 
-		{
-			new Location (x, y - 1, mapIndex),
-			new Location (x + 1, y, mapIndex),
-			new Location (x, y + 1, mapIndex),
-			new Location (x - 1, y, mapIndex),
-		};
+		var buffer = new Location[4];
+		GetAdjacent (buffer);
+		return buffer;
+	}
+
+	/// <summary>
+	/// Populates the first four elements of 'buffer'
+	/// with the adjacent locations next to this one;
+	/// with this method you can reuse the buffer array
+	/// many times, saving allocations.
+	/// </summary>
+	public void GetAdjacent(Location[] buffer)
+	{
+		buffer [0] = new Location (x, y - 1, mapIndex);
+		buffer [1] = new Location (x + 1, y, mapIndex);
+		buffer [2] = new Location (x, y + 1, mapIndex);
+		buffer [3] = new Location (x - 1, y, mapIndex);
 	}
 
 	/// <summary>

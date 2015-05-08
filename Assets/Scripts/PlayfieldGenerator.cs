@@ -32,7 +32,7 @@ public class PlayfieldGenerator
 		set { terrainTemplates [x, y] = value; }
 	}
 
-	public GameObject[,] Generate (GameObject parent)
+	public GameObject[,] Generate (GameObject parent, int mapIndex)
 	{
 		GameObject[,] terrainObjects = new GameObject[width, height];
 
@@ -43,7 +43,7 @@ public class PlayfieldGenerator
 				if (template != null) {
 					GameObject obj = GameObject.Instantiate (template);
 					obj.transform.parent = parent.transform;
-					obj.transform.position = new Vector3 (x, -y, 0);
+					obj.transform.position = new Location (x, y, mapIndex).ToPosition ();
 					terrainObjects [x, y] = obj;
 				}
 			}

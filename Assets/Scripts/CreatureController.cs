@@ -8,6 +8,7 @@ public class CreatureController : MovementBlocker
 {
 	public int hitPoints = 10;
 	public int damage = 3;
+	public GameObject attackEffect;
 
 	public CreatureController ()
 	{
@@ -30,7 +31,10 @@ public class CreatureController : MovementBlocker
 		var attacker = mover.GetComponent<CreatureController> ();
 
 		if (attacker != null) {
-			mapController.InstantiateByName ("Slash", Location.Of (gameObject));
+			if (attacker.attackEffect != null) {
+				GameObject effect = Instantiate (attackEffect);
+				effect.transform.position = transform.position;
+			}
 
 			hitPoints = Math.Max (0, hitPoints - attacker.damage);
 
@@ -50,6 +54,10 @@ public class CreatureController : MovementBlocker
 
 	public void MoveTo (Location destination)
 	{
+		if (mapController.GetTerrain (destination) == null) {
+			return;
+		}
+
 		foreach (var b in mapController.ComponentsInCell<MovementBlocker>(destination)) {
 			if (!b.Block (gameObject))
 				return;

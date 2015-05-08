@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
@@ -41,5 +42,26 @@ public class DoorController : MovementBlocker
 			Location doorLoc = Location.Of (gameObject);
 			return mapController.EntityObjectsAt (doorLoc).Any ();
 		}
+	}
+
+	public override bool Block (GameObject mover)
+	{
+		Location here = Location.Of (gameObject);
+		Map.Cell cell = mapController.GetMap (here.mapIndex) [here.x, here.y];
+
+		if (cell.destinationMark != '\0' && cell.destinationMap!=null) {
+			int mapIndex = mapController.FindMapIndex (cell.destinationMap);
+			Map map = mapController.GetMap (mapIndex);
+
+			List<Location> targets = new List<Location> ();
+			map.ForEachMark (cell.destinationMark, (x,y) => targets.Add (new Location (x, y, mapIndex)));
+			if (targets.Count > 0) {
+				int index = Random.Range (0, targets.Count);
+				mover.transform.position = targets [index].ToPosition ();
+				return false;
+			}
+		}
+
+		return base.Block (mover);
 	}
 }
