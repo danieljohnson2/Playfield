@@ -13,89 +13,73 @@ using System.IO;
 /// </summary>
 public class MapController : MonoBehaviour
 {	
-	public TextAsset mapData;
+	public TextAsset[] mapTexts;
 	public GameObject[] prefabs;
-	private Dictionary<string, MapPopulation> mapPopulations = new Dictionary<string, MapPopulation> ();
-	private Dictionary<GameObject, MapPopulation> entityPlacements = new Dictionary<GameObject, MapPopulation> ();
+	private Map[] lazyMaps;
+	private GameObject[,] activeTerrainObjects;
+	private readonly List<GameObject> entities = new List<GameObject> ();
 
-	private class MapPopulation
+	void Awake ()
 	{
-		public Map map;
-		public GameObject[,] terrainObjects;
-		public readonly List<GameObject> entities = new List<GameObject> ();
+		entities.Clear ();
+		lazyMaps = new Map[mapTexts.Length];
+		activeMapIndex = 0;
+	}
 
-		public MapPopulation (Map map, MapController mapController)
-		{
-			this.map = map;
-			var pf = new PlayfieldGenerator (map.width, map.height);
-			entities.Clear ();
-			
-			for (int y = 0; y < map.height; ++y) {
-				for (int x = 0; x < map.width; ++x) {
-					ReadOnlyCollection<GameObject> templates = map [x, y];
-					
-					if (templates.Count > 0) {
-						pf [x, y] = templates [0];
-						
-						foreach (GameObject t in templates.Skip (1)) {
-							GameObject go = Instantiate (t);
-							go.transform.parent = mapController.transform;
-							go.transform.position = new Location (x, y, map).ToPosition ();
-							entities.Add (go);
-							mapController.entityPlacements.Add (go, this);
-						}
-					}
-				}
-			}
-			
-			terrainObjects = pf.Generate (mapController.gameObject);
+	private int storedActiveMapIndex = -1;
 
-			foreach (GameObject go in terrainObjects) {
-				if (go != null) {
-					mapController.entityPlacements.Add (go, this);
-				}
+	public int activeMapIndex {
+		get { return storedActiveMapIndex; }
+
+		set {
+			if (storedActiveMapIndex != value) {
+				Map map = GetMap (value);
+				storedActiveMapIndex = value;
+				PopulateMapObjects (map, value);
 			}
 		}
 	}
 
-	void Awake ()
+	private void PopulateMapObjects (Map map, int mapIndex)
 	{
-		mapPopulations.Add (mapData.name, new MapPopulation (LoadMap (), this));
+		var pf = new PlayfieldGenerator (map.width, map.height);
+		entities.Clear ();
+
+		for (int y = 0; y < map.height; ++y) {
+			for (int x = 0; x < map.width; ++x) {
+				ReadOnlyCollection<GameObject> templates = map [x, y];
+				
+				if (templates.Count > 0) {
+					pf [x, y] = templates [0];
+					
+					foreach (GameObject t in templates.Skip (1)) {
+						GameObject go = Instantiate (t);
+						go.transform.parent = transform;
+						go.transform.position = new Location (x, y, mapIndex).ToPosition ();
+						entities.Add (go);
+					}
+				}
+			}
+		}
+		
+		activeTerrainObjects = pf.Generate (gameObject);
+	}
+
+	public Map GetMap (int mapIndex)
+	{
+		if (lazyMaps [mapIndex] == null) {
+			TextAsset textAsset = mapTexts [mapIndex];
+			using (var reader = new StringReader(textAsset.text)) {
+				lazyMaps [mapIndex] = Map.Load (textAsset.name, reader, prefabs);
+			}
+		}
+
+		return lazyMaps [mapIndex];
 	}
 
 	void Start ()
 	{
 		StartCoroutine (ExecuteTurns ());
-	}
-
-	public Map LoadMap ()
-	{
-		using (var reader = new StringReader(mapData.text)) {
-			return Map.Load (mapData.name, reader, prefabs);
-		}
-	}
-
-	private MapPopulation GetPopulation (Map map)
-	{
-		return mapPopulations [map.name];
-	}
-
-	private MapPopulation GetPopulation (GameObject gameObject)
-	{
-		MapPopulation pop;
-		if (!entityPlacements.TryGetValue (gameObject, out pop)) {
-			pop = mapPopulations.Values.FirstOrDefault (
-				p => p.entities.Contains (gameObject));
-
-			if (pop == null) {
-				pop = mapPopulations.Values.FirstOrDefault (
-					p => p.terrainObjects.Cast<GameObject> ().Contains (gameObject));
-			}
-
-			entityPlacements.Add (gameObject, pop);
-		}
-
-		return pop;
 	}
 
 	private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
@@ -119,8 +103,7 @@ public class MapController : MonoBehaviour
 
 			while (pendingRemoval.Count>0) {
 				GameObject toRemove = pendingRemoval.Dequeue ();
-				GetPopulation (toRemove).entities.Remove (toRemove);
-				entityPlacements.Remove (toRemove);
+				entities.Remove (toRemove);
 				Destroy (toRemove);
 			}
 		} while(playerFound);
@@ -128,34 +111,34 @@ public class MapController : MonoBehaviour
 
 	public GameObject GetTerrain (Location location)
 	{
-		MapPopulation pop = GetPopulation (location.map);
-		if (location.x >= 0 && location.x < pop.terrainObjects.GetLength (0) &&
-			location.y >= 0 && location.y < pop.terrainObjects.GetLength (1)) {
-			return pop.terrainObjects [location.x, location.y];
+		if (activeMapIndex == location.mapIndex) {
+			if (location.x >= 0 && location.x < activeTerrainObjects.GetLength (0) &&
+				location.y >= 0 && location.y < activeTerrainObjects.GetLength (1)) {
+				return activeTerrainObjects [location.x, location.y];
+			} else {
+				return null;
+			}
 		} else {
-			return null;
+			Map map = GetMap (location.mapIndex);
+			ReadOnlyCollection<GameObject> prefabs = map [location.x, location.y];
+			if (prefabs.Count > 0) {
+				return prefabs [0];
+			} else {
+				return null;
+			}
 		}
-	}
-
-	public Location GetLocation (GameObject gameObject)
-	{
-		MapPopulation pop = GetPopulation (gameObject);
-		return Location.FromPosition (gameObject.transform.position, pop.map);
 	}
 
 	public IEnumerable<GameObject> EntityObjects ()
 	{
-		return
-			from pop in mapPopulations.Values
-			from e in pop.entities
-			select e;
+		return entities;
 	}
 	
 	public IEnumerable<GameObject> EntityObjectsAt (Location location)
 	{
 		return 
-			from go in GetPopulation (location.map).entities
-			where location == GetLocation (go)
+			from go in entities
+			where location == Location.Of (go)
 			select go;
 	}
 

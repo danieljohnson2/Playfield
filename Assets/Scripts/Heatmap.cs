@@ -85,15 +85,11 @@ public sealed class Heatmap : ICloneable
 	/// </summary>
 	public override string ToString ()
 	{
-		var byMap = Locations ().GroupBy (l => l.map);
+		var byMap = Locations ().GroupBy (l => l.mapIndex);
 		var b = new StringBuilder ();
 
 		foreach (var grp in byMap) {
-			if (grp.Key == null) {
-				continue;
-			}
-
-			b.AppendLine(grp.Key.name);
+			b.AppendLine ("Map #: " + grp.Key);
 
 			int minX = grp.Min (loc => loc.x);
 			int minY = grp.Min (loc => loc.y);
@@ -189,7 +185,7 @@ public sealed class Heatmap : ICloneable
 	/// </summary>
 	private Cell GetCell (Location location, bool createIfMissing)
 	{
-		var key = new Location (location.x & locationKeyMask, location.y & locationKeyMask, location.map);
+		var key = new Location (location.x & locationKeyMask, location.y & locationKeyMask, location.mapIndex);
 		short[,] block;
 		
 		if (!blocks.TryGetValue (key, out block) && createIfMissing) {

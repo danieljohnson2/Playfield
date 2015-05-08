@@ -9,18 +9,18 @@ public struct Location : IEquatable<Location>
 {
 	public readonly int x;
 	public readonly int y;
-	public readonly Map map;
+	public readonly int mapIndex;
 
-	public Location (int x, int y, Map map)
+	public Location (int x, int y, int mapIndex)
 	{
 		this.x = x;
 		this.y = y;
-		this.map = map;
+		this.mapIndex = mapIndex;
 	}
 
 	public Location WithOffset (int deltaX, int deltaY)
 	{
-		return new Location (x + deltaX, y + deltaY, map);
+		return new Location (x + deltaX, y + deltaY, mapIndex);
 	}
 
 	/// <summary>
@@ -31,20 +31,25 @@ public struct Location : IEquatable<Location>
 	/// </summary>
 	public Vector3 ToPosition ()
 	{
-		return new Vector3 (x, -y, 0f);
+		return new Vector3 (x, -y, mapIndex);
 	}
 
 	/// <summary>
 	/// FromPosition() turns a Unity position it its locaiton, reversing
-	/// the effect of ToPosition(); we need the map given explicitly
-	/// since Untity does not track that.
-	/// 
-	/// Normally you should use MapController.GetLocation() on a GameObject,
-	/// not this directly.
+	/// the effect of ToPosition().
 	/// </summary>
-	public static Location FromPosition (Vector3 position, Map map)
+	public static Location FromPosition (Vector3 position)
 	{
-		return new Location ((int)position.x, -(int)position.y, map);
+		return new Location ((int)position.x, -(int)position.y, (int)position.z);
+	}
+
+	/// <summary>
+	/// This method extracts the location of a game object
+	/// for you.
+	/// </summary>
+	public static Location Of (GameObject gameObject)
+	{
+		return FromPosition (gameObject.transform.position);
 	}
 
 	/// <summary>
@@ -55,10 +60,10 @@ public struct Location : IEquatable<Location>
 	{
 		return new[] 
 		{
-			new Location (x, y - 1, map),
-			new Location (x + 1, y, map),
-			new Location (x, y + 1, map),
-			new Location (x - 1, y, map),
+			new Location (x, y - 1, mapIndex),
+			new Location (x + 1, y, mapIndex),
+			new Location (x, y + 1, mapIndex),
+			new Location (x - 1, y, mapIndex),
 		};
 	}
 
@@ -68,11 +73,7 @@ public struct Location : IEquatable<Location>
 	/// </summary>
 	public override string ToString ()
 	{
-		if (map != null) {
-			return string.Format ("({0}, {1} in {2})", x, y, map.name);
-		} else {
-			return string.Format ("({0}, {1})", x, y);
-		}
+		return string.Format ("({0}, {1} in map #{2})", x, y, mapIndex);
 	}
 
 	#region IEquatable implementation
@@ -89,7 +90,7 @@ public struct Location : IEquatable<Location>
 
 	public bool Equals (Location other)
 	{
-		return this.x == other.x && this.y == other.y && this.map == other.map;
+		return this.x == other.x && this.y == other.y && this.mapIndex == other.mapIndex;
 	}
 
 	public override bool Equals (object other)

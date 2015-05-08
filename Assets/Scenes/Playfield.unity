@@ -126,7 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d35644f0431ef4ebff1f093be12c93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapData: {fileID: 4900000, guid: ba114fe31e49d1a4b98ade357ed4ea75, type: 3}
+  mapTexts:
+  - {fileID: 4900000, guid: ba114fe31e49d1a4b98ade357ed4ea75, type: 3}
   prefabs:
   - {fileID: 185244, guid: 99a34020e73446a429e823f5befdd7c1, type: 2}
   - {fileID: 166036, guid: 7e6cf2426396dc249951974effb6cbd2, type: 2}
