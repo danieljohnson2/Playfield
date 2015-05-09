@@ -6,12 +6,15 @@ using System.Linq;
 public class GoblinController : CreatureController
 {
 	private Heatmap heatmap = new Heatmap ();
-	private const int heatmapSpeed = 8;
+	private const int heatmapSpeed = 16;
+	private const int heatmapCooling = 128;
 
-	public override void DoTurn ()
+	protected override void DoTurn ()
 	{
-		const short playerHeat = 128;
-		const short goldHeat = 256;
+		const short playerHeat = 100;
+		const short goldHeat = 128;
+
+		heatmap.Reduce (heatmapCooling);
 
 		foreach (var pc in mapController.entities.Components<PlayerController>())
 			heatmap [Location.Of (pc.gameObject)] = playerHeat;
@@ -20,7 +23,6 @@ public class GoblinController : CreatureController
 			heatmap [Location.Of (gc.gameObject)] = goldHeat;
 
 		heatmap = heatmap.GetHeated (heatmapSpeed, mapController.IsPathable);
-		heatmap.Reduce (heatmapSpeed);
 
 		IEnumerable<Location> candidateMoves =
 			Location.Of(gameObject).

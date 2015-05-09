@@ -4,6 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+/// CreatureController provides the base class for things that take
+/// action in the world - the player, NPCs, monsters. The MapController
+/// invokes the DoTurnAsync() in a co-routine, let us take turns.
+/// 
+/// By default, creatures are passable and don't block pathing,
+/// but when one moves into another the Block() method usually
+/// prevents movement. We stil have 'passable=true' so that NPCs
+/// will be willing to try to move into the creature's square;
+/// if it's false they'll avoid doing this.
+/// </summary>
 public class CreatureController : MovementBlocker
 {
 	public int hitPoints = 10;
@@ -16,53 +27,91 @@ public class CreatureController : MovementBlocker
 		this.passable = true;
 	}
 
+	/// <summary>
+	/// This is the entry point used to start the
+	/// creatures turn. The next creature's turn
+	/// begins only when this one ends, but in most
+	/// cases aren't really much of a co-routine; this
+	/// method calls DoTurn(), then ends the turn
+	/// synchronously.
+	/// </summary>
 	public virtual IEnumerator DoTurnAsync ()
 	{
 		DoTurn ();
 		return Enumerable.Empty<object> ().GetEnumerator ();
 	}
-	
-	public virtual void DoTurn ()
+
+	/// <summary>
+	/// This is a sychrnonous entry point; you override this
+	/// and do whatever the creature should do during its turn.
+	/// </summary>
+	protected virtual void DoTurn ()
 	{
 	}
 
+	#region Creature Actions
+		
 	public override bool Block (GameObject mover)
 	{
 		var attacker = mover.GetComponent<CreatureController> ();
-
+		
 		if (attacker != null) {
-			if (attacker.attackEffect != null) {
-				GameObject effect = Instantiate (attackEffect);
-				effect.transform.position = transform.position;
-			}
-
-			hitPoints = Math.Max (0, hitPoints - attacker.damage);
-
-			if (hitPoints <= 0) {
-				mapController.entities.RemoveEntity (gameObject);
-			}
+			Fight (attacker);
 		}
-
+		
 		return false;
 	}
 
-	public void Move (int dx, int dy)
+	/// <summary>
+	/// This method handles combat where 'attacker' attachs this
+	/// creature.
+	/// </summary>
+	protected virtual void Fight (CreatureController attacker)
 	{
-		Location loc = Location.Of (gameObject).WithOffset (dx, dy);
-		MoveTo (loc);
+		if (attacker.attackEffect != null) {
+			GameObject effect = Instantiate (attackEffect);
+			effect.transform.position = transform.position;
+		}
+		
+		hitPoints = Math.Max (0, hitPoints - attacker.damage);
+		
+		if (hitPoints <= 0) {
+			mapController.entities.RemoveEntity (gameObject);
+		}
 	}
 
-	public void MoveTo (Location destination)
+	/// <summary>
+	/// This method moves the creature by the delta indicated
+	/// within the current map. This executes Block() methods
+	/// and may fail; if the creature could not move this method
+	/// returns false. If it did move it returns true.
+	/// </summary>
+	protected bool Move (int dx, int dy)
+	{
+		Location loc = Location.Of (gameObject).WithOffset (dx, dy);
+		return MoveTo (loc);
+	}
+
+	/// <summary>
+	/// This method moves the creature to a specific location,
+	/// which could be on a different map. Like Move(), this runs
+	/// Block() methods and returns false if the movement is blocked,
+	/// true if it succeeds. 
+	/// </summary>
+	protected bool MoveTo (Location destination)
 	{
 		if (mapController.GetTerrain (destination) == null) {
-			return;
+			return false;
 		}
 
-		foreach (var b in mapController.ComponentsInCell<MovementBlocker>(destination)) {
-			if (!b.Block (gameObject))
-				return;
+		foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination)) {
+			if (!blocker.Block (gameObject))
+				return false;
 		}
 		
 		transform.position = destination.ToPosition ();
+		return true;
 	}
+
+	#endregion
 }
