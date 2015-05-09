@@ -32,6 +32,8 @@ public class MapController : MonoBehaviour
 	{
 		bool playerFound;
 		do {
+			ActivateEntities ();
+
 			playerFound = false;
 
 			foreach (GameObject e in EntityObjects().ToArray ()) {
@@ -68,6 +70,7 @@ public class MapController : MonoBehaviour
 				Map map = GetMap (value);
 				storedActiveMapIndex = value;
 				PopulateMapObjects (map, value);
+				ActivateEntities();
 			}
 		}
 	}
@@ -116,6 +119,11 @@ public class MapController : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	private void ActivateEntities ()
+	{
+		int mapIndex = activeMapIndex;
 
 		foreach (GameObject go in entities) {
 			go.SetActive (Location.Of (go).mapIndex == mapIndex);
@@ -143,14 +151,21 @@ public class MapController : MonoBehaviour
 
 	public Map GetMap (int mapIndex)
 	{
-		if (lazyMaps [mapIndex] == null) {
-			TextAsset textAsset = mapTexts [mapIndex];
-			using (var reader = new StringReader(textAsset.text)) {
-				lazyMaps [mapIndex] = Map.Load (textAsset.name, reader, prefabs);
+		if (lazyMaps != null && mapTexts != null &&
+			mapIndex >= 0 && mapIndex < lazyMaps.Length) {
+			if (lazyMaps [mapIndex] == null) {
+				TextAsset textAsset = mapTexts [mapIndex];
+				using (var reader = new StringReader(textAsset.text)) {
+					lazyMaps [mapIndex] = Map.Load (mapIndex, textAsset.name, reader, prefabs);
+				}
 			}
-		}
 		
-		return lazyMaps [mapIndex];
+			return lazyMaps [mapIndex];
+		}
+
+		throw new KeyNotFoundException (string.Format (
+			"Map index '{0}' could not be found.",
+			mapIndex));
 	}
 
 	#endregion

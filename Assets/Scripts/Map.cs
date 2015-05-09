@@ -19,12 +19,14 @@ public sealed class Map
 {	
 	private readonly MapLegend mapLegend;
 	private readonly string[] mapText;
+	public readonly int mapIndex;
 	public readonly string name;
 	public readonly int width;
 	public readonly int height;
 
-	private Map (string name, string[] mapText, MapLegend mapLegend)
+	private Map (int mapIndex, string name, string[] mapText, MapLegend mapLegend)
 	{
+		this.mapIndex = mapIndex;
 		this.name = name;
 		this.mapText = mapText;
 		this.mapLegend = mapLegend;
@@ -73,16 +75,23 @@ public sealed class Map
 	}
 
 	/// <summary>
-	/// This method executes teh action given ones for each cell in the map
-	/// whose character is 'mark'.
+	/// Yields each location that contains the mark character given
+	/// in this map.
 	/// </summary>
-	public void ForEachMark (char mark, Action<int,int> action)
+	public IEnumerable<Location> FindMarks (params char[] marks)
 	{
 		for (int y = 0; y < mapText.Length; ++y) {
 			string line = mapText [y];
-			for (int x =0; x<line.Length; ++x) {
-				if (line [x] == mark) {
-					action (x, y);
+
+			int pos = 0;
+			while (pos < line.Length) {
+				int found = line.IndexOfAny (marks, pos);
+
+				if (found < 0) {
+					break;
+				} else {
+					yield return new Location (found, y, mapIndex);
+					pos = found + 1;
 				}
 			}
 		}
@@ -96,7 +105,7 @@ public sealed class Map
 	/// To ensure maps are not loaded twice, the MapController calls this;
 	/// everyone else calls methods on the MapController.
 	/// </summary>
-	public static Map Load (string name, TextReader reader, IEnumerable<GameObject> prefabs)
+	public static Map Load (int mapIndex, string name, TextReader reader, IEnumerable<GameObject> prefabs)
 	{
 		var mapLegendByName = new Dictionary<char, string> ();
 		var buffer = new List<string> ();
@@ -116,7 +125,7 @@ public sealed class Map
 			}
 		}
 		
-		return new Map (name, buffer.ToArray (), new MapLegend (mapLegendByName, prefabs));
+		return new Map (mapIndex, name, buffer.ToArray (), new MapLegend (mapLegendByName, prefabs));
 	}
 
 	/// <summary>

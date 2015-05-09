@@ -12,7 +12,18 @@ using System.Collections;
 /// </summary>
 public class MovementBlocker : MonoBehaviour
 {
-	protected MapController mapController { get; private set; }
+	private MapController lazyMapController;
+
+	protected MapController mapController {
+		get {
+			if (lazyMapController == null) {
+				lazyMapController = GameObject.FindGameObjectWithTag ("GameController").
+					GetComponent<MapController> ();
+			}
+
+			return lazyMapController;
+		}
+	}
 
 	/// <summary>
 	/// If true, creatures can try to move into this square
@@ -27,11 +38,6 @@ public class MovementBlocker : MonoBehaviour
 	/// it anyway.
 	/// </summary>
 	public bool pathable { get; set; }
-
-	void Start ()
-	{
-		mapController = GameObject.FindGameObjectWithTag ("GameController").GetComponent<MapController> ();
-	}
 
 	/// <summary>
 	/// This method is called when some object tries to

@@ -46,17 +46,23 @@ public class DoorController : MovementBlocker
 
 	public override bool Block (GameObject mover)
 	{
-		Location here = Location.Of (gameObject);
-		Map.Cell cell = mapController.GetMap (here.mapIndex) [here.x, here.y];
+		if (mover == null)
+			throw new System.ArgumentNullException ("mover");
+		
+		if (mapController == null)
+			throw new System.InvalidOperationException ("Map Controller missing.");
 
-		if (cell.destinationMark != '\0' && cell.destinationMap!=null) {
+		Location here = Location.Of (gameObject);
+		Map hereMap = mapController.GetMap (here.mapIndex);
+		Map.Cell cell = hereMap [here.x, here.y];
+
+		if (cell.destinationMark != '\0' && cell.destinationMap != null) {
 			int mapIndex = mapController.FindMapIndex (cell.destinationMap);
 			Map map = mapController.GetMap (mapIndex);
 
-			List<Location> targets = new List<Location> ();
-			map.ForEachMark (cell.destinationMark, (x,y) => targets.Add (new Location (x, y, mapIndex)));
-			if (targets.Count > 0) {
-				int index = Random.Range (0, targets.Count);
+			Location[] targets = map.FindMarks (cell.destinationMark).ToArray ();
+			if (targets.Length > 0) {
+				int index = Random.Range (0, targets.Length);
 				mover.transform.position = targets [index].ToPosition ();
 				return false;
 			}
