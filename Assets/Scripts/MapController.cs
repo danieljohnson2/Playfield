@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 
 /// <summary>
@@ -18,7 +18,7 @@ public class MapController : MonoBehaviour
 {
 	void Start ()
 	{
-		activeMapIndex = 0;
+		activeMap = maps [0];
 		StartCoroutine (ExecuteTurns ());
 	}
 
@@ -26,52 +26,41 @@ public class MapController : MonoBehaviour
 	{
 		bool playerFound;
 		do {
-			ActivateEntities ();
+			entities.ActivateEntities (activeMap);
 
 			playerFound = false;
 
-			foreach (GameObject e in EntityObjects().ToArray ()) {
-				var cc = e.GetComponent<CreatureController> ();
-
+			foreach (var cc in entities.Components<CreatureController>().ToArray ()) {
 				if (!playerFound && cc is PlayerController) {
 					playerFound = true;
-					activeMapIndex = Location.Of (e).mapIndex;
+					activeMap = maps [Location.Of (cc.gameObject).mapIndex];
 				}
-
-				if (cc != null) {
-					yield return StartCoroutine (cc.DoTurnAsync ());
-				}
+				yield return StartCoroutine (cc.DoTurnAsync ());
 			}
 
-			while (pendingRemoval.Count>0) {
-				GameObject toRemove = pendingRemoval.Dequeue ();
-				entities.Remove (toRemove);
-				Destroy (toRemove);
-			}
+			entities.ProcessRemovals ();
 		} while(playerFound);
 	}
 
 	#region Active Map
 	
-	private int storedActiveMapIndex = -1;
-	private LazyList<GameObject> lazyMapContainers = new LazyList<GameObject> ();
+	private Map storedActiveMap;
+	private readonly LazyList<GameObject> lazyMapContainers = new LazyList<GameObject> ();
+	private readonly HashSet<Location> loadedEntityLocations = new HashSet<Location> ();
 
-	public int activeMapIndex {
-		get { return storedActiveMapIndex; }
+	public Map activeMap {
+		get { return storedActiveMap; }
 		
 		set {
-			if (storedActiveMapIndex != value) {
-				Map map = maps [value];
-				storedActiveMapIndex = value;
-				PopulateMapObjects (map, value);
-				ActivateEntities ();
+			if (storedActiveMap != value) {
+				storedActiveMap = value;
+				PopulateMapObjects (value);
+				entities.ActivateEntities (value);
 			}
 		}
 	}
 
-	private readonly HashSet<Location> loadedEntityLocations = new HashSet<Location> ();
-
-	private void PopulateMapObjects (Map map, int mapIndex)
+	private void PopulateMapObjects (Map map)
 	{
 		if (activeTerrainObjects != null) {
 			foreach (GameObject go in activeTerrainObjects) {
@@ -81,6 +70,7 @@ public class MapController : MonoBehaviour
 		}
 
 		activeTerrainObjects = new GameObject[map.width, map.height];
+		int mapIndex = map.mapIndex;
 
 		GameObject mapContainer = lazyMapContainers.GetOrCreate (mapIndex, delegate {
 			var c = new GameObject (map.name);
@@ -95,30 +85,13 @@ public class MapController : MonoBehaviour
 				if (cell.prefabs.Count > 0) {
 					Location location = new Location (x, y, mapIndex);
 
-					GameObject terrain = Instantiate (cell.prefabs [0]);
-					activeTerrainObjects [x, y] = terrain;
-					terrain.transform.parent = mapContainer.transform;
-					terrain.transform.position = location.ToPosition ();
+					activeTerrainObjects [x, y] = cell.InstantiateTerrain (location, mapContainer);
 
 					if (loadedEntityLocations.Add (location)) {
-						foreach (GameObject prefab in cell.prefabs.Skip (1)) {
-							GameObject go = Instantiate (prefab);
-							go.transform.parent = mapContainer.transform;
-							go.transform.position = location.ToPosition ();
-							entities.Add (go);
-						}
+						entities.RegisterEntities (cell.InstantiateEntities (location, mapContainer));
 					}
 				}
 			}
-		}
-	}
-
-	private void ActivateEntities ()
-	{
-		int mapIndex = activeMapIndex;
-
-		foreach (GameObject go in entities) {
-			go.SetActive (Location.Of (go).mapIndex == mapIndex);
 		}
 	}
 
@@ -127,10 +100,19 @@ public class MapController : MonoBehaviour
 	#region Terrain and Movement
 
 	private GameObject[,] activeTerrainObjects;
-	
+
+	/// <summary>
+	/// Returns the terrain object for a cell, or null if
+	/// the location is outside the map. Warning: this will
+	/// instantiate the object if it is not active, but will
+	/// return the prefab itself for terrain not on the
+	/// active map.
+	/// </summary>
 	public GameObject GetTerrain (Location location)
 	{
-		if (activeMapIndex == location.mapIndex && activeTerrainObjects != null) {
+		if (activeMap != null && 
+			activeMap.mapIndex == location.mapIndex && 
+			activeTerrainObjects != null) {
 			if (location.x >= 0 && location.x < activeTerrainObjects.GetLength (0) &&
 				location.y >= 0 && location.y < activeTerrainObjects.GetLength (1)) {
 				return activeTerrainObjects [location.x, location.y];
@@ -142,82 +124,158 @@ public class MapController : MonoBehaviour
 		}
 	}
 
-	public bool IsPassable (Location loc)
+	/// <summary>
+	/// ComponentsInCell() returns the components fo the type
+	/// indicated of all the objects in the location, including
+	/// terrain. Warning: the terrain object may be a prefab; we
+	/// do not activate a map just to access the real object
+	/// for the terrain.
+	/// </summary>
+	public IEnumerable<T> ComponentsInCell<T> (Location location)
+		where T : Component
 	{
-		if (GetTerrain (loc) == null) {
-			return false;
-		}
+		GameObject terrain = GetTerrain (location);
+		T terrainComponent = terrain != null ? terrain.GetComponent<T> () : null;
 
-		return ComponentsInCell<MovementBlocker> (loc).All (mb => mb.passable);
+		if (terrainComponent != null) {
+			return new [] { terrainComponent }.Concat (entities.ComponentsAt<T> (location));
+		} else {
+			return entities.ComponentsAt<T> (location);
+		}
 	}
 
-	public bool IsPathable (Location loc)
+	/// <summary>
+	/// IsPassable is true if the cell indicated by 'where' may be
+	/// walked through; it is false if lcoations outside hte map,
+	/// but true for cells that contain no movement-blocker objects.
+	/// </summary>
+	public bool IsPassable (Location where)
 	{
-		if (GetTerrain (loc) == null) {
+		if (GetTerrain (where) == null) {
 			return false;
 		}
 
-		return ComponentsInCell<MovementBlocker> (loc).All (mb => mb.pathable);
+		return ComponentsInCell<MovementBlocker> (where).All (mb => mb.passable);
+	}
+
+	/// <summary>
+	/// IsPathable indicates whether heatmaps can make a path through
+	/// this cell; it is false outside the map, and may be false for cells
+	/// inside depending on what movement blockers are found there.
+	/// </summary>
+	/// <returns><c>true</c> if this instance is pathable the specified where; otherwise, <c>false</c>.</returns>
+	/// <param name="where">Where.</param>
+	public bool IsPathable (Location where)
+	{
+		if (GetTerrain (where) == null) {
+			return false;
+		}
+
+		return ComponentsInCell<MovementBlocker> (where).All (mb => mb.pathable);
 	}
 
 	#endregion
 	
 	#region Entity Objects
 
-	private readonly List<GameObject> entities = new List<GameObject> ();
-	private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
+	public readonly EntityTracker entities = new EntityTracker ();
 
-	public IEnumerable<GameObject> EntityObjects ()
+	/// <summary>
+	/// This object tracks the active entities, which are created as
+	/// we enter rooms and destroyed by components. The player is
+	/// one of these.
+	/// </summary>
+	public sealed class EntityTracker
 	{
-		return entities;
-	}
-	
-	public IEnumerable<GameObject> EntityObjectsAt (Location location)
-	{
-		return 
-			from go in entities
+		private readonly List<GameObject> entities = new List<GameObject> ();
+		private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
+
+		/// <summary>
+		/// RegisterEntities() places new entities into the tracker;
+		/// we use this when we load rooms.
+		/// </summary>
+		public void RegisterEntities (IEnumerable<GameObject> toAdd)
+		{
+			entities.AddRange (toAdd);
+		}
+
+		/// <summary>
+		/// RemoveEntity() causes the entity given to be removed
+		/// from the game at end of turn; it is destroyed and
+		/// also unregistered at tha time.
+		/// </summary>
+		public void RemoveEntity (GameObject toRemove)
+		{
+			if (toRemove != null) {
+				pendingRemoval.Enqueue (toRemove);
+			}
+		}
+
+		/// <summary>
+		/// Actually performs the removals RemoveEntity() schedules;
+		/// this is called at end of turn.
+		/// </summary>
+		public void ProcessRemovals ()
+		{		
+			while (pendingRemoval.Count> 0) {
+				GameObject toRemove = pendingRemoval.Dequeue ();
+				entities.Remove (toRemove);
+				Destroy (toRemove);
+			}
+		}
+		
+		/// <summary>
+		/// This method yields the component of type 'T'
+		/// every active entity.
+		/// </summary>
+		public IEnumerable<T> Components<T> ()
+			where T : Component
+		{
+			return
+				from go in entities
+				select go.GetComponent<T> () into c
+				where c != null
+				select c;
+		}
+
+		/// <summary>
+		/// This yields the components of the type 'T' of the
+		/// entties, but only entities in the locaiton given
+		/// are considered; terrain is also not considered.
+		/// </summary>
+		public IEnumerable<T> ComponentsAt <T> (Location location)
+			where T : Component
+		{
+			return 
+				from go in entities
 				where location == Location.Of (go)
-				select go;
-	}
-	
-	public IEnumerable<T> EntityComponents<T> ()
-		where T : Component
-	{
-		return
-			from go in EntityObjects ()
 				select go.GetComponent<T> () into c
 				where c != null
 				select c;
-	}
-	
-	public void RemoveEntity (GameObject toRemove)
-	{
-		pendingRemoval.Enqueue (toRemove);
-	}
-	
-	public IEnumerable<GameObject> GameObjectsInCell (Location location)
-	{
-		GameObject terrain = GetTerrain (location);
-		
-		if (terrain != null) {
-			yield return terrain;
 		}
-		
-		foreach (GameObject go in EntityObjectsAt(location)) {
-			yield return go;
+				
+		/// <summary>
+		/// ActivateEntities() sets the active flag on each entity;
+		/// entities not on the active map are deactivated, and
+		/// those on the map are activated. If 'activeMap' is null,
+		/// all are deactivated.
+		/// 
+		/// This means that wile entities on other rooms can move, you
+		/// can't see them.
+		/// 
+		/// This is called at end of turn, but also when changing
+		/// maps.
+		/// </summary>
+		public void ActivateEntities (Map activeMap)
+		{
+			int mapIndex = activeMap != null ? activeMap.mapIndex : -1;
+			
+			foreach (GameObject go in entities) {
+				go.SetActive (Location.Of (go).mapIndex == mapIndex);
+			}
 		}
 	}
-	
-	public IEnumerable<T> ComponentsInCell<T> (Location location)
-		where T : Component
-	{
-		return
-			from go in GameObjectsInCell (location)
-				select go.GetComponent<T> () into c
-				where c != null
-				select c;
-	}
-	
+
 	#endregion
 
 	#region Map Tracking

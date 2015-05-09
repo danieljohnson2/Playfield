@@ -39,7 +39,7 @@ public class CreatureController : MovementBlocker
 			hitPoints = Math.Max (0, hitPoints - attacker.damage);
 
 			if (hitPoints <= 0) {
-				mapController.RemoveEntity (gameObject);
+				mapController.entities.RemoveEntity (gameObject);
 			}
 		}
 

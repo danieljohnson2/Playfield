@@ -39,8 +39,9 @@ public class DoorController : MovementBlocker
 	/// </summary>
 	private bool isOpen {
 		get {
-			Location doorLoc = Location.Of (gameObject);
-			return mapController.EntityObjectsAt (doorLoc).Any ();
+			return mapController.entities.
+				ComponentsAt<CreatureController> (Location.Of (gameObject)).
+				Any ();
 		}
 	}
 
@@ -57,7 +58,7 @@ public class DoorController : MovementBlocker
 		Map.Cell cell = hereMap [here.x, here.y];
 
 		if (cell.destinationMark != '\0' && cell.destinationMap != null) {
-			Map map = mapController.maps[cell.destinationMap];
+			Map map = mapController.maps [cell.destinationMap];
 
 			Location[] targets = map.FindMarks (cell.destinationMark).ToArray ();
 			if (targets.Length > 0) {

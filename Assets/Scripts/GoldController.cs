@@ -12,7 +12,7 @@ public class GoldController : MovementBlocker
 	public override bool Block (GameObject mover)
 	{
 		if (mover.GetComponent<CreatureController> () != null) {
-			mapController.RemoveEntity (gameObject);
+			mapController.entities.RemoveEntity (gameObject);
 		}
 
 		return true;

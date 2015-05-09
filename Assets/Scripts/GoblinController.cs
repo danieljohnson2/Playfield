@@ -13,10 +13,10 @@ public class GoblinController : CreatureController
 		const short playerHeat = 128;
 		const short goldHeat = 256;
 
-		foreach (var pc in mapController.EntityComponents<PlayerController>())
+		foreach (var pc in mapController.entities.Components<PlayerController>())
 			heatmap [Location.Of (pc.gameObject)] = playerHeat;
 
-		foreach (var gc in mapController.EntityComponents<GoldController>())
+		foreach (var gc in mapController.entities.Components<GoldController>())
 			heatmap [Location.Of (gc.gameObject)] = goldHeat;
 
 		heatmap = heatmap.GetHeated (heatmapSpeed, mapController.IsPathable);

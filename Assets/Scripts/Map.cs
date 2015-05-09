@@ -34,25 +34,6 @@ public sealed class Map
 		this.height = mapText.Length;
 	}
 
-	public sealed class Cell
-	{
-		public readonly ReadOnlyCollection<GameObject> prefabs;
-		public readonly string destinationMap;
-		public readonly char destinationMark;
-		public static readonly Cell empty = new Cell (new ReadOnlyCollection<GameObject> (new GameObject[0]));
-
-		public Cell (ReadOnlyCollection<GameObject> prefabs) : this(prefabs, null, '\0')
-		{
-		}
-		
-		public Cell (ReadOnlyCollection<GameObject> prefabs, string destinationMap, char destinationMark)
-		{
-			this.prefabs = prefabs;
-			this.destinationMap = destinationMap;
-			this.destinationMark = destinationMark;
-		}
-	}
-
 	/// <summary>
 	/// This indexer retrives the prefabs for a given cell;
 	/// if x or y is out of range, this returns an empty collection.
@@ -189,6 +170,68 @@ public sealed class Map
 
 			string msg = string.Format ("The prefab named '{0}' was not found.", name);
 			throw new KeyNotFoundException (msg);
+		}
+	}
+
+	/// <summary>
+	/// This class holds the data for one cell in the map. The same cell object
+	/// will be used for many places in the same map.
+	/// </summary>
+	public sealed class Cell
+	{
+		public static readonly Cell empty = new Cell (new ReadOnlyCollection<GameObject> (new GameObject[0]));
+		public readonly ReadOnlyCollection<GameObject> prefabs;
+		public readonly string destinationMap;
+		public readonly char destinationMark;
+
+		public Cell (ReadOnlyCollection<GameObject> prefabs) : this(prefabs, null, '\0')
+		{
+		}
+		
+		public Cell (ReadOnlyCollection<GameObject> prefabs, string destinationMap, char destinationMark)
+		{
+			this.prefabs = prefabs;
+			this.destinationMap = destinationMap;
+			this.destinationMark = destinationMark;
+		}
+
+		/// <summary>
+		/// This creates the terrain object for the cell, setting its
+		/// parent and position as indicated. This method returns null only
+		/// if this cell is empty.
+		/// </summary>
+		public GameObject InstantiateTerrain (Location location, GameObject container)
+		{
+			if (prefabs.Count == 0) {
+				return null;
+			}
+
+			GameObject terrain = GameObject.Instantiate (prefabs [0]);
+			terrain.transform.parent = container.transform;
+			terrain.transform.position = location.ToPosition ();
+			return terrain;
+		}
+
+		/// <summary>
+		/// Instantiates the non-terrain entities, if any. If this cell is empty
+		/// or contains terrain only, this will return an empty array.
+		/// </summary>
+		public GameObject[] InstantiateEntities (Location location, GameObject container)
+		{
+			if (prefabs.Count < 2) {
+				return new GameObject[0];
+			}
+
+			GameObject[] created = new GameObject[prefabs.Count - 1];
+
+			for (int i = 1; i < prefabs.Count; ++i) {
+				GameObject go = GameObject.Instantiate (prefabs [i]);
+				go.transform.parent = container.transform;
+				go.transform.position = location.ToPosition ();
+				created [i - 1] = go;
+			}
+
+			return created;
 		}
 	}
 }
