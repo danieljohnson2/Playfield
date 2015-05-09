@@ -9,48 +9,14 @@ using System.Text;
 /// a spare storage strategy, so you can set any cell's value and
 /// not sweat the memory wastage.
 /// </summary>
-public sealed class Heatmap : ICloneable
+public sealed class Heatmap : LocationMap<short>
 {
-	private const int blockSize = 16;
-	private const int locationLocalMask = 0xF;
-	private const int locationKeyMask = ~locationLocalMask;
-	private readonly Dictionary<Location, short[,]> blocks = new Dictionary<Location, short[,]> ();
-
 	public Heatmap ()
 	{
 	}
-
-	/// <summary>
-	/// This indexer accesses an individual value for a location; you can
-	/// set any location's value; unset values are 0 by default.
-	/// </summary>
-	public short this [Location location] {
-		get { return GetCell (location, createIfMissing: false).Value; }
-
-		set { 
-			Cell cell = GetCell (location, createIfMissing: value != 0);
-
-			if (cell.IsValid) {
-				cell.Value = value;
-			}
-		}
-	}
-
-	/// <summary>
-	/// Locations() yields every individual location that
-	/// might have a non-zero value; this doesn't check each
-	/// value, so some zero locations will be returned- but
-	/// the set of locations returned is always finite.
-	/// </summary>
-	public IEnumerable<Location> Locations ()
+	
+	public Heatmap (IEnumerable<KeyValuePair<Location, short>> source) : base(source)
 	{
-		foreach (Location key in blocks.Keys) {
-			for (int ly = 0; ly < blockSize; ++ly) {
-				for (int lx = 0; lx < blockSize; ++lx) {
-					yield return key.WithOffset (lx, ly);
-				}
-			}
-		}
 	}
 
 	/// <summary>
@@ -120,7 +86,11 @@ public sealed class Heatmap : ICloneable
 		Location[] keys = Locations ().ToArray ();
 
 		foreach (Location loc in keys) {
-			GetCell (loc, createIfMissing: false).ReduceValue (amount);
+			short value = this [loc];
+
+			if (value != 0) {
+				this [loc] = GetReducedValue (value, amount);
+			}
 		}
 	}
 
@@ -138,17 +108,22 @@ public sealed class Heatmap : ICloneable
 	/// </summary>
 	public Heatmap GetHeated (Func<Location, bool> passability)
 	{
-		Heatmap copy = Copy ();
+		Heatmap copy = new Heatmap (this);
 		var adjacentBuffer = new Location[4];
 
 		foreach (Location srcLoc in Locations ()) {
-			short min = GetCell (srcLoc, createIfMissing: false).GetReducedValue (1);
+			short min = GetReducedValue (this [srcLoc], 1);
 			
 			if (min != 0) {
 				srcLoc.GetAdjacent (adjacentBuffer);
 				foreach (Location adj in adjacentBuffer) {
 					if (passability (adj)) {
-						copy.GetCell (adj, createIfMissing: true).IncreaseValue (min);
+						short oldValue = this [adj];
+						short newValue = IncreaseValue (oldValue, min);
+
+						if (oldValue != newValue) {
+							copy [adj] = newValue;
+						}
 					}
 				}
 			}
@@ -164,7 +139,7 @@ public sealed class Heatmap : ICloneable
 	public Heatmap GetHeated (int repeats, Func<Location, bool> passability)
 	{
 		if (repeats < 1) {
-			return Copy ();
+			return new Heatmap(this);
 		}
 
 		Heatmap h = this;
@@ -178,126 +153,34 @@ public sealed class Heatmap : ICloneable
 
 	#endregion
 
-	#region Cell Access
+	#region Value Arithmetic
 
 	/// <summary>
-	/// Returns a cell structure that describes a specific location; if createIfMissing
-	/// is true this will allocate storage for the location; if false it won't, and may return
-	/// an invalid cell if there's no storage for the cell.
+	/// This increases Value so it is no less than 'minimum';
+	/// this is judged on the absolute value, so a large negatve
+	/// value may be 'greater' than a small positive one.
 	/// </summary>
-	private Cell GetCell (Location location, bool createIfMissing)
+	private static short IncreaseValue (short current, short minimum)
 	{
-		var key = new Location (location.x & locationKeyMask, location.y & locationKeyMask, location.mapIndex);
-		short[,] block;
-		
-		if (!blocks.TryGetValue (key, out block) && createIfMissing) {
-			block = new short[blockSize, blockSize];
-			blocks.Add (key, block);
-		}
-		
-		return new Cell (block, location.x & locationLocalMask, location.y & locationLocalMask);
+		if (Math.Abs (current) < Math.Abs (minimum))
+			return  minimum;
+		else
+			return current;
 	}
 
 	/// <summary>
-	/// This structure acts as a handle on a single location in the
-	/// heapmap; it retains a refernce to the storage array and
-	/// the position in that aray,.
+	/// GetReducedValue() computes the value that reducing this
+	/// cell would produce, without actually updating the Value.
 	/// </summary>
-	private struct Cell
+	private static short GetReducedValue (short current, int amount)
 	{
-		private readonly short[,] block;
-		private readonly int x, y;
-		
-		public Cell (short[,] block, int x, int y)
-		{
-			this.block = block;
-			this.x = x;
-			this.y = y;
+		if (current > 0) {
+			return (short)Math.Max (0, current - amount);
+		} else if (current < 0) {
+			return (short)Math.Min (0, current + amount);
+		} else {
+			return 0;
 		}
-
-		/// <summary>
-		/// IsValid is true if this cell refers to a locaiton, and false if it
-		/// is an empty cell structure. If false the Value is 0, and cannot be set
-		/// to any other value. An invalid cell is used to represent a cell whose
-		/// storage is not allocated yet.
-		/// </summary>
-		public bool IsValid {
-			get { return block != null; }
-		}
-
-		/// <summary>
-		/// Value accesses the cell value. If IsValid is false, this value
-		/// is 0 and can't be changed to anything else.
-		/// </summary>
-		public short Value {
-			get { return block [x, y]; }
-			set { 
-				if (block != null)
-					block [x, y] = value;
-				else if (value != 0) {
-					throw new InvalidOperationException ();
-				}
-			}
-		}
-
-		/// <summary>
-		/// This increases Value so it is no less than 'minimum';
-		/// this is judged on the absolute value, so a large negatve
-		/// value may be 'greater' than a small positive one.
-		/// </summary>
-		public void IncreaseValue (short minimum)
-		{
-			if (Math.Abs (Value) < Math.Abs (minimum))
-				Value = minimum;
-		}
-	
-		/// <summary>
-		/// This mnethod reduces Value by 'amount', but won't
-		/// flip the sign; it will stop at 0. If the Value is
-		/// zero already, this method does nothing.
-		/// </summary>
-		public void ReduceValue (int amount)
-		{
-			Value = GetReducedValue (amount);
-		}
-
-		/// <summary>
-		/// GetReducedValue() computes the value that reducing this
-		/// cell would produce, without actually updating the Value.
-		/// </summary>
-		public short GetReducedValue (int amount)
-		{
-			decimal current = Value;
-
-			if (current > 0) {
-				return (short)Math.Max (0, current - amount);
-			} else if (current < 0) {
-				return (short)Math.Min (0, current + amount);
-			} else {
-				return 0;
-			}
-		}
-	}
-
-	#endregion
-
-	#region ICloneable implementation
-
-	public Heatmap (Heatmap source)
-	{
-		foreach (var pair in source.blocks) {
-			blocks.Add (pair.Key, (short[,])pair.Value.Clone ());
-		}
-	}
-
-	public Heatmap Copy ()
-	{
-		return new Heatmap (this);
-	}
-
-	public object Clone ()
-	{
-		return Copy ();
 	}
 
 	#endregion
