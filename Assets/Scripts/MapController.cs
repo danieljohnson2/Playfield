@@ -22,6 +22,10 @@ public class MapController : MonoBehaviour
 		StartCoroutine (ExecuteTurns ());
 	}
 
+	/// <summary>
+	/// This co-routine runs while the game plays and lets each
+	/// creature take its turn- including the player.
+	/// </summary>
 	private IEnumerator ExecuteTurns ()
 	{
 		bool playerFound;
@@ -45,9 +49,13 @@ public class MapController : MonoBehaviour
 	#region Active Map
 	
 	private Map storedActiveMap;
-	private readonly LazyList<GameObject> lazyMapContainers = new LazyList<GameObject> ();
-	private readonly HashSet<Location> loadedEntityLocations = new HashSet<Location> ();
 
+	/// <summary>
+	/// This is the map displayed in the game. This
+	/// should be the map containing the player; setting
+	/// this loads new maps and activates the entities
+	/// within those maps.
+	/// </summary>
 	public Map activeMap {
 		get { return storedActiveMap; }
 		
@@ -60,6 +68,12 @@ public class MapController : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// This instantiates the game objects for the map;
+	/// the terrain of any previous map is destroyed first,
+	/// to be replaced by new terrain- but non-terrain objects
+	/// are preseved.
+	/// </summary>
 	private void PopulateMapObjects (Map map)
 	{
 		if (activeTerrainObjects != null) {
@@ -70,27 +84,13 @@ public class MapController : MonoBehaviour
 		}
 
 		activeTerrainObjects = new GameObject[map.width, map.height];
-		int mapIndex = map.mapIndex;
-
-		GameObject mapContainer = lazyMapContainers.GetOrCreate (mapIndex, delegate {
-			var c = new GameObject (map.name);
-			c.transform.parent = transform;
-			return c;
-		});
 
 		for (int y = 0; y < map.height; ++y) {
 			for (int x = 0; x < map.width; ++x) {
-				Map.Cell cell = map [x, y];
-				
-				if (cell.prefabs.Count > 0) {
-					Location location = new Location (x, y, mapIndex);
+				Location location = new Location (x, y, map);
 
-					activeTerrainObjects [x, y] = cell.InstantiateTerrain (location, mapContainer);
-
-					if (loadedEntityLocations.Add (location)) {
-						entities.RegisterEntities (cell.InstantiateEntities (location, mapContainer));
-					}
-				}
+				activeTerrainObjects [x, y] = 
+					entities.InstantiateEntities (location, map);
 			}
 		}
 	}
@@ -178,7 +178,16 @@ public class MapController : MonoBehaviour
 	
 	#region Entity Objects
 
-	public readonly EntityTracker entities = new EntityTracker ();
+	private EntityTracker lazyEntityTracker;
+
+	public  EntityTracker entities {
+		get {
+			if (lazyEntityTracker == null) {
+				lazyEntityTracker = new EntityTracker (this);
+			}
+			return lazyEntityTracker;
+		}
+	}
 
 	/// <summary>
 	/// This object tracks the active entities, which are created as
@@ -187,16 +196,57 @@ public class MapController : MonoBehaviour
 	/// </summary>
 	public sealed class EntityTracker
 	{
+		private readonly MapController mapController;
 		private readonly List<GameObject> entities = new List<GameObject> ();
 		private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
+		private readonly LazyList<GameObject> lazyMapContainers = new LazyList<GameObject> ();
+		private readonly HashSet<Location> loadedEntityLocations = new HashSet<Location> ();
+
+		public EntityTracker (MapController mapController)
+		{
+			this.mapController = mapController;
+		}
 
 		/// <summary>
-		/// RegisterEntities() places new entities into the tracker;
-		/// we use this when we load rooms.
+		/// This method returns the game object that contains the entities that
+		/// came from the map given (even if they later move elsewhere).
 		/// </summary>
-		public void RegisterEntities (IEnumerable<GameObject> toAdd)
+		public GameObject GetMapContainer (Map map)
 		{
-			entities.AddRange (toAdd);
+			return lazyMapContainers.GetOrCreate (map.mapIndex, delegate {
+				var c = new GameObject (map.name);
+				c.transform.parent = mapController.transform;
+				return c;
+			});
+		}
+
+		/// <summary>
+		/// InstantiateEntities() places new entities into the world
+		/// and records them in the tracker; we use this when we load rooms.
+		/// The tracker won't load the same entity twice, except for terrain-
+		/// it doesn't know what to do with terrain, so it creates the
+		/// terrain game object and returns it to you to record.
+		/// 
+		/// This method can return null only if the cell indicated is empty.
+		/// 
+		/// You provide the map to avoid loading it again, but it must be
+		/// the map that contains the location.
+		/// </summary>
+		public GameObject InstantiateEntities (Location location, Map map)
+		{
+			if (location.mapIndex != map.mapIndex) {
+				throw new ArgumentException ("InstantiateEntities() must be given the correct map for the location.");
+			}
+
+			Map.Cell cell = map [location.x, location.y];
+			GameObject mapContainer = GetMapContainer (map);
+			GameObject terrain = cell.InstantiateTerrain (location, mapContainer);
+
+			if (loadedEntityLocations.Add (location)) {
+				entities.AddRange (cell.InstantiateEntities (location, mapContainer));
+			}
+
+			return terrain;
 		}
 
 		/// <summary>
