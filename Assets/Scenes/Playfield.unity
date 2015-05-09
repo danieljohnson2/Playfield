@@ -126,17 +126,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d35644f0431ef4ebff1f093be12c93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapTexts:
-  - {fileID: 4900000, guid: ba114fe31e49d1a4b98ade357ed4ea75, type: 3}
-  - {fileID: 4900000, guid: a53fb27670b4861469b843b34d3d790d, type: 3}
-  prefabs:
-  - {fileID: 185244, guid: 99a34020e73446a429e823f5befdd7c1, type: 2}
-  - {fileID: 166036, guid: 7e6cf2426396dc249951974effb6cbd2, type: 2}
-  - {fileID: 162654, guid: db2ecbe9010922249a6d8f94990b42e3, type: 2}
-  - {fileID: 122982, guid: d8dcdf6c23e324c438e178bf7328d2eb, type: 2}
-  - {fileID: 154314, guid: 5f662aafc700b9e4aa00bb2435892284, type: 2}
-  - {fileID: 167204, guid: cef06395d903297418c4b069e52dbe59, type: 2}
-  - {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  maps:
+    mapTexts:
+    - {fileID: 4900000, guid: ba114fe31e49d1a4b98ade357ed4ea75, type: 3}
+    - {fileID: 4900000, guid: a53fb27670b4861469b843b34d3d790d, type: 3}
+    prefabs:
+    - {fileID: 185244, guid: 99a34020e73446a429e823f5befdd7c1, type: 2}
+    - {fileID: 166036, guid: 7e6cf2426396dc249951974effb6cbd2, type: 2}
+    - {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+    - {fileID: 167204, guid: cef06395d903297418c4b069e52dbe59, type: 2}
+    - {fileID: 162654, guid: db2ecbe9010922249a6d8f94990b42e3, type: 2}
+    - {fileID: 122982, guid: d8dcdf6c23e324c438e178bf7328d2eb, type: 2}
+    - {fileID: 154314, guid: 5f662aafc700b9e4aa00bb2435892284, type: 2}
 --- !u!1 &1937692528
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,18 +10,12 @@ using System.IO;
 /// This class loads the map and places all game-objects; it keeps track of
 /// what it creates so we can find them again more efficiently, without
 /// depending upon tags.
+/// 
+/// There can be only one of these for the entire game; it loads and
+/// tracks the maps and active entities.
 /// </summary>
 public class MapController : MonoBehaviour
-{	
-	public TextAsset[] mapTexts;
-	public GameObject[] prefabs;
-
-	void Awake ()
-	{
-		lazyMaps = new Map[mapTexts.Length];
-		lazyMapContainers = new GameObject[mapTexts.Length];
-	}
-
+{
 	void Start ()
 	{
 		activeMapIndex = 0;
@@ -60,17 +54,17 @@ public class MapController : MonoBehaviour
 	#region Active Map
 	
 	private int storedActiveMapIndex = -1;
-	private GameObject[] lazyMapContainers;
+	private LazyList<GameObject> lazyMapContainers = new LazyList<GameObject> ();
 
 	public int activeMapIndex {
 		get { return storedActiveMapIndex; }
 		
 		set {
 			if (storedActiveMapIndex != value) {
-				Map map = GetMap (value);
+				Map map = maps [value];
 				storedActiveMapIndex = value;
 				PopulateMapObjects (map, value);
-				ActivateEntities();
+				ActivateEntities ();
 			}
 		}
 	}
@@ -88,13 +82,11 @@ public class MapController : MonoBehaviour
 
 		activeTerrainObjects = new GameObject[map.width, map.height];
 
-		GameObject mapContainer = lazyMapContainers [mapIndex];
-
-		if (mapContainer == null) {
-			mapContainer = new GameObject (map.name);
-			mapContainer.transform.parent = transform;
-			lazyMapContainers [mapIndex] = mapContainer;
-		}
+		GameObject mapContainer = lazyMapContainers.GetOrCreate (mapIndex, delegate {
+			var c = new GameObject (map.name);
+			c.transform.parent = transform;
+			return c;
+		});
 
 		for (int y = 0; y < map.height; ++y) {
 			for (int x = 0; x < map.width; ++x) {
@@ -132,44 +124,6 @@ public class MapController : MonoBehaviour
 
 	#endregion
 
-	#region Maps
-
-	private Map[] lazyMaps;
-
-	public int FindMapIndex (string name)
-	{
-		for (int i = 0; i < mapTexts.Length; ++i) {
-			if (mapTexts [i].name == name) {
-				return i;
-			}
-		}
-
-		throw new KeyNotFoundException (string.Format (
-			"The map '{0}' could not be found.",
-			name));
-	}
-
-	public Map GetMap (int mapIndex)
-	{
-		if (lazyMaps != null && mapTexts != null &&
-			mapIndex >= 0 && mapIndex < lazyMaps.Length) {
-			if (lazyMaps [mapIndex] == null) {
-				TextAsset textAsset = mapTexts [mapIndex];
-				using (var reader = new StringReader(textAsset.text)) {
-					lazyMaps [mapIndex] = Map.Load (mapIndex, textAsset.name, reader, prefabs);
-				}
-			}
-		
-			return lazyMaps [mapIndex];
-		}
-
-		throw new KeyNotFoundException (string.Format (
-			"Map index '{0}' could not be found.",
-			mapIndex));
-	}
-
-	#endregion
-
 	#region Terrain and Movement
 
 	private GameObject[,] activeTerrainObjects;
@@ -184,9 +138,7 @@ public class MapController : MonoBehaviour
 				return null;
 			}
 		} else {
-			Map map = GetMap (location.mapIndex);
-			Map.Cell cell = map [location.x, location.y];
-			return cell.prefabs.FirstOrDefault ();
+			return maps [location].prefabs.FirstOrDefault ();
 		}
 	}
 
@@ -266,5 +218,87 @@ public class MapController : MonoBehaviour
 				select c;
 	}
 	
+	#endregion
+
+	#region Map Tracking
+
+	public MapTracker maps;
+
+	/// <summary>
+	/// This class holds onto map data; it loads maps as needed
+	/// but must be configured in the Unity editor to have the text
+	/// of each map as all the prefabs.
+	/// </summary>
+	[Serializable]
+	public class MapTracker
+	{
+		public TextAsset[] mapTexts;
+		public GameObject[] prefabs;
+		private readonly LazyList<Map> lazyMaps = new LazyList<Map> ();
+
+		/// <summary>
+		/// This indexer retreives a map by name, or throws
+		/// KeyNotFoundException if the map name is not valid.
+		/// </summary>
+		public Map this [string mapName] {
+			get {
+				for (int i = 0; i < mapTexts.Length; ++i) {
+					if (mapTexts [i].name == mapName) {
+						return this [i];
+					}
+				}
+			
+				throw new KeyNotFoundException (string.Format (
+					"The map '{0}' could not be found.",
+					mapName));
+			}
+		}
+		
+		/// <summary>
+		/// This indexer retreives a map by map index, or throws
+		/// KeyNotFoundException if the map index is not valid.
+		/// </summary>
+		public Map this [int mapIndex] {
+			get {
+				if (mapTexts != null &&
+					mapIndex >= 0 && mapIndex < mapTexts.Length) {
+					return lazyMaps.GetOrCreate (mapIndex, ReadMap);
+				}
+			
+				throw new KeyNotFoundException (string.Format (
+					"Map index '{0}' could not be found.",
+					mapIndex));
+			}
+		}
+
+		/// <summary>
+		/// This indexer returns a cell given its location in the
+		/// world; if the location is not part of any valid map this
+		/// returns an empty cell rather than throwing an exception.
+		/// </summary>
+		public Map.Cell this [Location location] {
+			get {
+				if (location.mapIndex >= 0 && location.mapIndex < mapTexts.Length) {
+					return this [location.mapIndex] [location.x, location.y];
+				} else {
+					return Map.Cell.empty;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Reads the text of a map into a Map object; used
+		/// to implement one of the indexers, which caches
+		/// the map objects.
+		/// </summary>
+		private Map ReadMap (int mapIndex)
+		{
+			TextAsset textAsset = mapTexts [mapIndex];
+			using (var reader = new StringReader(textAsset.text)) {
+				return Map.Load (mapIndex, textAsset.name, reader, prefabs);
+			}
+		}
+	}
+
 	#endregion
 }

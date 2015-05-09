@@ -53,12 +53,11 @@ public class DoorController : MovementBlocker
 			throw new System.InvalidOperationException ("Map Controller missing.");
 
 		Location here = Location.Of (gameObject);
-		Map hereMap = mapController.GetMap (here.mapIndex);
+		Map hereMap = mapController.maps [here.mapIndex];
 		Map.Cell cell = hereMap [here.x, here.y];
 
 		if (cell.destinationMark != '\0' && cell.destinationMap != null) {
-			int mapIndex = mapController.FindMapIndex (cell.destinationMap);
-			Map map = mapController.GetMap (mapIndex);
+			Map map = mapController.maps[cell.destinationMap];
 
 			Location[] targets = map.FindMarks (cell.destinationMark).ToArray ();
 			if (targets.Length > 0) {
