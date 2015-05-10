@@ -252,6 +252,22 @@ public class MapController : MonoBehaviour
 		}
 
 		/// <summary>
+		/// This creates an entity by instantiating its prefab; it's placed
+		/// in the location indicated and registered with this tracker.
+		/// </summary>
+		public GameObject InstantiateEntity (GameObject prefab, Location location)
+		{
+			Map map = mapController.maps [location.mapIndex];
+
+			GameObject created = GameObject.Instantiate (prefab);
+			created.transform.parent = GetMapContainer (map).transform;
+			created.transform.position = location.ToPosition ();
+			entities.Add (created);
+			lazyByTag = null;
+			return created;
+		}
+
+		/// <summary>
 		/// RemoveEntity() causes the entity given to be removed
 		/// from the game at end of turn; it is destroyed and
 		/// also unregistered at tha time.
@@ -411,6 +427,23 @@ public class MapController : MonoBehaviour
 					return Map.Cell.empty;
 				}
 			}
+		}
+
+		/// <summary>
+		/// This methood retreives the prefab whose name is given;
+		/// if this name can't be found it throws an exception.
+		/// </summary>
+		public GameObject GetPrefabByName (string name)
+		{
+			GameObject prefab = prefabs.FirstOrDefault (p => p.name == name);
+
+			if (prefab == null) {
+				throw new KeyNotFoundException (string.Format (
+					"The prefab named '{0}' could not be found.",
+					name));
+			}
+
+			return prefab;
 		}
 
 		/// <summary>

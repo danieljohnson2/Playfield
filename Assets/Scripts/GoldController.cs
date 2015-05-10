@@ -1,8 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// This controller implements the behavior where creatures
+/// can pick up gold.
+/// </summary>
 public class GoldController : MovementBlocker
 {
+	public int goldAmount = 1;
+
 	public GoldController ()
 	{
 		passable = true;
@@ -11,7 +17,11 @@ public class GoldController : MovementBlocker
 
 	public override bool Block (GameObject mover)
 	{
-		if (mover.GetComponent<CreatureController> () != null) {
+		var cc = mover.GetComponent<CreatureController> ();
+		if (cc != null) {
+			cc.goldCarried += goldAmount;
+			goldAmount = 0;
+
 			mapController.entities.RemoveEntity (gameObject);
 		}
 

@@ -19,6 +19,7 @@ public class CreatureController : MovementBlocker
 {
 	public int hitPoints = 10;
 	public int damage = 3;
+	public int goldCarried = 0;
 	public GameObject attackEffect;
 
 	public CreatureController ()
@@ -73,10 +74,11 @@ public class CreatureController : MovementBlocker
 			effect.transform.position = transform.position;
 		}
 		
-		hitPoints = Math.Max (0, hitPoints - attacker.damage);
+		hitPoints -= attacker.damage;
 		
 		if (hitPoints <= 0) {
-			mapController.entities.RemoveEntity (gameObject);
+			hitPoints = 0;
+			Die ();
 		}
 	}
 
@@ -111,6 +113,23 @@ public class CreatureController : MovementBlocker
 		
 		transform.position = destination.ToPosition ();
 		return true;
+	}
+
+	/// <summary>
+	/// This is called when the creature dies, and removes
+	/// it from the game.
+	/// </summary>
+	protected virtual void Die ()
+	{
+		if (goldCarried > 0) {
+			GameObject goldObj = mapController.entities.InstantiateEntity (
+				mapController.maps.GetPrefabByName ("Gold"),
+				Location.Of (gameObject));
+			goldObj.GetComponent<GoldController> ().goldAmount = goldCarried;
+			goldCarried = 0;
+		}
+
+		mapController.entities.RemoveEntity (gameObject);
 	}
 
 	#endregion

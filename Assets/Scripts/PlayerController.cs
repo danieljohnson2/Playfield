@@ -10,10 +10,13 @@ using System.Linq;
 /// </summary>
 public class PlayerController : CreatureController
 {
+	public UnityEngine.UI.Text playerStatusText;
 	private int moveDeltaX, moveDeltaY;
 
 	public override IEnumerator DoTurnAsync ()
 	{
+		UpdateStatusText ();
+
 		// we'll yield until the user enters a move...
 
 		while (moveDeltaX == 0 && moveDeltaY == 0) {
@@ -35,11 +38,38 @@ public class PlayerController : CreatureController
 		Move (moveDeltaX, moveDeltaY);
 	}
 
+	protected override void Die ()
+	{
+		base.Die ();
+		UpdateStatusText ();
+	}
+
 	private void SyncCamera ()
 	{
 		Vector3 playerPos = transform.position;
 		playerPos.z = -10f;
 		Camera.main.transform.position = playerPos;
+	}
+
+	private void UpdateStatusText ()
+	{
+		if (playerStatusText != null) {
+			playerStatusText.text = string.Format (
+				"HP: {0}{1}Gold: {2}",
+				hitPoints,
+				System.Environment.NewLine,
+				goldCarried);
+		}
+	}
+
+	void Start ()
+	{
+		GameObject psTextObj = GameObject.Find ("Player Status Text");
+
+		if (psTextObj != null) {
+			playerStatusText = psTextObj.GetComponent<UnityEngine.UI.Text> ();
+			UpdateStatusText ();
+		}
 	}
 
 	void Update ()
