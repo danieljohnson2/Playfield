@@ -201,6 +201,7 @@ public class MapController : MonoBehaviour
 		private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
 		private readonly LazyList<GameObject> lazyMapContainers = new LazyList<GameObject> ();
 		private readonly HashSet<Location> loadedEntityLocations = new HashSet<Location> ();
+		private ILookup<string, GameObject> lazyByTag;
 
 		public EntityTracker (MapController mapController)
 		{
@@ -244,6 +245,7 @@ public class MapController : MonoBehaviour
 
 			if (loadedEntityLocations.Add (location)) {
 				entities.AddRange (cell.InstantiateEntities (location, mapContainer));
+				lazyByTag = null;
 			}
 
 			return terrain;
@@ -271,9 +273,26 @@ public class MapController : MonoBehaviour
 				GameObject toRemove = pendingRemoval.Dequeue ();
 				entities.Remove (toRemove);
 				Destroy (toRemove);
+				lazyByTag = null;
 			}
 		}
-		
+
+		/// <summary>
+		/// This property returns a lookup containing every
+		/// entity game object, keyed by their tag. This
+		/// lookup is replaced when entities are instantiated
+		/// or removed.
+		/// </summary>
+		public ILookup<string, GameObject> byTag {
+			get {
+				if (lazyByTag == null) {
+					lazyByTag = entities.ToLookup (e => e.tag);
+				}
+
+				return lazyByTag;
+			}
+		}
+
 		/// <summary>
 		/// This method yields the component of type 'T'
 		/// every active entity.

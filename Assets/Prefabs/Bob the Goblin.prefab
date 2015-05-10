@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11472114}
   m_Layer: 0
   m_Name: Bob the Goblin
-  m_TagString: Entity
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,12 +37,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 154314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03746107d7491f040a760b53f1c9bd44, type: 3}
+  m_Script: {fileID: 11500000, guid: 9fbf91a405a8a074188e27cbf50fa017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 10
   damage: 3
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  heatmapRange: 16
+  heatmapCooling: 128
+  preferences:
+  - Gold=16
+  - Player=8
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
