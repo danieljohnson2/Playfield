@@ -201,7 +201,7 @@ public class MapController : MonoBehaviour
 		private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject> ();
 		private readonly LazyList<GameObject> lazyMapContainers = new LazyList<GameObject> ();
 		private readonly HashSet<Location> loadedEntityLocations = new HashSet<Location> ();
-		private ILookup<string, GameObject> lazyByTag;
+		private ILookup<string, GameObject> lazyByTag, lazyByName;
 
 		public EntityTracker (MapController mapController)
 		{
@@ -245,7 +245,7 @@ public class MapController : MonoBehaviour
 
 			if (loadedEntityLocations.Add (location)) {
 				entities.AddRange (cell.InstantiateEntities (location, mapContainer));
-				lazyByTag = null;
+				ClearEntityCaches ();
 			}
 
 			return terrain;
@@ -263,7 +263,7 @@ public class MapController : MonoBehaviour
 			created.transform.parent = GetMapContainer (map).transform;
 			created.transform.position = location.ToPosition ();
 			entities.Add (created);
-			lazyByTag = null;
+			ClearEntityCaches ();
 			return created;
 		}
 
@@ -289,7 +289,7 @@ public class MapController : MonoBehaviour
 				GameObject toRemove = pendingRemoval.Dequeue ();
 				entities.Remove (toRemove);
 				Destroy (toRemove);
-				lazyByTag = null;
+				ClearEntityCaches ();
 			}
 		}
 
@@ -306,6 +306,22 @@ public class MapController : MonoBehaviour
 				}
 
 				return lazyByTag;
+			}
+		}
+
+		/// <summary>
+		/// This property returns a lookup containing every
+		/// entity game object, keyed by their name. This
+		/// lookup is replaced when entities are instantiated
+		/// or removed.
+		/// </summary>
+		public ILookup<string, GameObject> byName {
+			get {
+				if (lazyByName == null) {
+					lazyByName = entities.ToLookup (e => e.name);
+				}
+				
+				return lazyByName;
 			}
 		}
 
@@ -358,6 +374,16 @@ public class MapController : MonoBehaviour
 			foreach (GameObject go in entities) {
 				go.SetActive (Location.Of (go).mapIndex == mapIndex);
 			}
+		}
+
+		/// <summary>
+		/// ClearEntityCaches() discards the cached lookups we keep
+		/// in case they have changed; they'll be regenerated on demand.
+		/// </summary>
+		private void ClearEntityCaches ()
+		{
+			lazyByTag = null;
+			lazyByName = null;
 		}
 	}
 

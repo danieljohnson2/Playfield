@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21231602}
   - 114: {fileID: 11472114}
   m_Layer: 0
-  m_Name: Bob the Goblin
+  m_Name: Tim the Rat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,16 +40,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbf91a405a8a074188e27cbf50fa017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 10
-  damage: 3
+  hitPoints: 2
+  damage: 1
   goldCarried: 0
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   heatmapRange: 16
   heatmapCooling: 128
   preferences:
-  - Gold=16
-  - Player=8
-  - '"Tim the Rat"=32'
+  - Gold=-1
+  - Player=-4
+  - '"Bob the Goblin"=-8'
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300018, guid: af06595c7cdd283459677670b149572a, type: 3}
+  m_Sprite: {fileID: 21300034, guid: af06595c7cdd283459677670b149572a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

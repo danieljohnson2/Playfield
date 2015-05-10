@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185244}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.33102036, y: .187357426, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -42,7 +42,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 10
   damage: 5
+  goldCarried: 0
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  playerStatusText: {fileID: 0}
 --- !u!212 &21208888
 SpriteRenderer:
   m_ObjectHideFlags: 1

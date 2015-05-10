@@ -16,7 +16,8 @@ public class DoorController : MovementBlocker
 
 	public DoorController ()
 	{
-		pathable = false;
+		// Doors are more decoration than obstacle!
+		pathable = true;
 		passable = true;
 	}
 
@@ -27,10 +28,7 @@ public class DoorController : MovementBlocker
 
 	void Update ()
 	{
-		bool open = isOpen;
-
-		pathable = open;
-		spriteRenderer.sprite = open ? openDoor : door;
+		spriteRenderer.sprite = (isOpen ? openDoor : door) ?? spriteRenderer.sprite;
 	}
 
 	/// <summary>

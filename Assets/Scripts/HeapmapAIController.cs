@@ -15,6 +15,9 @@ using System.Linq;
 /// 	Player=-5
 /// 	Gold=16
 /// 
+/// Object names can also be used, by quoting them:
+///  	"Bob the Goblin"=-128
+/// 
 /// The creature would try to stay at least 5 squers away from the
 /// player, but would try tor each gold that is within 16 squares of
 /// iteself. Note that anything beyond 'heatmapRange' squares is invisble
@@ -39,6 +42,7 @@ public class HeapmapAIController : CreatureController
 	{
 		UpdateHeatmap ();
 
+
 		IEnumerable<Location> candidateMoves =
 			Location.Of (gameObject).
 				GetAdjacent ().
@@ -58,16 +62,14 @@ public class HeapmapAIController : CreatureController
 	{
 		heatmap.Reduce (heatmapCooling);
 		
-		if (preferences != null && preferences.Length > 0) {
-			ILookup<string, GameObject> taggedEntities = mapController.entities.byTag;
-			
+		if (preferences != null) {
 			foreach (string prefText in preferences) {
-				string tag;
+				IEnumerable<GameObject> targets;
 				short heat;
-				ParsePreference (prefText, out tag, out heat);
+				ParsePreference (prefText, out targets, out heat);
 				
-				if (tag != null && heat != 0) {
-					foreach (GameObject target in taggedEntities[tag]) {
+				if (targets != null && heat != 0) {
+					foreach (GameObject target in targets) {
 						Location targetLoc = Location.Of (target);
 						heatmap [targetLoc] += heat;
 					}
@@ -79,15 +81,29 @@ public class HeapmapAIController : CreatureController
 	}
 
 	/// <summary>
-	/// This method parses an entry in 'preferences' into a tag
-	/// and a heat value. If the heat value is omitted we
+	/// This method parses an entry in 'preferences' into a set of
+	/// targets and a heat value. If the heat value is omitted we
 	/// assume 'heatmapRange' as the default.
 	/// </summary>
-	private void ParsePreference (string text, out string tag, out short heat)
+	private void ParsePreference (string text, out IEnumerable<GameObject> targets, out short heat)
 	{
 		string[] parts = (text ?? "").Trim ().Split ('=');
 
-		tag = parts [0].Trim ();
+		string tag = parts [0].Trim ();
+
+		if (tag == "") {
+			targets = Enumerable.Empty<GameObject> ();
+			heat = 0;
+			return;
+		}
+
+		if (tag.StartsWith ("\"") && tag.EndsWith ("\"")) {
+			string name = tag.Substring (1, tag.Length - 2).Trim ();
+			targets = mapController.entities.byName [name];
+		} else {
+			targets = mapController.entities.byTag [tag];
+		}
+
 		if (parts.Length > 1) {
 			heat = short.Parse (parts [1]);
 		} else {

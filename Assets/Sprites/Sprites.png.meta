@@ -1,13 +1,13 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1430941815
+timeCreated: 1431267111
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Wall
     21300002: Floor
     21300004: Door
-    21300006: Sprites_3
+    21300006: Trees
     21300008: Door
     21300010: OpenDoor
     21300012: Sprites_6
@@ -20,8 +20,8 @@ TextureImporter:
     21300026: Sprites_13
     21300028: Sprites_14
     21300030: Sprites_15
-    21300032: Sprites_2
-    21300034: Sprites_12
+    21300032: Water
+    21300034: Rat
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -87,7 +87,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_2
+    - name: Water
       rect:
         serializedVersion: 2
         x: 16
@@ -97,7 +97,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_3
+    - name: Trees
       rect:
         serializedVersion: 2
         x: 24
@@ -187,7 +187,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_12
+    - name: Rat
       rect:
         serializedVersion: 2
         x: 0
