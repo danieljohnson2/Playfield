@@ -106,49 +106,102 @@ public sealed class Heatmap : LocationMap<short>
 	/// impassible cells don't get heated, which can block the spread of
 	/// heat through the map.
 	/// </summary>
-	public Heatmap GetHeated (Func<Location, bool> passability)
+	public void Heat (Func<Location, bool> passability)
 	{
-		Heatmap copy = new Heatmap (this);
-		var adjacentBuffer = new Location[4];
-
-		foreach (Location srcLoc in Locations ()) {
-			short min = GetReducedValue (this [srcLoc], 1);
-			
-			if (min != 0) {
-				srcLoc.GetAdjacent (adjacentBuffer);
-				foreach (Location adj in adjacentBuffer) {
-					if (passability (adj)) {
-						short oldValue = this [adj];
-						short newValue = IncreaseValue (oldValue, min);
-
-						if (oldValue != newValue) {
-							copy [adj] = newValue;
-						}
-					}
-				}
-			}
-		}
-
-		return copy;
+		var heater = new Heater (passability);
+		heater.Heat (this);
 	}
 
 	/// <summary>
 	/// This method applies multiple rounds of heat; as many as 'repeat' indicated.
 	/// this returns a new heatmap containing the result.
 	/// </summary>
-	public Heatmap GetHeated (int repeats, Func<Location, bool> passability)
+	public void Heat (int repeats, Func<Location, bool> passability)
 	{
-		if (repeats < 1) {
-			return new Heatmap(this);
-		}
-
-		Heatmap h = this;
+		var heater = new Heater (passability);
 
 		for (int i = 0; i < repeats; ++i) {
-			h = h.GetHeated (passability);
+			heater.Heat (this);
+		}
+	}
+
+	/// <summary>
+	/// This structure is a utility to make heatmap heatings faster;
+	/// this holds onto various buffers so they can be reused, and
+	/// caches passability data.
+	/// </summary>
+	private struct Heater
+	{
+		private readonly Location[] adjacentBuffer;
+		private readonly LocationPredicateCache passability;
+		private readonly List<KeyValuePair<Location, short>> updates;
+
+		public Heater (Func<Location, bool> passability)
+		{
+			this.adjacentBuffer = new Location[4];
+			this.passability = new LocationPredicateCache (passability);
+			this.updates = new List<KeyValuePair<Location, short>> ();
+		}
+	
+		/// <summary>
+		/// Heat() applies heat to the heatmap given. The resulting
+		/// values are queued and applied only at the end, so
+		/// the order of changes is not signficiant.
+		/// </summary>
+		public void Heat (Heatmap heatmap)
+		{
+			updates.Clear ();
+		
+			foreach (Location srcLoc in heatmap.Locations ()) {
+				short min = GetReducedValue (heatmap [srcLoc], 1);
+			
+				if (min != 0) {
+					srcLoc.GetAdjacent (adjacentBuffer);
+					foreach (Location adj in adjacentBuffer) {
+						if (passability.GetOrCreate (adj)) {
+							short oldValue = heatmap [adj];
+							short newValue = IncreaseValue (oldValue, min);
+						
+							if (oldValue != newValue) {
+								updates.Add (new KeyValuePair<Location, short> (adj, newValue));
+							}
+						}
+					}
+				}
+			}
+		
+			foreach (KeyValuePair<Location, short> update in updates)
+				heatmap [update.Key] = update.Value;
+		}
+	}
+
+	/// <summary>
+	/// This acts as a cache for the results of the passability
+	/// predicate; this makes a big difference as we query each
+	/// location's passability many times and it is slow to
+	/// access the underlying game objects.
+	/// </summary>
+	private sealed class LocationPredicateCache : LocationMap<bool?>
+	{
+		private readonly Func<Location, bool> predicate;
+
+		public LocationPredicateCache (Func<Location, bool> predicate)
+		{
+			this.predicate = predicate;
 		}
 
-		return h;
+		public bool GetOrCreate (Location where)
+		{
+			bool? b = this [where];
+
+			if (b == null) {
+				bool c = predicate (where);
+				this [where] = c;
+				return c;
+			} else {
+				return b.Value;
+			}
+		}
 	}
 
 	#endregion

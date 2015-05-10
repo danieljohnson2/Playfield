@@ -22,10 +22,10 @@ public class GoblinController : CreatureController
 		foreach (var gc in mapController.entities.Components<GoldController>())
 			heatmap [Location.Of (gc.gameObject)] = goldHeat;
 
-		heatmap = heatmap.GetHeated (heatmapSpeed, mapController.IsPathable);
+		heatmap.Heat (heatmapSpeed, mapController.IsPathable);
 
 		IEnumerable<Location> candidateMoves =
-			Location.Of(gameObject).
+			Location.Of (gameObject).
 			GetAdjacent ().
 			Where (mapController.IsPassable);
 
