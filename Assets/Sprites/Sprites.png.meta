@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1431267111
+timeCreated: 1431271940
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -10,7 +10,7 @@ TextureImporter:
     21300006: Trees
     21300008: Door
     21300010: OpenDoor
-    21300012: Sprites_6
+    21300012: Grass
     21300014: Sprites_7
     21300016: Player
     21300018: Goblin
@@ -127,7 +127,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_6
+    - name: Grass
       rect:
         serializedVersion: 2
         x: 16
