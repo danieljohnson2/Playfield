@@ -19,13 +19,34 @@ public class CreatureController : MovementBlocker
 {
 	public int hitPoints = 10;
 	public int damage = 3;
+	public float speed = 1;
 	public int goldCarried = 0;
 	public GameObject attackEffect;
+
+	private float maxSpeed = 20.0f;
+	private float turnCounter = 0;
 
 	public CreatureController ()
 	{
 		this.pathable = true;
 		this.passable = true;
+	}
+
+	/// <summary>
+	/// This method decides if the creatures turn has
+	/// arrived; we reduce the turnCounter until it goes 0
+	/// or negative, and then its this creature's turn. By
+	/// having a larger or smaller speed, turns will come up
+	/// more or less often.
+	/// </summary>
+	public virtual bool CheckTurn() {
+		if (turnCounter <= float.Epsilon) {
+			turnCounter += maxSpeed;
+			return true;
+		} else {
+			turnCounter -= speed;
+			return false;
+		}
 	}
 
 	/// <summary>

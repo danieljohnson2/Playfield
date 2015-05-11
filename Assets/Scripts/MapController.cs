@@ -33,16 +33,33 @@ public class MapController : MonoBehaviour
 			entities.ActivateEntities (activeMap);
 
 			playerFound = false;
+			bool anyMove = false;
 
 			foreach (var cc in entities.Components<CreatureController>().ToArray ()) {
-				if (!playerFound && cc is PlayerController) {
+				bool isPlayer = cc is PlayerController;
+
+				if (!playerFound && isPlayer) {
 					playerFound = true;
 					activeMap = maps [Location.Of (cc.gameObject).mapIndex];
 				}
-				yield return StartCoroutine (cc.DoTurnAsync ());
+
+				if (cc.CheckTurn ()) {
+					if (!anyMove && !isPlayer &&
+					    Location.Of (cc.gameObject).mapIndex == activeMap.mapIndex) {
+						anyMove = true;
+					}
+
+					yield return StartCoroutine (cc.DoTurnAsync ());
+				}
 			}
 
 			entities.ProcessRemovals ();
+
+			// a slight per turn delay of any critter but the player made a move;
+			// this makes it look less flickery.
+			if (anyMove) {
+				yield return new WaitForSeconds (1f / 16f);
+			}
 		} while(playerFound);
 	}
 
