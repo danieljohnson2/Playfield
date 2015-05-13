@@ -94,12 +94,16 @@ public class CreatureController : MovementBlocker
 			GameObject effect = Instantiate (attackEffect);
 			effect.transform.position = transform.position;
 		}
-		
-		hitPoints -= attacker.damage;
+
+		int damage = attacker.damage;
+		hitPoints -= damage;
 		
 		if (hitPoints <= 0) {
 			hitPoints = 0;
+			AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
 			Die ();
+		} else {
+			AddTranscriptLine("{0} hit {1} for {2}!", attacker.name, this.name, damage);
 		}
 	}
 

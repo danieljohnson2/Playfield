@@ -16,6 +16,8 @@ using System.IO;
 /// </summary>
 public class MapController : MonoBehaviour
 {
+	public TranscriptController transcript;
+
 	void Start ()
 	{
 		activeMap = maps [0];

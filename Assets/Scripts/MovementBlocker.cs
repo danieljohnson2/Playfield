@@ -25,6 +25,10 @@ public class MovementBlocker : MonoBehaviour
 		}
 	}
 
+	protected TranscriptController transcript {
+		get { return mapController.transcript; }
+	}
+
 	/// <summary>
 	/// If true, creatures can try to move into this square
 	/// (though Block() might still reject them).
@@ -48,5 +52,26 @@ public class MovementBlocker : MonoBehaviour
 	public virtual bool Block (GameObject mover)
 	{
 		return passable;
+	}
+
+	/// <summary>
+	/// This method adds a line to the transcript, but only
+	/// this object is on the active map.
+	/// </summary>
+	public void AddTranscriptLine (string text)
+	{
+		Map activeMap = mapController.activeMap;
+		if (activeMap != null && activeMap.mapIndex == Location.Of (gameObject).mapIndex) {
+			transcript.AddLine (text);
+		}
+	}
+	
+	/// <summary>
+	/// This method adds a line to the transcript, but only
+	/// this object is on the active map.
+	/// </summary>
+	public void AddTranscriptLine (string format, params object[] parameters)
+	{
+		AddTranscriptLine (string.Format (format, parameters));
 	}
 }

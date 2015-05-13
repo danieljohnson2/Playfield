@@ -207,6 +207,7 @@ public sealed class Map
 			}
 
 			GameObject terrain = GameObject.Instantiate (prefabs [0]);
+			terrain.name = prefabs [0].name;
 			terrain.transform.parent = container.transform;
 			terrain.transform.position = location.ToPosition ();
 			return terrain;
@@ -226,6 +227,7 @@ public sealed class Map
 
 			for (int i = 1; i < prefabs.Count; ++i) {
 				GameObject go = GameObject.Instantiate (prefabs [i]);
+				go.name = prefabs [i].name;
 				go.transform.parent = container.transform;
 				go.transform.position = location.ToPosition ();
 				created [i - 1] = go;

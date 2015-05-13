@@ -19,6 +19,7 @@ public class GoldController : MovementBlocker
 	{
 		var cc = mover.GetComponent<CreatureController> ();
 		if (cc != null) {
+			cc.AddTranscriptLine ("{0} picked up {1} gold!", mover.name, goldAmount);
 			cc.goldCarried += goldAmount;
 			goldAmount = 0;
 
