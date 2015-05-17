@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 402586}
   - 212: {fileID: 21231602}
   - 114: {fileID: 11472114}
+  - 114: {fileID: 11468180}
   m_Layer: 0
   m_Name: Bob the Goblin
   m_TagString: Untagged
@@ -29,6 +30,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11468180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32afa8f63e5d224792618212002a094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heatmapRange: 16
+  heatmapCooling: 128
+  preferences:
+  - Gold=16
+  - Player=8
+  - '"Tim the Rat"=32'
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -41,7 +59,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 10
-  damage: 3
+  damage:
+    DiceCount: 1
+    DiceSize: 3
+    Plus: 0
   speed: .75
   goldCarried: 0
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}

@@ -22,16 +22,19 @@ public sealed class Heatmap : LocationMap<short>
 	/// <summary>
 	/// Picks the best move from the candidates given; that is, it picks
 	/// the cell with the largest heat value. If a tie for hottest cell is
-	/// found, this picks one of the best randomly.
+	/// found, this picks one of the best randomly. This method will not
+	/// pick a location whose heat is 0.
 	/// 
-	/// If 'candidates' is empty, this returns false. Otherwise, it places
-	/// the result in 'picked' and returns true.
+	/// This method returns false if all candiates have a heat of 0, or if there
+	/// are no candidates at all. Otherwise, it places the result in 'picked' and returns true.
 	/// </summary>
 	public bool TryPickMove (IEnumerable<Location> candidates, out Location picked)
 	{
 		IEnumerable<Location> moves =
 			(from d in candidates
-			 group d by this [d] into g
+			 let heat = this [d]
+			 where heat != 0
+			 group d by heat into g
 			 orderby g.Key descending
 			 select g).FirstOrDefault ();
 

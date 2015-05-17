@@ -60,8 +60,8 @@ public struct DieRoll
 			int size = Math.Abs (DiceSize);
 
 			int total = 0;
-			for (int i =0; i < DiceCount; ++i) {
-				total += UnityEngine.Random.Range (1, DiceSize + 1);
+			for (int i =0; i < count; ++i) {
+				total += UnityEngine.Random.Range (1, size + 1);
 			}
 
 			if (DiceCount < 0) {
@@ -110,7 +110,7 @@ public struct DieRoll
 		}
 
 		int sizeStart = dPos < 0 ? 0 : dPos + 1;
-		int sizeEnd = plusPos < sizeStart  ? text.Length : plusPos;
+		int sizeEnd = plusPos < sizeStart ? text.Length : plusPos;
 		string sizePart = text.Substring (sizeStart, sizeEnd - sizeStart);
 
 		int size = int.Parse (sizePart);
