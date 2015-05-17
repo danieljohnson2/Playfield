@@ -70,7 +70,7 @@ public class HeatmapPreferenceController : MonoBehaviour
 		}
 
 		heatmap.Heat (heatmapRange,
-		              mapController.adjacencyGenerator.GetAdjacentLocations);
+		              mapController.adjacencyGenerator.GetAdjacentLocationsInto);
 
 		return heatmap;
 	}

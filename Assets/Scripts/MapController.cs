@@ -182,8 +182,6 @@ public class MapController : MonoBehaviour
 	/// this cell; it is false outside the map, and may be false for cells
 	/// inside depending on what movement blockers are found there.
 	/// </summary>
-	/// <returns><c>true</c> if this instance is pathable the specified where; otherwise, <c>false</c>.</returns>
-	/// <param name="where">Where.</param>
 	public bool IsPathable (Location where)
 	{
 		if (GetTerrain (where) == null) {
@@ -594,40 +592,57 @@ public class MapController : MonoBehaviour
 	/// </summary>
 	public sealed class AdjacencyGenerator
 	{
+		private readonly Location[] adjacencyBuffer = new Location[4];
 		private readonly MapController mapController;
 		private readonly LocationMap<bool?> pathabilityCache = new LocationMap<bool?> ();
-		private readonly List<Location> adjacencyBuffer = new List<Location> (6);
-		
+
 		public AdjacencyGenerator (MapController mapController)
 		{
 			this.mapController = mapController;
 		}
 
 		/// <summary>
-		/// This returns the locations adjacent to 'where', including
+		/// This finds locations adjacent to 'where', including
 		/// those that are adjacent through doors, but only pathable
 		/// locations are returned.
 		/// 
-		/// Beware: this re-use the list returned, so you must not call
-		/// this method twice unless you first discard the list you
-		/// got the first time.
+		/// These locations are added to 'adjacentLocations'; this way you
+		/// can reuse the same List object many times and avoid allocating
+		/// lots of collections. Don't forget to clear your collection when
+		/// needed; this method won't do that for you.
 		/// </summary>
-		public List<Location> GetAdjacentLocations (Location where)
+		public void GetAdjacentLocationsInto (Location where, ICollection<Location> adjacentLocations)
 		{
-			adjacencyBuffer.Clear ();
 			where.GetAdjacentInto (adjacencyBuffer);
-			
+
 			Map.Cell cell = mapController.maps [where];
 			Location[] destinations = mapController.maps.FindDestinations (cell);
-			adjacencyBuffer.AddRange (destinations);
-			
-			for (int i = adjacencyBuffer.Count - 1; i >= 0; --i) {
-				if (!IsPathable (adjacencyBuffer [i])) {
-					adjacencyBuffer.RemoveAt (i);
+
+			if (destinations.Length == 0) {
+				// Fast path - we know there are no duplicates in 'adjacencyBuffer'
+				// so we can just iterate and test. This is allocation-free
+				// if IsPathable()'s caches are hot and 'adjacentLocation' is a
+				// list with sufficient capaciity.
+
+				foreach (Location loc in adjacencyBuffer) {
+					if (IsPathable (loc)) {
+						adjacentLocations.Add (loc);
+					}
+				}
+			} else {
+				// Slow path- we must make sure we don't introduce duplicate
+				// locations so we must do a Union() and iterate the iterator
+				// produced by that. This alwys allocates, but should only happen
+				// to the cells that have doors in them.
+
+				IEnumerable<Location> unioned = adjacencyBuffer.Union (destinations);
+
+				foreach (Location loc in unioned) {
+					if (IsPathable (loc)) {
+						adjacentLocations.Add (loc);
+					}
 				}
 			}
-			
-			return adjacencyBuffer;
 		}
 
 		/// <summary>

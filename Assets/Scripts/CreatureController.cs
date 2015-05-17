@@ -90,13 +90,10 @@ public class CreatureController : MovementBlocker
 	/// </summary>
 	protected virtual void Fight (CreatureController attacker)
 	{
-		if (attacker.attackEffect != null) {
+		if (attacker.attackEffect != null && gameObject.activeSelf) {
 			GameObject effect = Instantiate (attackEffect);
-			// placing the attack effect like this means it
-			// is not visible if the attacked creature is not
-			// visible.
-			effect.transform.parent = transform;
-			effect.transform.localPosition = default(Vector3);
+			effect.transform.parent = transform.parent;
+			effect.transform.position = transform.position;
 		}
 
 		int damage = attacker.damage.Roll ();

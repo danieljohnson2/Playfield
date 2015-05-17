@@ -73,22 +73,23 @@ public struct Location : IEquatable<Location>
 	/// </summary>
 	public IEnumerable<Location> Adjacent ()
 	{
-		var buffer = new List<Location> (4);
+		var buffer = new Location[4];
 		GetAdjacentInto (buffer);
 		return buffer;
 	}
 
 	/// <summary>
-	/// Adds the locaitons adjancent to this one to the collection
-	/// given; this is like GetAdjacent() above but does not allocate
-	/// (unless the underlying collection does).
+	/// Places the locations adjacent to this one in the buffer
+	/// given, in elements 0-3. 'buffer' should have at least four
+	/// elements. This is equivalent to Adjacent() above but
+	/// does not allocate at all.
 	/// </summary>
-	public void GetAdjacentInto (ICollection<Location> destination)
+	public void GetAdjacentInto (Location[] buffer)
 	{
-		destination.Add (new Location (x, y - 1, mapIndex));
-		destination.Add (new Location (x + 1, y, mapIndex));
-		destination.Add (new Location (x, y + 1, mapIndex));
-		destination.Add (new Location (x - 1, y, mapIndex));
+		buffer [0] = new Location (x, y - 1, mapIndex);
+		buffer [1] = new Location (x + 1, y, mapIndex);
+		buffer [2] = new Location (x, y + 1, mapIndex);
+		buffer [3] = new Location (x - 1, y, mapIndex);
 	}
 
 	/// <summary>

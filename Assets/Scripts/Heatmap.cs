@@ -102,11 +102,11 @@ public sealed class Heatmap : LocationMap<short>
 	/// which cells are 'next to' a location; we spread head into these
 	/// cells.
 	/// 
-	/// As an optimization, this function can reuse the list it returns.
-	/// The caller who uses this delegate must not continue to hold on to
-	/// the list once used, since a second call to the delegate may overwrite it.
+	/// As an optimization, this function places its results in a collection
+	/// you provide; we can then reuse this collection efficiently and avoid
+	/// allocations.
 	/// </summary>
-	public delegate List<Location> AdjacencySelector (Location where);
+	public delegate void AdjacencySelector (Location where, ICollection<Location> adjacentLocations);
 
 	/// <summary>
 	/// This returns a heatmap that has had its heat values propagated;
@@ -147,7 +147,11 @@ public sealed class Heatmap : LocationMap<short>
 		var heater = new Heater (adjacency);
 
 		for (int i = 0; i < repeats; ++i) {
-			heater.Heat (this);
+			if (!heater.Heat (this)) {
+				// If heating did nothing, heating again won't either,
+				// so we can just bail.
+				return;
+			}
 		}
 	}
 
@@ -159,20 +163,25 @@ public sealed class Heatmap : LocationMap<short>
 	private struct Heater
 	{
 		private readonly AdjacencySelector adjacency;
+		private readonly List<Location> adjacencyBuffer;
 		private readonly List<KeyValuePair<Location, short>> updates;
 
 		public Heater (AdjacencySelector adjacency)
 		{
 			this.adjacency = adjacency;
-			this.updates = new List<KeyValuePair<Location, short>> ();
+			this.adjacencyBuffer = new List<Location> (6);
+			updates = new List<KeyValuePair<Location, short>> ();
 		}
 	
 		/// <summary>
 		/// Heat() applies heat to the heatmap given. The resulting
 		/// values are queued and applied only at the end, so
 		/// the order of changes is not signficiant.
+		/// 
+		/// This method returns true if it found any changes to make,
+		/// and false if it did nothing.
 		/// </summary>
-		public void Heat (Heatmap heatmap)
+		public bool Heat (Heatmap heatmap)
 		{
 			updates.Clear ();
 		
@@ -180,9 +189,10 @@ public sealed class Heatmap : LocationMap<short>
 				short min = GetReducedValue (heatmap [srcLoc], 1);
 			
 				if (min != 0) {
-					List<Location> adjacentLocs = adjacency (srcLoc);
+					adjacencyBuffer.Clear ();
+					adjacency (srcLoc, adjacencyBuffer);
 
-					foreach (Location adj in adjacentLocs) {
+					foreach (Location adj in adjacencyBuffer) {
 						short oldValue = heatmap [adj];
 						short newValue = IncreaseValue (oldValue, min);
 						
@@ -195,6 +205,8 @@ public sealed class Heatmap : LocationMap<short>
 		
 			foreach (KeyValuePair<Location, short> update in updates)
 				heatmap [update.Key] = update.Value;
+
+			return updates.Count > 0;
 		}
 	}
 
