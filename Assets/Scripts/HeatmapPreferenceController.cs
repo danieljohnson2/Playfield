@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,8 +68,10 @@ public class HeatmapPreferenceController : MonoBehaviour
 				}
 			}
 		}
-		
-		heatmap.Heat (heatmapRange, mapController.IsPathable);
+
+		heatmap.Heat (heatmapRange,
+		              mapController.adjacencyGenerator.GetAdjacentLocations);
+
 		return heatmap;
 	}
 

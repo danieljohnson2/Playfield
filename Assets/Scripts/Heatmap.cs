@@ -98,6 +98,17 @@ public sealed class Heatmap : LocationMap<short>
 	}
 
 	/// <summary>
+	/// This delegate type is used to for the function that determines
+	/// which cells are 'next to' a location; we spread head into these
+	/// cells.
+	/// 
+	/// As an optimization, this function can reuse the list it returns.
+	/// The caller who uses this delegate must not continue to hold on to
+	/// the list once used, since a second call to the delegate may overwrite it.
+	/// </summary>
+	public delegate List<Location> AdjacencySelector (Location where);
+
+	/// <summary>
 	/// This returns a heatmap that has had its heat values propagated;
 	/// each cell in the new heatmap has a value that is the maximum of
 	/// its old value, and one less than the values of the adjacent cells.
@@ -105,13 +116,25 @@ public sealed class Heatmap : LocationMap<short>
 	/// We can't easily do this in place, so this returns a new heatmap that
 	/// has been updated.
 	/// 
-	/// You provide a delegate that indicates which cells are passable;
+	/// You provide a delegate that provides the locaitons 'adjacent' to 
+	/// any given position; we call this to figure out where to spread heat to.
+	/// 
+	/// As an optimization, you can return a shared buffer from this call;
+	/// we will not hold into the array or use it again after making a second
+	/// call to 'adjacency'. The the vast majority of locaitons have 4
+	/// neighbors, but occasional 'door' cells have more.
+	///
+	/// Cells like walls may be omitted from the adjacency result; we return
+	/// an ArraySegment so the buffer can still be shared.
+	/// 
+	/// You also provide a delegate that indicates which cells are passable;
 	/// impassible cells don't get heated, which can block the spread of
-	/// heat through the map.
+	/// heat through the map. This lets us skep locations returned by
+	/// 'adjacency' without needing to allocate a smaller array.
 	/// </summary>
-	public void Heat (Func<Location, bool> passability)
+	public void Heat (AdjacencySelector adjacency)
 	{
-		var heater = new Heater (passability);
+		var heater = new Heater (adjacency);
 		heater.Heat (this);
 	}
 
@@ -119,9 +142,9 @@ public sealed class Heatmap : LocationMap<short>
 	/// This method applies multiple rounds of heat; as many as 'repeat' indicated.
 	/// this returns a new heatmap containing the result.
 	/// </summary>
-	public void Heat (int repeats, Func<Location, bool> passability)
+	public void Heat (int repeats, AdjacencySelector adjacency)
 	{
-		var heater = new Heater (passability);
+		var heater = new Heater (adjacency);
 
 		for (int i = 0; i < repeats; ++i) {
 			heater.Heat (this);
@@ -135,14 +158,12 @@ public sealed class Heatmap : LocationMap<short>
 	/// </summary>
 	private struct Heater
 	{
-		private readonly Location[] adjacentBuffer;
-		private readonly LocationPredicateCache passability;
+		private readonly AdjacencySelector adjacency;
 		private readonly List<KeyValuePair<Location, short>> updates;
 
-		public Heater (Func<Location, bool> passability)
+		public Heater (AdjacencySelector adjacency)
 		{
-			this.adjacentBuffer = new Location[4];
-			this.passability = new LocationPredicateCache (passability);
+			this.adjacency = adjacency;
 			this.updates = new List<KeyValuePair<Location, short>> ();
 		}
 	
@@ -159,15 +180,14 @@ public sealed class Heatmap : LocationMap<short>
 				short min = GetReducedValue (heatmap [srcLoc], 1);
 			
 				if (min != 0) {
-					srcLoc.GetAdjacent (adjacentBuffer);
-					foreach (Location adj in adjacentBuffer) {
-						if (passability.GetOrCreate (adj)) {
-							short oldValue = heatmap [adj];
-							short newValue = IncreaseValue (oldValue, min);
+					List<Location> adjacentLocs = adjacency (srcLoc);
+
+					foreach (Location adj in adjacentLocs) {
+						short oldValue = heatmap [adj];
+						short newValue = IncreaseValue (oldValue, min);
 						
-							if (oldValue != newValue) {
-								updates.Add (new KeyValuePair<Location, short> (adj, newValue));
-							}
+						if (oldValue != newValue) {
+							updates.Add (new KeyValuePair<Location, short> (adj, newValue));
 						}
 					}
 				}
@@ -175,35 +195,6 @@ public sealed class Heatmap : LocationMap<short>
 		
 			foreach (KeyValuePair<Location, short> update in updates)
 				heatmap [update.Key] = update.Value;
-		}
-	}
-
-	/// <summary>
-	/// This acts as a cache for the results of the passability
-	/// predicate; this makes a big difference as we query each
-	/// location's passability many times and it is slow to
-	/// access the underlying game objects.
-	/// </summary>
-	private sealed class LocationPredicateCache : LocationMap<bool?>
-	{
-		private readonly Func<Location, bool> predicate;
-
-		public LocationPredicateCache (Func<Location, bool> predicate)
-		{
-			this.predicate = predicate;
-		}
-
-		public bool GetOrCreate (Location where)
-		{
-			bool? b = this [where];
-
-			if (b == null) {
-				bool c = predicate (where);
-				this [where] = c;
-				return c;
-			} else {
-				return b.Value;
-			}
 		}
 	}
 

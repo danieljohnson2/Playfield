@@ -43,7 +43,7 @@ public class DoorController : MovementBlocker
 		}
 	}
 
-	public override bool Block (GameObject mover)
+	public override bool Block (GameObject mover, Location destination)
 	{
 		if (mover == null)
 			throw new System.ArgumentNullException ("mover");
@@ -51,21 +51,15 @@ public class DoorController : MovementBlocker
 		if (mapController == null)
 			throw new System.InvalidOperationException ("Map Controller missing.");
 
-		Location here = Location.Of (gameObject);
-		Map hereMap = mapController.maps [here.mapIndex];
-		Map.Cell cell = hereMap [here.x, here.y];
+		Map.Cell cell = mapController.maps [destination];
 
-		if (cell.destinationMark != '\0' && cell.destinationMap != null) {
-			Map map = mapController.maps [cell.destinationMap];
-
-			Location[] targets = map.FindMarks (cell.destinationMark).ToArray ();
-			if (targets.Length > 0) {
-				int index = Random.Range (0, targets.Length);
-				mover.transform.position = targets [index].ToPosition ();
-				return false;
-			}
+		Location doorExit;
+		if (mapController.maps.TryFindDestination (cell, out doorExit)) {
+			mover.transform.position = doorExit.ToPosition ();
+			mapController.entities.ActivateEntities (mapController.activeMap);
+			return false;
 		}
 
-		return base.Block (mover);
+		return base.Block (mover, destination);
 	}
 }

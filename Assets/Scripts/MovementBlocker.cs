@@ -48,8 +48,12 @@ public class MovementBlocker : MonoBehaviour
 	/// move into this square. It can return true to allow
 	/// the move or false to fail it, and can take other
 	/// actions triggered by the movement as well.
+	/// 
+	/// Movement blockers are sometimes terrain, so this
+	/// can be called on a prefab; for that reasons the destination
+	/// must be supplied explicitly.
 	/// </summary>
-	public virtual bool Block (GameObject mover)
+	public virtual bool Block (GameObject mover, Location destination)
 	{
 		return passable;
 	}

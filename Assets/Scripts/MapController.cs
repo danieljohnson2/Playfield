@@ -47,7 +47,7 @@ public class MapController : MonoBehaviour
 
 				if (cc.CheckTurn ()) {
 					if (!anyMove && !isPlayer &&
-					    Location.Of (cc.gameObject).mapIndex == activeMap.mapIndex) {
+						Location.Of (cc.gameObject).mapIndex == activeMap.mapIndex) {
 						anyMove = true;
 					}
 
@@ -491,6 +491,65 @@ public class MapController : MonoBehaviour
 			return prefab;
 		}
 
+		private static readonly Location[] noLocations = new Location[0];
+
+		/// <summary>
+		/// This method returns an array containing all destinations identified
+		/// by the name and mark character given; this returns an empty array of
+		/// the mark is the null character o rthe map name is null.
+		/// </summary>
+		public Location[] FindDestinations (string destinationMapName, char destinationMark)
+		{
+			if (destinationMark != '\0' && destinationMapName != null) {
+				Map map = this [destinationMapName];
+				return map.FindMarks (destinationMark).ToArray ();
+			}
+
+			return noLocations;
+		}
+
+		/// <summary>
+		/// This returns an array of the destinations assigned to the map
+		/// cell given, or an empty array if it has none.
+		/// </summary>
+		public Location[] FindDestinations (Map.Cell cell)
+		{
+			return FindDestinations (cell.destinationMap, cell.destinationMark);
+		}
+
+		/// <summary>
+		/// Selects the destination for the map and mark given; this picks only one
+		/// location, and if more than one destination is available, chooses
+		/// randomly.
+		/// 
+		/// This method returns false if the map is null or the mark is the nul character,
+		/// or if no destinations can be found.
+		/// </summary>
+		public bool TryFindDestination (string destinationMapName, char destinationMark, out Location destination)
+		{
+			Location[] targets = FindDestinations (destinationMapName, destinationMark);
+			if (targets.Length > 0) {
+				int index = UnityEngine.Random.Range (0, targets.Length);
+				destination = targets [index];
+				return true;
+			}
+
+			destination = default(Location);
+			return false;
+		}
+
+		/// <summary>
+		/// Selects the destination for the cell given; this picks only one
+		/// location, and if more than one destination is available, chooses
+		/// randomly.
+		/// 
+		/// This method returns false if the cell has no destinations at all.
+		/// </summary>
+		public bool TryFindDestination (Map.Cell cell, out Location destination)
+		{
+			return TryFindDestination (cell.destinationMap, cell.destinationMark, out destination);
+		}
+
 		/// <summary>
 		/// Reads the text of a map into a Map object; used
 		/// to implement one of the indexers, which caches
@@ -501,6 +560,90 @@ public class MapController : MonoBehaviour
 			TextAsset textAsset = mapTexts [mapIndex];
 			using (var reader = new StringReader(textAsset.text)) {
 				return Map.Load (mapIndex, textAsset.name, reader, prefabs);
+			}
+		}
+	}
+
+	#endregion
+
+	#region Adjancency
+
+	private AdjacencyGenerator lazyAdjacencyGenerator;
+
+	/// <summary>
+	/// Returns a lazy-allocated adjance generator that caches
+	/// pathability information for you; this is discarded
+	/// at end of turn so the pathability can be refreshed,
+	/// but caching this information is a major speed boost
+	/// for the heatmap code.
+	/// </summary>
+	public AdjacencyGenerator adjacencyGenerator {
+		get {
+			if (lazyAdjacencyGenerator == null) {
+				lazyAdjacencyGenerator = new AdjacencyGenerator (this);
+			}
+
+			return lazyAdjacencyGenerator;
+		}
+	}
+
+	/// <summary>
+	/// This gemerates the lists of adjacent cells, and it understands
+	/// adjancency through doors and pathability. This maintains a pathability
+	/// cache so it need not look up game-objects so much.
+	/// </summary>
+	public sealed class AdjacencyGenerator
+	{
+		private readonly MapController mapController;
+		private readonly LocationMap<bool?> pathabilityCache = new LocationMap<bool?> ();
+		private readonly List<Location> adjacencyBuffer = new List<Location> (6);
+		
+		public AdjacencyGenerator (MapController mapController)
+		{
+			this.mapController = mapController;
+		}
+
+		/// <summary>
+		/// This returns the locations adjacent to 'where', including
+		/// those that are adjacent through doors, but only pathable
+		/// locations are returned.
+		/// 
+		/// Beware: this re-use the list returned, so you must not call
+		/// this method twice unless you first discard the list you
+		/// got the first time.
+		/// </summary>
+		public List<Location> GetAdjacentLocations (Location where)
+		{
+			adjacencyBuffer.Clear ();
+			where.GetAdjacentInto (adjacencyBuffer);
+			
+			Map.Cell cell = mapController.maps [where];
+			Location[] destinations = mapController.maps.FindDestinations (cell);
+			adjacencyBuffer.AddRange (destinations);
+			
+			for (int i = adjacencyBuffer.Count - 1; i >= 0; --i) {
+				if (!IsPathable (adjacencyBuffer [i])) {
+					adjacencyBuffer.RemoveAt (i);
+				}
+			}
+			
+			return adjacencyBuffer;
+		}
+
+		/// <summary>
+		/// IsPathable tests if the locaiton given is pathable,
+		/// and uses cached results whenever it can.
+		/// </summary>
+		public bool IsPathable (Location where)
+		{
+			bool? b = pathabilityCache [where];
+			
+			if (b == null) {
+				bool c = mapController.IsPathable (where);
+				pathabilityCache [where] = c;
+				return c;
+			} else {
+				return b.Value;
 			}
 		}
 	}

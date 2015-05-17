@@ -1,5 +1,6 @@
-using System;
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// This structure holds a position in the game-world;
@@ -67,28 +68,27 @@ public struct Location : IEquatable<Location>
 	}
 
 	/// <summary>
-	/// Returns an array containing the locations adjacent
+	/// Returns a collection containing the locations adjacent
 	/// to this one, north, south, east and west.
 	/// </summary>
-	public Location[] GetAdjacent ()
+	public IEnumerable<Location> Adjacent ()
 	{
-		var buffer = new Location[4];
-		GetAdjacent (buffer);
+		var buffer = new List<Location> (4);
+		GetAdjacentInto (buffer);
 		return buffer;
 	}
 
 	/// <summary>
-	/// Populates the first four elements of 'buffer'
-	/// with the adjacent locations next to this one;
-	/// with this method you can reuse the buffer array
-	/// many times, saving allocations.
+	/// Adds the locaitons adjancent to this one to the collection
+	/// given; this is like GetAdjacent() above but does not allocate
+	/// (unless the underlying collection does).
 	/// </summary>
-	public void GetAdjacent(Location[] buffer)
+	public void GetAdjacentInto (ICollection<Location> destination)
 	{
-		buffer [0] = new Location (x, y - 1, mapIndex);
-		buffer [1] = new Location (x + 1, y, mapIndex);
-		buffer [2] = new Location (x, y + 1, mapIndex);
-		buffer [3] = new Location (x - 1, y, mapIndex);
+		destination.Add (new Location (x, y - 1, mapIndex));
+		destination.Add (new Location (x + 1, y, mapIndex));
+		destination.Add (new Location (x, y + 1, mapIndex));
+		destination.Add (new Location (x - 1, y, mapIndex));
 	}
 
 	/// <summary>

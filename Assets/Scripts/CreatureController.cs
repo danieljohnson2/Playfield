@@ -73,7 +73,7 @@ public class CreatureController : MovementBlocker
 
 	#region Creature Actions
 		
-	public override bool Block (GameObject mover)
+	public override bool Block (GameObject mover, Location destination)
 	{
 		var attacker = mover.GetComponent<CreatureController> ();
 		
@@ -92,7 +92,11 @@ public class CreatureController : MovementBlocker
 	{
 		if (attacker.attackEffect != null) {
 			GameObject effect = Instantiate (attackEffect);
-			effect.transform.position = transform.position;
+			// placing the attack effect like this means it
+			// is not visible if the attacked creature is not
+			// visible.
+			effect.transform.parent = transform;
+			effect.transform.localPosition = default(Vector3);
 		}
 
 		int damage = attacker.damage.Roll ();
@@ -132,7 +136,7 @@ public class CreatureController : MovementBlocker
 		}
 
 		foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination)) {
-			if (!blocker.Block (gameObject))
+			if (!blocker.Block (gameObject, destination))
 				return false;
 		}
 		

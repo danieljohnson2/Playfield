@@ -15,7 +15,7 @@ public class GoldController : MovementBlocker
 		pathable = true;
 	}
 
-	public override bool Block (GameObject mover)
+	public override bool Block (GameObject mover, Location destination)
 	{
 		var cc = mover.GetComponent<CreatureController> ();
 		if (cc != null) {

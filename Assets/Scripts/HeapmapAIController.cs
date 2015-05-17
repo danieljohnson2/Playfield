@@ -16,9 +16,12 @@ public class HeapmapAIController : CreatureController
 	{
 		List<Heatmap> heatmaps = UpdateHeatmaps ();
 
+		// Note that the candidate moves must be to
+		// passable cells, not pathable ones- it's
+		// potentially different.
+
 		Location[] candidateMoves =
-			Location.Of (gameObject).
-			GetAdjacent ().
+			Location.Of (gameObject).Adjacent ().
 			Where (mapController.IsPassable).
 			ToArray ();
 
