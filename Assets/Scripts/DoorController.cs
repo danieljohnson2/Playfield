@@ -28,7 +28,10 @@ public class DoorController : MovementBlocker
 
 	void Update ()
 	{
-		spriteRenderer.sprite = (isOpen ? openDoor : door) ?? spriteRenderer.sprite;
+		Sprite newSprite = isOpen ? openDoor : door;
+
+		if (newSprite != null)
+			spriteRenderer.sprite = newSprite;
 	}
 
 	/// <summary>

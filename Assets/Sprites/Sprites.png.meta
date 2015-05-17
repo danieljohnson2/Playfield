@@ -1,17 +1,17 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1431271940
+timeCreated: 1431875330
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Wall
     21300002: Floor
     21300004: Door
-    21300006: Trees
+    21300006: Ladder Up
     21300008: Door
     21300010: OpenDoor
     21300012: Grass
-    21300014: Sprites_7
+    21300014: Ladder Down
     21300016: Player
     21300018: Goblin
     21300020: Gold
@@ -19,7 +19,7 @@ TextureImporter:
     21300024: Player
     21300026: Sprites_13
     21300028: Sprites_14
-    21300030: Sprites_15
+    21300030: Trees
     21300032: Water
     21300034: Rat
   serializedVersion: 2
@@ -97,7 +97,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Trees
+    - name: Ladder Up
       rect:
         serializedVersion: 2
         x: 24
@@ -137,7 +137,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_7
+    - name: Ladder Down
       rect:
         serializedVersion: 2
         x: 24
@@ -217,13 +217,13 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_15
+    - name: Trees
       rect:
         serializedVersion: 2
         x: 24
         y: 0
         width: 8
-        height: 8
+        height: 7
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

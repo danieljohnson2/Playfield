@@ -5,12 +5,15 @@
 #.....*#...#....#
 #......#+###....#
 #*.*.*.+...+..g.#
-#################
+########+########
+       #.v#
+       ####
 -
 # Wall
 . Floor
 + Door
 A Door -> Map1 -> A
+v Floor, Ladder Down -> Map3 -> ^
 * Floor, Gold
 g Floor, Bob the Goblin
 r Floor, Tim the Rat
