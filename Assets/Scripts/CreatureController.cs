@@ -18,11 +18,10 @@ using System.Linq;
 public class CreatureController : MovementBlocker
 {
 	public int hitPoints = 10;
-	public int damage = 3;
+	public DieRoll damage = new DieRoll (1, 3);
 	public float speed = 1;
 	public int goldCarried = 0;
 	public GameObject attackEffect;
-
 	private float maxSpeed = 20.0f;
 	private float turnCounter = 0;
 
@@ -39,7 +38,8 @@ public class CreatureController : MovementBlocker
 	/// having a larger or smaller speed, turns will come up
 	/// more or less often.
 	/// </summary>
-	public virtual bool CheckTurn() {
+	public virtual bool CheckTurn ()
+	{
 		if (turnCounter <= float.Epsilon) {
 			turnCounter += maxSpeed;
 			return true;
@@ -95,15 +95,15 @@ public class CreatureController : MovementBlocker
 			effect.transform.position = transform.position;
 		}
 
-		int damage = attacker.damage;
+		int damage = attacker.damage.Roll ();
 		hitPoints -= damage;
 		
 		if (hitPoints <= 0) {
 			hitPoints = 0;
-			AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
+			AddTranscriptLine ("{0} killed {1}!", attacker.name, this.name);
 			Die ();
 		} else {
-			AddTranscriptLine("{0} hit {1} for {2}!", attacker.name, this.name, damage);
+			AddTranscriptLine ("{0} hit {1} for {2}!", attacker.name, this.name, damage);
 		}
 	}
 
