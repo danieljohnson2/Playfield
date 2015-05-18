@@ -16,12 +16,8 @@ public class MovementBlocker : MonoBehaviour
 
 	protected MapController mapController {
 		get {
-			if (lazyMapController == null) {
-				lazyMapController = GameObject.FindGameObjectWithTag ("GameController").
-					GetComponent<MapController> ();
-			}
-
-			return lazyMapController;
+			return Lazy.Init (ref lazyMapController, () =>
+				GameObject.FindGameObjectWithTag ("GameController").GetComponent<MapController> ());
 		}
 	}
 

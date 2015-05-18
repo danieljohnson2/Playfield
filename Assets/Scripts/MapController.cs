@@ -198,12 +198,7 @@ public class MapController : MonoBehaviour
 	private EntityTracker lazyEntityTracker;
 
 	public  EntityTracker entities {
-		get {
-			if (lazyEntityTracker == null) {
-				lazyEntityTracker = new EntityTracker (this);
-			}
-			return lazyEntityTracker;
-		}
+		get { return Lazy.Init (ref lazyEntityTracker, () => new EntityTracker (this)); }
 	}
 
 	/// <summary>
@@ -317,13 +312,7 @@ public class MapController : MonoBehaviour
 		/// or removed.
 		/// </summary>
 		public ILookup<string, GameObject> byTag {
-			get {
-				if (lazyByTag == null) {
-					lazyByTag = entities.ToLookup (e => e.tag);
-				}
-
-				return lazyByTag;
-			}
+			get { return Lazy.Init (ref lazyByTag, () => entities.ToLookup (e => e.tag)); }
 		}
 
 		/// <summary>
@@ -333,13 +322,7 @@ public class MapController : MonoBehaviour
 		/// or removed.
 		/// </summary>
 		public ILookup<string, GameObject> byName {
-			get {
-				if (lazyByName == null) {
-					lazyByName = entities.ToLookup (e => e.name);
-				}
-				
-				return lazyByName;
-			}
+			get { return Lazy.Init (ref lazyByName, () => entities.ToLookup (e => e.name)); }
 		}
 
 		/// <summary>
@@ -576,13 +559,7 @@ public class MapController : MonoBehaviour
 	/// for the heatmap code.
 	/// </summary>
 	public AdjacencyGenerator adjacencyGenerator {
-		get {
-			if (lazyAdjacencyGenerator == null) {
-				lazyAdjacencyGenerator = new AdjacencyGenerator (this);
-			}
-
-			return lazyAdjacencyGenerator;
-		}
+		get { return Lazy.Init (ref lazyAdjacencyGenerator, () => new AdjacencyGenerator (this)); }
 	}
 
 	/// <summary>
