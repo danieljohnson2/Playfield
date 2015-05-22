@@ -44,6 +44,7 @@ MonoBehaviour:
   damage:
     DiceCount: 1
     DiceSize: 6
+    Plus: 0
   speed: 1
   goldCarried: 0
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300016, guid: af06595c7cdd283459677670b149572a, type: 3}
+  m_Sprite: {fileID: 21300096, guid: af06595c7cdd283459677670b149572a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

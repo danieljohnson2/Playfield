@@ -41,6 +41,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32afa8f63e5d224792618212002a094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  priority: 0
   heatmapRange: 16
   heatmapCooling: 128
   preferences:
@@ -66,12 +67,6 @@ MonoBehaviour:
   speed: 1.5
   goldCarried: 0
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
-  heatmapRange: 16
-  heatmapCooling: 128
-  preferences:
-  - Gold=-1
-  - Player=-4
-  - '"Bob the Goblin"=-8'
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -96,7 +91,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300034, guid: af06595c7cdd283459677670b149572a, type: 3}
+  m_Sprite: {fileID: 21300112, guid: af06595c7cdd283459677670b149572a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

@@ -40,6 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d893e9cf801d3e4ca1d776abf62c987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goldAmount: 1
 --- !u!212 &21209938
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -64,7 +65,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300020, guid: af06595c7cdd283459677670b149572a, type: 3}
+  m_Sprite: {fileID: 21300100, guid: af06595c7cdd283459677670b149572a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
