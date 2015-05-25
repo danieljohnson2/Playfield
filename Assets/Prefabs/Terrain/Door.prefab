@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcb598d396a5e141a8545be2a20833e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 21300030, guid: af06595c7cdd283459677670b149572a, type: 3}
+  door: {fileID: 21300034, guid: af06595c7cdd283459677670b149572a, type: 3}
   openDoor: {fileID: 21300032, guid: af06595c7cdd283459677670b149572a, type: 3}
 --- !u!212 &21240806
 SpriteRenderer:
@@ -66,7 +66,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300032, guid: af06595c7cdd283459677670b149572a, type: 3}
+  m_Sprite: {fileID: 21300034, guid: af06595c7cdd283459677670b149572a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
