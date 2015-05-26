@@ -50,9 +50,6 @@ public class DoorController : MovementBlocker
 	{
 		if (mover == null)
 			throw new System.ArgumentNullException ("mover");
-		
-		if (mapController == null)
-			throw new System.InvalidOperationException ("Map Controller missing.");
 
 		Map.Cell cell = mapController.maps [destination];
 

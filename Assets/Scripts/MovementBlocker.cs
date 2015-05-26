@@ -12,12 +12,30 @@ using System.Collections;
 /// </summary>
 public class MovementBlocker : MonoBehaviour
 {
-	private MapController lazyMapController;
+	private static MapController lazyMapController;
 
-	protected MapController mapController {
+	/// <summary>
+	/// This property returns the map controller; this
+	/// is a singleton that is cached here on first
+	/// access.
+	/// </summary>
+	protected static MapController mapController {
 		get {
-			return Lazy.Init (ref lazyMapController, () =>
-				GameObject.FindGameObjectWithTag ("GameController").GetComponent<MapController> ());
+			return Lazy.Init (ref lazyMapController, delegate {
+				var go = GameObject.FindGameObjectWithTag ("GameController");
+
+				if (go == null) {
+					throw new System.InvalidOperationException ("GameController could not be found.");
+				}
+
+				var mc = go.GetComponent<MapController> ();
+
+				if (mc == null) {
+					throw new System.InvalidOperationException ("MapController could not be found.");
+				}
+
+				return mc;
+			});
 		}
 	}
 
