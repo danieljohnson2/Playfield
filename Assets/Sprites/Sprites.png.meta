@@ -1,25 +1,25 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1432673951
+timeCreated: 1432838374
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Sprites_0
-    21300002: Sprites_1
-    21300004: Sprites_2
-    21300006: Sprites_3
-    21300008: Sprites_4
-    21300010: Sprites_5
-    21300012: Sprites_6
-    21300014: Sprites_7
-    21300016: Sprites_8
-    21300018: Sprites_9
-    21300020: Sprites_10
-    21300022: Sprites_11
-    21300024: Sprites_12
-    21300026: Sprites_13
-    21300028: Sprites_14
-    21300030: Sprites_15
+    21300000: CastleWall_0000
+    21300002: CastleWall_0001
+    21300004: CastleWall_0010
+    21300006: CastleWall_0011
+    21300008: CastleWall_0100
+    21300010: CastleWall_0101
+    21300012: CastleWall_0110
+    21300014: CastleWall_0111
+    21300016: CastleWall_1000
+    21300018: CastleWall_1001
+    21300020: CastleWall_1010
+    21300022: CastleWall_1011
+    21300024: CastleWall_1100
+    21300026: CastleWall_1101
+    21300028: CastleWall_1110
+    21300030: CastleWall_1111
     21300032: Sprites_16
     21300034: Sprites_17
     21300036: Sprites_18
@@ -113,7 +113,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Sprites_0
+    - name: CastleWall_0000
       rect:
         serializedVersion: 2
         x: 0
@@ -123,7 +123,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_1
+    - name: CastleWall_0001
       rect:
         serializedVersion: 2
         x: 128
@@ -133,7 +133,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_2
+    - name: CastleWall_0010
       rect:
         serializedVersion: 2
         x: 256
@@ -143,7 +143,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_3
+    - name: CastleWall_0011
       rect:
         serializedVersion: 2
         x: 384
@@ -153,7 +153,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_4
+    - name: CastleWall_0100
       rect:
         serializedVersion: 2
         x: 512
@@ -163,7 +163,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_5
+    - name: CastleWall_0101
       rect:
         serializedVersion: 2
         x: 640
@@ -173,7 +173,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_6
+    - name: CastleWall_0110
       rect:
         serializedVersion: 2
         x: 768
@@ -183,7 +183,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_7
+    - name: CastleWall_0111
       rect:
         serializedVersion: 2
         x: 896
@@ -193,7 +193,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_8
+    - name: CastleWall_1000
       rect:
         serializedVersion: 2
         x: 0
@@ -203,7 +203,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_9
+    - name: CastleWall_1001
       rect:
         serializedVersion: 2
         x: 128
@@ -213,7 +213,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_10
+    - name: CastleWall_1010
       rect:
         serializedVersion: 2
         x: 256
@@ -223,7 +223,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_11
+    - name: CastleWall_1011
       rect:
         serializedVersion: 2
         x: 384
@@ -233,7 +233,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_12
+    - name: CastleWall_1100
       rect:
         serializedVersion: 2
         x: 512
@@ -243,7 +243,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_13
+    - name: CastleWall_1101
       rect:
         serializedVersion: 2
         x: 640
@@ -253,7 +253,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_14
+    - name: CastleWall_1110
       rect:
         serializedVersion: 2
         x: 768
@@ -263,7 +263,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_15
+    - name: CastleWall_1111
       rect:
         serializedVersion: 2
         x: 896
