@@ -41,8 +41,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f161d9303ca4b7abe73a1b5c045c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasWall: {fileID: 21300016, guid: af06595c7cdd283459677670b149572a, type: 3}
-  noWall: {fileID: 21300000, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_0000: {fileID: 21300000, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_0001: {fileID: 21300002, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_0010: {fileID: 21300004, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_0011: {fileID: 21300006, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_0100: {fileID: 21300008, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_0101: {fileID: 21300010, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_0110: {fileID: 21300012, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_0111: {fileID: 21300014, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_1000: {fileID: 21300016, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_1001: {fileID: 21300018, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_1010: {fileID: 21300020, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_1011: {fileID: 21300022, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_1100: {fileID: 21300024, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_1101: {fileID: 21300026, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_1110: {fileID: 21300028, guid: af06595c7cdd283459677670b149572a, type: 3}
+  Wall_1111: {fileID: 21300030, guid: af06595c7cdd283459677670b149572a, type: 3}
 --- !u!114 &11461442
 MonoBehaviour:
   m_ObjectHideFlags: 1
