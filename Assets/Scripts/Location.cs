@@ -28,7 +28,6 @@ public struct Location : IEquatable<Location>
 		this.mapIndex = map.mapIndex;
 	}
 
-
 	/// <summary>
 	/// This method applies a delta to the x and y co-ordinates
 	/// of this location, and returns the updated result.

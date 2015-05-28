@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// There are 15 sprites named with bitwise naming: in theory it should be possible to get the sprite with the
@@ -31,25 +33,38 @@ public class CastleWallSpriteController : MonoBehaviour
 	/// </summary>
 	private Sprite PickSprite ()
 	{
+		MapController mapController = MapController.instance;
+
 		Location loc = Location.Of (gameObject);
+		Location[] buffer = loc.Adjacent ().ToArray (); // order is n, s, e, w
 
-	//	Location[] buffer;
+		GameObject north = mapController.GetTerrain (buffer [0]);
 
-	//	Location[] buffer = loc.GetAdjacentInto();   //no overload for GetAdjacentInto takes 0 arguments
+		//	Location[] buffer = loc.GetAdjacentInto();   //no overload for GetAdjacentInto takes 0 arguments
 
-	//	GameObject topWall = GameObject.Find ((loc.x) + "," + (loc.y + 1));       //is always null when loaded as a gameobject
+		//	GameObject topWall = GameObject.Find ((loc.x) + "," + (loc.y + 1));       //is always null when loaded as a gameobject
 		
-	//	bool topWall = (loc.Adjacent (north).ToString == "Foo");     //useless because the adjacent method can't be used this way
+		//	bool topWall = (loc.Adjacent (north).ToString == "Foo");     //useless because the adjacent method can't be used this way
 
-	//	loc.GetAdjacentInto (buffer);
-	//	bool topWall = (buffer[0].mapIndex == 0);   /// nope, not even in a do-nothing form
+		//	loc.GetAdjacentInto (buffer);
+		//	bool topWall = (buffer[0].mapIndex == 0);   /// nope, not even in a do-nothing form
 
-		bool useParapet = false;
+		bool useParapet = !IsWall (north);
 
-		if (useParapet == true) {
+		if (useParapet) {
 			return hasWall;  //currently assigned to sprite CastleWall_1000, tile to north is NOT more wall
 		} else {
 			return noWall;  //currently assigned to sprite CastleWall_0000, tiles to NSEW are also more wall
 		}
+	}
+
+	/// <summary>
+	/// IsWall() decides if the terrain object given is a wall.
+	/// </summary>
+	private static bool IsWall (GameObject terrain)
+	{
+		// this is a lousy way to test for wall-ness, but I'm not sure
+		// what the right way is! We can replace this later.
+		return terrain != null && terrain.name == "Wall";
 	}
 }

@@ -65,6 +65,37 @@ public class MapController : MonoBehaviour
 		} while(playerFound);
 	}
 
+	#region Singleton Instance
+	
+	private static MapController lazyInstance;
+	
+	/// <summary>
+	/// This property returns the map controller; this
+	/// is a singleton that is cached here on first
+	/// access.
+	/// </summary>
+	public static MapController instance {
+		get {
+			return Lazy.Init (ref lazyInstance, delegate {
+				var go = GameObject.FindGameObjectWithTag ("GameController");
+				
+				if (go == null) {
+					throw new System.InvalidOperationException ("GameController could not be found.");
+				}
+				
+				var mc = go.GetComponent<MapController> ();
+				
+				if (mc == null) {
+					throw new System.InvalidOperationException ("MapController could not be found.");
+				}
+				
+				return mc;
+			});
+		}
+	}
+
+	#endregion
+
 	#region Active Map
 	
 	private Map storedActiveMap;
