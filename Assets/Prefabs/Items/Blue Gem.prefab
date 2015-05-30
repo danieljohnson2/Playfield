@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11458718}
   m_Layer: 0
   m_Name: Blue Gem
-  m_TagString: Gold
+  m_TagString: Gem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

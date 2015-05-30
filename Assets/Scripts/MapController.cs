@@ -21,7 +21,10 @@ public class MapController : MonoBehaviour
 
 	void Start ()
 	{
-		activeMap = maps [0];
+		foreach (Map map in maps.Maps().Reverse()) {
+			activeMap = map;
+		}
+
 		StartCoroutine (ExecuteTurns ());
 	}
 
@@ -41,8 +44,8 @@ public class MapController : MonoBehaviour
 			foreach (var cc in entities.Components<CreatureController>().ToArray ()) {
 				bool isPlayer = cc is PlayerController;
 
-				if (isPlayer && inventoryDisplay!=null) {
-					inventoryDisplay.UpdateInventoryFrom(cc.gameObject);
+				if (isPlayer && inventoryDisplay != null) {
+					inventoryDisplay.UpdateInventoryFrom (cc.gameObject);
 				}
 
 				if (!playerFound && isPlayer) {
@@ -440,6 +443,18 @@ public class MapController : MonoBehaviour
 		public TextAsset[] mapTexts;
 		public GameObject[] prefabs;
 		private readonly LazyList<Map> lazyMaps = new LazyList<Map> ();
+
+		/// <summary>
+		/// Maps() yields each map in turn, in map index order.
+		/// </summary>
+		public IEnumerable<Map> Maps ()
+		{
+			if (mapTexts != null) {
+				for (int i = 0; i<mapTexts.Length; ++i) {
+					yield return this [i];
+				}
+			}
+		}
 
 		/// <summary>
 		/// This indexer retreives a map by name, or throws
