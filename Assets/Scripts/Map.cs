@@ -195,6 +195,19 @@ public sealed class Map
 			this.destinationMark = destinationMark;
 		}
 
+		public override string ToString ()
+		{
+			string text = string.Join (
+				",",
+				(from pf in prefabs	select pf.name).ToArray ());
+
+			if (destinationMap != null && destinationMark != '\0') {
+				text += string.Format (" [-> {0} -> {1}]", destinationMap, destinationMark);
+			}
+
+			return text;
+		}
+
 		/// <summary>
 		/// This creates the terrain object for the cell, setting its
 		/// parent and position as indicated. This method returns null only

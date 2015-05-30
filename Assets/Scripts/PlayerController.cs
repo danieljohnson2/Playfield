@@ -54,11 +54,7 @@ public class PlayerController : CreatureController
 	private void UpdateStatusText ()
 	{
 		if (playerStatusText != null) {
-			playerStatusText.text = string.Format (
-				"HP: {0}{1}Gold: {2}",
-				hitPoints,
-				System.Environment.NewLine,
-				goldCarried);
+			playerStatusText.text = string.Format ("HP: {0}", hitPoints);
 		}
 	}
 

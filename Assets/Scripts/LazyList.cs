@@ -74,7 +74,7 @@ public class LazyList<T>
 	{
 		list.Capacity = Math.Max (list.Capacity, index + 1);
 		
-		while (list.Count < index - 1) {
+		while (list.Count < index) {
 			list.Add (fillValue);
 		}
 		

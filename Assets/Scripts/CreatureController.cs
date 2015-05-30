@@ -20,7 +20,6 @@ public class CreatureController : MovementBlocker
 	public int hitPoints = 10;
 	public DieRoll damage = new DieRoll (1, 3);
 	public float speed = 1;
-	public int goldCarried = 0;
 	public GameObject attackEffect;
 	private float maxSpeed = 20.0f;
 	private float turnCounter = 0;
@@ -147,15 +146,21 @@ public class CreatureController : MovementBlocker
 	/// </summary>
 	protected virtual void Die ()
 	{
-		if (goldCarried > 0) {
-			GameObject goldObj = mapController.entities.InstantiateEntity (
-				mapController.maps.GetPrefabByName ("Gold"),
-				Location.Of (gameObject));
-			goldObj.GetComponent<GoldController> ().goldAmount = goldCarried;
-			goldCarried = 0;
+		Location here = Location.Of (gameObject);
+
+		for (int i = transform.childCount-1; i>=0; --i) {
+			GameObject child = transform.GetChild (i).gameObject;
+			child.transform.position = here.ToPosition ();
+			child.transform.parent = transform.parent;
 		}
 
 		mapController.entities.RemoveEntity (gameObject);
+	}
+
+	public void PlaceInInventory (GameObject item)
+	{
+		item.transform.parent = transform;
+		item.transform.position = Location.nowhere.ToPosition ();
 	}
 
 	#endregion

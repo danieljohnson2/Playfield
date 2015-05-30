@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 446404}
   - 212: {fileID: 21209938}
-  - 114: {fileID: 11425428}
+  - 114: {fileID: 11458718}
   m_Layer: 0
-  m_Name: Gold
+  m_Name: Red Gem
   m_TagString: Gold
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11425428
+--- !u!114 &11458718
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -37,10 +37,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 167204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d893e9cf801d3e4ca1d776abf62c987, type: 3}
+  m_Script: {fileID: 11500000, guid: 19ece353e76b218439fde57e4a366de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldAmount: 1
 --- !u!212 &21209938
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -65,7 +64,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300082, guid: af06595c7cdd283459677670b149572a, type: 3}
+  m_Sprite: {fileID: 21300080, guid: af06595c7cdd283459677670b149572a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

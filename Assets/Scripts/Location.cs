@@ -12,20 +12,28 @@ public struct Location : IEquatable<Location>
 {
 	public readonly int x;
 	public readonly int y;
-	public readonly int mapIndex;
+	public readonly int biasedMapIndex;
+
+	public int mapIndex {
+		get { return biasedMapIndex - 1; }
+	}
+
+	public static Location nowhere {
+		get { return default(Location); }
+	}
 
 	public Location (int x, int y, int mapIndex)
 	{
 		this.x = x;
 		this.y = y;
-		this.mapIndex = mapIndex;
+		this.biasedMapIndex = mapIndex + 1;
 	}
 
 	public Location (int x, int y, Map map)
 	{
 		this.x = x;
 		this.y = y;
-		this.mapIndex = map.mapIndex;
+		this.biasedMapIndex = map.mapIndex + 1;
 	}
 
 	/// <summary>

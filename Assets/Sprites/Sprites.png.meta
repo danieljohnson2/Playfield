@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1432838374
+timeCreated: 1432981520
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -44,9 +44,9 @@ TextureImporter:
     21300074: Sprites_37
     21300076: Tree 3
     21300078: Tree 4
-    21300080: Sprites_40
-    21300082: Sprites_41
-    21300084: Sprites_42
+    21300080: Red Gem
+    21300082: Green Gem
+    21300084: Blue Gem
     21300086: Sprites_43
     21300088: Sprites_44
     21300090: Sprites_45
@@ -513,7 +513,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_40
+    - name: Red Gem
       rect:
         serializedVersion: 2
         x: 0
@@ -523,7 +523,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_41
+    - name: Green Gem
       rect:
         serializedVersion: 2
         x: 128
@@ -533,7 +533,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_42
+    - name: Blue Gem
       rect:
         serializedVersion: 2
         x: 256

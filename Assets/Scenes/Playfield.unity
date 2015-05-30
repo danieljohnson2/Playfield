@@ -650,9 +650,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'HP:
-
-    Gold:'
+  m_Text: 'HP:'
 --- !u!222 &2081269015
 CanvasRenderer:
   m_ObjectHideFlags: 0
