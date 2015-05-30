@@ -17,6 +17,7 @@ using System.IO;
 public class MapController : MonoBehaviour
 {
 	public TranscriptController transcript;
+	public InventoryDisplayController inventoryDisplay;
 
 	void Start ()
 	{
@@ -39,6 +40,10 @@ public class MapController : MonoBehaviour
 
 			foreach (var cc in entities.Components<CreatureController>().ToArray ()) {
 				bool isPlayer = cc is PlayerController;
+
+				if (isPlayer && inventoryDisplay!=null) {
+					inventoryDisplay.UpdateInventoryFrom(cc.gameObject);
+				}
 
 				if (!playerFound && isPlayer) {
 					playerFound = true;

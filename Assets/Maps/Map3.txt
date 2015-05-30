@@ -1,12 +1,15 @@
 #######
+#....r#
+#.R...#
+A....g#
 #.....#
-#.....#
-A....*#
-#.....#
-#.....#
+#....b#
 #######
 -
 # Wall
 . Floor
 A Door -> Map1 -> B
-* Floor, Red Gem
+R Floor, Tim the Rat
+r Floor, Red Gem
+b Floor, Blue Gem
+g Floor, Green Gem

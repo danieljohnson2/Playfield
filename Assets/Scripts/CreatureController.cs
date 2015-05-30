@@ -159,6 +159,7 @@ public class CreatureController : MovementBlocker
 
 	public void PlaceInInventory (GameObject item)
 	{
+		item.SetActive (false); // make it vanish before it moves!
 		item.transform.parent = transform;
 		item.transform.position = Location.nowhere.ToPosition ();
 	}
