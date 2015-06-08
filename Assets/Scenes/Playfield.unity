@@ -275,6 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transcript: {fileID: 1724544801}
   inventoryDisplay: {fileID: 701028308}
+  entitiesContainer: {fileID: 0}
   maps:
     mapTexts:
     - {fileID: 4900000, guid: ba114fe31e49d1a4b98ade357ed4ea75, type: 3}

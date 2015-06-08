@@ -21,10 +21,11 @@ public class MapController : MonoBehaviour
 
 	void Start ()
 	{
-		foreach (Map map in maps.Maps().Reverse()) {
-			activeMap = map;
+		foreach (Map map in maps.Maps()) {
+			terrain.Load (map);
 		}
 
+		activeMap = maps [0];
 		StartCoroutine (ExecuteTurns ());
 	}
 
@@ -103,10 +104,11 @@ public class MapController : MonoBehaviour
 	}
 
 	#endregion
-
-	#region Active Map
 	
+	#region Terrain and Movement
+		
 	private Map storedActiveMap;
+	private GameObject[,] activeTerrainObjects;
 
 	/// <summary>
 	/// This is the map displayed in the game. This
@@ -120,44 +122,11 @@ public class MapController : MonoBehaviour
 		set {
 			if (storedActiveMap != value) {
 				storedActiveMap = value;
-				PopulateMapObjects (value);
+				activeTerrainObjects = terrain [value];
 				entities.ActivateEntities (value);
 			}
 		}
 	}
-
-	/// <summary>
-	/// This instantiates the game objects for the map;
-	/// the terrain of any previous map is destroyed first,
-	/// to be replaced by new terrain- but non-terrain objects
-	/// are preseved.
-	/// </summary>
-	private void PopulateMapObjects (Map map)
-	{
-		if (activeTerrainObjects != null) {
-			foreach (GameObject go in activeTerrainObjects) {
-				Destroy (go);
-			}
-			activeTerrainObjects = null;
-		}
-
-		activeTerrainObjects = new GameObject[map.width, map.height];
-
-		for (int y = 0; y < map.height; ++y) {
-			for (int x = 0; x < map.width; ++x) {
-				Location location = new Location (x, y, map);
-
-				activeTerrainObjects [x, y] = 
-					entities.InstantiateEntities (location, map);
-			}
-		}
-	}
-
-	#endregion
-
-	#region Terrain and Movement
-
-	private GameObject[,] activeTerrainObjects;
 
 	/// <summary>
 	/// Returns the terrain object for a cell, or null if
@@ -231,7 +200,67 @@ public class MapController : MonoBehaviour
 	}
 
 	#endregion
+
+	#region Terrain Objects
+
+	private TerrainTracker lazyTerrainTracker;
 	
+	public  TerrainTracker terrain {
+		get { return Lazy.Init (ref lazyTerrainTracker, () => new TerrainTracker (this)); }
+	}
+
+	public sealed class TerrainTracker
+	{
+		private readonly MapController mapController;
+		private readonly Dictionary<string, GameObject[,]> terrainMaps =
+			new Dictionary<string, GameObject[,]> ();
+
+		public TerrainTracker (MapController mapController)
+		{
+			this.mapController = mapController;
+		}
+
+		public void Load (Map map)
+		{
+			GameObject[,] objects = PopulateMapObjects (map);
+			terrainMaps.Add (map.name, objects);
+		}
+
+		public GameObject[,] this [string mapName] {
+			get { return terrainMaps [mapName]; }
+		}
+		
+		public GameObject[,] this [Map map] {
+			get { return this [map.name]; }
+		}
+
+		/// <summary>
+		/// This instantiates the game objects for the map;
+		/// the terrain of any previous map is destroyed first,
+		/// to be replaced by new terrain- but non-terrain objects
+		/// are preseved.
+		/// </summary>
+		private GameObject[,] PopulateMapObjects (Map map)
+		{
+			EntityTracker entities = mapController.entities;
+
+			var terrain = new GameObject[map.width, map.height];
+			
+			for (int y = 0; y < map.height; ++y) {
+				for (int x = 0; x < map.width; ++x) {
+					Location location = new Location (x, y, map);
+					
+					terrain [x, y] = 
+						entities.InstantiateEntities (location, map);
+				}
+			}
+
+			return terrain;
+		}
+	}
+
+	#endregion
+
 	#region Entity Objects
 
 	private EntityTracker lazyEntityTracker;
@@ -408,10 +437,22 @@ public class MapController : MonoBehaviour
 		/// </summary>
 		public void ActivateEntities (Map activeMap)
 		{
-			int mapIndex = activeMap != null ? activeMap.mapIndex : -1;
-			
 			foreach (GameObject go in entities) {
-				go.SetActive (Location.Of (go).mapIndex == mapIndex);
+				Location loc = Location.Of (go);
+
+				if (loc.mapIndex >= 0) {
+					Map map = mapController.maps [loc.mapIndex];
+					GameObject mapContainer = GetMapContainer (map);
+					go.transform.parent = mapContainer.transform;
+					go.SetActive (true);
+				} else {
+					go.SetActive (false);
+				}
+			}
+
+			foreach (Map map in mapController.maps.Maps()) {
+				GameObject mapContainer = GetMapContainer (map);
+				mapContainer.SetActive (map == activeMap);
 			}
 		}
 
