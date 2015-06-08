@@ -51,10 +51,10 @@ public class CastleWallSpriteController : MonoBehaviour
 		Location loc = Location.Of (gameObject);
 		Location[] buffer = loc.Adjacent ().ToArray (); // order is n, e, s, w
 
-		GameObject north = mapController.GetTerrain (buffer [0]);
-		GameObject east = mapController.GetTerrain (buffer [1]);
-		GameObject south = mapController.GetTerrain (buffer [2]);
-		GameObject west = mapController.GetTerrain (buffer [3]);
+		GameObject north = mapController.terrain.GetTerrain (buffer [0]);
+		GameObject east = mapController.terrain.GetTerrain (buffer [1]);
+		GameObject south = mapController.terrain.GetTerrain (buffer [2]);
+		GameObject west = mapController.terrain.GetTerrain (buffer [3]);
 
 		//mmmm! thog like grinding out big pile of logic resembling what the compiler would produce! :D
 		//Remember, if the checked spot is a wall we do NOT draw a parapet

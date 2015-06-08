@@ -56,7 +56,8 @@ public class DoorController : MovementBlocker
 		Location doorExit;
 		if (mapController.maps.TryFindDestination (cell, out doorExit)) {
 			mover.transform.position = doorExit.ToPosition ();
-			mapController.entities.ActivateEntities (mapController.activeMap);
+			mapController.entities.ActivateEntities ();
+			mapController.entities.ActivateMapContainers ();
 			return false;
 		}
 

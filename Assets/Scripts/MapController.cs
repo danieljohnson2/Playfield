@@ -26,6 +26,8 @@ public class MapController : MonoBehaviour
 		}
 
 		activeMap = maps [0];
+		entities.ActivateEntities ();
+		entities.ActivateMapContainers ();
 		StartCoroutine (ExecuteTurns ());
 	}
 
@@ -37,7 +39,7 @@ public class MapController : MonoBehaviour
 	{
 		bool playerFound;
 		do {
-			entities.ActivateEntities (activeMap);
+			entities.ActivateEntities ();
 
 			playerFound = false;
 			bool anyMove = false;
@@ -108,7 +110,6 @@ public class MapController : MonoBehaviour
 	#region Terrain and Movement
 		
 	private Map storedActiveMap;
-	private GameObject[,] activeTerrainObjects;
 
 	/// <summary>
 	/// This is the map displayed in the game. This
@@ -122,32 +123,8 @@ public class MapController : MonoBehaviour
 		set {
 			if (storedActiveMap != value) {
 				storedActiveMap = value;
-				activeTerrainObjects = terrain [value];
-				entities.ActivateEntities (value);
+				entities.ActivateMapContainers ();
 			}
-		}
-	}
-
-	/// <summary>
-	/// Returns the terrain object for a cell, or null if
-	/// the location is outside the map. Warning: this will
-	/// instantiate the object if it is not active, but will
-	/// return the prefab itself for terrain not on the
-	/// active map.
-	/// </summary>
-	public GameObject GetTerrain (Location location)
-	{
-		if (activeMap != null && 
-			activeMap.mapIndex == location.mapIndex && 
-			activeTerrainObjects != null) {
-			if (location.x >= 0 && location.x < activeTerrainObjects.GetLength (0) &&
-				location.y >= 0 && location.y < activeTerrainObjects.GetLength (1)) {
-				return activeTerrainObjects [location.x, location.y];
-			} else {
-				return null;
-			}
-		} else {
-			return maps [location].prefabs.FirstOrDefault ();
 		}
 	}
 
@@ -161,8 +138,8 @@ public class MapController : MonoBehaviour
 	public IEnumerable<T> ComponentsInCell<T> (Location location)
 		where T : Component
 	{
-		GameObject terrain = GetTerrain (location);
-		T terrainComponent = terrain != null ? terrain.GetComponent<T> () : null;
+		GameObject terrainObject = terrain.GetTerrain (location);
+		T terrainComponent = terrainObject != null ? terrainObject.GetComponent<T> () : null;
 
 		if (terrainComponent != null) {
 			return new [] { terrainComponent }.Concat (entities.ComponentsAt<T> (location));
@@ -178,7 +155,7 @@ public class MapController : MonoBehaviour
 	/// </summary>
 	public bool IsPassable (Location where)
 	{
-		if (GetTerrain (where) == null) {
+		if (terrain.GetTerrain (where) == null) {
 			return false;
 		}
 
@@ -192,7 +169,7 @@ public class MapController : MonoBehaviour
 	/// </summary>
 	public bool IsPathable (Location where)
 	{
-		if (GetTerrain (where) == null) {
+		if (terrain.GetTerrain (where) == null) {
 			return false;
 		}
 
@@ -209,41 +186,64 @@ public class MapController : MonoBehaviour
 		get { return Lazy.Init (ref lazyTerrainTracker, () => new TerrainTracker (this)); }
 	}
 
+	/// <summary>
+	/// This tracker holds the game objects for the terrain; all
+	/// terrain cells should be pre-loaded at start up, and this
+	/// tracker keeps track of them.
+	/// </summary>
 	public sealed class TerrainTracker
 	{
 		private readonly MapController mapController;
-		private readonly Dictionary<string, GameObject[,]> terrainMaps =
-			new Dictionary<string, GameObject[,]> ();
+		private readonly List<GameObject[,]> terrainMaps = new List<GameObject[,]> ();
 
 		public TerrainTracker (MapController mapController)
 		{
 			this.mapController = mapController;
 		}
 
-		public void Load (Map map)
-		{
-			GameObject[,] objects = PopulateMapObjects (map);
-			terrainMaps.Add (map.name, objects);
+		public GameObject[,] this [int mapIndex] {
+			get { 
+				if (mapIndex >= 0 || mapIndex < terrainMaps.Count) {
+					GameObject[,] objects = terrainMaps [mapIndex];
+
+					if (objects != null) {
+						return objects;
+					}
+				}
+
+				throw new ArgumentOutOfRangeException ("mapIndex", "Invalid map index");
+			}
 		}
 
-		public GameObject[,] this [string mapName] {
-			get { return terrainMaps [mapName]; }
+		public GameObject[,] this [Map map] {
+			get { return this [map.mapIndex]; }
 		}
 		
-		public GameObject[,] this [Map map] {
-			get { return this [map.name]; }
+		/// <summary>
+		/// Returns the terrain object for a cell, or null if
+		/// the location is outside the map entirely.
+		/// </summary>
+		public GameObject GetTerrain (Location location)
+		{
+			if (location.mapIndex >= 0) {
+				GameObject[,] objects = this [location.mapIndex];
+				if (location.x >= 0 && location.x < objects.GetLength (0) &&
+					location.y >= 0 && location.y < objects.GetLength (1)) {
+					return objects [location.x, location.y];
+				}
+			}
+			
+			return null;
 		}
 
 		/// <summary>
-		/// This instantiates the game objects for the map;
-		/// the terrain of any previous map is destroyed first,
-		/// to be replaced by new terrain- but non-terrain objects
-		/// are preseved.
+		/// This method loads a map's data into the tracker; we load
+		/// them all at start up.
 		/// </summary>
-		private GameObject[,] PopulateMapObjects (Map map)
+		public void Load (Map map)
 		{
 			EntityTracker entities = mapController.entities;
-
+			
 			var terrain = new GameObject[map.width, map.height];
 			
 			for (int y = 0; y < map.height; ++y) {
@@ -255,7 +255,11 @@ public class MapController : MonoBehaviour
 				}
 			}
 
-			return terrain;
+			while (terrainMaps.Count <= map.mapIndex) {
+				terrainMaps.Add (null);
+			}
+
+			terrainMaps [map.mapIndex] = terrain;
 		}
 	}
 
@@ -424,22 +428,17 @@ public class MapController : MonoBehaviour
 		}
 				
 		/// <summary>
-		/// ActivateEntities() sets the active flag on each entity;
-		/// entities not on the active map are deactivated, and
-		/// those on the map are activated. If 'activeMap' is null,
-		/// all are deactivated.
+		/// ActivateEntities() places each entity into the conrrect
+		/// map container.
 		/// 
-		/// This means that wile entities on other rooms can move, you
-		/// can't see them.
-		/// 
-		/// This is called at end of turn, but also when changing
-		/// maps.
+		/// This is called at end of turn, but also when an entity
+		/// might have moved between maps.
 		/// </summary>
-		public void ActivateEntities (Map activeMap)
+		public void ActivateEntities ()
 		{
 			foreach (GameObject go in entities) {
 				Location loc = Location.Of (go);
-
+				
 				if (loc.mapIndex >= 0) {
 					Map map = mapController.maps [loc.mapIndex];
 					GameObject mapContainer = GetMapContainer (map);
@@ -449,12 +448,21 @@ public class MapController : MonoBehaviour
 					go.SetActive (false);
 				}
 			}
+		}
 
+		/// <summary>
+		/// This sets the active flags on the map container
+		/// objects; we call this when the active map changes.
+		/// </summary>
+		public void ActivateMapContainers ()
+		{
+			Map activeMap = mapController.activeMap;
+						
 			foreach (Map map in mapController.maps.Maps()) {
 				GameObject mapContainer = GetMapContainer (map);
 				mapContainer.SetActive (map == activeMap);
 			}
-		}
+		}		
 
 		/// <summary>
 		/// ClearEntityCaches() discards the cached lookups we keep

@@ -127,7 +127,7 @@ public class CreatureController : MovementBlocker
 	/// </summary>
 	protected bool MoveTo (Location destination)
 	{
-		if (mapController.GetTerrain (destination) == null) {
+		if (mapController.terrain.GetTerrain (destination) == null) {
 			return false;
 		}
 
