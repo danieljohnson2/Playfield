@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1432981520
+timeCreated: 1434896080
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -20,11 +20,11 @@ TextureImporter:
     21300026: CastleWall_1101
     21300028: CastleWall_1110
     21300030: CastleWall_1111
-    21300032: Sprites_16
-    21300034: Sprites_17
-    21300036: Sprites_18
-    21300038: Sprites_19
-    21300040: Sprites_20
+    21300032: Open Door
+    21300034: Red Door
+    21300036: Green Door
+    21300038: Blue Door
+    21300040: White Door
     21300042: Sprites_21
     21300044: Sprites_22
     21300046: Sprites_23
@@ -47,15 +47,15 @@ TextureImporter:
     21300080: Red Gem
     21300082: Green Gem
     21300084: Blue Gem
-    21300086: Sprites_43
+    21300086: Sword
     21300088: Sprites_44
     21300090: Sprites_45
     21300092: Sprites_46
     21300094: Sprites_47
-    21300096: Sprites_48
-    21300098: Sprites_49
-    21300100: Sprites_50
-    21300102: Sprites_51
+    21300096: Red Key
+    21300098: Green Key
+    21300100: Blue Key
+    21300102: Yellow Key
     21300104: Sprites_52
     21300106: Sprites_53
     21300108: Sprites_54
@@ -273,7 +273,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_16
+    - name: Open Door
       rect:
         serializedVersion: 2
         x: 0
@@ -283,7 +283,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_17
+    - name: Red Door
       rect:
         serializedVersion: 2
         x: 128
@@ -293,7 +293,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_18
+    - name: Green Door
       rect:
         serializedVersion: 2
         x: 256
@@ -303,7 +303,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_19
+    - name: Blue Door
       rect:
         serializedVersion: 2
         x: 384
@@ -313,7 +313,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_20
+    - name: White Door
       rect:
         serializedVersion: 2
         x: 512
@@ -543,7 +543,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_43
+    - name: Sword
       rect:
         serializedVersion: 2
         x: 384
@@ -593,7 +593,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_48
+    - name: Red Key
       rect:
         serializedVersion: 2
         x: 0
@@ -603,7 +603,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_49
+    - name: Green Key
       rect:
         serializedVersion: 2
         x: 128
@@ -613,7 +613,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_50
+    - name: Blue Key
       rect:
         serializedVersion: 2
         x: 256
@@ -623,7 +623,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_51
+    - name: Yellow Key
       rect:
         serializedVersion: 2
         x: 384

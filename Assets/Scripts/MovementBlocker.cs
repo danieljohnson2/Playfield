@@ -21,6 +21,10 @@ public class MovementBlocker : MonoBehaviour
 		get { return MapController.instance; }
 	}
 
+	/// <summary>
+	/// This property proides conevnient access to
+	/// the transcript object, so we can print messages.
+	/// </summary>
 	protected TranscriptController transcript {
 		get { return mapController.transcript; }
 	}

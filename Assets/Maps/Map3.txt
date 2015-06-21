@@ -1,9 +1,9 @@
 #######
-#....r#
-#.R...#
-A....g#
-#.....#
-#....b#
+#..#.r#
+#.R#..#
+A..!.g#
+#..#..#
+#k.#.b#
 #######
 -
 # Wall
@@ -13,3 +13,5 @@ R Floor, Tim the Rat
 r Floor, Red Gem
 b Floor, Blue Gem
 g Floor, Green Gem
+! Door, Red Door
+k Floor, Red Key

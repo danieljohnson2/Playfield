@@ -157,11 +157,25 @@ public class CreatureController : MovementBlocker
 		mapController.entities.RemoveEntity (gameObject);
 	}
 
+	/// <summary>
+	/// Places an item into this creature's inventory. It will
+	/// disppear from the world.
+	/// </summary>
 	public void PlaceInInventory (GameObject item)
 	{
 		item.SetActive (false); // make it vanish before it moves!
 		item.transform.parent = transform;
 		item.transform.position = Location.nowhere.ToPosition ();
+	}
+
+	/// <summary>
+	/// This yields each object in the inventory of this creature.
+	/// </summary>
+	public IEnumerable<GameObject> Inventory ()
+	{
+		for (int i = 0; i < transform.childCount; ++i) {
+			yield return transform.GetChild (i).gameObject;
+		}
 	}
 
 	#endregion

@@ -275,7 +275,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transcript: {fileID: 1724544801}
   inventoryDisplay: {fileID: 701028308}
-  entitiesContainer: {fileID: 0}
   maps:
     mapTexts:
     - {fileID: 4900000, guid: ba114fe31e49d1a4b98ade357ed4ea75, type: 3}
@@ -298,6 +297,8 @@ MonoBehaviour:
     - {fileID: 167204, guid: cef06395d903297418c4b069e52dbe59, type: 2}
     - {fileID: 167204, guid: f1745f99490b32947904e3d901463950, type: 2}
     - {fileID: 167204, guid: 4ce00eef1b9bf7d4eacf306ccae20800, type: 2}
+    - {fileID: 166036, guid: a3716cac01f893d4894d99c6890092e1, type: 2}
+    - {fileID: 167204, guid: 905c0747c96938e46808449d78cb8466, type: 2}
 --- !u!1 &1508657706
 GameObject:
   m_ObjectHideFlags: 0
