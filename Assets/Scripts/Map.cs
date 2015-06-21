@@ -222,7 +222,7 @@ public sealed class Map
 			GameObject terrain = GameObject.Instantiate (prefabs [0]);
 			terrain.name = prefabs [0].name;
 			terrain.transform.parent = container.transform;
-			terrain.transform.position = location.ToPosition ();
+			terrain.transform.localPosition = location.ToPosition ();
 			return terrain;
 		}
 
@@ -242,7 +242,7 @@ public sealed class Map
 				GameObject go = GameObject.Instantiate (prefabs [i]);
 				go.name = prefabs [i].name;
 				go.transform.parent = container.transform;
-				go.transform.position = location.ToPosition ();
+				go.transform.localPosition = location.ToPosition ();
 				created [i - 1] = go;
 			}
 

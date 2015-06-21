@@ -3,7 +3,7 @@
 #.R#..#
 A..!.g#
 #..#..#
-#k.#.b#
+#..#.b#
 #######
 -
 # Wall
@@ -14,4 +14,3 @@ r Floor, Red Gem
 b Floor, Blue Gem
 g Floor, Green Gem
 ! Door, Red Door
-k Floor, Red Key

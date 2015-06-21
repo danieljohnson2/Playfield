@@ -92,7 +92,7 @@ public class CreatureController : MovementBlocker
 		if (attacker.attackEffect != null && gameObject.activeSelf) {
 			GameObject effect = Instantiate (attackEffect);
 			effect.transform.parent = transform.parent;
-			effect.transform.position = transform.position;
+			effect.transform.localPosition = transform.localPosition;
 		}
 
 		int damage = attacker.damage.Roll ();
@@ -136,7 +136,7 @@ public class CreatureController : MovementBlocker
 				return false;
 		}
 		
-		transform.position = destination.ToPosition ();
+		transform.localPosition = destination.ToPosition ();
 		return true;
 	}
 
@@ -150,7 +150,7 @@ public class CreatureController : MovementBlocker
 
 		for (int i = transform.childCount-1; i>=0; --i) {
 			GameObject child = transform.GetChild (i).gameObject;
-			child.transform.position = here.ToPosition ();
+			child.transform.localPosition = here.ToPosition ();
 			child.transform.parent = transform.parent;
 		}
 
@@ -165,7 +165,7 @@ public class CreatureController : MovementBlocker
 	{
 		item.SetActive (false); // make it vanish before it moves!
 		item.transform.parent = transform;
-		item.transform.position = Location.nowhere.ToPosition ();
+		item.transform.localPosition = Location.nowhere.ToPosition ();
 	}
 
 	/// <summary>

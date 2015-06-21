@@ -345,7 +345,7 @@ public class MapController : MonoBehaviour
 
 			GameObject created = GameObject.Instantiate (prefab);
 			created.transform.parent = GetMapContainer (map).transform;
-			created.transform.position = location.ToPosition ();
+			created.transform.localPosition = location.ToPosition ();
 			entities.Add (created);
 			ClearEntityCaches ();
 			return created;

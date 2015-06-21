@@ -71,7 +71,7 @@ public struct Location : IEquatable<Location>
 	/// </summary>
 	public static Location Of (GameObject gameObject)
 	{
-		return FromPosition (gameObject.transform.position);
+		return FromPosition (gameObject.transform.localPosition);
 	}
 
 	/// <summary>

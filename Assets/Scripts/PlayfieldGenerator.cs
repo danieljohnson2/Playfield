@@ -43,7 +43,7 @@ public class PlayfieldGenerator
 				if (template != null) {
 					GameObject obj = GameObject.Instantiate (template);
 					obj.transform.parent = parent.transform;
-					obj.transform.position = new Location (x, y, mapIndex).ToPosition ();
+					obj.transform.localPosition = new Location (x, y, mapIndex).ToPosition ();
 					terrainObjects [x, y] = obj;
 				}
 			}
