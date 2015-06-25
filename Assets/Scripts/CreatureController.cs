@@ -26,7 +26,6 @@ public class CreatureController : MovementBlocker
 
 	public CreatureController ()
 	{
-		this.pathable = true;
 		this.passable = true;
 	}
 

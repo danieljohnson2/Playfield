@@ -14,16 +14,35 @@ public class KeyedDoorController : MovementBlocker
 {
 	public string keyName;
 
+	public KeyedDoorController() {
+		// creatures will try to step into the door, but
+		// Block() makes the final call.
+		this.passable = true;
+	}
+
+	public override bool IsPathableFor (GameObject mover)
+	{
+		// if a creature has the key, it will path right
+		// through the door. When it tries to move in, it will
+		// opent eh door.
+		return CanBeOpenedBy (mover);
+	}
+
 	public override bool Block (GameObject mover, Location destination)
 	{
-		var cc = mover.GetComponent<CreatureController> ();
-
-		if (cc.Inventory ().Any (go => go.name == keyName)) {
+		if (CanBeOpenedBy (mover)) {
 			mapController.entities.RemoveEntity (gameObject);
-			AddTranscriptLine ("{0} opened a door.", gameObject.name);
+			AddTranscriptLine ("{0} opened a door.", mover.name);
 			return false;
 		}
 
-		return base.Block (mover, destination);
+		return false;
+	}
+
+	private bool CanBeOpenedBy (GameObject mover)
+	{
+		var cc = mover.GetComponent<CreatureController> ();
+		
+		return cc != null && cc.Inventory ().Any (go => go.name == keyName);
 	}
 }

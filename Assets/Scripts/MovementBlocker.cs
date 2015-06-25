@@ -36,12 +36,15 @@ public class MovementBlocker : MonoBehaviour
 	public bool passable { get; set; }
 
 	/// <summary>
-	/// If true, the AI pathfinding paths through this
+	/// If this returns true, the AI pathfinding paths through this
 	/// square; if false the square blocks the AI's awareness
 	/// of the square, though they can still move randonly into
 	/// it anyway.
 	/// </summary>
-	public bool pathable { get; set; }
+	public virtual bool IsPathableFor (GameObject mover)
+	{
+		return passable;
+	}
 
 	/// <summary>
 	/// This method is called when some object tries to

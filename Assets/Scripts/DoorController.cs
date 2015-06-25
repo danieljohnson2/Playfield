@@ -16,8 +16,7 @@ public class DoorController : MovementBlocker
 
 	public DoorController ()
 	{
-		// Doors are more decoration than obstacle!
-		pathable = true;
+		// Unkeyed doors are more decoration than obstacle!
 		passable = true;
 	}
 

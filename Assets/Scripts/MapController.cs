@@ -163,17 +163,17 @@ public class MapController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// IsPathable indicates whether heatmaps can make a path through
+	/// IsPathableFor determines whether heatmaps can make a path through
 	/// this cell; it is false outside the map, and may be false for cells
 	/// inside depending on what movement blockers are found there.
 	/// </summary>
-	public bool IsPathable (Location where)
+	public bool IsPathableFor (GameObject mover, Location where)
 	{
 		if (terrain.GetTerrain (where) == null) {
 			return false;
 		}
 
-		return ComponentsInCell<MovementBlocker> (where).All (mb => mb.pathable);
+		return ComponentsInCell<MovementBlocker> (where).All (mb => mb.IsPathableFor (mover));
 	}
 
 	#endregion
@@ -671,7 +671,7 @@ public class MapController : MonoBehaviour
 	{
 		private readonly Location[] adjacencyBuffer = new Location[4];
 		private readonly MapController mapController;
-		private readonly LocationMap<bool?> pathabilityCache = new LocationMap<bool?> ();
+		private KeyValuePair<GameObject, LocationMap<bool?>> pathabilityCache;
 
 		public AdjacencyGenerator (MapController mapController)
 		{
@@ -688,7 +688,7 @@ public class MapController : MonoBehaviour
 		/// lots of collections. Don't forget to clear your collection when
 		/// needed; this method won't do that for you.
 		/// </summary>
-		public void GetAdjacentLocationsInto (Location where, ICollection<Location> adjacentLocations)
+		public void GetAdjacentLocationsInto (GameObject mover, Location where, ICollection<Location> adjacentLocations)
 		{
 			where.GetAdjacentInto (adjacencyBuffer);
 
@@ -702,7 +702,7 @@ public class MapController : MonoBehaviour
 				// list with sufficient capaciity.
 
 				foreach (Location loc in adjacencyBuffer) {
-					if (IsPathable (loc)) {
+					if (IsPathableFor (mover, loc)) {
 						adjacentLocations.Add (loc);
 					}
 				}
@@ -715,7 +715,7 @@ public class MapController : MonoBehaviour
 				IEnumerable<Location> unioned = adjacencyBuffer.Union (destinations);
 
 				foreach (Location loc in unioned) {
-					if (IsPathable (loc)) {
+					if (IsPathableFor (mover, loc)) {
 						adjacentLocations.Add (loc);
 					}
 				}
@@ -726,13 +726,22 @@ public class MapController : MonoBehaviour
 		/// IsPathable tests if the locaiton given is pathable,
 		/// and uses cached results whenever it can.
 		/// </summary>
-		public bool IsPathable (Location where)
+		public bool IsPathableFor (GameObject mover, Location where)
 		{
-			bool? b = pathabilityCache [where];
+			LocationMap<bool?> cache;
+
+			if (pathabilityCache.Key == mover)
+				cache = pathabilityCache.Value;
+			else {
+				cache = new LocationMap<bool?> ();
+				pathabilityCache = new KeyValuePair<GameObject, LocationMap<bool?>> (mover, cache);
+			}
+
+			bool? b = cache [where];
 			
 			if (b == null) {
-				bool c = mapController.IsPathable (where);
-				pathabilityCache [where] = c;
+				bool c = mapController.IsPathableFor (mover, where);
+				cache [where] = c;
 				return c;
 			} else {
 				return b.Value;

@@ -46,8 +46,8 @@ MonoBehaviour:
   heatmapRange: 128
   heatmapCooling: 128
   preferences:
-  - Key=128
-  - Gem=128
+  - Key=64
+  - Gem=64
 --- !u!114 &11468180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -63,8 +63,8 @@ MonoBehaviour:
   heatmapRange: 5
   heatmapCooling: 64
   preferences:
-  - Player=8
-  - '"Tim the Rat"=16'
+  - Player=6
+  - '"Tim the Rat"=4'
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,7 +122,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Key=128
+      value: Player=6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[1]
+      value: Gem=64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

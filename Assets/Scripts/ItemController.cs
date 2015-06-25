@@ -6,7 +6,6 @@ public class ItemController : MovementBlocker
 	public ItemController ()
 	{
 		passable = true;
-		pathable = true;
 	}
 	
 	public override bool Block (GameObject mover, Location destination)
