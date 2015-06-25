@@ -150,8 +150,9 @@ public class CreatureController : MovementBlocker
 
 		for (int i = transform.childCount-1; i>=0; --i) {
 			GameObject child = transform.GetChild (i).gameObject;
-			child.transform.localPosition = here.ToPosition ();
 			child.transform.parent = transform.parent;
+			child.transform.localPosition = here.ToPosition ();
+			child.SetActive (true);
 		}
 
 		mapController.entities.RemoveEntity (gameObject);
