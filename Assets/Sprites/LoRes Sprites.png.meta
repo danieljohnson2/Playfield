@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 10c524aa79ab80f4baa5ded5f7d32f90
-timeCreated: 1432281550
+timeCreated: 1436018890
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -18,7 +18,7 @@ TextureImporter:
     21300022: Slash (Low Res)
     21300024: Rat (Low Res)
     21300026: LoRes Sprites_13
-    21300028: LoRes Sprites_14
+    21300028: Marker
     21300030: Trees (Low Res)
   serializedVersion: 2
   mipmaps:
@@ -203,9 +203,9 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: LoRes Sprites_14
+    - name: Marker
       rect:
         serializedVersion: 2
         x: 16
@@ -213,7 +213,7 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Trees (Low Res)
       rect:

@@ -48,6 +48,7 @@ MonoBehaviour:
   preferences:
   - Key=64
   - Gem=64
+  heatmapMarkerPrefab: {fileID: 0}
 --- !u!114 &11468180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -65,6 +66,7 @@ MonoBehaviour:
   preferences:
   - Player=6
   - Rat=4
+  heatmapMarkerPrefab: {fileID: 0}
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,6 +85,7 @@ MonoBehaviour:
     Plus: 0
   speed: .75
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  teamAware: 1
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -131,6 +134,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Goblin
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapMarkerPrefab
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

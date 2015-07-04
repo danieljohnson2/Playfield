@@ -198,7 +198,8 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
 		foreach (KeyValuePair<Location, T[,]> pair in blocks) {
 			for (int ly = 0; ly < blockSize; ++ly) {
 				for (int lx = 0; lx < blockSize; ++lx) {
-					yield return new KeyValuePair<Location, T> (pair.Key, pair.Value [lx, ly]);
+					Location key = pair.Key.WithOffset(lx, ly);
+					yield return new KeyValuePair<Location, T> (key, pair.Value [lx, ly]);
 				}
 			}
 		}

@@ -45,27 +45,36 @@ public class HeatmapPreferenceController : MonoBehaviour
 	private readonly Heatmap heatmap = new Heatmap ();
 	public int priority = 0;
 	public short heatmapRange = 16;
-	public short heatmapCooling = 128;
+	public float heatmapCooling = 128.0f;
 	public string[] preferences;
-	
+	public GameObject heatmapMarkerPrefab;
+	private GameObject[] heatmapMarkers;
+	private float residualCooling = 0.0f;
+
 	/// <summary>
 	/// This adjusts the heatmap according to the current
 	/// position of entities.
 	/// </summary>
 	public Heatmap UpdateHeatmap (MapController mapController)
 	{
-		heatmap.Reduce (heatmapCooling);
-		
+		residualCooling += heatmapCooling;
+
+		if (residualCooling > 0.0f) {
+			int cool = Mathf.FloorToInt (residualCooling);
+			heatmap.Reduce (cool);
+			residualCooling -= cool;
+		}
+
 		if (preferences != null) {
 			foreach (string prefText in preferences) {
 				IEnumerable<GameObject> targets;
 				short heat;
 				ParsePreference (prefText, mapController, out targets, out heat);
 				
-				if (targets != null && heat != 0) {
+				if (targets != null) {
 					foreach (GameObject target in targets) {
 						Location targetLoc = Location.Of (target);
-						heatmap [targetLoc] += heat;
+						heatmap [targetLoc] = heat;
 					}
 				}
 			}
@@ -74,7 +83,39 @@ public class HeatmapPreferenceController : MonoBehaviour
 		heatmap.Heat (heatmapRange,
 		              (loc, adj) => mapController.adjacencyGenerator.GetAdjacentLocationsInto (gameObject, loc, adj));
 
+		if (heatmapMarkerPrefab != null) {
+			ShowHeapmap ();
+		}
+
 		return heatmap;
+	}
+
+	private void ShowHeapmap ()
+	{
+		const short minHeat = 1;
+
+		var markers = new Queue<GameObject> (heatmapMarkers ?? Enumerable.Empty<GameObject> ());
+		var usedMarkers = new List<GameObject> ();
+		Map activeMap = MapController.instance.activeMap;
+
+		if (activeMap != null) {
+			foreach (var pair in heatmap) {
+				if (pair.Value >= minHeat && pair.Key.mapIndex == activeMap.mapIndex) {
+					GameObject marker = markers.Count > 0 ?
+						markers.Dequeue () : Instantiate (heatmapMarkerPrefab);
+
+					marker.transform.localPosition = pair.Key.ToPosition ();
+					marker.name = string.Format ("Heat = {0}", pair.Value);
+					usedMarkers.Add (marker);
+				}
+			}
+		}
+
+		while (markers.Count > 0) {
+			Destroy (markers.Dequeue ());
+		}
+
+		heatmapMarkers = usedMarkers.ToArray ();
 	}
 
 	/// <summary>

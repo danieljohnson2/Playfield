@@ -370,10 +370,13 @@ public class MapController : MonoBehaviour
 		/// </summary>
 		public void ProcessRemovals ()
 		{		
-			while (pendingRemoval.Count > 0) {
-				GameObject toRemove = pendingRemoval.Dequeue ();
-				entities.Remove (toRemove);
-				Destroy (toRemove);
+			if (pendingRemoval.Count > 0) {
+				while (pendingRemoval.Count > 0) {
+					GameObject toRemove = pendingRemoval.Dequeue ();
+					entities.Remove (toRemove);
+					Destroy (toRemove);
+				}
+
 				ClearEntityCaches ();
 			}
 		}
