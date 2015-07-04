@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11415102}
   m_Layer: 0
   m_Name: Tim the Rat
-  m_TagString: Untagged
+  m_TagString: Rat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,11 +42,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0
-  heatmapRange: 16
-  heatmapCooling: 128
+  heatmapRange: 1
+  heatmapCooling: 1
   preferences:
   - Player=-4
-  - '"Bob the Goblin"=-8'
+  - Goblin=-8
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,7 +97,23 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Rat
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[1]
+      value: Goblin=-8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapCooling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapRange
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 154314}

@@ -279,6 +279,7 @@ MonoBehaviour:
     mapTexts:
     - {fileID: 4900000, guid: ba114fe31e49d1a4b98ade357ed4ea75, type: 3}
     - {fileID: 4900000, guid: a53fb27670b4861469b843b34d3d790d, type: 3}
+    - {fileID: 4900000, guid: dd88e1fb7ca0aff4fbd59a6df4d38825, type: 3}
     - {fileID: 4900000, guid: 9be017e6919fce14fb5aab058faa4ee4, type: 3}
     prefabs:
     - {fileID: 185244, guid: 99a34020e73446a429e823f5befdd7c1, type: 2}
@@ -301,6 +302,8 @@ MonoBehaviour:
     - {fileID: 167204, guid: 905c0747c96938e46808449d78cb8466, type: 2}
     - {fileID: 166036, guid: b748c224600c2a94294f0b8ec08f9ee1, type: 2}
     - {fileID: 167204, guid: 98116df1b2646c84d8cd7e7477b5818c, type: 2}
+    - {fileID: 154314, guid: c92181c4e0fc6094b97e6b6cc5a1a06b, type: 2}
+    - {fileID: 154314, guid: ccab05854dd0a3e4bad0fda927994b2f, type: 2}
 --- !u!1 &1508657706
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,19 @@
+##################
+#......+.J.....+.#
+#......#.......#.#
+#......#......T#.#
+##!#...#..K....#.#
+#..#####+#######.#
+#g.#k..........#^#
+##################
+-
+# Wall
+. Floor
++ Door
+! Door, Green Door
+g Floor, Green Gem
+k Floor, Red Key
+T Floor, Tim the Rat
+J Floor, Jim the Rat
+K Floor, Kim the Rat
+^ Floor, Ladder Down -> AbandonedHouse -> v

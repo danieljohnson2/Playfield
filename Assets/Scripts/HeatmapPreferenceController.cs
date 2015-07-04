@@ -29,7 +29,9 @@ using System.Linq;
 /// player, but would try tor each gold that is within 16 squares of
 /// iteself. Note that anything beyond 'heatmapRange' squares is invisble
 /// anyway, and the lure of gold will be stronger than the fear of the player
-/// because it has a bigger number.
+/// because it has a bigger number. Note that over time a creater can become
+/// aware of things that are out of the heatmap range, if the cooling is not too
+/// high- but this will be out-of-date information.
 /// 
 /// You can specify the distance we spread the 'heat' in the map;
 /// this is the range the creature can 'see' things. You can specify

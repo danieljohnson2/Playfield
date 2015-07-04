@@ -10,11 +10,10 @@ GameObject:
   - 4: {fileID: 402586}
   - 212: {fileID: 21231602}
   - 114: {fileID: 11472114}
-  - 114: {fileID: 11468180}
-  - 114: {fileID: 11455460}
+  - 114: {fileID: 11415102}
   m_Layer: 0
-  m_Name: Bob the Goblin
-  m_TagString: Goblin
+  m_Name: Jim the Rat
+  m_TagString: Rat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +30,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11455460
+--- !u!114 &11415102
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -43,28 +42,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0
-  heatmapRange: 128
-  heatmapCooling: 128
+  heatmapRange: 1
+  heatmapCooling: 1
   preferences:
-  - Key=64
-  - Gem=64
---- !u!114 &11468180
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 154314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32afa8f63e5d224792618212002a094, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  priority: 1
-  heatmapRange: 5
-  heatmapCooling: 64
-  preferences:
-  - Player=6
-  - Rat=4
+  - Player=4
+  - Goblin=-8
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -76,13 +58,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbf91a405a8a074188e27cbf50fa017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 10
+  hitPoints: 2
   damage:
     DiceCount: 1
-    DiceSize: 3
-    Plus: 0
-  speed: .75
+    DiceSize: 2
+    Plus: -1
+  speed: 1.5
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  teamAware: 1
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -107,7 +90,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300018, guid: 10c524aa79ab80f4baa5ded5f7d32f90, type: 3}
+  m_Sprite: {fileID: 21300024, guid: 10c524aa79ab80f4baa5ded5f7d32f90, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -117,20 +100,24 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
-      propertyPath: preferences.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: preferences.Array.data[0]
-      value: Player=6
+      propertyPath: m_TagString
+      value: Rat
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
-      value: Rat=4
+      value: Goblin=-8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: m_TagString
-      value: Goblin
+      propertyPath: heatmapRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapCooling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[0]
+      value: Player=4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

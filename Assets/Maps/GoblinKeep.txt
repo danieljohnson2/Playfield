@@ -3,7 +3,7 @@
 #.G####
 A.....#
 #.....#
-#k...b#
+#....b#
 #######
 -
 # Wall
@@ -13,4 +13,3 @@ G Floor, Bob the Goblin
 r Floor, Red Gem
 b Floor, Blue Gem
 ! Door, Red Door
-k Grass, Green Key

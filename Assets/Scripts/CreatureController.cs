@@ -21,6 +21,7 @@ public class CreatureController : MovementBlocker
 	public DieRoll damage = new DieRoll (1, 3);
 	public float speed = 1;
 	public GameObject attackEffect;
+	public bool teamAware = true;
 	private float maxSpeed = 20.0f;
 	private float turnCounter = 0;
 
@@ -76,7 +77,9 @@ public class CreatureController : MovementBlocker
 		var attacker = mover.GetComponent<CreatureController> ();
 		
 		if (attacker != null) {
-			Fight (attacker);
+			if (!teamAware || !CompareTag (attacker.tag)) {
+				Fight (attacker);
+			}
 		}
 		
 		return false;

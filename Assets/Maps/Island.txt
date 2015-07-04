@@ -19,8 +19,8 @@
 / Water
 . Path
 , Grass
+k Grass, Green Key
 A Door -> AbandonedHouse -> A
 B Door -> GoblinKeep -> A
 & Grass, Trees
 p Grass, Player
-k Grass, Red Key
