@@ -1,0 +1,16 @@
+#######
+#..!.r#
+#.G####
+A.....#
+#.....#
+#k...b#
+#######
+-
+# Wall
+. Floor
+A Door -> Island -> B
+G Floor, Bob the Goblin
+r Floor, Red Gem
+b Floor, Blue Gem
+! Door, Red Door
+k Grass, Green Key

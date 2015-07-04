@@ -299,6 +299,8 @@ MonoBehaviour:
     - {fileID: 167204, guid: 4ce00eef1b9bf7d4eacf306ccae20800, type: 2}
     - {fileID: 166036, guid: a3716cac01f893d4894d99c6890092e1, type: 2}
     - {fileID: 167204, guid: 905c0747c96938e46808449d78cb8466, type: 2}
+    - {fileID: 166036, guid: b748c224600c2a94294f0b8ec08f9ee1, type: 2}
+    - {fileID: 167204, guid: 98116df1b2646c84d8cd7e7477b5818c, type: 2}
 --- !u!1 &1508657706
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,7 +715,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
