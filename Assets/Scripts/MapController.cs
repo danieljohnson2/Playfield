@@ -37,12 +37,12 @@ public class MapController : MonoBehaviour
 	/// </summary>
 	private IEnumerator ExecuteTurns ()
 	{
+		var hasMoved = new HashSet<GameObject> ();
 		bool playerFound;
 		do {
 			entities.ActivateEntities ();
 
 			playerFound = false;
-			bool anyMove = false;
 
 			foreach (var cc in entities.Components<CreatureController>().ToArray ()) {
 				bool isPlayer = cc is PlayerController;
@@ -57,9 +57,16 @@ public class MapController : MonoBehaviour
 				}
 
 				if (cc.CheckTurn ()) {
-					if (!anyMove && !isPlayer &&
-						Location.Of (cc.gameObject).mapIndex == activeMap.mapIndex) {
-						anyMove = true;
+					if (isPlayer) {
+						hasMoved.Clear ();
+					} else if (Location.Of (cc.gameObject).mapIndex == activeMap.mapIndex) {
+						// When a creature moves where we can see it, and it double-moves
+						// the player, we add a short delay to make it not look flickery.
+						if (!hasMoved.Add (cc.gameObject)) {
+							// we never want to double up delays though.
+							hasMoved.Clear ();
+							yield return new WaitForSeconds (1f / 16f);
+						}
 					}
 
 					yield return StartCoroutine (cc.DoTurnAsync ());
@@ -67,12 +74,6 @@ public class MapController : MonoBehaviour
 			}
 
 			entities.ProcessRemovals ();
-
-			// a slight per turn delay of any critter but the player made a move;
-			// this makes it look less flickery.
-			if (anyMove) {
-				yield return new WaitForSeconds (1f / 16f);
-			}
 		} while(playerFound);
 	}
 
