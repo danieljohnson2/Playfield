@@ -61,8 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 1
-  heatmapRange: 1
-  heatmapCooling: 1
+  heatmapRange: 5
+  heatmapCooling: 64
   preferences:
   - Player=6
   - Rat=4
@@ -83,7 +83,7 @@ MonoBehaviour:
     DiceCount: 1
     DiceSize: 3
     Plus: 0
-  speed: .5
+  speed: .75
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
 --- !u!212 &21231602
@@ -141,15 +141,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapCooling
-      value: 1
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: .5
+      value: .75
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Sprite
