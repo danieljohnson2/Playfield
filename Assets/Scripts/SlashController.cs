@@ -5,7 +5,9 @@ public class SlashController : MonoBehaviour
 {
 	void Start ()
 	{
-		Invoke ("Unslash", 0.25f);
+		var anim = GetComponent<Animator> ();
+		float len = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+		Invoke ("Unslash", len);
 	}
 
 	public void Unslash ()

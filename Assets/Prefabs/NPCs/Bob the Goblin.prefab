@@ -61,8 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 1
-  heatmapRange: 5
-  heatmapCooling: 64
+  heatmapRange: 1
+  heatmapCooling: 1
   preferences:
   - Player=6
   - Rat=4
@@ -83,7 +83,7 @@ MonoBehaviour:
     DiceCount: 1
     DiceSize: 3
     Plus: 0
-  speed: .75
+  speed: .5
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
 --- !u!212 &21231602
@@ -110,7 +110,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300018, guid: 10c524aa79ab80f4baa5ded5f7d32f90, type: 3}
+  m_Sprite: {fileID: 21300006, guid: 8139582ed09f74bb48c66d47a591c98d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -139,6 +139,23 @@ Prefab:
       propertyPath: heatmapMarkerPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapCooling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300006, guid: 8139582ed09f74bb48c66d47a591c98d,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 154314}
