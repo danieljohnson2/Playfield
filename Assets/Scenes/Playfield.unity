@@ -278,7 +278,7 @@ MonoBehaviour:
   maps:
     mapTexts:
     - {fileID: 4900000, guid: ba114fe31e49d1a4b98ade357ed4ea75, type: 3}
-    - {fileID: 4900000, guid: a53fb27670b4861469b843b34d3d790d, type: 3}
+    - {fileID: 4900000, guid: 5b6997cf33b394cde9871083cc3b2bdc, type: 3}
     - {fileID: 4900000, guid: dd88e1fb7ca0aff4fbd59a6df4d38825, type: 3}
     - {fileID: 4900000, guid: 9be017e6919fce14fb5aab058faa4ee4, type: 3}
     prefabs:
