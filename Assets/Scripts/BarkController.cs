@@ -11,19 +11,17 @@ using System.Linq;
 public class BarkController : MonoBehaviour
 {
 	public GameObject[] barkPrefabs = new GameObject[0];
-	public string heatmapName;
-	public int minimumHeatmapStrength;
 	public float barkDuration = 3.0f;
 	public float barkChance = 0.5f;
 	public float minimumBarkInterval = 5.0f;
 	public float maximumBarkInterval = 10.0f;
 	private float barkTime;
 	private GameObject activeBark;
-
+	
 	public void Update ()
 	{
 		float time = Time.time;
-
+		
 		if (barkTime == 0.0f) {
 			barkTime = PickNextTime ();
 		} else if (activeBark != null) {
@@ -33,10 +31,10 @@ public class BarkController : MonoBehaviour
 				barkTime = PickNextTime ();
 			}
 		} else if (!isBarking && time >= barkTime && barkPrefabs != null && barkPrefabs.Length > 0) {
-			if (CheckShouldBark ()) {
+			if (CheckShouldBark () && !isAnyCreatureBarkActive) {
 				int barkIndex = Random.Range (0, barkPrefabs.Length);
 				activeBark = Instantiate (barkPrefabs [barkIndex]);
-
+				
 				Vector3 localPos = activeBark.transform.localPosition;
 				activeBark.transform.parent = transform;
 				activeBark.transform.localPosition = localPos;
@@ -45,7 +43,7 @@ public class BarkController : MonoBehaviour
 			}
 		}
 	}
-
+	
 	/// <summary>
 	/// If true, a speech balloon is being displayed because of this controller.
 	/// </summary>
@@ -54,39 +52,21 @@ public class BarkController : MonoBehaviour
 	}
 
 	/// <summary>
+	/// If true, a speech balloon is being displued by this or any other controller.
+	/// </summary>
+	private bool isAnyCreatureBarkActive {
+		get { return GetComponents<BarkController> ().Any (bc => bc.isBarking); }
+	}
+
+	/// <summary>
 	/// This method checks to see if a bark can happen right now; it
 	/// applies the 'barkChance' and can randomly return false because
-	/// of that. Otherwise, it checks that the correct heatmap is active and
-	/// there is not any bark playing now (even from another controller).
+	/// of that. Subclass can add additional conditions by overriding this
+	/// method.
 	/// </summary>
-	private bool CheckShouldBark ()
+	protected virtual bool CheckShouldBark ()
 	{
-		if (Random.value >= barkChance) {
-			return false;
-		}
-
-		var ai = GetComponent<HeatmapAIController> ();
-
-		if (ai != null) {
-			Heatmap heatmap = ai.activeHeatmap;
-
-			string activeName = heatmap != null ? ai.activeHeatmap.name : "";
-
-			if ((heatmapName ?? "") != activeName) {
-				return false;
-			}
-
-			if (heatmap != null) {
-				Location loc = Location.Of (gameObject);
-				short strength = heatmap [loc];
-
-				if (strength < minimumHeatmapStrength) {
-					return false;
-				}
-			}
-		}
-
-		return !GetComponents<BarkController> ().Any (bc => bc.isBarking);
+		return Random.value < barkChance;
 	}
 
 	/// <summary>

@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11455460}
   - 114: {fileID: 11408142}
   - 114: {fileID: 11400980}
+  - 114: {fileID: 11484164}
   m_Layer: 0
   m_Name: Bob the Goblin
   m_TagString: Goblin
@@ -47,12 +48,12 @@ MonoBehaviour:
   barkPrefabs:
   - {fileID: 164048, guid: ad7497b47d5d0b547ad56c2ddc0507df, type: 2}
   - {fileID: 164048, guid: d0102954aec61714db28b4056f38dbef, type: 2}
+  barkDuration: 3
+  barkChance: .25
+  minimumBarkInterval: 5
+  maximumBarkInterval: 15
   heatmapName: loot
   minimumHeatmapStrength: 58
-  barkDuration: 3
-  barkChance: 1
-  minimumBarkInterval: 1
-  maximumBarkInterval: 3
 --- !u!114 &11408142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,12 +68,12 @@ MonoBehaviour:
   barkPrefabs:
   - {fileID: 164048, guid: 370c96a0d45734042a957eb0f7bfa3d0, type: 2}
   - {fileID: 164048, guid: b0bdd323133120345bf0701f2f660326, type: 2}
+  barkDuration: 3
+  barkChance: .75
+  minimumBarkInterval: 3
+  maximumBarkInterval: 8
   heatmapName: fight
   minimumHeatmapStrength: 0
-  barkDuration: 3
-  barkChance: 1
-  minimumBarkInterval: 1
-  maximumBarkInterval: 3
 --- !u!114 &11455460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,6 +131,25 @@ MonoBehaviour:
   speed: .75
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
+--- !u!114 &11484164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7840811b967e3304f8077fb1d2b05612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: 17467beaa4d8e1f49bad9ee70f60acb5, type: 2}
+  - {fileID: 164048, guid: 6223d48fc789800468e4c96dd109331d, type: 2}
+  - {fileID: 164048, guid: f2c8e24206eeeaf478e174449f54ada9, type: 2}
+  barkDuration: 3
+  barkChance: .899999976
+  minimumBarkInterval: 1
+  maximumBarkInterval: 3
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -169,7 +189,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: barkPrefabs.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
@@ -218,15 +238,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: minimumBarkInterval
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: maximumBarkInterval
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: maximumBarkInterval
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: barkChance
-      value: 1
+      value: .899999976
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: barkPrefabs.Array.data[0]

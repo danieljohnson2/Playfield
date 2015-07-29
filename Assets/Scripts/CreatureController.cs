@@ -86,7 +86,7 @@ public class CreatureController : MovementBlocker
 	}
 
 	/// <summary>
-	/// This method handles combat where 'attacker' attachs this
+	/// This method handles combat where 'attacker' attacks this
 	/// creature.
 	/// </summary>
 	protected virtual void Fight (CreatureController attacker)
@@ -150,8 +150,8 @@ public class CreatureController : MovementBlocker
 	{
 		Location here = Location.Of (gameObject);
 
-		for (int i = transform.childCount-1; i>=0; --i) {
-			GameObject child = transform.GetChild (i).gameObject;
+		GameObject[] inventory = Inventory ().ToArray ();
+		foreach (GameObject child in inventory) {
 			child.transform.parent = transform.parent;
 			child.transform.localPosition = here.ToPosition ();
 			child.SetActive (true);
