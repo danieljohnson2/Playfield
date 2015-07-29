@@ -176,9 +176,11 @@ public class CreatureController : MovementBlocker
 	/// </summary>
 	public IEnumerable<GameObject> Inventory ()
 	{
-		for (int i = 0; i < transform.childCount; ++i) {
-			yield return transform.GetChild (i).gameObject;
-		}
+		return
+			from i in Enumerable.Range (0, transform.childCount)
+			select transform.GetChild (i).gameObject into item
+			where item.GetComponent<ItemController> () != null
+			select item;
 	}
 
 	#endregion

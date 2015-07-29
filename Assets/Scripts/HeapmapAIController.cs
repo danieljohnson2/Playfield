@@ -12,6 +12,12 @@ using System.Linq;
 /// </summary>
 public class HeapmapAIController : CreatureController
 {
+	/// <summary>
+	/// This is the heatmap that was most recently used
+	/// to make a move, or null if none could be used.
+	/// </summary>
+	public Heatmap activeHeatmap { get; private set; }
+
 	protected override void DoTurn ()
 	{
 		List<Heatmap> heatmaps = UpdateHeatmaps ();
@@ -29,13 +35,17 @@ public class HeapmapAIController : CreatureController
 			foreach (Heatmap heatmap in heatmaps) {
 				Location picked;
 				if (heatmap.TryPickMove (candidateMoves, out picked)) {
+					activeHeatmap = heatmap;
 					MoveTo (picked);
 					return;
 				}
 			}
 
 			int randomIndex = Random.Range (0, candidateMoves.Length);
+			activeHeatmap = null;
 			MoveTo (candidateMoves [randomIndex]);
+		} else {
+			activeHeatmap = null;
 		}
 	}
 

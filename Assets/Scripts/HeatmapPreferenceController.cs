@@ -50,6 +50,12 @@ public class HeatmapPreferenceController : MonoBehaviour
 	public GameObject heatmapMarkerPrefab;
 	private GameObject[] heatmapMarkers;
 	private float residualCooling = 0.0f;
+	public string heatmapName;
+
+	public void Awake ()
+	{
+		this.heatmap.name = heatmapName;
+	}
 
 	/// <summary>
 	/// This adjusts the heatmap according to the current

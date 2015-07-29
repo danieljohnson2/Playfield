@@ -12,6 +12,8 @@ GameObject:
   - 114: {fileID: 11472114}
   - 114: {fileID: 11468180}
   - 114: {fileID: 11455460}
+  - 114: {fileID: 11408142}
+  - 114: {fileID: 11400980}
   m_Layer: 0
   m_Name: Bob the Goblin
   m_TagString: Goblin
@@ -31,6 +33,44 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11400980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f69c70d494cea4aaf6c47cac11700d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: ad7497b47d5d0b547ad56c2ddc0507df, type: 2}
+  - {fileID: 164048, guid: d0102954aec61714db28b4056f38dbef, type: 2}
+  heatmapName: loot
+  barkDuration: 3
+  barkChance: 1
+  minimumBarkInterval: 1
+  maximumBarkInterval: 3
+--- !u!114 &11408142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f69c70d494cea4aaf6c47cac11700d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: 370c96a0d45734042a957eb0f7bfa3d0, type: 2}
+  - {fileID: 164048, guid: b0bdd323133120345bf0701f2f660326, type: 2}
+  heatmapName: fight
+  barkDuration: 3
+  barkChance: 1
+  minimumBarkInterval: 1
+  maximumBarkInterval: 3
 --- !u!114 &11455460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -49,6 +89,7 @@ MonoBehaviour:
   - Key=64
   - Gem=64
   heatmapMarkerPrefab: {fileID: 0}
+  heatmapName: loot
 --- !u!114 &11468180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,6 +108,7 @@ MonoBehaviour:
   - Player=6
   - Rat=4
   heatmapMarkerPrefab: {fileID: 0}
+  heatmapName: fight
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,6 +166,10 @@ Prefab:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: barkPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
       value: Player=6
       objectReference: {fileID: 0}
@@ -156,6 +202,38 @@ Prefab:
       value: 
       objectReference: {fileID: 21300006, guid: 8139582ed09f74bb48c66d47a591c98d,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: heatmapName
+      value: loot
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: barkPrefab
+      value: 
+      objectReference: {fileID: 164048, guid: 370c96a0d45734042a957eb0f7bfa3d0, type: 2}
+    - target: {fileID: 0}
+      propertyPath: barkDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: minimumBarkInterval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maximumBarkInterval
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: barkChance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: barkPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 164048, guid: 370c96a0d45734042a957eb0f7bfa3d0, type: 2}
+    - target: {fileID: 0}
+      propertyPath: barkPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 164048, guid: b0bdd323133120345bf0701f2f660326, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 154314}

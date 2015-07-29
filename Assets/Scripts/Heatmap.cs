@@ -13,11 +13,19 @@ public sealed class Heatmap : LocationMap<short>
 {
 	public Heatmap ()
 	{
+		this.name = "";
 	}
 	
 	public Heatmap (IEnumerable<KeyValuePair<Location, short>> source) : base(source)
 	{
+		this.name = "";
 	}
+
+	/// <summary>
+	/// This name has no effect on heatmap behavior, but
+	/// can be used to idenitfy it.
+	/// </summary>
+	public string name { get; set; }
 
 	/// <summary>
 	/// Picks the best move from the candidates given; that is, it picks
