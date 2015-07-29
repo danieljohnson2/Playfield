@@ -146,7 +146,7 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
 	
 	/// <summary>
 	/// This structure acts as a handle on a single location in the
-	/// heapmap; it retains a refernce to the storage array and
+	/// heatmap; it retains a refernce to the storage array and
 	/// the position in that array; a default Cell has no array
 	/// and is 'invalid'; it reads a default value but can't be
 	/// written to.
