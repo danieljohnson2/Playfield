@@ -48,6 +48,7 @@ MonoBehaviour:
   - {fileID: 164048, guid: ad7497b47d5d0b547ad56c2ddc0507df, type: 2}
   - {fileID: 164048, guid: d0102954aec61714db28b4056f38dbef, type: 2}
   heatmapName: loot
+  minimumHeatmapStrength: 58
   barkDuration: 3
   barkChance: 1
   minimumBarkInterval: 1
@@ -67,6 +68,7 @@ MonoBehaviour:
   - {fileID: 164048, guid: 370c96a0d45734042a957eb0f7bfa3d0, type: 2}
   - {fileID: 164048, guid: b0bdd323133120345bf0701f2f660326, type: 2}
   heatmapName: fight
+  minimumHeatmapStrength: 0
   barkDuration: 3
   barkChance: 1
   minimumBarkInterval: 1
@@ -234,6 +236,10 @@ Prefab:
       propertyPath: barkPrefabs.Array.data[1]
       value: 
       objectReference: {fileID: 164048, guid: b0bdd323133120345bf0701f2f660326, type: 2}
+    - target: {fileID: 0}
+      propertyPath: minimumHeatmapStrength
+      value: 58
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 154314}

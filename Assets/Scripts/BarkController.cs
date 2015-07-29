@@ -12,6 +12,7 @@ public class BarkController : MonoBehaviour
 {
 	public GameObject[] barkPrefabs = new GameObject[0];
 	public string heatmapName;
+	public int minimumHeatmapStrength;
 	public float barkDuration = 3.0f;
 	public float barkChance = 0.5f;
 	public float minimumBarkInterval = 5.0f;
@@ -67,10 +68,21 @@ public class BarkController : MonoBehaviour
 		var ai = GetComponent<HeatmapAIController> ();
 
 		if (ai != null) {
-			string activeName = ai.activeHeatmap != null ? ai.activeHeatmap.name : "";
+			Heatmap heatmap = ai.activeHeatmap;
+
+			string activeName = heatmap != null ? ai.activeHeatmap.name : "";
 
 			if ((heatmapName ?? "") != activeName) {
 				return false;
+			}
+
+			if (heatmap != null) {
+				Location loc = Location.Of (gameObject);
+				short strength = heatmap [loc];
+
+				if (strength < minimumHeatmapStrength) {
+					return false;
+				}
 			}
 		}
 
