@@ -64,7 +64,7 @@ public class BarkController : MonoBehaviour
 			return false;
 		}
 
-		var ai = GetComponent<HeapmapAIController> ();
+		var ai = GetComponent<HeatmapAIController> ();
 
 		if (ai != null) {
 			string activeName = ai.activeHeatmap != null ? ai.activeHeatmap.name : "";

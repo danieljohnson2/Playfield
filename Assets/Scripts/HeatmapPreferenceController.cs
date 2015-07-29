@@ -90,13 +90,13 @@ public class HeatmapPreferenceController : MonoBehaviour
 		              (loc, adj) => mapController.adjacencyGenerator.GetAdjacentLocationsInto (gameObject, loc, adj));
 
 		if (heatmapMarkerPrefab != null) {
-			ShowHeapmap ();
+			ShowHeatmap ();
 		}
 
 		return heatmap;
 	}
 
-	private void ShowHeapmap ()
+	private void ShowHeatmap ()
 	{
 		const short minHeat = 1;
 

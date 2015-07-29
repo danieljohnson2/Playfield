@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// This controller causes a creature to move according to a heapmap. The
+/// This controller causes a creature to move according to a heatmap. The
 /// heatmaps are provided through HeatmapPreferenceControllers attached
 /// to the same GameObject; this will try each one in priority order
 /// until it finds a move. If the heatmaps turn up no moves, this AI makes
 /// a random move.
 /// </summary>
-public class HeapmapAIController : CreatureController
+public class HeatmapAIController : CreatureController
 {
 	/// <summary>
 	/// This is the heatmap that was most recently used
