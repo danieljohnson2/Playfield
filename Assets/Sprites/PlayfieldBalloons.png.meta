@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: a33a834a3bf4b414bad3b83208d158ed
-timeCreated: 1438203617
+timeCreated: 1438288505
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -62,7 +62,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
@@ -85,8 +85,8 @@ TextureImporter:
         y: 184
         width: 59
         height: 47
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .270000011, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Balloon_HaveAtYou
       rect:
@@ -195,8 +195,8 @@ TextureImporter:
         y: 104
         width: 68
         height: 60
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .25, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Balloon_ToTheGate
       rect:
@@ -225,8 +225,8 @@ TextureImporter:
         y: 3
         width: 62
         height: 70
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .300000012, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Balloon_Yarr
       rect:
@@ -245,8 +245,8 @@ TextureImporter:
         y: 0
         width: 91
         height: 71
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .280000001, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Balloon_Eee
       rect:
