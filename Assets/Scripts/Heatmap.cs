@@ -9,14 +9,14 @@ using System.Text;
 /// a spare storage strategy, so you can set any cell's value and
 /// not sweat the memory wastage.
 /// </summary>
-public sealed class Heatmap : LocationMap<short>
+public sealed class Heatmap : LocationMap<Heatmap.Slot>
 {
 	public Heatmap ()
 	{
 		this.name = "";
 	}
 	
-	public Heatmap (IEnumerable<KeyValuePair<Location, short>> source) : base(source)
+	public Heatmap (IEnumerable<KeyValuePair<Location, Slot>> source) : base(source)
 	{
 		this.name = "";
 	}
@@ -40,7 +40,7 @@ public sealed class Heatmap : LocationMap<short>
 	{
 		IEnumerable<Location> moves =
 			(from d in candidates
-			 let heat = this [d]
+			 let heat = this [d].heat
 			 where heat != 0
 			 group d by heat into g
 			 orderby g.Key descending
@@ -75,7 +75,8 @@ public sealed class Heatmap : LocationMap<short>
 		
 			for (int y = minY; y <= maxY; ++y) {
 				for (int x = minX; x <= maxX; ++x) {
-					b.AppendFormat ("{0:X2}", Math.Abs (this [new Location (x, y, grp.Key)]));
+					short heat = this [new Location (x, y, grp.Key)].heat;
+					b.AppendFormat ("{0:X2}", Math.Abs (heat));
 				}
 				b.AppendLine ();
 			}
@@ -97,10 +98,10 @@ public sealed class Heatmap : LocationMap<short>
 		Location[] keys = Locations ().ToArray ();
 
 		foreach (Location loc in keys) {
-			short value = this [loc];
+			Slot slot = this [loc];
 
-			if (value != 0) {
-				this [loc] = GetReducedValue (value, amount);
+			if (slot.heat != 0) {
+				this [loc] = slot.ToReduced (amount);
 			}
 		}
 	}
@@ -114,7 +115,7 @@ public sealed class Heatmap : LocationMap<short>
 	/// you provide; we can then reuse this collection efficiently and avoid
 	/// allocations.
 	/// </summary>
-	public delegate void AdjacencySelector (Location where, ICollection<Location> adjacentLocations);
+	public delegate void AdjacencySelector (Location where,ICollection<Location> adjacentLocations);
 
 	/// <summary>
 	/// This returns a heatmap that has had its heat values propagated;
@@ -172,13 +173,13 @@ public sealed class Heatmap : LocationMap<short>
 	{
 		private readonly AdjacencySelector adjacency;
 		private readonly List<Location> adjacencyBuffer;
-		private readonly List<KeyValuePair<Location, short>> updates;
+		private readonly List<KeyValuePair<Location, Slot>> updates;
 
 		public Heater (AdjacencySelector adjacency)
 		{
 			this.adjacency = adjacency;
 			this.adjacencyBuffer = new List<Location> (6);
-			updates = new List<KeyValuePair<Location, short>> ();
+			updates = new List<KeyValuePair<Location, Slot>> ();
 		}
 	
 		/// <summary>
@@ -194,24 +195,24 @@ public sealed class Heatmap : LocationMap<short>
 			updates.Clear ();
 		
 			foreach (Location srcLoc in heatmap.Locations ()) {
-				short min = GetReducedValue (heatmap [srcLoc], 1);
+				Slot min = heatmap [srcLoc].ToReduced (1);
 			
-				if (min != 0) {
+				if (min.heat != 0) {
 					adjacencyBuffer.Clear ();
 					adjacency (srcLoc, adjacencyBuffer);
 
 					foreach (Location adj in adjacencyBuffer) {
-						short oldValue = heatmap [adj];
-						short newValue = IncreaseValue (oldValue, min);
+						Slot oldSlot = heatmap [adj];
+						Slot newSlot = Slot.Max (oldSlot, min);
 						
-						if (oldValue != newValue) {
-							updates.Add (new KeyValuePair<Location, short> (adj, newValue));
+						if (!oldSlot.Equals (newSlot)) {
+							updates.Add (new KeyValuePair<Location, Slot> (adj, newSlot));
 						}
 					}
 				}
 			}
 		
-			foreach (KeyValuePair<Location, short> update in updates)
+			foreach (KeyValuePair<Location, Slot> update in updates)
 				heatmap [update.Key] = update.Value;
 
 			return updates.Count > 0;
@@ -220,35 +221,137 @@ public sealed class Heatmap : LocationMap<short>
 
 	#endregion
 
-	#region Value Arithmetic
-
 	/// <summary>
-	/// This increases Value so it is no less than 'minimum';
-	/// this is judged on the absolute value, so a large negatve
-	/// value may be 'greater' than a small positive one.
+	/// This structure describes the data held in one cell of
+	/// the heatmap.
 	/// </summary>
-	private static short IncreaseValue (short current, short minimum)
+	public struct Slot : IEquatable<Slot>
 	{
-		if (Math.Abs (current) < Math.Abs (minimum))
-			return  minimum;
-		else
-			return current;
-	}
+		public readonly SourceInfo source;
+		public readonly short heat;
 
-	/// <summary>
-	/// GetReducedValue() computes the value that reducing this
-	/// cell would produce, without actually updating the Value.
-	/// </summary>
-	private static short GetReducedValue (short current, int amount)
-	{
-		if (current > 0) {
-			return (short)Math.Max (0, current - amount);
-		} else if (current < 0) {
-			return (short)Math.Min (0, current + amount);
-		} else {
-			return 0;
+		public Slot (UnityEngine.GameObject source, short heat) :
+			this(new SourceInfo(source), heat)
+		{
 		}
+
+		public Slot (SourceInfo source, short heat)
+		{
+			this.source = source;
+			this.heat = heat;
+		}
+
+		public override string ToString ()
+		{
+			if (source == null)
+				return heat.ToString ();
+			else
+				return string.Format ("{0} (from {1})", heat, source);
+		}
+				
+		/// <summary>
+		/// This method returns the slot (of the two given) that has the
+		/// larger heat value. We use absolute value, so a large negatve
+		/// value may be 'greater' than a small positive one.
+		/// </summary>
+		public static Slot Max (Slot left, Slot right)
+		{
+			if (Math.Abs (left.heat) < Math.Abs (right.heat))
+				return right;
+			else
+				return left;
+		}
+		
+		/// <summary>
+		/// This method computes a new slot, by reduign this one.
+		/// </summary>
+		public Slot ToReduced (int amount)
+		{
+			short newHeat = heat;
+
+			if (heat > 0) {
+				newHeat = (short)Math.Max (0, heat - amount);
+			} else if (heat < 0) {
+				newHeat = (short)Math.Min (0, heat + amount);
+			} else {
+				newHeat = 0;
+			}
+
+			if (newHeat == 0) {
+				return new Slot ();
+			} else {
+				return new Slot (source, newHeat);
+			}
+		}
+
+		#region IEquatable implementation
+
+		public bool Equals (Slot other)
+		{
+			return
+				this.heat == other.heat &&
+				EqualityComparer<SourceInfo>.Default.Equals (this.source, other.source);
+		}
+
+		public override bool Equals (object obj)
+		{
+			return obj is Slot && Equals ((Slot)obj);
+		}
+
+		public override int GetHashCode ()
+		{
+			return heat.GetHashCode ();
+		}
+
+		#endregion
 	}
 
-	#endregion
+	/// <summary>
+	/// This class holds the identifying data for the source of
+	/// the heat in the heatmap; each cell contains a refertence to
+	/// an immutable source-info, which can then be shared by many
+	/// cells.
+	/// 
+	/// We cannot just use the GameObject directly here; it might be
+	/// destroyed while the heatmap is still in use. So we copy what
+	/// we need.
+	/// </summary>
+	public sealed class SourceInfo : IEquatable<SourceInfo>
+	{
+		public SourceInfo (UnityEngine.GameObject source)
+		{
+			this.Name = source.name;
+			this.Tag = source.tag;
+		}
+		
+		public string Name { get; private set; }
+		
+		public string Tag { get; private set; }
+		
+		#region IEquatable implementation
+		
+		public bool Equals (SourceInfo other)
+		{
+			if (this == other) {
+				return true;
+			}
+			
+			return
+				other != null &&
+					this.Name == other.Name &&
+					this.Tag == other.Tag;
+		}
+		
+		public override bool Equals (object obj)
+		{
+			return Equals (obj as SourceInfo);
+		}
+		
+		public override int GetHashCode ()
+		{
+			return Name.GetHashCode ();
+		}
+		
+		#endregion
+	}
 }

@@ -38,9 +38,9 @@ public class HeatmapBarkController : BarkController
 
 			if (heatmap != null) {
 				Location loc = Location.Of (gameObject);
-				short strength = heatmap [loc];
+				Heatmap.Slot slot = heatmap [loc];
 
-				if (strength < minimumHeatmapStrength) {
+				if (slot.heat < minimumHeatmapStrength) {
 					return false;
 				}
 			}

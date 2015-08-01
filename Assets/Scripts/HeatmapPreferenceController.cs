@@ -80,7 +80,7 @@ public class HeatmapPreferenceController : MonoBehaviour
 				if (targets != null) {
 					foreach (GameObject target in targets) {
 						Location targetLoc = Location.Of (target);
-						heatmap [targetLoc] = heat;
+						heatmap [targetLoc] = new Heatmap.Slot(target, heat);
 					}
 				}
 			}
@@ -106,7 +106,7 @@ public class HeatmapPreferenceController : MonoBehaviour
 
 		if (activeMap != null) {
 			foreach (var pair in heatmap) {
-				if (pair.Value >= minHeat && pair.Key.mapIndex == activeMap.mapIndex) {
+				if (pair.Value.heat >= minHeat && pair.Key.mapIndex == activeMap.mapIndex) {
 					GameObject marker = markers.Count > 0 ?
 						markers.Dequeue () : Instantiate (heatmapMarkerPrefab);
 
