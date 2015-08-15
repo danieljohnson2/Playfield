@@ -13,7 +13,7 @@ public class DoorController : MovementBlocker
 	public Sprite door;
 	public Sprite openDoor;
 	private SpriteRenderer spriteRenderer;
-	public GameObject attackEffect;
+
 	public DoorController ()
 	{
 		// Unkeyed doors are more decoration than obstacle!
@@ -57,11 +57,6 @@ public class DoorController : MovementBlocker
 			mover.transform.position = doorExit.ToPosition ();
 			mapController.entities.ActivateEntities ();
 			mapController.entities.ActivateMapContainers ();
-			if (attackEffect != null && gameObject.activeSelf) {
-				GameObject effect = Instantiate (attackEffect);
-				effect.transform.parent = mover.transform.parent;
-				effect.transform.localPosition = mover.transform.localPosition;
-			}
 			return false;
 		}
 

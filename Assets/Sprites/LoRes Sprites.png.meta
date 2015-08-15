@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 10c524aa79ab80f4baa5ded5f7d32f90
-timeCreated: 1436018890
+timeCreated: 1439671318
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -12,10 +12,10 @@ TextureImporter:
     21300010: Open Door (Low Res)
     21300012: Grass (Low Res)
     21300014: Ladder Up (Low Res)
-    21300016: Player (Low Res)
-    21300018: Goblin (Low Res)
-    21300020: Gold (Low Res)
-    21300022: Slash (Low Res)
+    21300016: Slash (Low Res)
+    21300018: Slash 2 (Low Res)
+    21300020: Slash 3 (Low Res)
+    21300022: Slash 4 (Low Res)
     21300024: Rat (Low Res)
     21300026: LoRes Sprites_13
     21300028: Marker
@@ -145,7 +145,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Player (Low Res)
+    - name: Slash (Low Res)
       rect:
         serializedVersion: 2
         x: 0
@@ -155,7 +155,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Goblin (Low Res)
+    - name: Slash 2 (Low Res)
       rect:
         serializedVersion: 2
         x: 8
@@ -165,7 +165,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Gold (Low Res)
+    - name: Slash 3 (Low Res)
       rect:
         serializedVersion: 2
         x: 16
@@ -175,7 +175,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Slash (Low Res)
+    - name: Slash 4 (Low Res)
       rect:
         serializedVersion: 2
         x: 24

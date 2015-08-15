@@ -42,7 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   door: {fileID: 21300040, guid: af06595c7cdd283459677670b149572a, type: 3}
   openDoor: {fileID: 21300032, guid: af06595c7cdd283459677670b149572a, type: 3}
-  attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  attackEffect: {fileID: 0}
 --- !u!212 &21240806
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -79,7 +79,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: attackEffect
       value: 
-      objectReference: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 162654}
