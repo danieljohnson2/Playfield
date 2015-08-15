@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: a33a834a3bf4b414bad3b83208d158ed
-timeCreated: 1438288505
+timeCreated: 1439660470
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -115,8 +115,8 @@ TextureImporter:
         y: 183
         width: 69
         height: 52
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .239999995, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Balloon_Ow
       rect:

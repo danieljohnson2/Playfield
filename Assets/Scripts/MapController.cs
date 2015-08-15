@@ -382,6 +382,14 @@ public class MapController : MonoBehaviour
 		}
 
 		/// <summary>
+		/// Entities() yields all entities.
+		/// </summary>
+		public IEnumerable<GameObject> Entities ()
+		{
+			return entities;
+		}
+
+		/// <summary>
 		/// This property returns a lookup containing every
 		/// entity game object, keyed by their tag. This
 		/// lookup is replaced when entities are instantiated

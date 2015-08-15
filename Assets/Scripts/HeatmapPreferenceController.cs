@@ -73,15 +73,13 @@ public class HeatmapPreferenceController : MonoBehaviour
 
 		if (preferences != null) {
 			foreach (string prefText in preferences) {
-				IEnumerable<GameObject> targets;
+				HeatSourceIdentifier sourceID;
 				short heat;
-				ParsePreference (prefText, mapController, out targets, out heat);
+				ParsePreference (prefText, mapController, out sourceID, out heat);
 				
-				if (targets != null) {
-					foreach (GameObject target in targets) {
-						Location targetLoc = Location.Of (target);
-						heatmap [targetLoc] = new Heatmap.Slot(target, heat);
-					}
+				foreach (GameObject target in sourceID.GameObjects()) {
+					Location targetLoc = Location.Of (target);
+					heatmap [targetLoc] = new Heatmap.Slot (target, heat);
 				}
 			}
 		}
@@ -129,24 +127,19 @@ public class HeatmapPreferenceController : MonoBehaviour
 	/// targets and a heat value. If the heat value is omitted we
 	/// assume 'heatmapRange' as the default.
 	/// </summary>
-	private void ParsePreference (string text, MapController mapController, out IEnumerable<GameObject> targets, out short heat)
+	private void ParsePreference (string text, MapController mapController, out HeatSourceIdentifier sourceID, out short heat)
 	{
 		string[] parts = (text ?? "").Trim ().Split ('=');
 		
 		string tag = parts [0].Trim ();
 		
 		if (tag == "") {
-			targets = Enumerable.Empty<GameObject> ();
+			sourceID = default(HeatSourceIdentifier);
 			heat = 0;
 			return;
 		}
-		
-		if (tag.StartsWith ("\"") && tag.EndsWith ("\"")) {
-			string name = tag.Substring (1, tag.Length - 2).Trim ();
-			targets = mapController.entities.byName [name];
-		} else {
-			targets = mapController.entities.byTag [tag];
-		}
+
+		sourceID = HeatSourceIdentifier.Parse (tag);
 		
 		if (parts.Length > 1) {
 			heat = short.Parse (parts [1]);

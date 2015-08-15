@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11455460}
   - 114: {fileID: 11408142}
   - 114: {fileID: 11400980}
+  - 114: {fileID: 11433080}
   - 114: {fileID: 11484164}
   - 114: {fileID: 11455920}
   m_Layer: 0
@@ -54,6 +55,7 @@ MonoBehaviour:
   minimumBarkInterval: 5
   maximumBarkInterval: 15
   heatmapName: loot
+  heatSource: 
   minimumHeatmapStrength: 58
 --- !u!114 &11408142
 MonoBehaviour:
@@ -74,7 +76,28 @@ MonoBehaviour:
   minimumBarkInterval: 3
   maximumBarkInterval: 8
   heatmapName: fight
+  heatSource: 
   minimumHeatmapStrength: 0
+--- !u!114 &11433080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f69c70d494cea4aaf6c47cac11700d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: de041516f4c628347bb39c614dd1dcc9, type: 2}
+  barkDuration: 3
+  barkChance: .5
+  minimumBarkInterval: 5
+  maximumBarkInterval: 15
+  heatmapName: loot
+  heatSource: Key
+  minimumHeatmapStrength: 58
 --- !u!114 &11455460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -211,7 +234,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: barkPrefabs.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
@@ -268,16 +291,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: barkChance
-      value: 1
+      value: .5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: barkPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 164048, guid: 370c96a0d45734042a957eb0f7bfa3d0, type: 2}
+      objectReference: {fileID: 164048, guid: de041516f4c628347bb39c614dd1dcc9, type: 2}
     - target: {fileID: 0}
       propertyPath: barkPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 164048, guid: b0bdd323133120345bf0701f2f660326, type: 2}
+      objectReference: {fileID: 164048, guid: d0102954aec61714db28b4056f38dbef, type: 2}
     - target: {fileID: 0}
       propertyPath: minimumHeatmapStrength
       value: 58
@@ -285,6 +308,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: newHeatmapName
       value: fight
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatSource
+      value: Key
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

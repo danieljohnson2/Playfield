@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using UnityEngine;
+
 /// <summary>
 /// This class holds a heat value for each cell in your map;
 /// critters can then move towards the hotter cells. This uses
@@ -323,7 +325,13 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 			this.Name = source.name;
 			this.Tag = source.tag;
 		}
-		
+
+		public SourceInfo (string name, string tag)
+		{
+			this.Name = name;
+			this.Tag = tag;
+		}
+
 		public string Name { get; private set; }
 		
 		public string Tag { get; private set; }
@@ -338,8 +346,8 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 			
 			return
 				other != null &&
-					this.Name == other.Name &&
-					this.Tag == other.Tag;
+				this.Name == other.Name &&
+				this.Tag == other.Tag;
 		}
 		
 		public override bool Equals (object obj)

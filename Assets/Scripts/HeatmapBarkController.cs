@@ -11,6 +11,7 @@ using System.Linq;
 public class HeatmapBarkController : BarkController
 {
 	public string heatmapName;
+	public string heatSource;
 	public int minimumHeatmapStrength;
 
 	/// <summary>
@@ -26,26 +27,8 @@ public class HeatmapBarkController : BarkController
 		}
 
 		var ai = GetComponent<HeatmapAIController> ();
-
-		if (ai != null) {
-			Heatmap heatmap = ai.activeHeatmap;
-
-			string activeName = heatmap != null ? ai.activeHeatmap.name : "";
-
-			if ((heatmapName ?? "") != activeName) {
-				return false;
-			}
-
-			if (heatmap != null) {
-				Location loc = Location.Of (gameObject);
-				Heatmap.Slot slot = heatmap [loc];
-
-				if (slot.heat < minimumHeatmapStrength) {
-					return false;
-				}
-			}
-		}
-
-		return true;
+		return 
+			ai != null && 
+			ai.CheckActiveHeatmap (heatmapName, minimumHeatmapStrength, HeatSourceIdentifier.Parse (heatSource ?? ""));
 	}
 }

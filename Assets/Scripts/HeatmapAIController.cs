@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 /// <summary>
 /// This controller causes a creature to move according to a heatmap. The
@@ -17,6 +18,27 @@ public class HeatmapAIController : CreatureController
 	/// to make a move, or null if none could be used.
 	/// </summary>
 	public Heatmap activeHeatmap { get; private set; }
+
+	public bool CheckActiveHeatmap (string heatmapName, int minimumHeatmapStrength, HeatSourceIdentifier source)
+	{
+		string activeName = activeHeatmap != null ? activeHeatmap.name : "";
+		
+		if ((heatmapName ?? "") != activeName) {
+			return false;
+		}
+		
+		if (activeHeatmap != null) {
+			Location loc = Location.Of (gameObject);
+			Heatmap.Slot slot = activeHeatmap [loc];
+			
+			if (slot.heat < minimumHeatmapStrength &&
+				source.Matches (slot.source)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	protected override void DoTurn ()
 	{
