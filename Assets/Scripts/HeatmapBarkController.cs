@@ -27,6 +27,7 @@ public class HeatmapBarkController : BarkController
 		}
 
 		var ai = GetComponent<HeatmapAIController> ();
+
 		return 
 			ai != null && 
 			ai.CheckActiveHeatmap (heatmapName, minimumHeatmapStrength, HeatSourceIdentifier.Parse (heatSource ?? ""));

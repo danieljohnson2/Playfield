@@ -19,6 +19,7 @@ public class CreatureController : MovementBlocker
 {
 	public int hitPoints = 10;
 	public DieRoll damage = new DieRoll (1, 3);
+	public bool canUseWeapons = true;
 	public float speed = 1;
 	public GameObject attackEffect;
 	public bool teamAware = true;
@@ -97,7 +98,7 @@ public class CreatureController : MovementBlocker
 			effect.transform.localPosition = transform.localPosition;
 		}
 
-		int damage = attacker.damage.Roll ();
+		int damage = attacker.GetAttackDamage (this);
 		hitPoints -= damage;
 		
 		if (hitPoints <= 0) {
@@ -107,6 +108,27 @@ public class CreatureController : MovementBlocker
 		} else {
 			AddTranscriptLine ("{0} hit {1} for {2}!", attacker.name, this.name, damage);
 		}
+	}
+
+	/// <summary>
+	/// This method computes the damage this create does when it attacks
+	/// the victim given.
+	/// </summary>
+	protected virtual int GetAttackDamage (CreatureController victim)
+	{
+		int basicDamage = damage.Roll ();
+
+		if (canUseWeapons) {
+			return
+				(from item in Inventory ()
+				 select item.GetComponent<WeaponController> () into w
+				 where w != null
+				 select w.GetAttackDamage(this, victim)).
+				DefaultIfEmpty (basicDamage).
+				Max ();
+		}
+
+		return basicDamage;
 	}
 
 	/// <summary>

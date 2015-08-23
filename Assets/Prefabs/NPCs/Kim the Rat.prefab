@@ -49,6 +49,7 @@ MonoBehaviour:
   - Key=8
   - Gem=-2
   heatmapMarkerPrefab: {fileID: 0}
+  heatmapName: 
 --- !u!114 &11415102
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,6 +68,7 @@ MonoBehaviour:
   - Player=-4
   - Goblin=-8
   heatmapMarkerPrefab: {fileID: 0}
+  heatmapName: 
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,6 +85,7 @@ MonoBehaviour:
     DiceCount: 1
     DiceSize: 2
     Plus: -1
+  canUseWeapons: 0
   speed: 1.5
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
@@ -160,6 +163,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300020, guid: 8139582ed09f74bb48c66d47a591c98d,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: canUseWeapons
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 154314}

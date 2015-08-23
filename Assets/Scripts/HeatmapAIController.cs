@@ -19,25 +19,24 @@ public class HeatmapAIController : CreatureController
 	/// </summary>
 	public Heatmap activeHeatmap { get; private set; }
 
+	/// <summary>
+	/// This tests to see if the active heapmap is the one named, and
+	/// if the active location in came from the source indicated, and has
+	/// the minimum strength indicated.
+	/// </summary>
 	public bool CheckActiveHeatmap (string heatmapName, int minimumHeatmapStrength, HeatSourceIdentifier source)
 	{
-		string activeName = activeHeatmap != null ? activeHeatmap.name : "";
-		
-		if ((heatmapName ?? "") != activeName) {
-			return false;
-		}
-		
-		if (activeHeatmap != null) {
+		if (activeHeatmap != null && 
+			(heatmapName ?? "") == activeHeatmap.name) {
 			Location loc = Location.Of (gameObject);
 			Heatmap.Slot slot = activeHeatmap [loc];
 			
-			if (slot.heat < minimumHeatmapStrength &&
-				source.Matches (slot.source)) {
-				return false;
-			}
+			return
+				slot.heat >= minimumHeatmapStrength &&
+				source.Matches (slot.source);
 		}
 
-		return true;
+		return false;
 	}
 
 	protected override void DoTurn ()

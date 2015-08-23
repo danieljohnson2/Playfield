@@ -8,6 +8,7 @@ TagManager:
   - Key
   - Goblin
   - Rat
+  - Weapon
   layers:
   - Default
   - TransparentFX
