@@ -43,6 +43,6 @@ public class KeyedDoorController : MovementBlocker
 	{
 		var cc = mover.GetComponent<CreatureController> ();
 		
-		return cc != null && cc.Inventory ().Any (go => go.name == keyName);
+		return cc != null && cc.Inventory ().Any (item => item.name == keyName);
 	}
 }

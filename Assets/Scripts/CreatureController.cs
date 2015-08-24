@@ -23,6 +23,7 @@ public class CreatureController : MovementBlocker
 	public float speed = 1;
 	public GameObject attackEffect;
 	public bool teamAware = true;
+	public Vector2 heldItemPivot = new Vector2 (0.5f, 0.5f);
 	private float maxSpeed = 20.0f;
 	private float turnCounter = 0;
 
@@ -120,10 +121,8 @@ public class CreatureController : MovementBlocker
 
 		if (canUseWeapons) {
 			return
-				(from item in Inventory ()
-				 select item.GetComponent<WeaponController> () into w
-				 where w != null
-				 select w.GetAttackDamage(this, victim)).
+				(from item in Inventory ().OfType<WeaponController> ()
+				 select item.GetAttackDamage (this, victim)).
 				DefaultIfEmpty (basicDamage).
 				Max ();
 		}
@@ -172,11 +171,11 @@ public class CreatureController : MovementBlocker
 	{
 		Location here = Location.Of (gameObject);
 
-		GameObject[] inventory = Inventory ().ToArray ();
-		foreach (GameObject child in inventory) {
+		ItemController[] inventory = Inventory ().ToArray ();
+		foreach (ItemController child in inventory) {
 			child.transform.parent = transform.parent;
 			child.transform.localPosition = here.ToPosition ();
-			child.SetActive (true);
+			child.gameObject.SetActive (true);
 		}
 
 		mapController.entities.RemoveEntity (gameObject);
@@ -191,18 +190,76 @@ public class CreatureController : MovementBlocker
 		item.SetActive (false); // make it vanish before it moves!
 		item.transform.parent = transform;
 		item.transform.localPosition = Location.nowhere.ToPosition ();
+		UpdateHeldItem ();
 	}
 
 	/// <summary>
-	/// This yields each object in the inventory of this creature.
+	/// This yields each object in the inventory of this creature. Only
+	/// items that have item controllers are returned, and as a convenience
+	/// we actually return thecontroller itself.
 	/// </summary>
-	public IEnumerable<GameObject> Inventory ()
+	public IEnumerable<ItemController> Inventory ()
 	{
 		return
 			from i in Enumerable.Range (0, transform.childCount)
-			select transform.GetChild (i).gameObject into item
-			where item.GetComponent<ItemController> () != null
+			select transform.GetChild (i).GetComponent<ItemController> () into item
+			where item != null
 			select item;
+	}
+
+	private GameObject heldItemDisplay;
+
+	/// <summary>
+	/// This method works out what sprite to shown in this
+	/// creatures hands, and displays it. If no sprite should be
+	/// shown, but one is displayed, that sprite is removed.
+	/// </summary>
+	public void UpdateHeldItem ()
+	{
+		Sprite held;
+		float scale;
+		if (TryPickHeldItemSprite (out held, out scale)) {
+			if (heldItemDisplay == null) {
+				heldItemDisplay = new GameObject ("Held Item Sprite", typeof(SpriteRenderer));
+				heldItemDisplay.transform.parent = transform;
+				heldItemDisplay.transform.localPosition = heldItemPivot - new Vector2 (0.5f, 0.5f);
+			}
+			
+			SpriteRenderer heldItemSprite = heldItemDisplay.GetComponent<SpriteRenderer> ();
+			heldItemSprite.sprite = held;
+			heldItemSprite.sortingOrder = 1000;
+			heldItemDisplay.transform.localScale = new Vector2 (scale, scale);
+		} else if (heldItemDisplay != null) {
+			Destroy (heldItemDisplay);
+			heldItemDisplay = null;
+		}
+	}
+
+	/// <summary>
+	/// This decides which item held by this creature should be shown;
+	/// it supplies the sprite and the scaling that should be applied to this
+	/// sprite.
+	/// 
+	/// This method returns false to indicate no sprite should be shown at all.
+	/// </summary>
+	private bool TryPickHeldItemSprite (out Sprite sprite, out float scale)
+	{
+		var found =
+			(from item in Inventory ()
+			 let sr = item.GetComponent<SpriteRenderer> ()
+			 where sr != null && sr.sprite != null
+			 orderby item.heldDisplayPriority descending
+			 select new { sr.sprite, item.scaleWhenHeld }).FirstOrDefault ();
+
+		if (found != null) {
+			sprite = found.sprite;
+			scale = found.scaleWhenHeld;
+			return true;
+		} else {
+			sprite = null;
+			scale = 1.0f;
+			return false;
+		}
 	}
 
 	#endregion

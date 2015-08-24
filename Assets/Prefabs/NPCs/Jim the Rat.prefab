@@ -69,6 +69,7 @@ MonoBehaviour:
   speed: 1.5
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
+  heldItemPivot: {x: .949999988, y: .550000012}
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -138,6 +139,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: canUseWeapons
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemPivot.x
+      value: .949999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemPivot.y
+      value: .550000012
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

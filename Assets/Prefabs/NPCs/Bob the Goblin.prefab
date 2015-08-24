@@ -178,6 +178,7 @@ MonoBehaviour:
   speed: .75
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
+  heldItemPivot: {x: .949999988, y: .550000012}
 --- !u!114 &11484164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -318,6 +319,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
       value: Weapon=64
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemPivot.x
+      value: .949999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemPivot.y
+      value: .550000012
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

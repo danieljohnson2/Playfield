@@ -45,9 +45,11 @@ MonoBehaviour:
     DiceCount: 1
     DiceSize: 6
     Plus: 0
+  canUseWeapons: 1
   speed: 1
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
+  heldItemPivot: {x: .300000012, y: .270000011}
   playerStatusText: {fileID: 0}
 --- !u!212 &21208888
 SpriteRenderer:
@@ -87,6 +89,18 @@ Prefab:
       value: 
       objectReference: {fileID: 21300002, guid: 8139582ed09f74bb48c66d47a591c98d,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: heldItemPivot.x
+      value: .300000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemPivot.y
+      value: .270000011
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: teamAware
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 185244}

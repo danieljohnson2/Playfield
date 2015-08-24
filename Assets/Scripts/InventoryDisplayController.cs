@@ -23,11 +23,14 @@ public class InventoryDisplayController : MonoBehaviour
 	/// </summary>
 	public void UpdateInventoryFrom (GameObject player)
 	{
-		UpdateInventory (from i in Enumerable.Range (0, player.transform.childCount)
-		                select player.transform.GetChild (i).gameObject);
+		UpdateInventory (
+			from i in Enumerable.Range (0, player.transform.childCount)
+			select player.transform.GetChild (i).GetComponent<ItemController> () into item
+			where item != null
+			select item);
 	}
 
-	public void UpdateInventory (IEnumerable<GameObject> items)
+	public void UpdateInventory (IEnumerable<ItemController> items)
 	{
 		GameObject[] newInventory =
 			(from item in items
@@ -47,7 +50,7 @@ public class InventoryDisplayController : MonoBehaviour
 	/// if the item itself has no sprite renderer, this method
 	/// just returns null (and we skip it).
 	/// </summary>
-	private GameObject CreateSprite (GameObject item)
+	private GameObject CreateSprite (ItemController item)
 	{
 		SpriteRenderer sr = item.GetComponent<SpriteRenderer> ();
 

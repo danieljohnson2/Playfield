@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1434896080
+timeCreated: 1440448376
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -550,8 +550,8 @@ TextureImporter:
         y: 256
         width: 128
         height: 128
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .400000006, y: .519999981}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Sprites_44
       rect:
