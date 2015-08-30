@@ -1,0 +1,121 @@
+fileFormatVersion: 2
+guid: 90e74fc74554646e1905b7adb5e79ecb
+timeCreated: 1440960758
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: kaboom_0
+    21300002: kaboom_1
+    21300004: kaboom_2
+    21300006: kaboom_3
+    21300008: kaboom_4
+    21300010: kaboom_5
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 500
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: kaboom_0
+      rect:
+        serializedVersion: 2
+        x: 5358
+        y: 20
+        width: 1087
+        height: 1036
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: kaboom_1
+      rect:
+        serializedVersion: 2
+        x: 4408
+        y: 49
+        width: 1065
+        height: 1036
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: kaboom_2
+      rect:
+        serializedVersion: 2
+        x: 3407
+        y: 55
+        width: 1081
+        height: 1018
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: kaboom_3
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 15
+        width: 1035
+        height: 1024
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: kaboom_4
+      rect:
+        serializedVersion: 2
+        x: 1638
+        y: 0
+        width: 1047
+        height: 999
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: kaboom_5
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 38
+        width: 824
+        height: 915
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
