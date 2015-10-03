@@ -115,9 +115,11 @@ MonoBehaviour:
   preferences:
   - Key=64
   - Gem=64
-  - Weapon=64
+  - Weapon[Exposed]=64
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: loot
+  heldItemAwareness: 1
+  carriedItemAwareness: .25
 --- !u!114 &11455920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -156,8 +158,11 @@ MonoBehaviour:
   preferences:
   - Player=6
   - Rat=4
+  - Weapon[Held]=-8
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: fight
+  heldItemAwareness: 1
+  carriedItemAwareness: .25
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -318,7 +323,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
-      value: Weapon=64
+      value: Weapon[Held]=-8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
@@ -327,6 +332,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: heldItemPivot.y
       value: .550000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[3]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

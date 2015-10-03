@@ -46,9 +46,12 @@ MonoBehaviour:
   heatmapCooling: .25
   preferences:
   - Player=4
-  - Goblin=-8
+  - Goblin=-4
+  - Weapon=-8
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: 
+  heldItemAwareness: 1
+  carriedItemAwareness: .25
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,12 +107,16 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: preferences.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_TagString
       value: Rat
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
-      value: Goblin=-8
+      value: Goblin=-4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
@@ -147,6 +154,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: heldItemPivot.y
       value: .550000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[2]
+      value: Weapon=-8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
