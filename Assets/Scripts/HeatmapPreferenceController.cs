@@ -42,109 +42,143 @@ using System.Linq;
 /// </summary>
 public class HeatmapPreferenceController : MonoBehaviour
 {
-	private readonly Heatmap heatmap = new Heatmap ();
-	public int priority = 0;
-	public short heatmapRange = 16;
-	public float heatmapCooling = 128.0f;
-	public string[] preferences;
-	public GameObject heatmapMarkerPrefab;
-	private GameObject[] heatmapMarkers;
-	private float residualCooling = 0.0f;
-	public string heatmapName;
+    private readonly Heatmap heatmap = new Heatmap();
+    public int priority = 0;
+    public short heatmapRange = 16;
+    public float heatmapCooling = 128.0f;
+    public string[] preferences;
+    public GameObject heatmapMarkerPrefab;
+    private GameObject[] heatmapMarkers;
+    private float residualCooling = 0.0f;
+    public string heatmapName;
+    public float heldItemAwareness = 1.0f;
+    public float carriedItemAwareness = 0.25f;
 
-	public void Awake ()
-	{
-		this.heatmap.name = heatmapName;
-	}
+    public void Awake()
+    {
+        this.heatmap.name = heatmapName;
+    }
 
-	/// <summary>
-	/// This adjusts the heatmap according to the current
-	/// position of entities.
-	/// </summary>
-	public Heatmap UpdateHeatmap (MapController mapController)
-	{
-		residualCooling += heatmapCooling;
+    /// <summary>
+    /// This adjusts the heatmap according to the current
+    /// position of entities.
+    /// </summary>
+    public Heatmap UpdateHeatmap(MapController mapController)
+    {
+        residualCooling += heatmapCooling;
 
-		if (residualCooling > 0.0f) {
-			int cool = Mathf.FloorToInt (residualCooling);
-			heatmap.Reduce (cool);
-			residualCooling -= cool;
-		}
+        if (residualCooling > 0.0f)
+        {
+            int cool = Mathf.FloorToInt(residualCooling);
+            heatmap.Reduce(cool);
+            residualCooling -= cool;
+        }
 
-		if (preferences != null) {
-			foreach (string prefText in preferences) {
-				HeatSourceIdentifier sourceID;
-				short heat;
-				ParsePreference (prefText, mapController, out sourceID, out heat);
-				
-				foreach (GameObject target in sourceID.GameObjects()) {
-					Location targetLoc = Location.Of (target);
-					heatmap [targetLoc] = new Heatmap.Slot (target, heat);
-				}
-			}
-		}
+        if (preferences != null)
+        {
+            foreach (string prefText in preferences)
+            {
+                HeatSourceIdentifier sourceID;
+                short heat;
+                ParsePreference(prefText, mapController, out sourceID, out heat);
 
-		heatmap.Heat (heatmapRange,
-		              (loc, adj) => mapController.adjacencyGenerator.GetAdjacentLocationsInto (gameObject, loc, adj));
+                foreach (GameObject target in sourceID.GameObjects())
+                {
+                    Location targetLoc = Location.Of(target);
 
-		if (heatmapMarkerPrefab != null) {
-			ShowHeatmap ();
-		}
+                    if (targetLoc == Location.nowhere)
+                    {
+                        ItemController ic = target.GetComponent<ItemController>();
+                        CreatureController carrier;
 
-		return heatmap;
-	}
+                        if (ic != null && ic.TryGetCarrier(out carrier) && carrier.gameObject != gameObject)
+                        {
+                            float scaling = ic.isHeldItem ? heldItemAwareness : carriedItemAwareness;
 
-	private void ShowHeatmap ()
-	{
-		const short minHeat = 1;
+                            if (scaling != 0.0f)
+                            {
+                                targetLoc = Location.Of(carrier.gameObject);
+                                heat = (short)(heat * scaling);
+                            }
+                        }
+                    }
 
-		var markers = new Queue<GameObject> (heatmapMarkers ?? Enumerable.Empty<GameObject> ());
-		var usedMarkers = new List<GameObject> ();
-		Map activeMap = MapController.instance.activeMap;
+                    if (targetLoc != Location.nowhere)
+                        heatmap[targetLoc] = new Heatmap.Slot(target, heat);
+                }
+            }
+        }
 
-		if (activeMap != null) {
-			foreach (var pair in heatmap) {
-				if (pair.Value.heat >= minHeat && pair.Key.mapIndex == activeMap.mapIndex) {
-					GameObject marker = markers.Count > 0 ?
-						markers.Dequeue () : Instantiate (heatmapMarkerPrefab);
+        heatmap.Heat(heatmapRange, (loc, adj) =>
+            mapController.adjacencyGenerator.GetAdjacentLocationsInto(gameObject, loc, adj));
 
-					marker.transform.localPosition = pair.Key.ToPosition ();
-					marker.name = string.Format ("Heat = {0}", pair.Value);
-					usedMarkers.Add (marker);
-				}
-			}
-		}
+        if (heatmapMarkerPrefab != null)
+        {
+            ShowHeatmap();
+        }
 
-		while (markers.Count > 0) {
-			Destroy (markers.Dequeue ());
-		}
+        return heatmap;
+    }
 
-		heatmapMarkers = usedMarkers.ToArray ();
-	}
+    private void ShowHeatmap()
+    {
+        const short minHeat = 1;
 
-	/// <summary>
-	/// This method parses an entry in 'preferences' into a set of
-	/// targets and a heat value. If the heat value is omitted we
-	/// assume 'heatmapRange' as the default.
-	/// </summary>
-	private void ParsePreference (string text, MapController mapController, out HeatSourceIdentifier sourceID, out short heat)
-	{
-		string[] parts = (text ?? "").Trim ().Split ('=');
-		
-		string tag = parts [0].Trim ();
-		
-		if (tag == "") {
-			sourceID = default(HeatSourceIdentifier);
-			heat = 0;
-			return;
-		}
+        var markers = new Queue<GameObject>(heatmapMarkers ?? Enumerable.Empty<GameObject>());
+        var usedMarkers = new List<GameObject>();
+        Map activeMap = MapController.instance.activeMap;
 
-		sourceID = HeatSourceIdentifier.Parse (tag);
-		
-		if (parts.Length > 1) {
-			heat = short.Parse (parts [1]);
-		} else {
-			heat = heatmapRange;
-		}
-	}
+        if (activeMap != null)
+        {
+            foreach (var pair in heatmap)
+            {
+                if (pair.Value.heat >= minHeat && pair.Key.mapIndex == activeMap.mapIndex)
+                {
+                    GameObject marker = markers.Count > 0 ?
+                        markers.Dequeue() : Instantiate(heatmapMarkerPrefab);
+
+                    marker.transform.localPosition = pair.Key.ToPosition();
+                    marker.name = string.Format("Heat = {0}", pair.Value);
+                    usedMarkers.Add(marker);
+                }
+            }
+        }
+
+        while (markers.Count > 0)
+        {
+            Destroy(markers.Dequeue());
+        }
+
+        heatmapMarkers = usedMarkers.ToArray();
+    }
+
+    /// <summary>
+    /// This method parses an entry in 'preferences' into a set of
+    /// targets and a heat value. If the heat value is omitted we
+    /// assume 'heatmapRange' as the default.
+    /// </summary>
+    private void ParsePreference(string text, MapController mapController, out HeatSourceIdentifier sourceID, out short heat)
+    {
+        string[] parts = (text ?? "").Trim().Split('=');
+
+        string tag = parts[0].Trim();
+
+        if (tag == "")
+        {
+            sourceID = default(HeatSourceIdentifier);
+            heat = 0;
+            return;
+        }
+
+        sourceID = HeatSourceIdentifier.Parse(tag);
+
+        if (parts.Length > 1)
+        {
+            heat = short.Parse(parts[1]);
+        }
+        else
+        {
+            heat = heatmapRange;
+        }
+    }
 }

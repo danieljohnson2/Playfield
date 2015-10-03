@@ -17,250 +17,281 @@ using System.Linq;
 /// </summary>
 public class CreatureController : MovementBlocker
 {
-	public int hitPoints = 10;
-	public DieRoll damage = new DieRoll (1, 3);
-	public bool canUseWeapons = true;
-	public float speed = 1;
-	public GameObject attackEffect;
-	public bool teamAware = true;
-	public Vector2 heldItemPivot = new Vector2 (0.5f, 0.5f);
-	private float maxSpeed = 20.0f;
-	private float turnCounter = 0;
+    public int hitPoints = 10;
+    public DieRoll damage = new DieRoll(1, 3);
+    public bool canUseWeapons = true;
+    public float speed = 1;
+    public GameObject attackEffect;
+    public bool teamAware = true;
+    public Vector2 heldItemPivot = new Vector2(0.5f, 0.5f);
+    private float maxSpeed = 20.0f;
+    private float turnCounter = 0;
 
-	public CreatureController ()
-	{
-		this.passable = true;
-	}
+    public CreatureController()
+    {
+        this.passable = true;
+    }
 
-	/// <summary>
-	/// This method decides if the creatures turn has
-	/// arrived; we reduce the turnCounter until it goes 0
-	/// or negative, and then its this creature's turn. By
-	/// having a larger or smaller speed, turns will come up
-	/// more or less often.
-	/// </summary>
-	public virtual bool CheckTurn ()
-	{
-		if (turnCounter <= float.Epsilon) {
-			turnCounter += maxSpeed;
-			return true;
-		} else {
-			turnCounter -= speed;
-			return false;
-		}
-	}
+    /// <summary>
+    /// This method decides if the creatures turn has
+    /// arrived; we reduce the turnCounter until it goes 0
+    /// or negative, and then its this creature's turn. By
+    /// having a larger or smaller speed, turns will come up
+    /// more or less often.
+    /// </summary>
+    public virtual bool CheckTurn()
+    {
+        if (turnCounter <= float.Epsilon)
+        {
+            turnCounter += maxSpeed;
+            return true;
+        }
+        else
+        {
+            turnCounter -= speed;
+            return false;
+        }
+    }
 
-	/// <summary>
-	/// This is the entry point used to start the
-	/// creatures turn. The next creature's turn
-	/// begins only when this one ends, but in most
-	/// cases aren't really much of a co-routine; this
-	/// method calls DoTurn(), then ends the turn
-	/// synchronously.
-	/// </summary>
-	public virtual IEnumerator DoTurnAsync ()
-	{
-		DoTurn ();
-		return Enumerable.Empty<object> ().GetEnumerator ();
-	}
+    /// <summary>
+    /// This is the entry point used to start the
+    /// creatures turn. The next creature's turn
+    /// begins only when this one ends, but in most
+    /// cases aren't really much of a co-routine; this
+    /// method calls DoTurn(), then ends the turn
+    /// synchronously.
+    /// </summary>
+    public virtual IEnumerator DoTurnAsync()
+    {
+        DoTurn();
+        return Enumerable.Empty<object>().GetEnumerator();
+    }
 
-	/// <summary>
-	/// This is a sychrnonous entry point; you override this
-	/// and do whatever the creature should do during its turn.
-	/// </summary>
-	protected virtual void DoTurn ()
-	{
-	}
+    /// <summary>
+    /// This is a sychrnonous entry point; you override this
+    /// and do whatever the creature should do during its turn.
+    /// </summary>
+    protected virtual void DoTurn()
+    {
+    }
 
-	#region Creature Actions
-		
-	public override bool Block (GameObject mover, Location destination)
-	{
-		var attacker = mover.GetComponent<CreatureController> ();
-		
-		if (attacker != null) {
-			if (!teamAware || !CompareTag (attacker.tag)) {
-				Fight (attacker);
-			}
-		}
-		
-		return false;
-	}
+    #region Creature Actions
 
-	/// <summary>
-	/// This method handles combat where 'attacker' attacks this
-	/// creature.
-	/// </summary>
-	protected virtual void Fight (CreatureController attacker)
-	{
-		if (attacker.attackEffect != null && gameObject.activeSelf) {
-			GameObject effect = Instantiate (attackEffect);
-			effect.transform.parent = transform.parent;
-			effect.transform.localPosition = transform.localPosition;
-		}
+    public override bool Block(GameObject mover, Location destination)
+    {
+        var attacker = mover.GetComponent<CreatureController>();
 
-		int damage = attacker.GetAttackDamage (this);
-		hitPoints -= damage;
-		
-		if (hitPoints <= 0) {
-			hitPoints = 0;
-			AddTranscriptLine ("{0} killed {1}!", attacker.name, this.name);
-			Die ();
-		} else {
-			AddTranscriptLine ("{0} hit {1} for {2}!", attacker.name, this.name, damage);
-		}
-	}
+        if (attacker != null)
+        {
+            if (!teamAware || !CompareTag(attacker.tag))
+            {
+                Fight(attacker);
+            }
+        }
 
-	/// <summary>
-	/// This method computes the damage this create does when it attacks
-	/// the victim given.
-	/// </summary>
-	protected virtual int GetAttackDamage (CreatureController victim)
-	{
-		int basicDamage = damage.Roll ();
+        return false;
+    }
 
-		if (canUseWeapons) {
-			return
-				(from item in Inventory ().OfType<WeaponController> ()
-				 select item.GetAttackDamage (this, victim)).
-				DefaultIfEmpty (basicDamage).
-				Max ();
-		}
+    /// <summary>
+    /// This method handles combat where 'attacker' attacks this
+    /// creature.
+    /// </summary>
+    protected virtual void Fight(CreatureController attacker)
+    {
+        if (attacker.attackEffect != null && gameObject.activeSelf)
+        {
+            GameObject effect = Instantiate(attackEffect);
+            effect.transform.parent = transform.parent;
+            effect.transform.localPosition = transform.localPosition;
+        }
 
-		return basicDamage;
-	}
+        int damage = attacker.GetAttackDamage(this);
+        hitPoints -= damage;
 
-	/// <summary>
-	/// This method moves the creature by the delta indicated
-	/// within the current map. This executes Block() methods
-	/// and may fail; if the creature could not move this method
-	/// returns false. If it did move it returns true.
-	/// </summary>
-	protected bool Move (int dx, int dy)
-	{
-		Location loc = Location.Of (gameObject).WithOffset (dx, dy);
-		return MoveTo (loc);
-	}
+        if (hitPoints <= 0)
+        {
+            hitPoints = 0;
+            AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
+            Die();
+        }
+        else
+        {
+            AddTranscriptLine("{0} hit {1} for {2}!", attacker.name, this.name, damage);
+        }
+    }
 
-	/// <summary>
-	/// This method moves the creature to a specific location,
-	/// which could be on a different map. Like Move(), this runs
-	/// Block() methods and returns false if the movement is blocked,
-	/// true if it succeeds. 
-	/// </summary>
-	protected bool MoveTo (Location destination)
-	{
-		if (mapController.terrain.GetTerrain (destination) == null) {
-			return false;
-		}
+    /// <summary>
+    /// This method computes the damage this create does when it attacks
+    /// the victim given.
+    /// </summary>
+    protected virtual int GetAttackDamage(CreatureController victim)
+    {
+        int basicDamage = damage.Roll();
 
-		foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination)) {
-			if (!blocker.Block (gameObject, destination))
-				return false;
-		}
-		
-		transform.localPosition = destination.ToPosition ();
-		return true;
-	}
+        if (canUseWeapons)
+        {
+            return
+                (from item in Inventory().OfType<WeaponController>()
+                 select item.GetAttackDamage(this, victim)).
+                DefaultIfEmpty(basicDamage).
+                Max();
+        }
 
-	/// <summary>
-	/// This is called when the creature dies, and removes
-	/// it from the game.
-	/// </summary>
-	protected virtual void Die ()
-	{
-		Location here = Location.Of (gameObject);
+        return basicDamage;
+    }
 
-		ItemController[] inventory = Inventory ().ToArray ();
-		foreach (ItemController child in inventory) {
-			child.transform.parent = transform.parent;
-			child.transform.localPosition = here.ToPosition ();
-			child.gameObject.SetActive (true);
-		}
+    /// <summary>
+    /// This method moves the creature by the delta indicated
+    /// within the current map. This executes Block() methods
+    /// and may fail; if the creature could not move this method
+    /// returns false. If it did move it returns true.
+    /// </summary>
+    protected bool Move(int dx, int dy)
+    {
+        Location loc = Location.Of(gameObject).WithOffset(dx, dy);
+        return MoveTo(loc);
+    }
 
-		mapController.entities.RemoveEntity (gameObject);
-	}
+    /// <summary>
+    /// This method moves the creature to a specific location,
+    /// which could be on a different map. Like Move(), this runs
+    /// Block() methods and returns false if the movement is blocked,
+    /// true if it succeeds. 
+    /// </summary>
+    protected bool MoveTo(Location destination)
+    {
+        if (mapController.terrain.GetTerrain(destination) == null)
+        {
+            return false;
+        }
 
-	/// <summary>
-	/// Places an item into this creature's inventory. It will
-	/// disppear from the world.
-	/// </summary>
-	public void PlaceInInventory (GameObject item)
-	{
-		item.SetActive (false); // make it vanish before it moves!
-		item.transform.parent = transform;
-		item.transform.localPosition = Location.nowhere.ToPosition ();
-		UpdateHeldItem ();
-	}
+        foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination))
+        {
+            if (!blocker.Block(gameObject, destination))
+                return false;
+        }
 
-	/// <summary>
-	/// This yields each object in the inventory of this creature. Only
-	/// items that have item controllers are returned, and as a convenience
-	/// we actually return thecontroller itself.
-	/// </summary>
-	public IEnumerable<ItemController> Inventory ()
-	{
-		return
-			from i in Enumerable.Range (0, transform.childCount)
-			select transform.GetChild (i).GetComponent<ItemController> () into item
-			where item != null
-			select item;
-	}
+        transform.localPosition = destination.ToPosition();
+        return true;
+    }
 
-	private GameObject heldItemDisplay;
+    /// <summary>
+    /// This is called when the creature dies, and removes
+    /// it from the game.
+    /// </summary>
+    protected virtual void Die()
+    {
+        Location here = Location.Of(gameObject);
 
-	/// <summary>
-	/// This method works out what sprite to shown in this
-	/// creatures hands, and displays it. If no sprite should be
-	/// shown, but one is displayed, that sprite is removed.
-	/// </summary>
-	public void UpdateHeldItem ()
-	{
-		Sprite held;
-		float scale;
-		if (TryPickHeldItemSprite (out held, out scale)) {
-			if (heldItemDisplay == null) {
-				heldItemDisplay = new GameObject ("Held Item Sprite", typeof(SpriteRenderer));
-				heldItemDisplay.transform.parent = transform;
-				heldItemDisplay.transform.localPosition = heldItemPivot - new Vector2 (0.5f, 0.5f);
-			}
-			
-			SpriteRenderer heldItemSprite = heldItemDisplay.GetComponent<SpriteRenderer> ();
-			heldItemSprite.sprite = held;
-			heldItemSprite.sortingOrder = 1000;
-			heldItemDisplay.transform.localScale = new Vector2 (scale, scale);
-		} else if (heldItemDisplay != null) {
-			Destroy (heldItemDisplay);
-			heldItemDisplay = null;
-		}
-	}
+        ItemController[] inventory = Inventory().ToArray();
+        foreach (ItemController child in inventory)
+        {
+            child.transform.parent = transform.parent;
+            child.transform.localPosition = here.ToPosition();
+            child.gameObject.SetActive(true);
+        }
 
-	/// <summary>
-	/// This decides which item held by this creature should be shown;
-	/// it supplies the sprite and the scaling that should be applied to this
-	/// sprite.
-	/// 
-	/// This method returns false to indicate no sprite should be shown at all.
-	/// </summary>
-	private bool TryPickHeldItemSprite (out Sprite sprite, out float scale)
-	{
-		var found =
-			(from item in Inventory ()
-			 let sr = item.GetComponent<SpriteRenderer> ()
-			 where sr != null && sr.sprite != null
-			 orderby item.heldDisplayPriority descending
-			 select new { sr.sprite, item.scaleWhenHeld }).FirstOrDefault ();
+        mapController.entities.RemoveEntity(gameObject);
+    }
 
-		if (found != null) {
-			sprite = found.sprite;
-			scale = found.scaleWhenHeld;
-			return true;
-		} else {
-			sprite = null;
-			scale = 1.0f;
-			return false;
-		}
-	}
+    /// <summary>
+    /// Places an item into this creature's inventory. It will
+    /// disppear from the world.
+    /// </summary>
+    public void PlaceInInventory(GameObject item)
+    {
+        item.SetActive(false); // make it vanish before it moves!
+        item.transform.parent = transform;
+        item.transform.localPosition = Location.nowhere.ToPosition();
+        UpdateHeldItem();
+    }
 
-	#endregion
+    /// <summary>
+    /// This yields each object in the inventory of this creature. Only
+    /// items that have item controllers are returned, and as a convenience
+    /// we actually return thecontroller itself.
+    /// </summary>
+    public IEnumerable<ItemController> Inventory()
+    {
+        return
+            from i in Enumerable.Range(0, transform.childCount)
+            select transform.GetChild(i).GetComponent<ItemController>() into item
+            where item != null
+            select item;
+    }
+
+    private GameObject heldItemDisplay;
+
+    /// <summary>
+    /// This method works out what sprite to shown in this
+    /// creatures hands, and displays it. If no sprite should be
+    /// shown, but one is displayed, that sprite is removed.
+    /// </summary>
+    public void UpdateHeldItem()
+    {
+        Sprite held;
+        ItemController heldItem;
+        if (TryPickHeldItemSprite(out held, out heldItem))
+        {
+            if (heldItemDisplay == null)
+            {
+                heldItemDisplay = new GameObject("Held Item Sprite", typeof(SpriteRenderer));
+                heldItemDisplay.transform.parent = transform;
+                heldItemDisplay.transform.localPosition = heldItemPivot - new Vector2(0.5f, 0.5f);
+            }
+
+            SpriteRenderer heldItemSprite = heldItemDisplay.GetComponent<SpriteRenderer>();
+            heldItemSprite.sprite = held;
+            heldItemSprite.sortingOrder = 1000;
+            heldItemDisplay.transform.localScale = new Vector2(heldItem.scaleWhenHeld, heldItem.scaleWhenHeld);
+        }
+        else if (heldItemDisplay != null)
+        {
+            Destroy(heldItemDisplay);
+            heldItemDisplay = null;
+        }
+    }
+
+    /// <summary>
+    /// TryGetHeldItem() obtains the item the creature is visibly
+    /// holding in its hand (or paw). Only items that have sprites
+    /// can be held in this way.
+    /// </summary>
+    public bool TryGetHeldItem(out ItemController heldItem)
+    {
+        Sprite sprite;
+        return TryPickHeldItemSprite(out sprite, out heldItem);
+    }
+
+    /// <summary>
+    /// This decides which item held by this creature should be shown;
+    /// it supplies the sprite and the scaling that should be applied to this
+    /// sprite.
+    /// 
+    /// This method returns false to indicate no sprite should be shown at all.
+    /// </summary>
+    private bool TryPickHeldItemSprite(out Sprite sprite, out ItemController heldItem)
+    {
+        var found =
+            (from item in Inventory()
+             let sr = item.GetComponent<SpriteRenderer>()
+             where sr != null && sr.sprite != null
+             orderby item.heldDisplayPriority descending
+             select new { sr.sprite, item }).FirstOrDefault();
+
+        if (found != null)
+        {
+            sprite = found.sprite;
+            heldItem = found.item;
+            return true;
+        }
+        else
+        {
+            sprite = null;
+            heldItem = null;
+            return false;
+        }
+    }
+
+    #endregion
 }
