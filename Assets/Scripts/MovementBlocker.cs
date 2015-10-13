@@ -10,7 +10,7 @@ using System.Collections;
 /// the game world; when a creature steps into a blocker,
 /// the blocker can take action.
 /// </summary>
-public class MovementBlocker : MonoBehaviour
+public class MovementBlocker : SavingController
 {
 	/// <summary>
 	/// This property returns the map controller; this

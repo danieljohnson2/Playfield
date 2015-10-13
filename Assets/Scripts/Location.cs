@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 /// <summary>
 /// This structure holds a position in the game-world;
@@ -108,9 +109,29 @@ public struct Location : IEquatable<Location>
 		return string.Format ("({0}, {1} in map #{2})", x, y, mapIndex);
 	}
 
-	#region IEquatable implementation
+    #region Saving
 
-	public static bool operator== (Location left, Location right)
+    public void WriteTo(BinaryWriter writer)
+    {
+        writer.Write(this.x);
+        writer.Write(this.y);
+        writer.Write(this.mapIndex);
+    }
+
+    public static Location ReadFrom(BinaryReader reader)
+    {
+        int x = reader.ReadInt32();
+        int y = reader.ReadInt32();
+        int mapIndex = reader.ReadInt32();
+
+        return new Location(x, y, mapIndex);
+    }
+
+    #endregion
+
+    #region IEquatable implementation
+
+    public static bool operator== (Location left, Location right)
 	{
 		return left.Equals (right);
 	}
