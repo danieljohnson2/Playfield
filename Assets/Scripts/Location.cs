@@ -58,7 +58,7 @@ public struct Location : IEquatable<Location>
 	}
 
 	/// <summary>
-	/// FromPosition() turns a Unity position it its locaiton, reversing
+	/// FromPosition() turns a Unity position it its location, reversing
 	/// the effect of ToPosition().
 	/// </summary>
 	public static Location FromPosition (Vector3 position)

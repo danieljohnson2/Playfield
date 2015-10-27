@@ -13,6 +13,7 @@ public class PlayerController : CreatureController
 {
     public UnityEngine.UI.Text playerStatusText;
     private int moveDeltaX, moveDeltaY;
+    private bool moveMade;
 
     public override IEnumerator DoTurnAsync()
     {
@@ -20,7 +21,7 @@ public class PlayerController : CreatureController
 
         // we'll yield until the user enters a move...
 
-        while (moveDeltaX == 0 && moveDeltaY == 0)
+        while (!moveMade)
         {
             yield return null;
         }
@@ -35,12 +36,14 @@ public class PlayerController : CreatureController
         {
             moveDeltaX = 0;
             moveDeltaY = 0;
+            moveMade = false;
         }
     }
 
     protected override void DoTurn()
     {
-        Move(moveDeltaX, moveDeltaY);
+        if (moveDeltaX != 0 || moveDeltaY != 0)
+            Move(moveDeltaX, moveDeltaY);
     }
 
     protected override void Die()
@@ -81,21 +84,25 @@ public class PlayerController : CreatureController
         {
             moveDeltaX = -1;
             moveDeltaY = 0;
+            moveMade = true;
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             moveDeltaX = 1;
             moveDeltaY = 0;
+            moveMade = true;
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             moveDeltaX = 0;
             moveDeltaY = -1;
+            moveMade = true;
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             moveDeltaX = 0;
             moveDeltaY = 1;
+            moveMade = true;
         }
         else if (Input.GetKeyDown(KeyCode.F5))
         {
@@ -104,6 +111,7 @@ public class PlayerController : CreatureController
         else if (Input.GetKeyDown(KeyCode.F9))
         {
             Restore();
+            moveMade = true;
         }
 
         SyncCamera();
@@ -118,16 +126,25 @@ public class PlayerController : CreatureController
         {
             SavingController.Save(mapController.entities.Entities(), writer);
         }
+
+        mapController.transcript.AddLine("Game saved.");
     }
 
     private void Restore()
     {
         string path = Path.Combine(Application.persistentDataPath, @"Save.dat");
 
+        MapController.ReloadWithInitialization(mc => RestoreAfterLoad(mapController, path));
+    }
+
+    private static void RestoreAfterLoad(MapController mapController, string path)
+    {
         using (Stream stream = File.OpenRead(path))
         using (var reader = new BinaryReader(stream))
         {
             SavingController.Restore(mapController.entities.Entities(), reader);
         }
+
+        mapController.transcript.AddLine("Game restored.");
     }
 }
