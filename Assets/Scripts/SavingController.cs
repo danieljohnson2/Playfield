@@ -11,6 +11,12 @@ public class SavingController : MonoBehaviour
         get { return name; }
     }
 
+    /// <summary>
+    /// If true, this blocker is not saved or restored,
+    /// and should be static.
+    /// </summary>
+    public bool excludeFromSave;
+
     public virtual void SaveTo(BinaryWriter writer)
     {
         if (saveName == name)
@@ -69,18 +75,21 @@ public class SavingController : MonoBehaviour
         {
             foreach (var sc in go.GetComponents<SavingController>())
             {
-                writer.Write(sc.saveName);
-
-                using (var ms = new MemoryStream())
+                if (!sc.excludeFromSave)
                 {
-                    using (var w = new BinaryWriter(ms))
-                    {
-                        sc.SaveTo(w);
-                    }
+                    writer.Write(sc.saveName);
 
-                    byte[] array = ms.ToArray();
-                    writer.Write(array.Length);
-                    writer.Write(array);
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var w = new BinaryWriter(ms))
+                        {
+                            sc.SaveTo(w);
+                        }
+
+                        byte[] array = ms.ToArray();
+                        writer.Write(array.Length);
+                        writer.Write(array);
+                    }
                 }
             }
         }
@@ -104,25 +113,30 @@ public class SavingController : MonoBehaviour
 
             foreach (GameObject go in objects)
             {
-                bool foundData = false;
+                bool shouldDestroy = true;
 
                 foreach (var sc in go.GetComponents<SavingController>())
                 {
-                    if (sc is PlayerController)
-                        player = (PlayerController)sc;
-
-                    Queue<byte[]> arrays;
-                    if (byNames.TryGetValue(sc.saveName, out arrays))
+                    if (!sc.excludeFromSave)
                     {
-                        if (arrays.Count > 0)
+                        if (sc is PlayerController)
+                            player = (PlayerController)sc;
+
+                        Queue<byte[]> arrays;
+                        if (byNames.TryGetValue(sc.saveName, out arrays))
                         {
-                            foundData = true;
-                            sc.RestoreFrom(new BinaryReader(new MemoryStream(arrays.Dequeue())));
+                            if (arrays.Count > 0)
+                            {
+                                shouldDestroy = false;
+                                sc.RestoreFrom(new BinaryReader(new MemoryStream(arrays.Dequeue())));
+                            }
                         }
                     }
+                    else
+                        shouldDestroy = false;
                 }
 
-                if (!foundData)
+                if (shouldDestroy)
                     toDestroy.Add(go);
             }
 
@@ -134,10 +148,7 @@ public class SavingController : MonoBehaviour
             mapController.entities.ActivateEntities();
 
             foreach (GameObject go in toDestroy)
-            {
                 mapController.entities.RemoveEntity(go);
-                go.SetActive(false); // hide until end of turn; but this isn't really effective.
-            }
         }
         finally
         {

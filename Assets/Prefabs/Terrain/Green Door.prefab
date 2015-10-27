@@ -40,6 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93ee8f686d3715d41b31da6d4c5f5ca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  excludeFromSave: 0
   keyName: Green Key
 --- !u!212 &21233332
 SpriteRenderer:
@@ -82,6 +83,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: keyName
       value: Green Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: excludeFromSave
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

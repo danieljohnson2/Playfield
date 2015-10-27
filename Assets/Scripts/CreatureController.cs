@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 /// <summary>
 /// CreatureController provides the base class for things that take
@@ -30,6 +31,22 @@ public class CreatureController : MovementBlocker
     public CreatureController()
     {
         this.passable = true;
+    }
+
+    public override void SaveTo(BinaryWriter writer)
+    {
+        base.SaveTo(writer);
+
+        writer.Write(turnCounter);
+        writer.Write(hitPoints);
+    }
+
+    public override void RestoreFrom(BinaryReader reader)
+    {
+        base.RestoreFrom(reader);
+
+        turnCounter = reader.ReadSingle();
+        hitPoints = reader.ReadInt32();
     }
 
     /// <summary>

@@ -40,6 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcb598d396a5e141a8545be2a20833e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  excludeFromSave: 1
   door: {fileID: 0}
   openDoor: {fileID: 0}
 --- !u!212 &21233332
@@ -74,7 +75,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: excludeFromSave
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 166036}

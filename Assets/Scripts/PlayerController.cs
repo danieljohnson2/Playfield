@@ -121,7 +121,7 @@ public class PlayerController : CreatureController
     {
         string path = Path.Combine(Application.persistentDataPath, @"Save.dat");
 
-        using (Stream stream = File.OpenWrite(path))
+        using (Stream stream = File.Open(path, FileMode.Create))
         using (var writer = new BinaryWriter(stream))
         {
             SavingController.Save(mapController.entities.Entities(), writer);
