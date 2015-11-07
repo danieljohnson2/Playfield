@@ -1,0 +1,6 @@
+0000FF:/: Water
+00FF00:,: Path
+007F00:&: Grass, Trees
+FFFF00:.: Grass
+7F0000:+: Door
+7F7F7F:#: Wall
