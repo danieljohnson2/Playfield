@@ -8,7 +8,7 @@ A.....#
 -
 # Wall
 . Floor
-A Door -> Island -> B
+A Door : GoblinKeep-Entrance
 G Floor, Bob the Goblin
 r Floor, Red Gem
 b Floor, Blue Gem

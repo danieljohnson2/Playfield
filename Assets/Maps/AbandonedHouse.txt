@@ -10,6 +10,6 @@
 # Wall
 . Floor
 + Door
-A Door -> Island -> A
-v Floor, Ladder Down -> AbandonedHouse-Basement -> ^
+A Door : AbandonedHouse-Entrance
+v Floor, Ladder Down : AbandonedHouse-Basement-Entrance
 \ Floor, Sword

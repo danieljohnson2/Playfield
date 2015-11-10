@@ -686,16 +686,18 @@ public class MapController : MonoBehaviour
         private static readonly Location[] noLocations = new Location[0];
 
         /// <summary>
-        /// This method returns an array containing all destinations identified
-        /// by the name and mark character given; this returns an empty array of
-        /// the mark is the null character o rthe map name is null.
+        /// This method returns an array containing all door destinations for
+        /// the door indicated by name and location. This returns an empty array
+        /// if the name is null, or if no destination can be found.
         /// </summary>
-        public Location[] FindDestinations(string destinationMapName, char destinationMark)
+        public Location[] FindDestinations(string doorName, Location source)
         {
-            if (destinationMark != '\0' && destinationMapName != null)
+            if (doorName != null)
             {
-                Map map = this[destinationMapName];
-                return map.FindMarks(destinationMark).ToArray();
+                return (from map in Maps()
+                        from doorLoc in map.FindDoors(doorName)
+                        where doorLoc != source
+                        select doorLoc).ToArray();
             }
 
             return noLocations;
@@ -705,22 +707,25 @@ public class MapController : MonoBehaviour
         /// This returns an array of the destinations assigned to the map
         /// cell given, or an empty array if it has none.
         /// </summary>
-        public Location[] FindDestinations(Map.Cell cell)
+        public Location[] FindDestinations(Map.Cell cell, Location source)
         {
-            return FindDestinations(cell.destinationMap, cell.destinationMark);
+            return FindDestinations(cell.doorName, source);
         }
 
         /// <summary>
-        /// Selects the destination for the map and mark given; this picks only one
+        /// Selects the destination for door given; this picks only one
         /// location, and if more than one destination is available, chooses
         /// randomly.
         /// 
-        /// This method returns false if the map is null or the mark is the nul character,
-        /// or if no destinations can be found.
+        /// You provide a source and a name to indicate the door being entered;
+        /// this lets us avoid exiting the door at its entrance.
+        /// 
+        /// This method returns false if the name is null, or if no destination can be
+        /// found (other than the source).
         /// </summary>
-        public bool TryFindDestination(string destinationMapName, char destinationMark, out Location destination)
+        public bool TryFindDestination(string doorName, Location source, out Location destination)
         {
-            Location[] targets = FindDestinations(destinationMapName, destinationMark);
+            Location[] targets = FindDestinations(doorName, source);
             if (targets.Length > 0)
             {
                 int index = UnityEngine.Random.Range(0, targets.Length);
@@ -739,9 +744,9 @@ public class MapController : MonoBehaviour
         /// 
         /// This method returns false if the cell has no destinations at all.
         /// </summary>
-        public bool TryFindDestination(Map.Cell cell, out Location destination)
+        public bool TryFindDestination(Map.Cell cell, Location source, out Location destination)
         {
-            return TryFindDestination(cell.destinationMap, cell.destinationMark, out destination);
+            return TryFindDestination(cell.doorName, source, out destination);
         }
 
         /// <summary>
@@ -808,7 +813,7 @@ public class MapController : MonoBehaviour
             where.GetAdjacentInto(adjacencyBuffer);
 
             Map.Cell cell = mapController.maps[where];
-            Location[] destinations = mapController.maps.FindDestinations(cell);
+            Location[] destinations = mapController.maps.FindDestinations(cell, where);
 
             if (destinations.Length == 0)
             {

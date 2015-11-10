@@ -20,8 +20,8 @@
 . Path
 , Grass
 k Path, Green Key
-A Door -> AbandonedHouse -> A
-B Door -> GoblinKeep -> A
+A Door : AbandonedHouse-Entrance
+B Door : GoblinKeep-Entrance
 & Grass, Trees
 p Grass, Player
-Q Door -> LittleVillage -> E
+Q Door : LittleVillage-Entrance

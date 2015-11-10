@@ -16,4 +16,4 @@ k Floor, Red Key
 T Floor, Tim the Rat
 J Floor, Jim the Rat
 K Floor, Kim the Rat
-^ Floor, Ladder Down -> AbandonedHouse -> v
+^ Floor, Ladder Up : AbandonedHouse-Basement-Entrance
