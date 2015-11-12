@@ -450,6 +450,10 @@ public class MapController : MonoBehaviour
                 while (pendingRemoval.Count > 0)
                 {
                     GameObject toRemove = pendingRemoval.Dequeue();
+
+                    mapController.adjacencyGenerator.InvalidatePathability(toRemove);
+                    mapController.adjacencyGenerator.InvalidatePathability(Location.Of(toRemove));
+               
                     entities.Remove(toRemove);
                     Destroy(toRemove);
                 }
@@ -791,11 +795,42 @@ public class MapController : MonoBehaviour
     {
         private readonly Location[] adjacencyBuffer = new Location[4];
         private readonly MapController mapController;
-        private KeyValuePair<GameObject, LocationMap<bool?>> pathabilityCache;
+        private readonly Dictionary<GameObject, LocationMap<Flag>> pathabilityCache =
+            new Dictionary<GameObject, LocationMap<Flag>>();
 
         public AdjacencyGenerator(MapController mapController)
         {
             this.mapController = mapController;
+        }
+
+        /// <summary>
+        /// InvalidatePathability() discards all cached pathability
+        /// data, so it must be recomputed.
+        /// </summary>
+        public void InvalidatePathability()
+        {
+            pathabilityCache.Clear();
+        }
+
+        /// <summary>
+        /// InvalidatePathability() discards the cached pathability
+        /// data for a specific game-object; this movers data
+        /// will be recomputed as needed.
+        /// </summary>
+        public void InvalidatePathability(GameObject mover)
+        {
+            pathabilityCache.Remove(mover);
+        }
+
+        /// <summary>
+        /// InvalidatePathability() discards the cached pathability
+        /// data for a location; each mover will recompute a value
+        /// for this as needed.
+        /// </summary>
+        public void InvalidatePathability(Location location)
+        {
+            foreach (LocationMap<Flag> cache in pathabilityCache.Values)
+                cache[location] = Flag.Unknown;
         }
 
         /// <summary>
@@ -855,28 +890,39 @@ public class MapController : MonoBehaviour
         /// </summary>
         public bool IsPathableFor(GameObject mover, Location where)
         {
-            LocationMap<bool?> cache;
+            LocationMap<Flag> cache;
 
-            if (pathabilityCache.Key == mover)
-                cache = pathabilityCache.Value;
-            else
+            if (!pathabilityCache.TryGetValue(mover, out cache))
             {
-                cache = new LocationMap<bool?>();
-                pathabilityCache = new KeyValuePair<GameObject, LocationMap<bool?>>(mover, cache);
+                cache = new LocationMap<Flag>();
+                pathabilityCache.Add(mover, cache);
             }
 
-            bool? b = cache[where];
+            Flag flag = cache[where];
 
-            if (b == null)
+            switch (flag)
             {
-                bool c = mapController.IsPathableFor(mover, where);
-                cache[where] = c;
-                return c;
+                case Flag.Unknown:
+                    bool c = mapController.IsPathableFor(mover, where);
+                    cache[where] = c ? Flag.Pathable : Flag.Impathable;
+                    return c;
+
+                case Flag.Pathable: return true;
+                case Flag.Impathable: return false;
+                default: return false;
             }
-            else
-            {
-                return b.Value;
-            }
+        }
+
+        /// <summary>
+        /// Flag is essentially a nullable boolean, but is only
+        /// a byte wide; since we have big arrays fo these, this
+        /// saves memory.
+        /// </summary>
+        private enum Flag : byte
+        {
+            Unknown,
+            Impathable,
+            Pathable
         }
     }
 

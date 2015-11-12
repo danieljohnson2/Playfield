@@ -165,14 +165,24 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     {
         var heater = new Heater(adjacency);
 
+        var watch = new System.Diagnostics.Stopwatch();
+        watch.Start();
+
         for (int i = 0; i < repeats; ++i)
         {
             if (!heater.Heat(this))
             {
                 // If heating did nothing, heating again won't either,
                 // so we can just bail.
-                return;
+                break;
             }
+        }
+
+        watch.Stop();
+
+        if (watch.ElapsedMilliseconds > 60)
+        {
+            Debug.Log(string.Format("Heat {0} ms", watch.ElapsedMilliseconds));
         }
     }
 

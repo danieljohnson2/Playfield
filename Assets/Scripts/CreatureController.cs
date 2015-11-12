@@ -220,6 +220,8 @@ public class CreatureController : MovementBlocker
         item.SetActive(false); // make it vanish before it moves!
         item.transform.parent = transform;
         item.transform.localPosition = Location.nowhere.ToPosition();
+        mapController.adjacencyGenerator.InvalidatePathability(gameObject);
+
         UpdateHeldItem();
     }
 
