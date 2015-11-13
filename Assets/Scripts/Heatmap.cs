@@ -165,9 +165,6 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     {
         var heater = new Heater(adjacency);
 
-        var watch = new System.Diagnostics.Stopwatch();
-        watch.Start();
-
         for (int i = 0; i < repeats; ++i)
         {
             if (!heater.Heat(this))
@@ -176,13 +173,6 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
                 // so we can just bail.
                 break;
             }
-        }
-
-        watch.Stop();
-
-        if (watch.ElapsedMilliseconds > 60)
-        {
-            Debug.Log(string.Format("Heat {0} ms", watch.ElapsedMilliseconds));
         }
     }
 
@@ -214,11 +204,14 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         /// </summary>
         public bool Heat(Heatmap heatmap)
         {
+            bool changed = false;
             updates.Clear();
 
-            foreach (Location srcLoc in heatmap.Locations())
+            var original = new LocationMap<Slot>(heatmap);
+
+            foreach (Location srcLoc in original.Locations())
             {
-                Slot min = heatmap[srcLoc].ToReduced(1);
+                Slot min = original[srcLoc].ToReduced(1);
 
                 if (min.heat != 0)
                 {
@@ -227,21 +220,24 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 
                     foreach (Location adj in adjacencyBuffer)
                     {
-                        Slot oldSlot = heatmap[adj];
+                        Slot oldSlot = original[adj];
                         Slot newSlot = Slot.Max(oldSlot, min);
 
                         if (!oldSlot.Equals(newSlot))
                         {
-                            updates.Add(new KeyValuePair<Location, Slot>(adj, newSlot));
+                            // updates.Add(new KeyValuePair<Location, Slot>(adj, newSlot));
+                            heatmap[adj] = newSlot;
+                            changed = true;
                         }
                     }
                 }
             }
 
-            foreach (KeyValuePair<Location, Slot> update in updates)
-                heatmap[update.Key] = update.Value;
+            //  foreach (KeyValuePair<Location, Slot> update in updates)
+            //      heatmap[update.Key] = update.Value;
 
-            return updates.Count > 0;
+            //  return updates.Count > 0;
+            return changed;
         }
     }
 

@@ -85,7 +85,7 @@ public class HeatmapAIController : CreatureController
 			select hpc;
 
 		foreach (var hpc in components) {
-			heatmaps.Add (hpc.UpdateHeatmap (mapController));
+			heatmaps.Add (hpc.UpdateHeatmap ());
 		}
 
 		return heatmaps;

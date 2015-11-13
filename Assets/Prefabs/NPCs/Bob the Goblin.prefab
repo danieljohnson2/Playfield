@@ -110,8 +110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0
-  heatmapRange: 128
-  heatmapCooling: 128
+  heatmapRange: 8
+  heatmapCooling: 1
+  heatmapAutoReset: 1
   preferences:
   - Key=64
   - Gem=64
@@ -155,6 +156,7 @@ MonoBehaviour:
   priority: 1
   heatmapRange: 5
   heatmapCooling: 64
+  heatmapAutoReset: 0
   preferences:
   - Player=6
   - Rat=4
@@ -263,7 +265,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapCooling
-      value: 128
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
@@ -271,7 +273,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
-      value: 128
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Sprite
@@ -337,6 +339,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[3]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: priority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapAutoReset
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

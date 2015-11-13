@@ -39,6 +39,11 @@ using System.Linq;
 /// the preference values, the creature will act acording to its
 /// memory of where things were, rather than instantly knowing where
 /// everything is in range is right now.
+/// 
+/// You can specify the 'auto reset' option to maket he map reset whenever
+/// its source game objects move. This is useful for long range loot-tracking
+/// heatmaps- they can have a low range but lower cooling, and the heat data
+/// will spread slowing, saving CPU cycles, but will be discarded when invalid.
 /// </summary>
 public class HeatmapPreferenceController : MonoBehaviour
 {
@@ -46,6 +51,7 @@ public class HeatmapPreferenceController : MonoBehaviour
     public int priority = 0;
     public short heatmapRange = 16;
     public float heatmapCooling = 128.0f;
+    public bool heatmapAutoReset = false;
     public string[] preferences;
     public GameObject heatmapMarkerPrefab;
     private GameObject[] heatmapMarkers;
@@ -54,17 +60,62 @@ public class HeatmapPreferenceController : MonoBehaviour
     public float heldItemAwareness = 1.0f;
     public float carriedItemAwareness = 0.25f;
 
+    private Dictionary<GameObject, Location> previousTargetLocations;
+
     public void Awake()
     {
         this.heatmap.name = heatmapName;
+
+        if (heatmapAutoReset)
+            previousTargetLocations = new Dictionary<GameObject, Location>();
+    }
+
+    private KeyValuePair<HeatSourceIdentifier, short>[] lazyPreferences;
+
+    private IEnumerable<KeyValuePair<HeatSourceIdentifier, short>> Preferences()
+    {
+        return Lazy.Init(ref lazyPreferences, delegate
+        {
+            if (preferences == null)
+                return new KeyValuePair<HeatSourceIdentifier, short>[0];
+
+            var b = new List<KeyValuePair<HeatSourceIdentifier, short>>(preferences.Length);
+
+            foreach (string prefText in preferences)
+            {
+                HeatSourceIdentifier sourceID;
+                short heat;
+                ParsePreference(prefText, MapController.instance, out sourceID, out heat);
+                b.Add(new KeyValuePair<HeatSourceIdentifier, short>(sourceID, heat));
+            }
+
+            return b.ToArray();
+        });
+    }
+
+    public bool CheckHeatmapReset()
+    {
+        if (previousTargetLocations != null)
+        {
+            return previousTargetLocations.
+                Any(pair => Location.Of(pair.Key) != pair.Value);
+        }
+        else
+            return false;
     }
 
     /// <summary>
     /// This adjusts the heatmap according to the current
     /// position of entities.
     /// </summary>
-    public Heatmap UpdateHeatmap(MapController mapController)
+    public Heatmap UpdateHeatmap()
     {
+        if (CheckHeatmapReset())
+            heatmap.Clear();
+
+        if (previousTargetLocations != null)
+            previousTargetLocations.Clear();
+
         residualCooling += heatmapCooling;
 
         if (residualCooling > 0.0f)
@@ -74,40 +125,41 @@ public class HeatmapPreferenceController : MonoBehaviour
             residualCooling -= cool;
         }
 
-        if (preferences != null)
+        foreach (KeyValuePair<HeatSourceIdentifier, short> pair in Preferences())
         {
-            foreach (string prefText in preferences)
+            HeatSourceIdentifier sourceID = pair.Key;
+            short heat = pair.Value;
+
+            foreach (GameObject target in sourceID.GameObjects())
             {
-                HeatSourceIdentifier sourceID;
-                short heat;
-                ParsePreference(prefText, mapController, out sourceID, out heat);
+                Location targetLoc = Location.Of(target);
 
-                foreach (GameObject target in sourceID.GameObjects())
+                if (previousTargetLocations != null)
+                    previousTargetLocations[target] = targetLoc;
+
+                if (targetLoc == Location.nowhere)
                 {
-                    Location targetLoc = Location.Of(target);
+                    ItemController ic = target.GetComponent<ItemController>();
+                    CreatureController carrier;
 
-                    if (targetLoc == Location.nowhere)
+                    if (ic != null && ic.TryGetCarrier(out carrier) && carrier.gameObject != gameObject)
                     {
-                        ItemController ic = target.GetComponent<ItemController>();
-                        CreatureController carrier;
+                        float scaling = ic.isHeldItem ? heldItemAwareness : carriedItemAwareness;
 
-                        if (ic != null && ic.TryGetCarrier(out carrier) && carrier.gameObject != gameObject)
+                        if (scaling != 0.0f)
                         {
-                            float scaling = ic.isHeldItem ? heldItemAwareness : carriedItemAwareness;
-
-                            if (scaling != 0.0f)
-                            {
-                                targetLoc = Location.Of(carrier.gameObject);
-                                heat = (short)(heat * scaling);
-                            }
+                            targetLoc = Location.Of(carrier.gameObject);
+                            heat = (short)(heat * scaling);
                         }
                     }
-
-                    if (targetLoc != Location.nowhere)
-                        heatmap[targetLoc] = new Heatmap.Slot(target, heat);
                 }
+
+                if (targetLoc != Location.nowhere)
+                    heatmap[targetLoc] = new Heatmap.Slot(target, heat);
             }
         }
+
+        MapController mapController = MapController.instance;
 
         heatmap.Heat(heatmapRange, (loc, adj) =>
             mapController.adjacencyGenerator.GetAdjacentLocationsInto(gameObject, loc, adj));
