@@ -185,13 +185,11 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     {
         private readonly AdjacencySelector adjacency;
         private readonly List<Location> adjacencyBuffer;
-        private readonly List<KeyValuePair<Location, Slot>> updates;
 
         public Heater(AdjacencySelector adjacency)
         {
             this.adjacency = adjacency;
             this.adjacencyBuffer = new List<Location>(6);
-            updates = new List<KeyValuePair<Location, Slot>>();
         }
 
         /// <summary>
@@ -205,7 +203,6 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         public bool Heat(Heatmap heatmap)
         {
             bool changed = false;
-            updates.Clear();
 
             var original = new LocationMap<Slot>(heatmap);
 
@@ -233,10 +230,6 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
                 }
             }
 
-            //  foreach (KeyValuePair<Location, Slot> update in updates)
-            //      heatmap[update.Key] = update.Value;
-
-            //  return updates.Count > 0;
             return changed;
         }
     }

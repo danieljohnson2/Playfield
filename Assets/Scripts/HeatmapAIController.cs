@@ -20,7 +20,7 @@ public class HeatmapAIController : CreatureController
 	public Heatmap activeHeatmap { get; private set; }
 
 	/// <summary>
-	/// This tests to see if the active heapmap is the one named, and
+	/// This tests to see if the active heatmap is the one named, and
 	/// if the active location in came from the source indicated, and has
 	/// the minimum strength indicated.
 	/// </summary>

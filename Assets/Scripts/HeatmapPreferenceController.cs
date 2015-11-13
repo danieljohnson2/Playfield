@@ -174,8 +174,6 @@ public class HeatmapPreferenceController : MonoBehaviour
 
     private void ShowHeatmap()
     {
-        const short minHeat = 1;
-
         var markers = new Queue<GameObject>(heatmapMarkers ?? Enumerable.Empty<GameObject>());
         var usedMarkers = new List<GameObject>();
         Map activeMap = MapController.instance.activeMap;
@@ -184,7 +182,7 @@ public class HeatmapPreferenceController : MonoBehaviour
         {
             foreach (var pair in heatmap)
             {
-                if (pair.Value.heat >= minHeat && pair.Key.mapIndex == activeMap.mapIndex)
+                if (pair.Value.heat != 0 && pair.Key.mapIndex == activeMap.mapIndex)
                 {
                     GameObject marker = markers.Count > 0 ?
                         markers.Dequeue() : Instantiate(heatmapMarkerPrefab);

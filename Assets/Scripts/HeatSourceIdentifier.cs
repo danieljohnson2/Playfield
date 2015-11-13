@@ -71,12 +71,25 @@ public struct HeatSourceIdentifier : IEquatable<HeatSourceIdentifier>
     /// </summary>
     public IEnumerable<GameObject> GameObjects()
     {
+        IEnumerable<GameObject> candidates;
+
         if (MatchesAll)
-            return MapController.instance.entities.Entities();
+            candidates = MapController.instance.entities.Entities();
         else if (isTag)
-            return MapController.instance.entities.byTag[text];
+            candidates = MapController.instance.entities.byTag[text];
         else
-            return MapController.instance.entities.byName[text];
+            candidates = MapController.instance.entities.byName[text];
+
+        if (disposition != null)
+        {
+            SourceDisposition captured = disposition.Value;
+
+            return from go in candidates
+                   where new Heatmap.SourceInfo(go).Disposition == captured
+                   select go;
+        }
+
+        return candidates;
     }
 
     /// <summary>
