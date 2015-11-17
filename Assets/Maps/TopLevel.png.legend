@@ -1,5 +1,5 @@
 000000:#:Wall
-007F00:&:Grass, Trees
+007F00:&:Tree
 7F0000:+:Door
 FFFF00:,:Path
 00FF00:.:Grass

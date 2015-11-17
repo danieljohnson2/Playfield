@@ -285,6 +285,8 @@ MonoBehaviour:
     - {fileID: 4900000, guid: 223f423e0885f0043ac51abad8cfa0ee, type: 3}
     - {fileID: 4900000, guid: bd9e106ec1ed557468b1999029644093, type: 3}
     - {fileID: 4900000, guid: 350c2160b078a3a449450bc5bc9f32f9, type: 3}
+    - {fileID: 4900000, guid: 38ba48e7112843d4a9fa5996903a97b1, type: 3}
+    - {fileID: 4900000, guid: ccc4b648905c1a54db3e02851eafe1e6, type: 3}
     prefabs:
     - {fileID: 185244, guid: 99a34020e73446a429e823f5befdd7c1, type: 2}
     - {fileID: 166036, guid: 7e6cf2426396dc249951974effb6cbd2, type: 2}

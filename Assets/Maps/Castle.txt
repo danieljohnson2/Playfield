@@ -29,16 +29,18 @@
 &&&&&&&#^::::::::::::::#::#::::::::::#:::#&.&...
 &&&&&&&#################==################..&.&.
 &&&&&&&&&&.&&&.&&.&&....,,...&&.....&...&.......
-&&&&&&&&&&&&&&&&&&&&&&...,,,,,,,,,,,,,,,,,,,,,,^
+&&&&&&&&&&&&&&&&&&&&&&...,,,,,,,,,,,,,,,,,,,,,,C
 -
 # Wall
-& Grass, Trees
+& Tree
 , Path
 . Grass
 / Water
 : Floor
 = Door
-^ Ladder
-a ForceField1
-b ForecField2
-z Goal
+^ Floor, Ladder Down
+a Path
+b Grass
+z Door
+C Path Door : Castle-SouthEntrance
+
