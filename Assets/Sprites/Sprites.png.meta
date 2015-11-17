@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1440448376
+timeCreated: 1447798276
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -58,16 +58,16 @@ TextureImporter:
     21300102: Yellow Key
     21300104: Sprites_52
     21300106: Sprites_53
-    21300108: Sprites_54
-    21300110: Sprites_55
+    21300108: Grass Tree 1
+    21300110: Grass Tree 2
     21300112: Sprites_56
     21300114: Sprites_57
     21300116: Sprites_58
     21300118: Sprites_59
     21300120: Sprites_60
     21300122: Sprites_61
-    21300124: Sprites_62
-    21300126: Sprites_63
+    21300124: Grass Tree 3
+    21300126: Grass Tree 4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -101,6 +101,7 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
@@ -653,7 +654,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_54
+    - name: Grass Tree 1
       rect:
         serializedVersion: 2
         x: 768
@@ -663,11 +664,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_55
+    - name: Grass Tree 2
       rect:
         serializedVersion: 2
         x: 896
-        y: 128
+        y: 129
         width: 128
         height: 128
       alignment: 0
@@ -733,7 +734,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_62
+    - name: Grass Tree 3
       rect:
         serializedVersion: 2
         x: 768
@@ -743,7 +744,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_63
+    - name: Grass Tree 4
       rect:
         serializedVersion: 2
         x: 896

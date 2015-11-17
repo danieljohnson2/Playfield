@@ -281,11 +281,10 @@ MonoBehaviour:
   inventoryDisplay: {fileID: 701028308}
   maps:
     mapTexts:
-    - {fileID: 4900000, guid: ba114fe31e49d1a4b98ade357ed4ea75, type: 3}
-    - {fileID: 4900000, guid: 5b6997cf33b394cde9871083cc3b2bdc, type: 3}
-    - {fileID: 4900000, guid: dd88e1fb7ca0aff4fbd59a6df4d38825, type: 3}
-    - {fileID: 4900000, guid: 9be017e6919fce14fb5aab058faa4ee4, type: 3}
-    - {fileID: 4900000, guid: 2694c81323b314032a758721d6a6545a, type: 3}
+    - {fileID: 4900000, guid: 972959b0005c8ea4fae7d2f6fc4379b2, type: 3}
+    - {fileID: 4900000, guid: 223f423e0885f0043ac51abad8cfa0ee, type: 3}
+    - {fileID: 4900000, guid: bd9e106ec1ed557468b1999029644093, type: 3}
+    - {fileID: 4900000, guid: 350c2160b078a3a449450bc5bc9f32f9, type: 3}
     prefabs:
     - {fileID: 185244, guid: 99a34020e73446a429e823f5befdd7c1, type: 2}
     - {fileID: 166036, guid: 7e6cf2426396dc249951974effb6cbd2, type: 2}
@@ -310,6 +309,8 @@ MonoBehaviour:
     - {fileID: 154314, guid: c92181c4e0fc6094b97e6b6cc5a1a06b, type: 2}
     - {fileID: 154314, guid: ccab05854dd0a3e4bad0fda927994b2f, type: 2}
     - {fileID: 167204, guid: fbd8c3e3ef3db5947bbedf2f609ecb3e, type: 2}
+    - {fileID: 162654, guid: 98134cadd63b85e4db204cec91148ce9, type: 2}
+    - {fileID: 162654, guid: c758de48a46d1b74ebc047e8cf31b9db, type: 2}
 --- !u!1 &1508657706
 GameObject:
   m_ObjectHideFlags: 0

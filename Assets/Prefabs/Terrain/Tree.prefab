@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11461442}
   - 114: {fileID: 11465960}
   m_Layer: 0
-  m_Name: Trees
+  m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,10 +53,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575e2acd797ed97409ee52b2bde52bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topLeft: {fileID: 21300060, guid: af06595c7cdd283459677670b149572a, type: 3}
-  topRight: {fileID: 21300062, guid: af06595c7cdd283459677670b149572a, type: 3}
-  bottomLeft: {fileID: 21300076, guid: af06595c7cdd283459677670b149572a, type: 3}
-  bottomRight: {fileID: 21300078, guid: af06595c7cdd283459677670b149572a, type: 3}
+  topLeft: {fileID: 21300108, guid: af06595c7cdd283459677670b149572a, type: 3}
+  topRight: {fileID: 21300110, guid: af06595c7cdd283459677670b149572a, type: 3}
+  bottomLeft: {fileID: 21300124, guid: af06595c7cdd283459677670b149572a, type: 3}
+  bottomRight: {fileID: 21300126, guid: af06595c7cdd283459677670b149572a, type: 3}
 --- !u!212 &21233332
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -94,6 +94,26 @@ Prefab:
       propertyPath: excludeFromSave
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: topLeft
+      value: 
+      objectReference: {fileID: 21300108, guid: af06595c7cdd283459677670b149572a,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: topRight
+      value: 
+      objectReference: {fileID: 21300110, guid: af06595c7cdd283459677670b149572a,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: bottomLeft
+      value: 
+      objectReference: {fileID: 21300124, guid: af06595c7cdd283459677670b149572a,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: bottomRight
+      value: 
+      objectReference: {fileID: 21300126, guid: af06595c7cdd283459677670b149572a,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 166036}

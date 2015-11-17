@@ -453,7 +453,7 @@ public class MapController : MonoBehaviour
 
                     mapController.adjacencyGenerator.InvalidatePathability(toRemove);
                     mapController.adjacencyGenerator.InvalidatePathability(Location.Of(toRemove));
-               
+
                     entities.Remove(toRemove);
                     Destroy(toRemove);
                 }
@@ -659,13 +659,9 @@ public class MapController : MonoBehaviour
             get
             {
                 if (location.mapIndex >= 0 && location.mapIndex < mapTexts.Length)
-                {
                     return this[location.mapIndex][location.x, location.y];
-                }
                 else
-                {
                     return Map.Cell.empty;
-                }
             }
         }
 
@@ -698,10 +694,16 @@ public class MapController : MonoBehaviour
         {
             if (doorName != null)
             {
-                return (from map in Maps()
-                        from doorLoc in map.FindDoors(doorName)
-                        where doorLoc != source
-                        select doorLoc).ToArray();
+                IEnumerable<Location> found =
+                    (from map in Maps()
+                     orderby map.mapIndex == source.mapIndex // other maps before source map!
+                     select map.FindDoors(doorName).Where(loc => loc != source) into doorLocs
+                     where doorLocs.Any()
+                     select doorLocs).
+                     FirstOrDefault();
+
+                if (found != null)
+                    return found.ToArray();
             }
 
             return noLocations;

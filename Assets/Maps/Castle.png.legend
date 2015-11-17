@@ -1,0 +1,11 @@
+000000:#:Wall
+007F00:&:Grass, Trees
+FFFF00:,:Path
+00FF00:.:Grass
+0000FF:/:Water
+7F7F7F:::Floor
+FF0000:=:Door
+7F0000:^:Ladder
+007FFF:a:ForceField1
+FF7F00:b:ForecField2
+FFFFFF:z:Goal
