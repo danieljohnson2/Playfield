@@ -182,7 +182,7 @@ public class CreatureController : MovementBlocker
             return false;
         }
 
-        foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination))
+        foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination).Reverse())
         {
             if (!blocker.Block(gameObject, destination))
                 return false;
