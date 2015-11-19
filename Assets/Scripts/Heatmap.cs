@@ -359,6 +359,11 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         public string Tag { get; private set; }
         public SourceDisposition? Disposition { get; private set; }
 
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", Name, Disposition).Trim();
+        }
+
         #region IEquatable implementation
 
         public bool Equals(SourceInfo other)

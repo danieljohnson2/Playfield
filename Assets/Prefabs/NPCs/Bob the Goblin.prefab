@@ -110,13 +110,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0
-  heatmapRange: 8
-  heatmapCooling: 1
+  heatmapRange: 4
+  heatmapCooling: 0
   heatmapAutoReset: 1
   preferences:
-  - Key=64
-  - Gem=64
-  - Weapon[Exposed]=64
+  - Key=128
+  - Gem=128
+  - Weapon[Exposed]=128
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: loot
   heldItemAwareness: 1
@@ -158,9 +158,9 @@ MonoBehaviour:
   heatmapCooling: 64
   heatmapAutoReset: 0
   preferences:
-  - Player=6
-  - Rat=4
-  - Weapon[Held]=-8
+  - Player=16
+  - Rat=12
+  - Weapon[Held]=-16
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: fight
   heldItemAwareness: 1
@@ -249,11 +249,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Player=6
+      value: Player=16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
-      value: Rat=4
+      value: Rat=12
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -265,7 +265,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapCooling
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
@@ -273,7 +273,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Sprite
@@ -326,7 +326,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
-      value: Weapon[Held]=-8
+      value: Weapon[Held]=-16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
