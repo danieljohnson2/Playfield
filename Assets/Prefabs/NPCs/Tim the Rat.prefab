@@ -44,6 +44,7 @@ MonoBehaviour:
   priority: 0
   heatmapRange: 1
   heatmapCooling: .25
+  heatmapAutoReset: 0
   preferences:
   - Player=-4
   - Goblin=-4
@@ -63,13 +64,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbf91a405a8a074188e27cbf50fa017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 2
+  excludeFromSave: 0
+  hitPoints: 4
   damage:
     DiceCount: 1
     DiceSize: 2
     Plus: -1
   canUseWeapons: 0
   speed: 1.5
+  weight: 1
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
   heldItemPivot: {x: .0500000007, y: .100000001}
@@ -146,6 +149,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
       value: Weapon=-8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hitPoints
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

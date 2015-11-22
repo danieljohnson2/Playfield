@@ -184,6 +184,7 @@ MonoBehaviour:
     Plus: 0
   canUseWeapons: 1
   speed: .75
+  weight: 15
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
   heldItemPivot: {x: .949999988, y: .550000012}
@@ -347,6 +348,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: heatmapAutoReset
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: weight
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

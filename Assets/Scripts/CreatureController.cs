@@ -22,6 +22,7 @@ public class CreatureController : MovementBlocker
     public DieRoll damage = new DieRoll(1, 3);
     public bool canUseWeapons = true;
     public float speed = 1;
+    public float weight = 10;
     public GameObject attackEffect;
     public bool teamAware = true;
     public Vector2 heldItemPivot = new Vector2(0.5f, 0.5f);
@@ -133,8 +134,40 @@ public class CreatureController : MovementBlocker
         }
         else
         {
-            AddTranscriptLine("{0} hit {1} for {2}!", attacker.name, this.name, damage);
+            float myWeightScore = UnityEngine.Random.Range(weight / 2, weight);
+            float attackerWeightScor = UnityEngine.Random.Range(attacker.weight / 2, attacker.weight);
+            bool knockedBack =
+                myWeightScore < attackerWeightScor &&
+                KnockedBack(attacker);
+
+            AddTranscriptLine("{0} hit {1} for {2}!{3}", attacker.name, this.name, damage,
+                knockedBack ? " Knockback!" : "");
         }
+    }
+
+    protected virtual bool KnockedBack(CreatureController attacker)
+    {
+        Location src = Location.Of(attacker.gameObject);
+        Location here = Location.Of(gameObject);
+
+        if (src.mapIndex == here.mapIndex)
+        {
+            int dx = Math.Max(Math.Min(here.x - src.x, 1), -1);
+            int dy = Math.Max(Math.Min(here.y - src.y, 1), -1);
+
+            if (dx != 0 || dy != 0)
+            {
+                Location dest = here.WithOffset(dx, dy);
+
+                if (mapController.adjacencyGenerator.IsPathableFor(gameObject, dest))
+                {
+                    MoveTo(dest);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
