@@ -20,7 +20,7 @@
 &&.&///.&&..###.,,,,.///###.////
 &...///.....###,&.&.,,,,+##.////
 &.&&///.&&..#2#,&./////,###.////
-&/////###+,,,,,..//&///,....////
+&/////###+,,,,,..//&///,..s.////
 &/////####//,/////&&&//.,&.&////
 &//////////#3#.###&&///..,.&////
 &&/////////###.###&//////,//////
@@ -53,9 +53,10 @@ S.............&/////&..&.///////
 , Path
 . Grass
 / Water
+s Grass, Sword
 N Path Door : Venice-NorthEntrance
 S Path Door : Venice-SouthEntrance
 1 Door, Red Door : Venice-1
 2 Door : Venice-2
 3 Door, Blue Door : Venice-3
-4 Door : Venice-4
+4 Door, Green Door : Venice-4
