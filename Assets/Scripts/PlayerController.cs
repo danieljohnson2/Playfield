@@ -130,11 +130,21 @@ public class PlayerController : CreatureController
         mapController.transcript.AddLine("Game saved.");
     }
 
-    private void Restore()
+    public static bool CanRestore
     {
-        string path = Path.Combine(Application.persistentDataPath, @"Save.dat");
+        get { return File.Exists(GetSaveGamePath()); }
+    }
+
+    public static void Restore()
+    {
+        string path = GetSaveGamePath();
 
         MapController.ReloadWithInitialization(mc => RestoreAfterLoad(mapController, path));
+    }
+
+    private static string GetSaveGamePath()
+    {
+        return Path.Combine(Application.persistentDataPath, @"Save.dat");
     }
 
     private static void RestoreAfterLoad(MapController mapController, string path)

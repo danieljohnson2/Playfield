@@ -50,7 +50,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 
         if (moves != null)
         {
-            int index = UnityEngine.Random.Range(0, moves.Count());
+            int index = UnityEngine.Random.Range(0, moves.Count() + 1);
             picked = moves.ElementAt(index);
             return true;
         }
