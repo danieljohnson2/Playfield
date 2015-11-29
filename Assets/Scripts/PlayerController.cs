@@ -50,8 +50,10 @@ public class PlayerController : CreatureController
     {
         base.Die();
         UpdateStatusText();
-    }
 
+        mapController.GameOver();
+    }
+    
     private void SyncCamera()
     {
         Vector3 playerPos = transform.position;

@@ -159,6 +159,27 @@ public class MapController : MonoBehaviour
 
     #endregion
 
+    #region Game Over
+
+    /// <summary>
+    /// GameOver() ends the game over a short display; if you supply
+    /// a message we will display it, but if you don't we display
+    /// the last line of the transcript.
+    /// </summary>
+    public void GameOver(string message = null, float delay = 2.0f)
+    {
+        GameOverController.gameOverMessage = message ?? transcript.Lines().LastOrDefault();
+    
+        Invoke("ExecuteGameOver", delay);
+    }
+
+    void ExecuteGameOver()
+    {
+        GameOverController.GameOver();
+    }
+
+    #endregion
+
     #region Terrain and Movement
 
     private Map storedActiveMap;
