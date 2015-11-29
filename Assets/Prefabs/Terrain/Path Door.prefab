@@ -41,8 +41,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 1
-  door: {fileID: 21300050, guid: af06595c7cdd283459677670b149572a, type: 3}
-  openDoor: {fileID: 21300050, guid: af06595c7cdd283459677670b149572a, type: 3}
+  door: {fileID: 21300032, guid: af06595c7cdd283459677670b149572a, type: 3}
+  openDoor: {fileID: 21300032, guid: af06595c7cdd283459677670b149572a, type: 3}
 --- !u!212 &21240806
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -67,7 +67,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300064, guid: af06595c7cdd283459677670b149572a, type: 3}
+  m_Sprite: {fileID: 21300032, guid: af06595c7cdd283459677670b149572a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -83,17 +83,17 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300064, guid: af06595c7cdd283459677670b149572a,
+      objectReference: {fileID: 21300032, guid: af06595c7cdd283459677670b149572a,
         type: 3}
     - target: {fileID: 0}
       propertyPath: openDoor
       value: 
-      objectReference: {fileID: 21300050, guid: af06595c7cdd283459677670b149572a,
+      objectReference: {fileID: 21300032, guid: af06595c7cdd283459677670b149572a,
         type: 3}
     - target: {fileID: 0}
       propertyPath: door
       value: 
-      objectReference: {fileID: 21300050, guid: af06595c7cdd283459677670b149572a,
+      objectReference: {fileID: 21300032, guid: af06595c7cdd283459677670b149572a,
         type: 3}
     - target: {fileID: 0}
       propertyPath: excludeFromSave
