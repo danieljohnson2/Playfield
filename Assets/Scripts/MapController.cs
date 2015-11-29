@@ -168,6 +168,9 @@ public class MapController : MonoBehaviour
     /// </summary>
     public void GameOver(string message = null, float delay = 2.0f)
     {
+        // Capture the message before the delay, since moves may be made after
+        // this even though the game is ending.
+
         GameOverController.gameOverMessage = message ?? transcript.Lines().LastOrDefault();
     
         Invoke("ExecuteGameOver", delay);

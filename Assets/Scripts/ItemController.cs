@@ -20,6 +20,16 @@ public class ItemController : MovementBlocker
     {
         passable = true;
     }
+    
+    /// <summary>
+    /// Pickup()  is called when a creature tries to pick up
+    /// this item from the ground.
+    /// </summary>
+    protected virtual void Pickup(CreatureController carrier)
+    {
+        carrier.AddTranscriptLine("{0} picked up {1}!", carrier.name, name);
+        carrier.PlaceInInventory(gameObject);
+    }
 
     /// <summary>
     /// TryGetCarrier() returns the createure that is carrying this
@@ -56,10 +66,7 @@ public class ItemController : MovementBlocker
     {
         var cc = mover.GetComponent<CreatureController>();
         if (cc != null)
-        {
-            cc.AddTranscriptLine("{0} picked up {1}!", mover.name, name);
-            cc.PlaceInInventory(gameObject);
-        }
+            Pickup(cc);
 
         return true;
     }

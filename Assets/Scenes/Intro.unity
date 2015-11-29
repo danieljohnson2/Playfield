@@ -902,7 +902,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "The search for subtitle\t"
+  m_Text: "subtitle\t"
 --- !u!222 &2001485421
 CanvasRenderer:
   m_ObjectHideFlags: 0
