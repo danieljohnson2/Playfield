@@ -1,0 +1,73 @@
+FFFFFF : . : 
+004000 : @ : Mountainside
+0000FF : / : Water
+00FF00 : + : Grass
+007F00 : & : Tree
+7F7F7F : : : Floor
+404040 : # : Wall
+FFFF00 : , : Path
+7F0000 : = : Door
+7F00FF : | : PathDoor : YouWin
+7F007F : - : JewelSlot
+01FFFF : ` : Floor, Sword
+02FFFF : ! : Floor, Gold Key
+03FFFF : $ : Floor, Red Key
+04FFFF : % : Floor, Green Key
+05FFFF : ^ : Floor, Blue Key
+06FFFF : * : Floor, Red Gem
+07FFFF : ( : Path, Green Gem
+08FFFF : ) : Floor, Blue Gem
+09FFFF : { : Floor, Tim the Rat
+0AFFFF : } : Floor, Goblin Horde
+FF00FF : 0 : Grass, Hero
+FF01FF : 1 : Grass, Bob the Goblin
+FF02FF : 2 : Grass, Jim the Rat
+FF03FF : 3 : Grass, Kim the Rat
+FF04FF : 4 : Grass, Lady
+FF05FF : 5 : Grass, Pirate
+FF06FF : 6 : Floor, Swordsman
+FF07FF : 7 : Grass, Brute
+FF08FF : 8 : Floor, Schemer
+FF09FF : 9 : Floor, Wizard
+FF0000 : a : Door : CastleThroneRoomMain
+FF0001 : b : Door : CastleThroneRoomLeft
+FF0002 : c : Door : CastleThroneRoomRight
+FF0003 : d : Door : CastleParapetBottomLeft
+FF0004 : e : Door : CastleParapetBottomRight
+FF0005 : f : Door : CastleEntrywayToTopLevel
+FF0006 : g : Door : CastleBasementLeft
+FF0007 : h : Door : CastleBasementRight
+FF0008 : i : PathDoor, Red Door : CavesToCastle
+FF0009 : j : Path Door : CavesMainATop
+FF000A : k : Path Door : CavesMainBTop
+FF000B : l : Path Door : CavesMainBToTopLevel
+FF000C : m : Path Door : CavesFalseExitTop
+FF000D : n : Path Door : CavesLinkTallTop
+FF000E : o : Path Door : CavesLinkTallLeft
+FF000F : p : Path Door : CavesLinkTallRight
+FF0010 : q : Path Door : CavesLinkShortLeft
+FF0011 : r : Path Door : CavesLinkShortRight
+FF0012 : s : Path Door : VeniceNorthToTopLevel
+FF0013 : t : Door : VeniceTavernTopLeft
+FF0014 : u : Door : VeniceTavernTopRight
+FF0015 : v : Path Door, Red Door : VeniceTavernBottom
+FF0016 : w : Path Door, Red Door : VeniceLighthouse
+FF0017 : x : Path Door, Green Door : VeniceLonghouseTop
+FF0018 : y : Path Door, Green Door : VeniceLonghouseBottom
+FF0019 : z : Path Door, Green Door : VeniceArboretumTop
+FF001A : A : Path Door, Green Door : VeniceArboretumBottom
+FF001B : B : Path Door, Blue Door : VeniceInnTop
+FF001C : C : Path Door, Blue Door : VeniceInnBottom
+FF001D : D : Path Door, Blue Door : VenicePumphouseTop
+FF001E : E : Path Door, Blue Door : VenicePumphouseBottom
+FF001F : F : Path Door : VeniceSouthToTopLevel
+FF0020 : G :  Door : DeadEndAlleywaysToTopLevel
+FF0021 : H :  Door : DeadEndAlleywaysSchemerHouse
+FF0022 : I :  Door : DeadEndAlleywaysLodgings
+FF0023 : J :  Door : DeadEndAlleywaysSwordsmanHouse
+FF0024 : K :  Door : DeadEndAlleywaysGuardHouse
+FF0025 : L :  Door : LittleVillageToTopLevel
+FF0026 : M :  Door : LittleVillageWestHouse
+FF0027 : N :  Door : LittleVillageTavern
+FF0028 : O :  Door : LittleVillageEastHouse
+FF0029 : P :  Door : LittleVillageGardenShed
