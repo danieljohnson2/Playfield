@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8139582ed09f74bb48c66d47a591c98d
-timeCreated: 1440450510
+timeCreated: 1449178772
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -15,6 +15,7 @@ TextureImporter:
     21300016: JimRat
     21300018: TimRat
     21300020: KimRat
+    21300022: Goblins
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -48,6 +49,7 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
@@ -167,6 +169,16 @@ TextureImporter:
         y: 10
         width: 66
         height: 91
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Goblins
+      rect:
+        serializedVersion: 2
+        x: 477
+        y: 7
+        width: 89
+        height: 96
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
