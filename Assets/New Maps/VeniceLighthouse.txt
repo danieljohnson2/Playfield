@@ -1,0 +1,15 @@
+#########
+#:::::::#
+#:::::):#
+########
+#:#:::::#
+#:#:::::#
+#:#:::::#
+#:::::::#
+####w####
+-
+# Wall
+) Floor, Blue Gem
+: Floor
+w Path Door, Red Door:VeniceLighthouse
+ undefined

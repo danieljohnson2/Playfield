@@ -1,0 +1,14 @@
+########
+#&&&&&&#
+#&+++++#
+#&&&++&#
+####++##
+#,,,,,,#
+#,,,,,,#
+#P######
+-
+# Wall
+& Tree
++ Grass
+, Path
+P Door:LittleVillageGardenShed

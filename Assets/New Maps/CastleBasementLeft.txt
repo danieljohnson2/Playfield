@@ -1,0 +1,18 @@
+#g####..........
+#::::##########.
+#:##::{:::::::#.
+#::#::::####::#.
+#:::::::::::::##
+#:####:~::#::::#
+###::###::#::::#
+#:::::::::#::{:#
+i::::{:::::{:::#
+################
+-
+# Wall
+. 
+: Floor
+g Door:CastleBasementLeft
+i PathDoor, Red Door:CavesToCastle
+{ Floor, Tim the Rat
+~ undefined

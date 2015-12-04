@@ -1,0 +1,15 @@
+########
+#::::::#
+#::::6:#
+#::::::#
+###:::#
+#::#`:`#
+#::#:::#
+##J#####
+-
+# Wall
+6 Floor, Swordsman
+: Floor
+J Door:DeadEndAlleywaysSwordsmanHouse
+` Floor, Sword
+ undefined

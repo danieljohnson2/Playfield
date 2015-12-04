@@ -1,0 +1,16 @@
+######N#####
+#,,,,,,,,,,#
+#,,,,,,,,,,#
+#,########,#
+#,#%:::::#,#
+#,#::::!:#,#
+#,::::::,#
+############
+-
+! Floor, Gold Key
+# Wall
+% Floor, Green Key
+, Path
+: Floor
+N Door:LittleVillageTavern
+ undefined

@@ -1,0 +1,15 @@
+......####......
+...####::####...
+.###::::::::###.
+##::::::::$:::##
+#::::::::::::::#
+#::::::::::::::#
+q::::::::::::::r
+################
+-
+# Wall
+$ Floor, Red Key
+. 
+: Floor
+q Path Door:CavesLinkShortLeft
+r Path Door:CavesLinkShortRight

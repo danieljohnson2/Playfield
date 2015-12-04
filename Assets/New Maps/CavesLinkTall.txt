@@ -1,0 +1,18 @@
+.....####n#.....
+....##::::##....
+...##::::::##...
+..##::::::::##..
+.##:`::::::::##.
+##::::::::::::##
+#::::::::::::::#
+#::::::::::::::#
+o::::::::::::::p
+################
+-
+# Wall
+. 
+: Floor
+` Floor, Sword
+n Path Door:CavesLinkTallTop
+o Path Door:CavesLinkTallLeft
+p Path Door:CavesLinkTallRight

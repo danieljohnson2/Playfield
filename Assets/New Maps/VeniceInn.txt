@@ -1,0 +1,17 @@
+#B##########
+#:::::::::#
+#:::#:::::`#
+#:::########
+#:::::#::::#
+####:#::::#
+#:::#:#####
+#::!#::::::#
+##########C#
+-
+! Floor, Gold Key
+# Wall
+: Floor
+B Path Door, Blue Door:VeniceInnTop
+C Path Door, Blue Door:VeniceInnBottom
+` Floor, Sword
+ undefined

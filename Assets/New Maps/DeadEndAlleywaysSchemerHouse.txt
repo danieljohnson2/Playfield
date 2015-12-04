@@ -1,0 +1,15 @@
+############
+#::::#:::::#
+#:::::::::#
+#::::#::8::#
+#::::#:::::#
+#::!:#:::::#
+#::::#:::::#
+######H#####
+-
+! Floor, Gold Key
+# Wall
+8 Floor, Schemer
+: Floor
+H Door:DeadEndAlleywaysSchemerHouse
+ undefined

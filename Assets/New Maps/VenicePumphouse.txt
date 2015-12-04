@@ -1,0 +1,21 @@
+#######D#
+#:#///#:#
+#::#/#::#
+#:::#:::#
+#:###:::#
+#:::::::#
+#:::##::#
+#::#/#::#
+#::##:::#
+#:::::::#
+#:::###:#
+E:::#:::#
+#::#/#::#
+#:#///#:#
+#####////
+-
+# Wall
+/ Water
+: Floor
+D Path Door, Blue Door:VenicePumphouseTop
+E Path Door, Blue Door:VenicePumphouseBottom
