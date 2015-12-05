@@ -13,7 +13,7 @@ public class PlayerController : CreatureController
 {
     public UnityEngine.UI.Text playerStatusText;
     private int moveDeltaX, moveDeltaY;
-    private bool moveMade;
+    private bool moveMade, moveReady;
 
     public override IEnumerator DoTurnAsync()
     {
@@ -21,7 +21,7 @@ public class PlayerController : CreatureController
 
         // we'll yield until the user enters a move...
 
-        while (!moveMade)
+        while (!moveMade || !moveReady)
         {
             yield return null;
         }
@@ -37,6 +37,7 @@ public class PlayerController : CreatureController
             moveDeltaX = 0;
             moveDeltaY = 0;
             moveMade = false;
+            moveReady = false;
         }
     }
 
@@ -53,7 +54,7 @@ public class PlayerController : CreatureController
 
         mapController.GameOver();
     }
-    
+
     private void SyncCamera()
     {
         Vector3 playerPos = transform.position;
@@ -82,38 +83,42 @@ public class PlayerController : CreatureController
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             moveDeltaX = -1;
             moveDeltaY = 0;
             moveMade = true;
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
             moveDeltaX = 1;
             moveDeltaY = 0;
             moveMade = true;
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetKey(KeyCode.UpArrow))
         {
             moveDeltaX = 0;
             moveDeltaY = -1;
             moveMade = true;
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             moveDeltaX = 0;
             moveDeltaY = 1;
             moveMade = true;
         }
-        else if (Input.GetKeyDown(KeyCode.F5))
+        else if (Input.GetKey(KeyCode.F5))
         {
             Save();
         }
-        else if (Input.GetKeyDown(KeyCode.F9))
+        else if (Input.GetKey(KeyCode.F9))
         {
             Restore();
             moveMade = true;
+        }
+        else if (moveMade)
+        {
+            moveReady = true;
         }
 
         SyncCamera();

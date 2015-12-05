@@ -172,7 +172,7 @@ public class MapController : MonoBehaviour
         // this even though the game is ending.
 
         GameOverController.gameOverMessage = message ?? transcript.Lines().LastOrDefault();
-    
+
         Invoke("ExecuteGameOver", delay);
     }
 
@@ -381,6 +381,7 @@ public class MapController : MonoBehaviour
         private readonly Queue<GameObject> pendingRemoval = new Queue<GameObject>();
         private readonly LazyList<GameObject> lazyMapContainers = new LazyList<GameObject>();
         private readonly HashSet<Location> loadedEntityLocations = new HashSet<Location>();
+        private readonly Dictionary<Type, Array> lazyComponentsByType = new Dictionary<Type, Array>();
         private ILookup<string, GameObject> lazyByTag, lazyByName;
 
         public EntityTracker(MapController mapController)
@@ -523,11 +524,19 @@ public class MapController : MonoBehaviour
         public IEnumerable<T> Components<T>()
             where T : Component
         {
-            return
-                from go in entities
-                select go.GetComponent<T>() into c
-                where c != null
-                select c;
+            Array array;
+            if (!lazyComponentsByType.TryGetValue(typeof(T), out array))
+            {
+                array =
+                    (from go in entities
+                     select go.GetComponent<T>() into c
+                     where c != null
+                     select c).ToArray();
+
+                lazyComponentsByType.Add(typeof(T), array);
+            }
+
+            return (IEnumerable<T>)array;
         }
 
         /// <summary>
@@ -539,10 +548,8 @@ public class MapController : MonoBehaviour
             where T : Component
         {
             return
-                from go in entities
-                where location == Location.Of(go)
-                select go.GetComponent<T>() into c
-                where c != null
+                from c in Components<T>()
+                where location == Location.Of(c.gameObject)
                 select c;
         }
 
@@ -558,18 +565,23 @@ public class MapController : MonoBehaviour
             foreach (GameObject go in entities)
             {
                 Location loc = Location.Of(go);
+                bool shouldBeActive = false;
 
                 if (loc.mapIndex >= 0)
                 {
                     Map map = mapController.maps[loc.mapIndex];
-                    GameObject mapContainer = GetMapContainer(map);
-                    go.transform.parent = mapContainer.transform;
-                    go.SetActive(true);
+
+                    Transform goTransform = go.transform;
+                    Transform mapContainerTransform = GetMapContainer(map).transform;
+
+                    if (goTransform.parent != mapContainerTransform)
+                        goTransform.parent = mapContainerTransform;
+
+                    shouldBeActive = true;
                 }
-                else
-                {
-                    go.SetActive(false);
-                }
+
+                if (go.activeSelf != shouldBeActive)
+                    go.SetActive(shouldBeActive);
             }
         }
 
@@ -596,6 +608,7 @@ public class MapController : MonoBehaviour
         {
             lazyByTag = null;
             lazyByName = null;
+            lazyComponentsByType.Clear();
         }
     }
 

@@ -19,7 +19,7 @@ public class FourWaySpriteController : MonoBehaviour
 		this.spriteRenderer = GetComponent<SpriteRenderer> ();
 	}
 	
-	void Update ()
+	void Start ()
 	{
 	    Sprite newSprite = PickSprite ();
 

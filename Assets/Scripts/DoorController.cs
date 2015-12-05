@@ -25,7 +25,8 @@ public class DoorController : MovementBlocker
 		this.spriteRenderer = GetComponent<SpriteRenderer> ();
 	}
 
-	void Update ()
+    // TODO: should be Update, but we need a more efficient way to update this sprite!
+	void Start ()
 	{
 		Sprite newSprite = isOpen ? openDoor : door;
 
