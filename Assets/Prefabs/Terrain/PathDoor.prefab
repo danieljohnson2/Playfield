@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21240806}
   - 114: {fileID: 11461756}
   m_Layer: 0
-  m_Name: Path Door
+  m_Name: PathDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

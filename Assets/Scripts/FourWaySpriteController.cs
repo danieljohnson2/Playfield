@@ -21,7 +21,7 @@ public class FourWaySpriteController : MonoBehaviour
 	
 	void Update ()
 	{
-		Sprite newSprite = PickSprite ();
+	    Sprite newSprite = PickSprite ();
 
 		if (newSprite != null)
 			spriteRenderer.sprite = newSprite;

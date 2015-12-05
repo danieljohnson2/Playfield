@@ -1,0 +1,361 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &154314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 402586}
+  - 212: {fileID: 21231602}
+  - 114: {fileID: 11472114}
+  - 114: {fileID: 11468180}
+  - 114: {fileID: 11455460}
+  - 114: {fileID: 11408142}
+  - 114: {fileID: 11400980}
+  - 114: {fileID: 11433080}
+  - 114: {fileID: 11484164}
+  - 114: {fileID: 11455920}
+  m_Layer: 0
+  m_Name: Lady
+  m_TagString: Goblin
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &402586
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11400980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f69c70d494cea4aaf6c47cac11700d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: ad7497b47d5d0b547ad56c2ddc0507df, type: 2}
+  - {fileID: 164048, guid: d0102954aec61714db28b4056f38dbef, type: 2}
+  barkDuration: 3
+  barkChance: .25
+  minimumBarkInterval: 5
+  maximumBarkInterval: 15
+  heatmapName: loot
+  heatSource: 
+  minimumHeatmapStrength: 58
+--- !u!114 &11408142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f69c70d494cea4aaf6c47cac11700d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: 370c96a0d45734042a957eb0f7bfa3d0, type: 2}
+  - {fileID: 164048, guid: b0bdd323133120345bf0701f2f660326, type: 2}
+  barkDuration: 3
+  barkChance: .75
+  minimumBarkInterval: 3
+  maximumBarkInterval: 8
+  heatmapName: fight
+  heatSource: 
+  minimumHeatmapStrength: 0
+--- !u!114 &11433080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f69c70d494cea4aaf6c47cac11700d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: de041516f4c628347bb39c614dd1dcc9, type: 2}
+  barkDuration: 3
+  barkChance: .5
+  minimumBarkInterval: 5
+  maximumBarkInterval: 15
+  heatmapName: loot
+  heatSource: Key
+  minimumHeatmapStrength: 58
+--- !u!114 &11455460
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32afa8f63e5d224792618212002a094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 0
+  heatmapRange: 4
+  heatmapCooling: 0
+  heatmapAutoReset: 1
+  preferences:
+  - Key=128
+  - Gem=256
+  - Weapon[Exposed]=128
+  heatmapMarkerPrefab: {fileID: 0}
+  heatmapName: loot
+  heldItemAwareness: 1
+  carriedItemAwareness: .25
+--- !u!114 &11455920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba5ba840951629545b79ac8873c71cdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: 8a2203d9d7885e54398391bc226636df, type: 2}
+  - {fileID: 164048, guid: 17665b28347b4ee4688dcffee6a2a2be, type: 2}
+  - {fileID: 164048, guid: ca98ee54334029a4da54e44353698d4b, type: 2}
+  barkDuration: 3
+  barkChance: 1
+  minimumBarkInterval: .5
+  maximumBarkInterval: 2
+  newHeatmapName: fight
+  oldHeatmapName: 
+--- !u!114 &11468180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32afa8f63e5d224792618212002a094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 1
+  heatmapRange: 5
+  heatmapCooling: 64
+  heatmapAutoReset: 0
+  preferences:
+  - Player=16
+  - Rat=12
+  - Weapon[Held]=-16
+  heatmapMarkerPrefab: {fileID: 0}
+  heatmapName: fight
+  heldItemAwareness: 1
+  carriedItemAwareness: .25
+--- !u!114 &11472114
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbf91a405a8a074188e27cbf50fa017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  excludeFromSave: 0
+  hitPoints: 10
+  damage:
+    DiceCount: 1
+    DiceSize: 3
+    Plus: 0
+  canUseWeapons: 1
+  speed: .75
+  weight: 15
+  attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  teamAware: 1
+  heldItemPivot: {x: .949999988, y: .550000012}
+--- !u!114 &11484164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7840811b967e3304f8077fb1d2b05612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: 17467beaa4d8e1f49bad9ee70f60acb5, type: 2}
+  - {fileID: 164048, guid: 6223d48fc789800468e4c96dd109331d, type: 2}
+  - {fileID: 164048, guid: f2c8e24206eeeaf478e174449f54ada9, type: 2}
+  barkDuration: 3
+  barkChance: .899999976
+  minimumBarkInterval: 1
+  maximumBarkInterval: 3
+--- !u!212 &21231602
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8d4a5a658a0a8ea4fa5036add894e821, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 21300006, guid: 8139582ed09f74bb48c66d47a591c98d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: barkPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[0]
+      value: Player=16
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[1]
+      value: Gem=256
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Goblin
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapMarkerPrefab
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapCooling
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: .75
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300006, guid: 8139582ed09f74bb48c66d47a591c98d,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: heatmapName
+      value: loot
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: barkPrefab
+      value: 
+      objectReference: {fileID: 164048, guid: 370c96a0d45734042a957eb0f7bfa3d0, type: 2}
+    - target: {fileID: 0}
+      propertyPath: barkDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: minimumBarkInterval
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maximumBarkInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: barkChance
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: barkPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 164048, guid: de041516f4c628347bb39c614dd1dcc9, type: 2}
+    - target: {fileID: 0}
+      propertyPath: barkPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 164048, guid: d0102954aec61714db28b4056f38dbef, type: 2}
+    - target: {fileID: 0}
+      propertyPath: minimumHeatmapStrength
+      value: 58
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: newHeatmapName
+      value: fight
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatSource
+      value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[2]
+      value: Weapon[Held]=-16
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemPivot.x
+      value: .949999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemPivot.y
+      value: .550000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[3]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: priority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapAutoReset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: weight
+      value: 15
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 154314}
+  m_IsPrefabParent: 1

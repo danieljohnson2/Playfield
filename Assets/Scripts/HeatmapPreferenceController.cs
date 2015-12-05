@@ -161,7 +161,10 @@ public class HeatmapPreferenceController : MonoBehaviour
 
         MapController mapController = MapController.instance;
 
-        heatmap.Heat(heatmapRange, (loc, adj) =>
+        // artificially clamp the range to get it fast enough for now.
+        const short maximumRange = 256;
+
+        heatmap.Heat(Math.Min(maximumRange, heatmapRange), (loc, adj) =>
             mapController.adjacencyGenerator.GetAdjacentLocationsInto(gameObject, loc, adj));
 
         if (heatmapMarkerPrefab != null)
