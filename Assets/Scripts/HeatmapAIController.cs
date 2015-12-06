@@ -41,8 +41,6 @@ public class HeatmapAIController : CreatureController
 
 	protected override void DoTurn ()
 	{
-        // disabled the AI for perf reasons for now.
-        /*
 		List<Heatmap> heatmaps = UpdateHeatmaps ();
 
 		// Note that the candidate moves must be to
@@ -70,7 +68,6 @@ public class HeatmapAIController : CreatureController
 		} else {
 			activeHeatmap = null;
 		}
-        */
 	}
 
 	/// <summary>

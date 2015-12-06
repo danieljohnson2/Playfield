@@ -153,7 +153,13 @@ public struct Location : IEquatable<Location>
 
 	public override int GetHashCode ()
 	{
-		return unchecked(x ^ (y << 16));
+        unchecked
+        {
+            int hashCode = mapIndex;
+            hashCode += x * 17;
+            hashCode += y * 31;
+            return hashCode;
+        }
 	}
 
 	#endregion
