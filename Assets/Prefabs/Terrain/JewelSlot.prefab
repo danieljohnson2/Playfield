@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 491516}
   - 212: {fileID: 21233332}
   - 114: {fileID: 11461442}
-  - 114: {fileID: 11457292}
   m_Layer: 0
   m_Name: JewelSlot
   m_TagString: Untagged
@@ -30,33 +29,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11457292
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 166036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2f161d9303ca4b7abe73a1b5c045c95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Wall_0000: {fileID: 21300000, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_0001: {fileID: 21300002, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_0010: {fileID: 21300004, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_0011: {fileID: 21300006, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_0100: {fileID: 21300008, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_0101: {fileID: 21300010, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_0110: {fileID: 21300012, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_0111: {fileID: 21300014, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_1000: {fileID: 21300016, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_1001: {fileID: 21300018, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_1010: {fileID: 21300020, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_1011: {fileID: 21300022, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_1100: {fileID: 21300024, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_1101: {fileID: 21300026, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_1110: {fileID: 21300028, guid: af06595c7cdd283459677670b149572a, type: 3}
-  Wall_1111: {fileID: 21300030, guid: af06595c7cdd283459677670b149572a, type: 3}
 --- !u!114 &11461442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,7 +67,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: af06595c7cdd283459677670b149572a, type: 3}
+  m_Sprite: {fileID: 21300118, guid: af06595c7cdd283459677670b149572a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -108,6 +80,11 @@ Prefab:
       propertyPath: excludeFromSave
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300118, guid: af06595c7cdd283459677670b149572a,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 166036}

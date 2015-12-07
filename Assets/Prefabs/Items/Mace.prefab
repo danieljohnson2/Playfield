@@ -44,8 +44,8 @@ MonoBehaviour:
   heldDisplayPriority: 98
   scaleWhenHeld: 1
   damage:
-    DiceCount: 2
-    DiceSize: 6
+    DiceCount: 1
+    DiceSize: 10
     Plus: 1
 --- !u!212 &21209938
 SpriteRenderer:
@@ -93,11 +93,11 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: damage.DiceCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage.DiceSize
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage.Plus

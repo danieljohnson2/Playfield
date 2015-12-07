@@ -7,7 +7,7 @@ M,,,,,,#
 #,,,,,,#
 #,,,,,,#
 #,,,,,,#
-#######
+######=#
 #,,,,,,#
 #,,,,,,#
 #,,,,,,#
@@ -18,4 +18,4 @@ M,,,,,,#
 # Wall
 , Path
 M Door:LittleVillageWestHouse
- undefined
+= Door

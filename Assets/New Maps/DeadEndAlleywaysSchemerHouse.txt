@@ -1,6 +1,6 @@
 ############
 #::::#:::::#
-#:::::::::#
+#::::=:::::#
 #::::#::8::#
 #::::#:::::#
 #::!:#:::::#
@@ -12,4 +12,4 @@
 8 Floor, Schemer
 : Floor
 H Door:DeadEndAlleywaysSchemerHouse
- undefined
+= Door

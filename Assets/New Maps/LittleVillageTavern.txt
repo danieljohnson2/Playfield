@@ -4,7 +4,7 @@
 #,########,#
 #,#%:::::#,#
 #,#::::!:#,#
-#,::::::,#
+#,=::R:::=,#
 ############
 -
 ! Floor, Gold Key
@@ -13,4 +13,5 @@
 , Path
 : Floor
 N Door:LittleVillageTavern
- undefined
+= Door
+R Floor, Dagger

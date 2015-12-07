@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1449178815
+timeCreated: 1449525272
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -24,7 +24,7 @@ TextureImporter:
     21300034: Red Door
     21300036: Green Door
     21300038: Blue Door
-    21300040: White Door
+    21300040: Wood Door
     21300042: Sprites_21
     21300044: Sprites_22
     21300046: Sprites_23
@@ -32,16 +32,16 @@ TextureImporter:
     21300050: Sprites_25
     21300052: Water TL
     21300054: Water TR
-    21300056: Sprites_28
-    21300058: Sprites_29
+    21300056: MountainsideTL
+    21300058: MountainsideTR
     21300060: Tree 1
     21300062: Tree 2
     21300064: Sprites_32
     21300066: Sprites_33
     21300068: Water BL
     21300070: Water BR
-    21300072: Sprites_36
-    21300074: Sprites_37
+    21300072: MountainsideBL
+    21300074: MountainsideBR
     21300076: Tree 3
     21300078: Tree 4
     21300080: Red Gem
@@ -314,7 +314,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: White Door
+    - name: Wood Door
       rect:
         serializedVersion: 2
         x: 512
@@ -394,7 +394,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_28
+    - name: MountainsideTL
       rect:
         serializedVersion: 2
         x: 512
@@ -404,7 +404,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_29
+    - name: MountainsideTR
       rect:
         serializedVersion: 2
         x: 640
@@ -474,7 +474,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_36
+    - name: MountainsideBL
       rect:
         serializedVersion: 2
         x: 512
@@ -484,7 +484,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_37
+    - name: MountainsideBR
       rect:
         serializedVersion: 2
         x: 640

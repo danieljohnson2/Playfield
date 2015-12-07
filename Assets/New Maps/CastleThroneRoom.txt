@@ -25,4 +25,3 @@ a Door:CastleThroneRoomMain
 b Door:CastleThroneRoomLeft
 c Door:CastleThroneRoomRight
 | PathDoor:YouWin
- undefined

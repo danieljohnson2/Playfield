@@ -40,8 +40,13 @@ FF0026:M:Door:LittleVillageWestHouse
 FF0027:N:Door:LittleVillageTavern
 FF0028:O:Door:LittleVillageEastHouse
 FF0029:P:Door:LittleVillageGardenShed
+FF0030:Q:Grass, Gold Key
 05FFFF:^:Floor, Blue Key
-01FFFF:`:Floor, Sword
+01FFFE:`:Floor, Sword
+01FFFD:R:Floor, Dagger
+01FFFC:S:Floor, Club
+01FFFB:T:Floor, Mace
+01FFFA:U:Grass, Axe
 FF0000:a:Door:CastleThroneRoomMain
 FF0001:b:Door:CastleThroneRoomLeft
 FF0002:c:Door:CastleThroneRoomRight
@@ -71,4 +76,4 @@ FF0019:z:Path Door, Green Door:VeniceArboretumTop
 09FFFF:{:Floor, Tim the Rat
 7F00FF:|:PathDoor:YouWin
 0AFFFF:}:Floor, Goblin Horde
-7B7B7B:~:undefined
+7B7B7B:~:Door

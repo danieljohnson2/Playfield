@@ -21,4 +21,3 @@
 : Floor
 b Door:CastleThroneRoomLeft
 d Door:CastleParapetBottomLeft
- undefined

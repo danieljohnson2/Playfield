@@ -6,7 +6,7 @@
 #,#::::::::::::#,#
 #,#::::::::::::#,#
 #,#:##::::::##:#,#
-#,###::::::###,#
+#,#=##::::::##=#,#
 #,,,#::::::::#,,,#
 #,,,#::::::::#,,,#
 #,,,#:!::::::#,,,#
@@ -24,4 +24,4 @@ v,,,,,,,,,,,,,,,,#
 t Door:VeniceTavernTopLeft
 u Door:VeniceTavernTopRight
 v Path Door, Red Door:VeniceTavernBottom
- undefined
+= Door

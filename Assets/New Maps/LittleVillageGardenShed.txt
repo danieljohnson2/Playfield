@@ -1,6 +1,6 @@
 ########
 #&&&&&&#
-#&+++++#
+#&+U+++#
 #&&&++&#
 ####++##
 #,,,,,,#
@@ -12,3 +12,4 @@
 + Grass
 , Path
 P Door:LittleVillageGardenShed
+U Grass, Axe

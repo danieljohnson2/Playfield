@@ -22,4 +22,3 @@
 ` Floor, Sword
 c Door:CastleThroneRoomRight
 e Door:CastleParapetBottomRight
- undefined
