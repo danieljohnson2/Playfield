@@ -14,7 +14,7 @@
 # Wall
 . 
 : Floor
-K Door:DeadEndAlleywaysGuardHouse
+K Path Door, Wood Door:DeadEndAlleywaysGuardHouse
 ^ Floor, Blue Key
 ` Floor, Sword
 = Door

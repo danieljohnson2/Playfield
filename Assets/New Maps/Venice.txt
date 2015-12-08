@@ -63,11 +63,10 @@ D Path Door, Blue Door:VenicePumphouseTop
 E Path Door, Blue Door:VenicePumphouseBottom
 F Path Door:VeniceSouthToTopLevel
 s Path Door:VeniceNorthToTopLevel
-t Door:VeniceTavernTopLeft
-u Door:VeniceTavernTopRight
+t Path Door, Wood Door:VeniceTavernTopLeft
+u Path Door, Wood Door:VeniceTavernTopRight
 v Path Door, Red Door:VeniceTavernBottom
 w Path Door, Red Door:VeniceLighthouse
 x Path Door, Green Door:VeniceLonghouseTop
 y Path Door, Green Door:VeniceLonghouseBottom
 z Path Door, Green Door:VeniceArboretumTop
- Door

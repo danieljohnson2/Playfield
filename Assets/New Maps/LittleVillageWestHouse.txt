@@ -17,5 +17,5 @@ M,,,,,,#
 -
 # Wall
 , Path
-M Door:LittleVillageWestHouse
+M Path Door, Wood Door:LittleVillageWestHouse
 = Door

@@ -30,9 +30,9 @@
 . 
 / Water
 : Floor
-G Door:DeadEndAlleywaysToTopLevel
-H Door:DeadEndAlleywaysSchemerHouse
-I Door:DeadEndAlleywaysLodgings
-J Door:DeadEndAlleywaysSwordsmanHouse
-K Door:DeadEndAlleywaysGuardHouse
+G Path Door, Wood Door:DeadEndAlleywaysToTopLevel
+H Path Door, Wood Door:DeadEndAlleywaysSchemerHouse
+I Path Door, Wood Door:DeadEndAlleywaysLodgings
+J Path Door, Wood Door:DeadEndAlleywaysSwordsmanHouse
+K Path Door, Wood Door:DeadEndAlleywaysGuardHouse
 ` Floor, Sword

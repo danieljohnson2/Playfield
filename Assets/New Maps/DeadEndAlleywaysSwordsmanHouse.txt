@@ -10,6 +10,6 @@
 # Wall
 6 Floor, Swordsman
 : Floor
-J Door:DeadEndAlleywaysSwordsmanHouse
+J Path Door, Wood Door:DeadEndAlleywaysSwordsmanHouse
 ` Floor, Sword
 = Door

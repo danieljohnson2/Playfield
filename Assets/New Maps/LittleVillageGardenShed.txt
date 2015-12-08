@@ -11,5 +11,5 @@
 & Tree
 + Grass
 , Path
-P Door:LittleVillageGardenShed
+P Path Door, Wood Door:LittleVillageGardenShed
 U Grass, Axe

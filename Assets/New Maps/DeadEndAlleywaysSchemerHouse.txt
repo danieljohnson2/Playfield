@@ -11,5 +11,5 @@
 # Wall
 8 Floor, Schemer
 : Floor
-H Door:DeadEndAlleywaysSchemerHouse
+H Path Door, Wood Door:DeadEndAlleywaysSchemerHouse
 = Door

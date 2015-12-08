@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1449525272
+timeCreated: 1449605964
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -24,8 +24,8 @@ TextureImporter:
     21300034: Red Door
     21300036: Green Door
     21300038: Blue Door
-    21300040: Wood Door
-    21300042: Sprites_21
+    21300040: Wooden Door
+    21300042: Door
     21300044: Sprites_22
     21300046: Sprites_23
     21300048: Sprites_24
@@ -314,7 +314,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Wood Door
+    - name: Wooden Door
       rect:
         serializedVersion: 2
         x: 512
@@ -324,7 +324,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_21
+    - name: Door
       rect:
         serializedVersion: 2
         x: 640
@@ -517,42 +517,42 @@ TextureImporter:
     - name: Red Gem
       rect:
         serializedVersion: 2
-        x: 0
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 11
+        y: 294
+        width: 79
+        height: 85
+      alignment: 9
+      pivot: {x: .65398705, y: .373396218}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Green Gem
       rect:
         serializedVersion: 2
-        x: 128
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 138
+        y: 297
+        width: 81
+        height: 76
+      alignment: 9
+      pivot: {x: .673290312, y: .290683538}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Blue Gem
       rect:
         serializedVersion: 2
-        x: 256
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 270
+        y: 299
+        width: 71
+        height: 74
+      alignment: 9
+      pivot: {x: .71746695, y: .33560881}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Sword
       rect:
         serializedVersion: 2
-        x: 384
-        y: 256
-        width: 128
-        height: 128
+        x: 394
+        y: 315
+        width: 51
+        height: 69
       alignment: 9
-      pivot: {x: .400000006, y: .519999981}
+      pivot: {x: .836099088, y: .115015887}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Sprites_44
       rect:
@@ -567,72 +567,72 @@ TextureImporter:
     - name: Dagger
       rect:
         serializedVersion: 2
-        x: 644
-        y: 285
-        width: 101
-        height: 96
+        x: 664
+        y: 310
+        width: 53
+        height: 55
       alignment: 9
-      pivot: {x: .544228375, y: .390545458}
+      pivot: {x: .647464395, y: .248429179}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Club
       rect:
         serializedVersion: 2
-        x: 747
-        y: 293
-        width: 75
-        height: 90
+        x: 748
+        y: 312
+        width: 45
+        height: 61
       alignment: 9
-      pivot: {x: .479360342, y: .293600112}
+      pivot: {x: .826757789, y: .101392902}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Mace
       rect:
         serializedVersion: 2
-        x: 827
-        y: 299
-        width: 73
-        height: 87
+        x: 833
+        y: 317
+        width: 46
+        height: 61
       alignment: 9
-      pivot: {x: .584822118, y: .2864829}
+      pivot: {x: .822712779, y: .132717445}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Red Key
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 21
+        y: 190
+        width: 40
+        height: 49
+      alignment: 9
+      pivot: {x: .752635479, y: .203024417}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Green Key
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 149
+        y: 188
+        width: 41
+        height: 51
+      alignment: 9
+      pivot: {x: .766191423, y: .206745222}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Blue Key
       rect:
         serializedVersion: 2
-        x: 256
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 274
+        y: 187
+        width: 39
+        height: 51
+      alignment: 9
+      pivot: {x: .73838377, y: .214670226}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Yellow Key
       rect:
         serializedVersion: 2
-        x: 384
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 401
+        y: 188
+        width: 41
+        height: 52
+      alignment: 9
+      pivot: {x: .76662612, y: .186027229}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Sprites_52
       rect:
@@ -717,12 +717,12 @@ TextureImporter:
     - name: Axe
       rect:
         serializedVersion: 2
-        x: 916
-        y: 295
-        width: 78
-        height: 84
+        x: 924
+        y: 318
+        width: 43
+        height: 56
       alignment: 9
-      pivot: {x: .559538245, y: .334143132}
+      pivot: {x: .886735797, y: .124774933}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Sprites_61
       rect:

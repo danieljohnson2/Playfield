@@ -16,7 +16,7 @@
 ./@@@@@,,++&+&++//&F/+//+&//
 ./@@@#@@,,+++&&+//,,///&&///
 ./@@###@@,++++&++&,/++++///.
-./&@@@@@@,++&++&++P//+&///..
+./&@@@@@@,++&++&++,//+&///..
 //&&@@&++,,+&+&+++,//////...
 /&&+&&+++&,&++++++,+/////...
 /&&+++++++,&+&&+++,,++////..
@@ -42,13 +42,12 @@
 2 Grass, Jim the Rat
 3 Grass, Kim the Rat
 9 Grass, Wizard
-P Grass, Player
 Q Grass, Gold Key
 : Floor
 @ Mountainside
 F Path Door:VeniceSouthToTopLevel
 G Path Door:DeadEndAlleywaysToTopLevel
 L Path Door:LittleVillageToTopLevel
-f Door:CastleEntrywayToTopLevel
-l Door:CavesMainBToTopLevel
+f Path Door, Wood Door:CastleEntrywayToTopLevel
+l Path Door, Wood Door:CavesMainBToTopLevel
 s Path Door:VeniceNorthToTopLevel

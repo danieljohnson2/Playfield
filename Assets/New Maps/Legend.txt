@@ -30,16 +30,16 @@ FF001C:C:Path Door, Blue Door:VeniceInnBottom
 FF001D:D:Path Door, Blue Door:VenicePumphouseTop
 FF001E:E:Path Door, Blue Door:VenicePumphouseBottom
 FF001F:F:Path Door:VeniceSouthToTopLevel
-FF0020:G:Door:DeadEndAlleywaysToTopLevel
-FF0021:H:Door:DeadEndAlleywaysSchemerHouse
-FF0022:I:Door:DeadEndAlleywaysLodgings
-FF0023:J:Door:DeadEndAlleywaysSwordsmanHouse
-FF0024:K:Door:DeadEndAlleywaysGuardHouse
-FF0025:L:Door:LittleVillageToTopLevel
-FF0026:M:Door:LittleVillageWestHouse
-FF0027:N:Door:LittleVillageTavern
-FF0028:O:Door:LittleVillageEastHouse
-FF0029:P:Door:LittleVillageGardenShed
+FF0020:G:Path Door, Wood Door:DeadEndAlleywaysToTopLevel
+FF0021:H:Path Door, Wood Door:DeadEndAlleywaysSchemerHouse
+FF0022:I:Path Door, Wood Door:DeadEndAlleywaysLodgings
+FF0023:J:Path Door, Wood Door:DeadEndAlleywaysSwordsmanHouse
+FF0024:K:Path Door, Wood Door:DeadEndAlleywaysGuardHouse
+FF0025:L:Path Door, Wood Door:LittleVillageToTopLevel
+FF0026:M:Path Door, Wood Door:LittleVillageWestHouse
+FF0027:N:Path Door, Wood Door:LittleVillageTavern
+FF0028:O:Path Door, Wood Door:LittleVillageEastHouse
+FF0029:P:Path Door, Wood Door:LittleVillageGardenShed
 FF0030:Q:Grass, Gold Key
 05FFFF:^:Floor, Blue Key
 01FFFE:`:Floor, Sword
@@ -47,14 +47,14 @@ FF0030:Q:Grass, Gold Key
 01FFFC:S:Floor, Club
 01FFFB:T:Floor, Mace
 01FFFA:U:Grass, Axe
-FF0000:a:Door:CastleThroneRoomMain
-FF0001:b:Door:CastleThroneRoomLeft
-FF0002:c:Door:CastleThroneRoomRight
-FF0003:d:Door:CastleParapetBottomLeft
-FF0004:e:Door:CastleParapetBottomRight
-FF0005:f:Door:CastleEntrywayToTopLevel
-FF0006:g:Door:CastleBasementLeft
-FF0007:h:Door:CastleBasementRight
+FF0000:a:Path Door, Wood Door:CastleThroneRoomMain
+FF0001:b:Path Door, Wood Door:CastleThroneRoomLeft
+FF0002:c:Path Door, Wood Door:CastleThroneRoomRight
+FF0003:d:Path Door, Wood Door:CastleParapetBottomLeft
+FF0004:e:Path Door, Wood Door:CastleParapetBottomRight
+FF0005:f:Path Door, Wood Door:CastleEntrywayToTopLevel
+FF0006:g:Path Door, Wood Door:CastleBasementLeft
+FF0007:h:Path Door, Wood Door:CastleBasementRight
 FF0008:i:PathDoor, Red Door:CavesToCastle
 FF0009:j:Path Door:CavesMainATop
 FF000A:k:Path Door:CavesMainBTop
@@ -66,8 +66,8 @@ FF000F:p:Path Door:CavesLinkTallRight
 FF0010:q:Path Door:CavesLinkShortLeft
 FF0011:r:Path Door:CavesLinkShortRight
 FF0012:s:Path Door:VeniceNorthToTopLevel
-FF0013:t:Door:VeniceTavernTopLeft
-FF0014:u:Door:VeniceTavernTopRight
+FF0013:t:Path Door, Wood Door:VeniceTavernTopLeft
+FF0014:u:Path Door, Wood Door:VeniceTavernTopRight
 FF0015:v:Path Door, Red Door:VeniceTavernBottom
 FF0016:w:Path Door, Red Door:VeniceLighthouse
 FF0017:x:Path Door, Green Door:VeniceLonghouseTop

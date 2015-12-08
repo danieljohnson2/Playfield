@@ -13,5 +13,5 @@
 . 
 : Floor
 ` Floor, Sword
-h Door:CastleBasementRight
+h Path Door, Wood Door:CastleBasementRight
 { Floor, Tim the Rat

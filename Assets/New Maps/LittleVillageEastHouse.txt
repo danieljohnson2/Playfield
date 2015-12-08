@@ -17,5 +17,5 @@
 -
 # Wall
 , Path
-O Door:LittleVillageEastHouse
+O Path Door, Wood Door:LittleVillageEastHouse
 = Door

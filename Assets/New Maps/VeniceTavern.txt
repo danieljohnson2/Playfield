@@ -21,7 +21,7 @@ v,,,,,,,,,,,,,,,,#
 # Wall
 , Path
 : Floor
-t Door:VeniceTavernTopLeft
-u Door:VeniceTavernTopRight
+t Path Door, Wood Door:VeniceTavernTopLeft
+u Path Door, Wood Door:VeniceTavernTopRight
 v Path Door, Red Door:VeniceTavernBottom
 = Door

@@ -21,7 +21,7 @@ b:::::::::::::::c
 . 
 / Water
 : Floor
-a Door:CastleThroneRoomMain
-b Door:CastleThroneRoomLeft
-c Door:CastleThroneRoomRight
+a Path Door, Wood Door:CastleThroneRoomMain
+b Path Door, Wood Door:CastleThroneRoomLeft
+c Path Door, Wood Door:CastleThroneRoomRight
 | PathDoor:YouWin

@@ -2,7 +2,7 @@
 #,,,,,,,,,,#
 #,,,,,,,,,,#
 #,########,#
-#,#%:::::#,#
+#,#:%::::#,#
 #,#::::!:#,#
 #,=::R:::=,#
 ############
@@ -12,6 +12,6 @@
 % Floor, Green Key
 , Path
 : Floor
-N Door:LittleVillageTavern
+N Path Door, Wood Door:LittleVillageTavern
 = Door
 R Floor, Dagger

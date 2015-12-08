@@ -16,7 +16,7 @@
 # Wall
 . 
 : Floor
-I Door:DeadEndAlleywaysLodgings
+I Path Door, Wood Door:DeadEndAlleywaysLodgings
 ` Floor, Sword
 = Door
 S Floor, Club

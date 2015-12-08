@@ -30,11 +30,11 @@
 , Path
 . 
 / Water
-0 Grass, Hero
+0 Grass, Player
 7 Grass, Brute
-L Door:LittleVillageToTopLevel
-M Door:LittleVillageWestHouse
-N Door:LittleVillageTavern
-O Door:LittleVillageEastHouse
-P Door:LittleVillageGardenShed
+L Path Door, Wood Door:LittleVillageToTopLevel
+M Path Door, Wood Door:LittleVillageWestHouse
+N Path Door, Wood Door:LittleVillageTavern
+O Path Door, Wood Door:LittleVillageEastHouse
+P Path Door, Wood Door:LittleVillageGardenShed
 Q Grass, Gold Key

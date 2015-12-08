@@ -116,14 +116,17 @@ public class CreatureController : MovementBlocker
     /// </summary>
     protected virtual void Fight(CreatureController attacker)
     {
-        if (attacker.attackEffect != null && gameObject.activeSelf)
+		int damage = attacker.GetAttackDamage(this);
+		float animationSize = (float)damage;
+		animationSize = (float)0.5 + (animationSize / 10);
+		if (attacker.attackEffect != null && gameObject.activeSelf)
         {
-            GameObject effect = Instantiate(attackEffect);
+			GameObject effect = Instantiate(attackEffect);
             effect.transform.parent = transform.parent;
+			effect.transform.localScale = new Vector3(animationSize,animationSize,1);
             effect.transform.localPosition = transform.localPosition;
         }
 
-        int damage = attacker.GetAttackDamage(this);
         hitPoints -= damage;
 
         if (hitPoints <= 0)

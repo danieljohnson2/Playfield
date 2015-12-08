@@ -12,6 +12,6 @@ i::::{:::::{:::#
 # Wall
 . 
 : Floor
-g Door:CastleBasementLeft
+g Path Door, Wood Door:CastleBasementLeft
 i PathDoor, Red Door:CavesToCastle
 { Floor, Tim the Rat
