@@ -29,16 +29,12 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
         if (srcMap != null)
         {
             foreach (KeyValuePair<Location, T[,]> pair in srcMap.blocks)
-            {
                 blocks.Add(pair.Key, (T[,])pair.Value.Clone());
-            }
         }
         else
         {
             foreach (KeyValuePair<Location, T> pair in source)
-            {
                 this[pair.Key] = pair.Value;
-            }
         }
     }
 
@@ -87,6 +83,24 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
     public void Clear()
     {
         blocks.Clear();
+    }
+
+    public delegate void Transformer(ref T value);
+
+    /// <summary>
+    /// TransformValues()  applies a delegate to each value
+    /// for which we have a key (ie, those corresponding to
+    /// Locations(). the transformer can update the stored
+    /// value directly.
+    /// </summary>
+    public void TransformValues(Transformer transformer)
+    {
+        foreach (T[,] array in blocks.Values)
+        {
+            for (int ly = 0; ly < blockSize; ++ly)
+                for (int lx = 0; lx < blockSize; ++lx)
+                    transformer(ref array[lx, ly]);
+        }
     }
 
     /// <summary>
@@ -154,7 +168,7 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
     /// </summary>
     private Cell GetCell(Location location, bool createIfMissing)
     {
-        var key = new Location(location.x & locationKeyMask, location.y & locationKeyMask, location.mapIndex);
+        Location key = new Location(location.x & locationKeyMask, location.y & locationKeyMask, location.mapIndex);
         T[,] block;
 
         if (!blocks.TryGetValue(key, out block) && createIfMissing)

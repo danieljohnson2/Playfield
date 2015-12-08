@@ -103,17 +103,11 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     /// </summary>
     public void Reduce(int amount = 1)
     {
-        Location[] keys = Locations().ToArray();
-
-        foreach (Location loc in keys)
+        TransformValues(delegate (ref Slot slot)
         {
-            Slot slot = this[loc];
-
             if (slot.heat != 0)
-            {
-                this[loc] = slot.ToReduced(amount);
-            }
-        }
+                slot = slot.ToReduced(amount);
+        });
     }
 
     /// <summary>
@@ -206,14 +200,14 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 
             var original = new LocationMap<Slot>(heatmap);
 
-            foreach (Location srcLoc in original.Locations())
+            foreach (KeyValuePair<Location, Slot> pair in original)
             {
-                Slot min = original[srcLoc].ToReduced(1);
+                Slot min = pair.Value.ToReduced(1);
 
                 if (min.heat != 0)
                 {
                     adjacencyBuffer.Clear();
-                    adjacency(srcLoc, adjacencyBuffer);
+                    adjacency(pair.Key, adjacencyBuffer);
 
                     foreach (Location adj in adjacencyBuffer)
                     {
@@ -222,7 +216,6 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 
                         if (!oldSlot.Equals(newSlot))
                         {
-                            // updates.Add(new KeyValuePair<Location, Slot>(adj, newSlot));
                             heatmap[adj] = newSlot;
                             changed = true;
                         }
