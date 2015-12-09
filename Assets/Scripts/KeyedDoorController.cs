@@ -42,7 +42,6 @@ public class KeyedDoorController : MovementBlocker
 	private bool CanBeOpenedBy (GameObject mover)
 	{
 		var cc = mover.GetComponent<CreatureController> ();
-		
 		return cc != null && cc.Inventory ().Any (item => item.name == keyName);
 	}
 }

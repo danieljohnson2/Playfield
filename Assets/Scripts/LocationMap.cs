@@ -104,6 +104,17 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
     }
 
     /// <summary>
+    /// ForEachBlock() provides a higher speed way to access the values
+    /// of the map; this gives you each storage arrage and hte location
+    /// of the upper-left cell only.
+    /// </summary>
+    public void ForEachBlock(Action<Location, T[,]> action)
+    {
+        foreach (KeyValuePair<Location, T[,]> pair in blocks)
+            action(pair.Key, pair.Value);
+    }
+
+    /// <summary>
     /// This method finds any unused blocks and discards
     /// them. This is a slow method since it has to check
     /// each value, but short of Clear(), this is the only

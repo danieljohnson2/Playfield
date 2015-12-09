@@ -252,15 +252,14 @@ public class MapController : MonoBehaviour
     /// </summary>
     public bool IsPathableFor(GameObject mover, Location where)
     {
-        if (terrain.GetTerrain(where) == null)
-        {
-            return false;
-        }
-
         // This is written out the long way for perforamcne; this is
         // a pretty hot method. Using LINQ allocates way too much!
 
         GameObject terrainObject = terrain.GetTerrain(where);
+
+        if (terrainObject == null)
+            return false;
+
         var tmb = terrainObject.GetComponent<MovementBlocker>();
 
         if (tmb != null && !tmb.IsPathableFor(mover))
@@ -272,18 +271,21 @@ public class MapController : MonoBehaviour
         if (blockersArray != null)
         {
             // This is a fast path- normally it is an array,
-            // though one we mustn't modified. foreaching an arragy
+            // though one we mustn't modified. foreaching an array
             // does not allocate.
+
             foreach (var mb in blockersArray)
-                if (!mb.IsPathableFor(mover))
-                    return false;
+                if (where == Location.Of(mb.gameObject))
+                    if (!mb.IsPathableFor(mover))
+                        return false;
         }
         else
         {
             // This is the slow path- this allocates an enumerator.
             foreach (var mb in blockers)
-                if (!mb.IsPathableFor(mover))
-                    return false;
+                if (where == Location.Of(mb.gameObject))
+                    if (!mb.IsPathableFor(mover))
+                        return false;
         }
 
         return true;

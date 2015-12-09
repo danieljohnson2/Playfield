@@ -164,6 +164,8 @@ public class HeatmapPreferenceController : MonoBehaviour
         heatmap.Heat(heatmapRange, (loc, adj) =>
             mapController.adjacencyGenerator.GetAdjacentLocationsInto(gameObject, loc, adj));
 
+        heatmap.TrimExcess();
+
         if (heatmapMarkerPrefab != null)
         {
             ShowHeatmap();

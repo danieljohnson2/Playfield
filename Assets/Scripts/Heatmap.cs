@@ -175,7 +175,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     /// this holds onto various buffers so they can be reused, and
     /// caches passability data.
     /// </summary>
-    private struct Heater
+    private sealed class Heater
     {
         private readonly AdjacencySelector adjacency;
         private readonly List<Location> adjacencyBuffer;
@@ -200,28 +200,38 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 
             var original = new LocationMap<Slot>(heatmap);
 
-            foreach (KeyValuePair<Location, Slot> pair in original)
+            original.ForEachBlock(delegate (Location upperLeft, Slot[,] slots)
             {
-                Slot min = pair.Value.ToReduced(1);
+                int width = slots.GetLength(0);
+                int height = slots.GetLength(1);
 
-                if (min.heat != 0)
+                for (int lx = 0; lx < width; ++lx)
                 {
-                    adjacencyBuffer.Clear();
-                    adjacency(pair.Key, adjacencyBuffer);
-
-                    foreach (Location adj in adjacencyBuffer)
+                    for (int ly = 0; ly < height; ++ly)
                     {
-                        Slot oldSlot = original[adj];
-                        Slot newSlot = Slot.Max(oldSlot, min);
+                        Slot min = slots[lx, ly].ToReduced(1);
 
-                        if (!oldSlot.Equals(newSlot))
+                        if (min.heat != 0)
                         {
-                            heatmap[adj] = newSlot;
-                            changed = true;
+                            Location srcLoc = upperLeft.WithOffset(lx, ly);
+                            adjacencyBuffer.Clear();
+                            adjacency(srcLoc, adjacencyBuffer);
+
+                            foreach(Location adj in adjacencyBuffer)
+                            {
+                                Slot oldSlot = original[adj];
+                                Slot newSlot = Slot.Max(oldSlot, min);
+
+                                if (!oldSlot.Equals(newSlot))
+                                {
+                                    heatmap[adj] = newSlot;
+                                    changed = true;
+                                }
+                            };
                         }
                     }
                 }
-            }
+            });
 
             return changed;
         }
