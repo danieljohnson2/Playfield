@@ -44,16 +44,29 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
     /// </summary>
     public T this[Location location]
     {
-        get { return GetCell(location, createIfMissing: false).Value; }
+        get
+        {
+            Location key = new Location(location.x & locationKeyMask, location.y & locationKeyMask, location.mapIndex);
+            T[,] block;
+
+            if (blocks.TryGetValue(key, out block))
+                return block[location.x & locationLocalMask, location.y & locationLocalMask];
+            else
+                return default(T);
+        }
 
         set
         {
-            Cell cell = GetCell(location, createIfMissing: true);
+            Location key = new Location(location.x & locationKeyMask, location.y & locationKeyMask, location.mapIndex);
+            T[,] block;
 
-            if (cell.IsValid)
+            if (!blocks.TryGetValue(key, out block))
             {
-                cell.Value = value;
+                block = new T[blockSize, blockSize];
+                blocks.Add(key, block);
             }
+
+            block[location.x & locationLocalMask, location.y & locationLocalMask] = value;
         }
     }
 
@@ -169,78 +182,6 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
 
         return true;
     }
-
-    #region Cell Access
-
-    /// <summary>
-    /// Returns a cell structure that describes a specific location; if createIfMissing
-    /// is true this will allocate storage for the location; if false it won't, and may return
-    /// an invalid cell if there's no storage for the cell.
-    /// </summary>
-    private Cell GetCell(Location location, bool createIfMissing)
-    {
-        Location key = new Location(location.x & locationKeyMask, location.y & locationKeyMask, location.mapIndex);
-        T[,] block;
-
-        if (!blocks.TryGetValue(key, out block) && createIfMissing)
-        {
-            block = new T[blockSize, blockSize];
-            blocks.Add(key, block);
-        }
-
-        return new Cell(block, location.x & locationLocalMask, location.y & locationLocalMask);
-    }
-
-    /// <summary>
-    /// This structure acts as a handle on a single location in the
-    /// heatmap; it retains a refernce to the storage array and
-    /// the position in that array; a default Cell has no array
-    /// and is 'invalid'; it reads a default value but can't be
-    /// written to.
-    /// </summary>
-    private struct Cell
-    {
-        private readonly T[,] block;
-        private readonly int x, y;
-
-        public Cell(T[,] block, int x, int y)
-        {
-            this.block = block;
-            this.x = x;
-            this.y = y;
-        }
-
-        /// <summary>
-        /// IsValid is true if this cell refers to a locaiton, and false if it
-        /// is an empty cell structure. If false the Value is 0, and cannot be set
-        /// to any other value. An invalid cell is used to represent a cell whose
-        /// storage is not allocated yet.
-        /// </summary>
-        public bool IsValid
-        {
-            get { return block != null; }
-        }
-
-        /// <summary>
-        /// Value accesses the cell value. If IsValid is false, this value
-        /// is 0 and can't be changed to anything else.
-        /// </summary>
-        public T Value
-        {
-            get { return IsValid ? block[x, y] : default(T); }
-            set
-            {
-                if (block != null)
-                    block[x, y] = value;
-                else
-                {
-                    throw new InvalidOperationException();
-                }
-            }
-        }
-    }
-
-    #endregion
 
     #region IEnumerable implementation
 

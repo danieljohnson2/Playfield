@@ -209,25 +209,28 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
                 {
                     for (int ly = 0; ly < height; ++ly)
                     {
-                        Slot min = slots[lx, ly].ToReduced(1);
-
-                        if (min.heat != 0)
+                        if (slots[lx, ly].heat != 0)
                         {
-                            Location srcLoc = upperLeft.WithOffset(lx, ly);
-                            adjacencyBuffer.Clear();
-                            adjacency(srcLoc, adjacencyBuffer);
+                            Slot min = slots[lx, ly].ToReduced(1);
 
-                            foreach(Location adj in adjacencyBuffer)
+                            if (min.heat != 0)
                             {
-                                Slot oldSlot = original[adj];
-                                Slot newSlot = Slot.Max(oldSlot, min);
+                                Location srcLoc = upperLeft.WithOffset(lx, ly);
+                                adjacencyBuffer.Clear();
+                                adjacency(srcLoc, adjacencyBuffer);
 
-                                if (!oldSlot.Equals(newSlot))
+                                foreach (Location adj in adjacencyBuffer)
                                 {
-                                    heatmap[adj] = newSlot;
-                                    changed = true;
-                                }
-                            };
+                                    Slot oldSlot = original[adj];
+                                    Slot newSlot = Slot.Max(oldSlot, min);
+
+                                    if (!oldSlot.Equals(newSlot))
+                                    {
+                                        heatmap[adj] = newSlot;
+                                        changed = true;
+                                    }
+                                };
+                            }
                         }
                     }
                 }
