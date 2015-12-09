@@ -12,6 +12,10 @@ using System.IO;
 public class PlayerController : CreatureController
 {
     public UnityEngine.UI.Text playerStatusText;
+	public Skybox movingSkybox;
+	private float step = 1;
+	private int lastDeltaX;
+	private float spin = 0;
     private int moveDeltaX, moveDeltaY;
     private bool moveMade, moveReady;
 
@@ -45,7 +49,10 @@ public class PlayerController : CreatureController
     {
         if (moveDeltaX != 0 || moveDeltaY != 0)
             Move(moveDeltaX, moveDeltaY);
-    }
+		spin = (102 - Mathf.Pow (hitPoints, 2));
+		if (lastDeltaX == 1)
+			spin = -spin;
+	}
 
     protected override void Die()
     {
@@ -81,17 +88,31 @@ public class PlayerController : CreatureController
         }
     }
 
+	void FixedUpdate()
+	{
+		spin *= 0.98f;
+		if ((spin < 1)&&(spin > -1))
+		spin = -lastDeltaX;
+		step += spin;
+		step %= 36000;
+		Material skybox = RenderSettings.skybox;
+		skybox.SetFloat ("_Rotation", step / 100);
+	}
+
+
     void Update()
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             moveDeltaX = -1;
+			lastDeltaX = -1;
             moveDeltaY = 0;
             moveMade = true;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             moveDeltaX = 1;
+			lastDeltaX = 1;
             moveDeltaY = 0;
             moveMade = true;
         }
