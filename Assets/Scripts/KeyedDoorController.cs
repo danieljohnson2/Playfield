@@ -20,7 +20,12 @@ public class KeyedDoorController : MovementBlocker
 		this.passable = true;
 	}
 
-	public override bool IsPathableFor (GameObject mover)
+    public override bool? pathable
+    {
+        get { return null; }
+    }
+
+    public override bool IsPathableFor (GameObject mover)
 	{
 		// if a creature has the key, it will path right
 		// through the door. When it tries to move in, it will

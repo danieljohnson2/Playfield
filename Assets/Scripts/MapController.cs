@@ -294,6 +294,51 @@ public class MapController : MonoBehaviour
         return true;
     }
 
+    // TODO: recomment
+    /// <summary>
+    /// IsPathableFor determines whether heatmaps can make a path through
+    /// this cell; it is false outside the map, and may be false for cells
+    /// inside depending on what movement blockers are found there.
+    /// </summary>
+    public bool? IsPathable(Location where)
+    {
+        // This is written out the long way for perforamcne; this is
+        // a pretty hot method. Using LINQ allocates way too much!
+
+        GameObject terrainObject = terrain.GetTerrain(where);
+
+        if (terrainObject == null)
+            return false;
+
+        var tmb = terrainObject.GetComponent<MovementBlocker>();
+
+        if (tmb != null && !tmb.pathable.Value)
+            return false;
+
+        IEnumerable<MovementBlocker> blockers = entities.Components<MovementBlocker>();
+        var blockersArray = blockers as MovementBlocker[] ?? blockers.ToArray();
+
+        bool? defaultResult = true;
+
+        // This is a fast path- normally it is an array,
+        // though one we mustn't modified. foreaching an array
+        // does not allocate.
+
+        foreach (var mb in blockersArray)
+        {
+            if (where == Location.Of(mb.gameObject))
+            {
+                switch (mb.pathable)
+                {
+                    case null: defaultResult = null; break;
+                    case false: return false;
+                }
+            }
+        }
+
+        return defaultResult;
+    }
+
     #endregion
 
     #region Terrain Objects
@@ -867,8 +912,7 @@ public class MapController : MonoBehaviour
     {
         private readonly Location[] adjacencyBuffer = new Location[4];
         private readonly MapController mapController;
-        private readonly Dictionary<GameObject, LocationMap<Flag>> pathabilityCache =
-            new Dictionary<GameObject, LocationMap<Flag>>();
+        private readonly LocationMap<Flag> pathabilityCache = new LocationMap<Flag>();
 
         public AdjacencyGenerator(MapController mapController)
         {
@@ -881,7 +925,7 @@ public class MapController : MonoBehaviour
         /// </summary>
         public void InvalidatePathability()
         {
-            pathabilityCache.Clear();
+            //pathabilityCache.Clear();
         }
 
         /// <summary>
@@ -891,7 +935,7 @@ public class MapController : MonoBehaviour
         /// </summary>
         public void InvalidatePathability(GameObject mover)
         {
-            pathabilityCache.Remove(mover);
+            //pathabilityCache.Remove(mover);
         }
 
         /// <summary>
@@ -901,8 +945,8 @@ public class MapController : MonoBehaviour
         /// </summary>
         public void InvalidatePathability(Location location)
         {
-            foreach (LocationMap<Flag> cache in pathabilityCache.Values)
-                cache[location] = Flag.Unknown;
+          //  foreach (LocationMap<Flag> cache in pathabilityCache.Values)
+           //     cache[location] = Flag.Unknown;
         }
 
         /// <summary>
@@ -962,27 +1006,31 @@ public class MapController : MonoBehaviour
         /// </summary>
         public bool IsPathableFor(GameObject mover, Location where)
         {
-            LocationMap<Flag> cache;
-
-            if (!pathabilityCache.TryGetValue(mover, out cache))
+            switch (GetPathability(where))
             {
-                cache = new LocationMap<Flag>();
-                pathabilityCache.Add(mover, cache);
-            }
-
-            Flag flag = cache[where];
-
-            switch (flag)
-            {
-                case Flag.Unknown:
-                    bool c = mapController.IsPathableFor(mover, where);
-                    cache[where] = c ? Flag.Pathable : Flag.Impathable;
-                    return c;
-
                 case Flag.Pathable: return true;
                 case Flag.Impathable: return false;
-                default: return false;
+                default: return mapController.IsPathableFor(mover, where);
             }
+        }
+
+        private Flag GetPathability(Location where)
+        {
+            Flag flag = pathabilityCache[where];
+
+            if (flag == Flag.Unknown)
+            {
+                switch (mapController.IsPathable(where))
+                {
+                    case true: flag = Flag.Pathable; break;
+                    case false: flag = Flag.Impathable; break;
+                    default: flag = Flag.Unstable; break;
+                }
+
+                pathabilityCache[where] = flag;
+            }
+
+            return flag;
         }
 
         /// <summary>
@@ -993,6 +1041,7 @@ public class MapController : MonoBehaviour
         private enum Flag : byte
         {
             Unknown,
+            Unstable,
             Impathable,
             Pathable
         }
