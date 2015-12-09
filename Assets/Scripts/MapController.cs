@@ -74,6 +74,9 @@ public class MapController : MonoBehaviour
                     activeMap = maps[Location.Of(cc.gameObject).mapIndex];
                 }
 
+				Camera.main.orthographicSize = (float)Math.Sqrt(Math.Min(activeMap.width, activeMap.height)) + 1f;
+				
+
                 if (cc.CheckTurn())
                 {
                     if (isPlayer)
@@ -311,7 +314,6 @@ public class MapController : MonoBehaviour
     {
         private readonly MapController mapController;
         private readonly List<GameObject[,]> terrainMaps = new List<GameObject[,]>();
-
         public TerrainTracker(MapController mapController)
         {
             this.mapController = mapController;
@@ -380,7 +382,7 @@ public class MapController : MonoBehaviour
                 }
             }
 
-            while (terrainMaps.Count <= map.mapIndex)
+				while (terrainMaps.Count <= map.mapIndex)
             {
                 terrainMaps.Add(null);
             }
