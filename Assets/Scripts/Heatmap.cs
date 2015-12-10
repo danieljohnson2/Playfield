@@ -96,6 +96,22 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     #region Heat and Cool
 
     /// <summary>
+    /// TrimExcess() removes blocks from the heatmap that
+    /// contain only 0 heat values.
+    /// </summary>
+    public void TrimExcess()
+    {
+        RemoveBlocksWhere(delegate (Slot[] slots)
+        {
+            foreach (Slot slot in slots)
+                if (slot.heat != 0)
+                    return false;
+
+            return true;
+        });
+    }
+
+    /// <summary>
     /// This method reduces every value by 'amount', but won't flip the sign
     /// of any value- it stops at 0. Cells that contain 0 will not be changed.
     /// 
@@ -103,10 +119,11 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     /// </summary>
     public void Reduce(int amount = 1)
     {
-        TransformValues(delegate (ref Slot slot)
+        ForEachBlock(delegate (Location upperLeft, Slot[] slots)
         {
-            if (slot.heat != 0)
-                slot = slot.ToReduced(amount);
+            for (int i = 0; i < slots.Length; ++i)
+                if (slots[i].heat != 0)
+                    slots[i] = slots[i].ToReduced(amount);
         });
     }
 
@@ -200,18 +217,20 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 
             var original = new LocationMap<Slot>(heatmap);
 
-            original.ForEachBlock(delegate (Location upperLeft, Slot[,] slots)
+            original.ForEachBlock(delegate (Location upperLeft, Slot[] slots)
             {
-                int width = slots.GetLength(0);
-                int height = slots.GetLength(1);
+                int width = LocationMap<Slot>.blockSize;
+                int height = LocationMap<Slot>.blockSize;
+
+                int slotIndex = 0;
 
                 for (int lx = 0; lx < width; ++lx)
                 {
                     for (int ly = 0; ly < height; ++ly)
                     {
-                        if (slots[lx, ly].heat != 0)
+                        if (slots[slotIndex].heat != 0)
                         {
-                            Slot min = slots[lx, ly].ToReduced(1);
+                            Slot min = slots[slotIndex].ToReduced(1);
 
                             if (min.heat != 0)
                             {
@@ -232,6 +251,8 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
                                 };
                             }
                         }
+
+                        ++slotIndex;
                     }
                 }
             });

@@ -5,18 +5,21 @@ using System.Linq;
 /// <summary>
 /// This is a collection that stores a value for a location; this
 /// allocates chunky storage to make this more efficient than a
-/// straight directionary would be. On the eflip side, this class
+/// straight directionary would be. On the flip side, this class
 /// does not record precisely which cell have been set; it knows
 /// that cells have the default value for their type until set,
 /// but allocation one cell allocations many neighboring cells,
 /// so enumerating once of these maps hits many extra cells.
+/// 
+/// This class stores the cell data in 64x64 chunks, but these are
+/// kept in 1 dimensional arrays for performance reasons.
 /// </summary>
 public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
 {
-    private const int blockSize = 16;
-    private const int locationLocalMask = 0xF;
+    public const int blockSize = 64;
+    private const int locationLocalMask = 0x3F;
     private const int locationKeyMask = ~locationLocalMask;
-    private readonly Dictionary<Location, T[,]> blocks = new Dictionary<Location, T[,]>();
+    private readonly Dictionary<Location, T[]> blocks = new Dictionary<Location, T[]>();
 
     public LocationMap()
     {
@@ -28,14 +31,22 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
 
         if (srcMap != null)
         {
-            foreach (KeyValuePair<Location, T[,]> pair in srcMap.blocks)
-                blocks.Add(pair.Key, (T[,])pair.Value.Clone());
+            foreach (KeyValuePair<Location, T[]> pair in srcMap.blocks)
+                blocks.Add(pair.Key, (T[])pair.Value.Clone());
         }
         else
         {
             foreach (KeyValuePair<Location, T> pair in source)
                 this[pair.Key] = pair.Value;
         }
+    }
+
+    private static int GetBlockIndex(Location location)
+    {
+        int bx = location.x & locationLocalMask;
+        int by = location.y & locationLocalMask;
+
+        return by << 4 | bx;
     }
 
     /// <summary>
@@ -47,10 +58,10 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
         get
         {
             Location key = new Location(location.x & locationKeyMask, location.y & locationKeyMask, location.mapIndex);
-            T[,] block;
+            T[] block;
 
             if (blocks.TryGetValue(key, out block))
-                return block[location.x & locationLocalMask, location.y & locationLocalMask];
+                return block[GetBlockIndex(location)];
             else
                 return default(T);
         }
@@ -58,15 +69,15 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
         set
         {
             Location key = new Location(location.x & locationKeyMask, location.y & locationKeyMask, location.mapIndex);
-            T[,] block;
+            T[] block;
 
             if (!blocks.TryGetValue(key, out block))
             {
-                block = new T[blockSize, blockSize];
+                block = new T[blockSize * blockSize];
                 blocks.Add(key, block);
             }
 
-            block[location.x & locationLocalMask, location.y & locationLocalMask] = value;
+            block[GetBlockIndex(location)] = value;
         }
     }
 
@@ -97,59 +108,41 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
     {
         blocks.Clear();
     }
-
-    public delegate void Transformer(ref T value);
-
-    /// <summary>
-    /// TransformValues()  applies a delegate to each value
-    /// for which we have a key (ie, those corresponding to
-    /// Locations(). the transformer can update the stored
-    /// value directly.
-    /// </summary>
-    public void TransformValues(Transformer transformer)
-    {
-        foreach (T[,] array in blocks.Values)
-        {
-            for (int ly = 0; ly < blockSize; ++ly)
-                for (int lx = 0; lx < blockSize; ++lx)
-                    transformer(ref array[lx, ly]);
-        }
-    }
-
+    
     /// <summary>
     /// ForEachBlock() provides a higher speed way to access the values
-    /// of the map; this gives you each storage arrage and hte location
+    /// of the map; this gives you each storage arrage and the location
     /// of the upper-left cell only.
+    /// 
+    /// Mono seems to be slow for 2d arrays, so we use a 1 day array
+    /// arranged in row-major order. This means to move one column right
+    /// you just go to the next index; to go one row down, you must
+    /// add 'blockSize', to skip over a whole row.
     /// </summary>
-    public void ForEachBlock(Action<Location, T[,]> action)
+    public void ForEachBlock(Action<Location, T[]> action)
     {
-        foreach (KeyValuePair<Location, T[,]> pair in blocks)
+        foreach (KeyValuePair<Location, T[]> pair in blocks)
             action(pair.Key, pair.Value);
     }
 
     /// <summary>
-    /// This method finds any unused blocks and discards
-    /// them. This is a slow method since it has to check
-    /// each value, but short of Clear(), this is the only
-    /// way to reclaim space.
+    /// This method finds any blocks and discards it if it
+    /// passes a predicate. This can be used to discard unused
+    /// section of data and can reclaim space.
     /// </summary>
-    public void TrimExcess()
+    public void RemoveBlocksWhere(Func<T[], bool> predicate)
     {
         var keysToRemove = new List<Location>();
         bool anyKept = false;
 
-        foreach (KeyValuePair<Location, T[,]> pair in blocks)
+        foreach (KeyValuePair<Location, T[]> pair in blocks)
         {
-            if (IsBlockEmpty(pair.Value))
-            {
+            if (predicate(pair.Value))
                 keysToRemove.Add(pair.Key);
-            }
             else
-            {
                 anyKept = true;
-            }
         }
-
+        
         if (!anyKept)
         {
             blocks.Clear();
@@ -157,44 +150,24 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
         else
         {
             foreach (Location key in keysToRemove)
-            {
                 blocks.Remove(key);
-            }
         }
     }
-
-    /// <summary>
-    /// This method returns true if block contains only
-    /// default values, using the default equality comparison
-    /// to check.
-    /// </summary>
-    private static bool IsBlockEmpty(T[,] block)
-    {
-        var comparer = EqualityComparer<T>.Default;
-
-        foreach (T t in block)
-        {
-            if (!comparer.Equals(t, default(T)))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
+    
     #region IEnumerable implementation
 
     public IEnumerator<KeyValuePair<Location, T>> GetEnumerator()
     {
-        foreach (KeyValuePair<Location, T[,]> pair in blocks)
+        int index = 0;
+        foreach (KeyValuePair<Location, T[]> pair in blocks)
         {
             for (int ly = 0; ly < blockSize; ++ly)
             {
                 for (int lx = 0; lx < blockSize; ++lx)
                 {
                     Location key = pair.Key.WithOffset(lx, ly);
-                    yield return new KeyValuePair<Location, T>(key, pair.Value[lx, ly]);
+                    yield return new KeyValuePair<Location, T>(key, pair.Value[index]);
+                    ++index;
                 }
             }
         }

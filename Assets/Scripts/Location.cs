@@ -158,8 +158,8 @@ public struct Location : IEquatable<Location>
         unchecked
         {
             int hashCode = mapIndex;
-            hashCode += (x >> 4) * 3;
-            hashCode += (y >> 4) * 17;
+            hashCode += (x >> 6) * 3;
+            hashCode += (y >> 6) * 17;
             return hashCode;
         }
     }
