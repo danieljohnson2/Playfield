@@ -56,6 +56,7 @@ public class KeyedDoorController : MovementBlocker
             return false;
         }
 
+        AddTranscriptLine("{0} needs the {1}", mover.name, keyName);
         return false;
     }
 
