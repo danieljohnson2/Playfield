@@ -12,41 +12,56 @@ using System.Linq;
 /// </summary>
 public class KeyedDoorController : MovementBlocker
 {
-	public string keyName;
+    public string keyName;
 
-	public KeyedDoorController() {
-		// creatures will try to step into the door, but
-		// Block() makes the final call.
-		this.passable = true;
-	}
+    public KeyedDoorController()
+    {
+        // creatures will try to step into the door, but
+        // Block() makes the final call.
+        this.passable = true;
+    }
 
     public override bool? pathable
     {
         get { return null; }
     }
 
-    public override bool IsPathableFor (GameObject mover)
-	{
-		// if a creature has the key, it will path right
-		// through the door. When it tries to move in, it will
-		// opent eh door.
-		return CanBeOpenedBy (mover);
-	}
+    public override bool IsPathableFor(GameObject mover)
+    {
+        // if a creature has the key, it will path right
+        // through the door. When it tries to move in, it will
+        // opent eh door.
+        return CanBeOpenedBy(mover);
+    }
 
-	public override bool Block (GameObject mover, Location destination)
-	{
-		if (CanBeOpenedBy (mover)) {
-			mapController.entities.RemoveEntity (gameObject);
-			AddTranscriptLine ("{0} opened a door.", mover.name);
-			return false;
-		}
+    public override bool Block(GameObject mover, Location destination)
+    {
+        if (CanBeOpenedBy(mover))
+        {
+            Map.Cell cell = mapController.maps[destination];
+            var exits = new HashSet<Location>(mapController.maps.
+                FindDestinations(cell, destination));
 
-		return false;
-	}
+            // We'll open the 'other side' of the door; that is, remove all keyed doors
+            // for the samekeys, at the destinations of this door.
 
-	private bool CanBeOpenedBy (GameObject mover)
-	{
-		var cc = mover.GetComponent<CreatureController> ();
-		return cc != null && cc.Inventory ().Any (item => item.name == keyName);
-	}
+            foreach (var kdc in mapController.entities.Components<KeyedDoorController>())
+                if (exits.Contains(Location.Of(kdc.gameObject)) && kdc.keyName == keyName)
+                    mapController.entities.RemoveEntity(kdc.gameObject);
+
+            // Of course the door we just opened need to go too.
+
+            mapController.entities.RemoveEntity(gameObject);
+            AddTranscriptLine("{0} opened a door.", mover.name);
+            return false;
+        }
+
+        return false;
+    }
+
+    private bool CanBeOpenedBy(GameObject mover)
+    {
+        var cc = mover.GetComponent<CreatureController>();
+        return cc != null && cc.Inventory().Any(item => item.name == keyName);
+    }
 }
