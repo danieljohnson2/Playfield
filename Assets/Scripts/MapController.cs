@@ -74,8 +74,8 @@ public class MapController : MonoBehaviour
                     activeMap = maps[Location.Of(cc.gameObject).mapIndex];
                 }
 
-				Camera.main.orthographicSize = (float)Math.Sqrt(Math.Min(activeMap.width, activeMap.height)) + 1f;
-				
+                Camera.main.orthographicSize = (float)Math.Sqrt(Math.Min(activeMap.width, activeMap.height)) + 1f;
+
 
                 if (cc.CheckTurn())
                 {
@@ -240,12 +240,28 @@ public class MapController : MonoBehaviour
     /// </summary>
     public bool IsPassable(Location where)
     {
-        if (terrain.GetTerrain(where) == null)
-        {
-            return false;
-        }
+        // This code is all unrolled like this for better
+        // performance. LINQ allocates too much for this!
 
-        return ComponentsInCell<MovementBlocker>(where).All(mb => mb.passable);
+        GameObject terrainObject = terrain.GetTerrain(where);
+
+        if (terrainObject == null)
+            return false;
+
+        var tmb = terrainObject.GetComponent<MovementBlocker>();
+
+        if (tmb != null && !tmb.passable)
+            return false;
+
+        IEnumerable<MovementBlocker> blockers = entities.Components<MovementBlocker>();
+        var blockersArray = blockers as MovementBlocker[];
+
+        foreach (MovementBlocker mb in blockersArray)
+            if (where == Location.Of(mb.gameObject))
+                if (!mb.passable)
+                    return false;
+
+        return true;
     }
 
     /// <summary>
@@ -277,7 +293,7 @@ public class MapController : MonoBehaviour
             // though one we mustn't modified. foreaching an array
             // does not allocate.
 
-            foreach (var mb in blockersArray)
+            foreach (MovementBlocker mb in blockersArray)
                 if (where == Location.Of(mb.gameObject))
                     if (!mb.IsPathableFor(mover))
                         return false;
@@ -285,7 +301,7 @@ public class MapController : MonoBehaviour
         else
         {
             // This is the slow path- this allocates an enumerator.
-            foreach (var mb in blockers)
+            foreach (MovementBlocker mb in blockers)
                 if (where == Location.Of(mb.gameObject))
                     if (!mb.IsPathableFor(mover))
                         return false;
@@ -427,7 +443,7 @@ public class MapController : MonoBehaviour
                 }
             }
 
-				while (terrainMaps.Count <= map.mapIndex)
+            while (terrainMaps.Count <= map.mapIndex)
             {
                 terrainMaps.Add(null);
             }
@@ -917,7 +933,7 @@ public class MapController : MonoBehaviour
         {
             this.mapController = mapController;
         }
-        
+
         /// <summary>
         /// InvalidatePathability() discards the cached pathability
         /// data for a location; we do this when items are destroyed
