@@ -39,7 +39,7 @@ public class BarkController : MonoBehaviour
 				Vector3 barkOrientation = activeBark.transform.localScale;
 				activeBark.transform.parent = transform;
 				activeBark.transform.localPosition = localPos;
-				if (barkOrientation.x < 0)
+				if ( barkOrientation.x < 0 ) //pretty sure this can never happen. I need to prevent the reversed barks when creatures flip.
 				{
 					barkOrientation.x = -barkOrientation.x;
 					activeBark.transform.localScale = barkOrientation;

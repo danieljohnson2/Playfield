@@ -233,7 +233,7 @@ public class CreatureController : MovementBlocker
 		if (transform.localPosition.x > destination.ToPosition ().x && charFlip.x > 0) {
 			charFlip.x = -charFlip.x;
 		}
-		transform.localScale = charFlip;
+		transform.localScale = charFlip; //note: this can screw up barks, have not worked out where or how to fix yet: see BarkController.cs
 		transform.localPosition = destination.ToPosition();
 
 		return true;
