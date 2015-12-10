@@ -14,7 +14,7 @@ public class PlayerController : CreatureController
     public UnityEngine.UI.Text playerStatusText;
 	public Skybox movingSkybox;
 	private float step = 1;
-	private int lastDeltaX;
+	private int lastDeltaX = 1;
 	private float spin = 0;
     private int moveDeltaX, moveDeltaY;
     private bool moveMade, moveReady;
