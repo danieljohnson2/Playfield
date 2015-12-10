@@ -116,14 +116,14 @@ public class CreatureController : MovementBlocker
     /// </summary>
     protected virtual void Fight(CreatureController attacker)
     {
-		int damage = attacker.GetAttackDamage(this);
-		float animationSize = (float)damage;
-		animationSize = (float)0.5 + (animationSize / 10);
-		if (attacker.attackEffect != null && gameObject.activeSelf)
+        int damage = attacker.GetAttackDamage(this);
+        float animationSize = (float)damage;
+        animationSize = (float)0.5 + (animationSize / 10);
+        if (attacker.attackEffect != null && gameObject.activeSelf)
         {
-			GameObject effect = Instantiate(attackEffect);
+            GameObject effect = Instantiate(attackEffect);
             effect.transform.parent = transform.parent;
-			effect.transform.localScale = new Vector3(animationSize,animationSize,1);
+            effect.transform.localScale = new Vector3(animationSize, animationSize, 1);
             effect.transform.localPosition = transform.localPosition;
         }
 
@@ -133,8 +133,8 @@ public class CreatureController : MovementBlocker
         {
             hitPoints = 0;
             AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
-			if (attacker.name == "Player")
-				attacker.hitPoints += 1;
+            if (attacker.name == "Player")
+                attacker.hitPoints += 1;
             Die();
         }
         else
@@ -204,42 +204,44 @@ public class CreatureController : MovementBlocker
     protected bool Move(int dx, int dy)
     {
         Location loc = Location.Of(gameObject).WithOffset(dx, dy);
-		return MoveTo(loc);
+        return MoveTo(loc);
     }
 
-	/// <summary>
-	/// This method moves the creature to a specific location,
-	/// which could be on a different map. Like Move(), this runs
-	/// Block() methods and returns false if the movement is blocked,
-	/// true if it succeeds. 
-	/// </summary>
-	protected bool MoveTo(Location destination)
-	{
-		if (mapController.terrain.GetTerrain(destination) == null)
-		{
-			return false;
-		}
-		
-		foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination).Reverse())
-		{
-			if (!blocker.Block(gameObject, destination))
-				return false;
-		}
-		Vector3 charFlip;
-		charFlip = transform.localScale;
-		if (transform.localPosition.x < destination.ToPosition ().x && charFlip.x < 0) {
-			charFlip.x = -charFlip.x;
-		}
-		if (transform.localPosition.x > destination.ToPosition ().x && charFlip.x > 0) {
-			charFlip.x = -charFlip.x;
-		}
-		transform.localScale = charFlip; //note: this can screw up barks, have not worked out where or how to fix yet: see BarkController.cs
-		transform.localPosition = destination.ToPosition();
+    /// <summary>
+    /// This method moves the creature to a specific location,
+    /// which could be on a different map. Like Move(), this runs
+    /// Block() methods and returns false if the movement is blocked,
+    /// true if it succeeds. 
+    /// </summary>
+    protected bool MoveTo(Location destination)
+    {
+        if (mapController.terrain.GetTerrain(destination) == null)
+        {
+            return false;
+        }
 
-		return true;
-	}
+        foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination).Reverse())
+        {
+            if (!blocker.Block(gameObject, destination))
+                return false;
+        }
+        Vector3 charFlip;
+        charFlip = transform.localScale;
+        if (transform.localPosition.x < destination.ToPosition().x && charFlip.x < 0)
+        {
+            charFlip.x = -charFlip.x;
+        }
+        if (transform.localPosition.x > destination.ToPosition().x && charFlip.x > 0)
+        {
+            charFlip.x = -charFlip.x;
+        }
+        transform.localScale = charFlip; //note: this can screw up barks, have not worked out where or how to fix yet: see BarkController.cs
+        transform.localPosition = destination.ToPosition();
 
-	/// <summary>
+        return true;
+    }
+
+    /// <summary>
     /// This is called when the creature dies, and removes
     /// it from the game.
     /// </summary>
@@ -268,10 +270,18 @@ public class CreatureController : MovementBlocker
         Location here = Location.Of(item.gameObject);
 
         item.SetActive(false); // make it vanish before it moves!
-        item.transform.parent = transform;
-        item.transform.localPosition = Location.nowhere.ToPosition();
-        mapController.adjacencyGenerator.InvalidatePathability(here);
+       
+        if (HasItemInInventory(item.name))
+        {
+            mapController.entities.RemoveEntity(item);
+        }
+        else
+        {
+            item.transform.parent = transform;
+            item.transform.localPosition = Location.nowhere.ToPosition();
+        }
 
+        mapController.adjacencyGenerator.InvalidatePathability(here);
         UpdateHeldItem();
     }
 
@@ -287,6 +297,21 @@ public class CreatureController : MovementBlocker
             select transform.GetChild(i).GetComponent<ItemController>() into item
             where item != null
             select item;
+    }
+
+    /// <summary>
+    /// HasItemInInventory() checks to see if this creature has
+    /// an item in inventory by name.
+    /// </summary>
+    public bool HasItemInInventory(string itemName)
+    {
+        foreach (ItemController ic in Inventory())
+        {
+            if (ic.name == itemName)
+                return true;
+        }
+
+        return false;
     }
 
     private GameObject heldItemDisplay;

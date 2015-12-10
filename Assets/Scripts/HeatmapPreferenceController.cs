@@ -60,14 +60,9 @@ public class HeatmapPreferenceController : MonoBehaviour
     public float heldItemAwareness = 1.0f;
     public float carriedItemAwareness = 0.25f;
 
-    private Dictionary<GameObject, Location> previousTargetLocations;
-
     public void Awake()
     {
         this.heatmap.name = heatmapName;
-
-        if (heatmapAutoReset)
-            previousTargetLocations = new Dictionary<GameObject, Location>();
     }
 
     private KeyValuePair<HeatSourceIdentifier, short>[] lazyPreferences;
@@ -93,15 +88,22 @@ public class HeatmapPreferenceController : MonoBehaviour
         });
     }
 
-    public bool CheckHeatmapReset()
+    public bool AppliesHeatFor(GameObject candidate)
     {
-        if (previousTargetLocations != null)
+        var info = new Heatmap.SourceInfo(candidate);
+
+        foreach(var pair in Preferences())
         {
-            return previousTargetLocations.
-                Any(pair => Location.Of(pair.Key) != pair.Value);
+            if (pair.Key.Matches(info))
+                return true;
         }
-        else
-            return false;
+
+        return false;
+    }
+
+    public void ResetHeatmap()
+    {
+        heatmap.Clear();
     }
 
     /// <summary>
@@ -110,12 +112,6 @@ public class HeatmapPreferenceController : MonoBehaviour
     /// </summary>
     public Heatmap UpdateHeatmap()
     {
-        if (CheckHeatmapReset())
-            heatmap.Clear();
-
-        if (previousTargetLocations != null)
-            previousTargetLocations.Clear();
-
         residualCooling += heatmapCooling;
 
         if (residualCooling > 0.0f)
@@ -133,9 +129,6 @@ public class HeatmapPreferenceController : MonoBehaviour
             foreach (GameObject target in sourceID.GameObjects())
             {
                 Location targetLoc = Location.Of(target);
-
-                if (previousTargetLocations != null)
-                    previousTargetLocations[target] = targetLoc;
 
                 if (targetLoc == Location.nowhere)
                 {
@@ -159,17 +152,15 @@ public class HeatmapPreferenceController : MonoBehaviour
             }
         }
 
-        MapController mapController = MapController.instance;
-        
+        MapController.AdjacencyGenerator adjGen = MapController.instance.adjacencyGenerator;
+
         heatmap.Heat(heatmapRange, (loc, adj) =>
-            mapController.adjacencyGenerator.GetAdjacentLocationsInto(gameObject, loc, adj));
+            adjGen.GetAdjacentLocationsInto(gameObject, loc, adj));
 
         heatmap.TrimExcess();
 
         if (heatmapMarkerPrefab != null)
-        {
             ShowHeatmap();
-        }
 
         return heatmap;
     }

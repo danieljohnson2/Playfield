@@ -20,13 +20,29 @@ public class ItemController : MovementBlocker
     {
         passable = true;
     }
-    
+
     /// <summary>
     /// Pickup()  is called when a creature tries to pick up
     /// this item from the ground.
     /// </summary>
     protected virtual void Pickup(CreatureController carrier)
     {
+        Location where = Location.Of(gameObject);
+
+        foreach (var hpc in mapController.entities.Components<HeatmapPreferenceController>())
+        {
+            if (hpc.heatmapAutoReset)
+            {
+                if (hpc.AppliesHeatFor(gameObject))
+                {
+                    Location hpcWhere = Location.Of(hpc.gameObject);
+
+                    if (hpcWhere.mapIndex == where.mapIndex)
+                        hpc.ResetHeatmap();
+                }
+            }
+        }
+
         carrier.AddTranscriptLine("{0} picked up {1}!", carrier.name, name);
         carrier.PlaceInInventory(gameObject);
     }

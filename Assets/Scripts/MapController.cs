@@ -622,8 +622,7 @@ public class MapController : MonoBehaviour
             {
                 array =
                     (from go in entities
-                     select go.GetComponent<T>() into c
-                     where c != null
+                     from c in go.GetComponents<T>()
                      select c).ToArray();
 
                 lazyComponentsByType.Add(typeof(T), array);
