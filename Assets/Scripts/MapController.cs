@@ -554,7 +554,6 @@ public class MapController : MonoBehaviour
                 {
                     GameObject toRemove = pendingRemoval.Dequeue();
 
-                    mapController.adjacencyGenerator.InvalidatePathability(toRemove);
                     mapController.adjacencyGenerator.InvalidatePathability(Location.Of(toRemove));
 
                     entities.Remove(toRemove);
@@ -918,35 +917,15 @@ public class MapController : MonoBehaviour
         {
             this.mapController = mapController;
         }
-
-        /// <summary>
-        /// InvalidatePathability() discards all cached pathability
-        /// data, so it must be recomputed.
-        /// </summary>
-        public void InvalidatePathability()
-        {
-            //pathabilityCache.Clear();
-        }
-
+        
         /// <summary>
         /// InvalidatePathability() discards the cached pathability
-        /// data for a specific game-object; this movers data
-        /// will be recomputed as needed.
-        /// </summary>
-        public void InvalidatePathability(GameObject mover)
-        {
-            //pathabilityCache.Remove(mover);
-        }
-
-        /// <summary>
-        /// InvalidatePathability() discards the cached pathability
-        /// data for a location; each mover will recompute a value
-        /// for this as needed.
+        /// data for a location; we do this when items are destroyed
+        /// or picked up or whatnot.
         /// </summary>
         public void InvalidatePathability(Location location)
         {
-          //  foreach (LocationMap<Flag> cache in pathabilityCache.Values)
-           //     cache[location] = Flag.Unknown;
+            pathabilityCache[location] = Flag.Unknown;
         }
 
         /// <summary>
@@ -1014,6 +993,10 @@ public class MapController : MonoBehaviour
             }
         }
 
+        /// <summary>
+        /// GetPathability() returns the flag to describe the
+        /// pathability of a cell.
+        /// </summary>
         private Flag GetPathability(Location where)
         {
             Flag flag = pathabilityCache[where];
@@ -1040,9 +1023,27 @@ public class MapController : MonoBehaviour
         /// </summary>
         private enum Flag : byte
         {
+            /// <summary>
+            /// Unknown means that we haven't worked out the pathability of
+            /// this cell.
+            /// </summary>
             Unknown,
+
+            /// <summary>
+            /// Unstable means we cannot cache the pathability of this cell;
+            /// we work it out every time. We use this for doors, where
+            /// the pathability varies depending on who is moving.
+            /// </summary>
             Unstable,
+
+            /// <summary>
+            /// Imppathable means creates cannot path through this cell.
+            /// </summary>
             Impathable,
+
+            /// <summary>
+            /// Pathable means creates can path through this cell.
+            /// </summary>
             Pathable
         }
     }

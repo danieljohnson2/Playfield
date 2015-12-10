@@ -245,6 +245,7 @@ public class CreatureController : MovementBlocker
         }
 
         mapController.entities.RemoveEntity(gameObject);
+        mapController.adjacencyGenerator.InvalidatePathability(here);
     }
 
     /// <summary>
@@ -253,10 +254,12 @@ public class CreatureController : MovementBlocker
     /// </summary>
     public void PlaceInInventory(GameObject item)
     {
+        Location here = Location.Of(item.gameObject);
+
         item.SetActive(false); // make it vanish before it moves!
         item.transform.parent = transform;
         item.transform.localPosition = Location.nowhere.ToPosition();
-        mapController.adjacencyGenerator.InvalidatePathability(gameObject);
+        mapController.adjacencyGenerator.InvalidatePathability(here);
 
         UpdateHeldItem();
     }
