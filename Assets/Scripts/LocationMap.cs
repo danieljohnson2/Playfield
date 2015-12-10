@@ -17,6 +17,7 @@ using System.Linq;
 public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
 {
     public const int blockSize = 64;
+    private const int locationYShift = 6;
     private const int locationLocalMask = 0x3F;
     private const int locationKeyMask = ~locationLocalMask;
     private readonly Dictionary<Location, T[]> blocks = new Dictionary<Location, T[]>();
@@ -46,7 +47,7 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
         int bx = location.x & locationLocalMask;
         int by = location.y & locationLocalMask;
 
-        return by << 4 | bx;
+        return by << locationYShift | bx;
     }
 
     /// <summary>
@@ -158,9 +159,9 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
 
     public IEnumerator<KeyValuePair<Location, T>> GetEnumerator()
     {
-        int index = 0;
         foreach (KeyValuePair<Location, T[]> pair in blocks)
         {
+            int index = 0;
             for (int ly = 0; ly < blockSize; ++ly)
             {
                 for (int lx = 0; lx < blockSize; ++lx)

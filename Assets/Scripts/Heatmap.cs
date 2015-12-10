@@ -224,9 +224,9 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 
                 int slotIndex = 0;
 
-                for (int lx = 0; lx < width; ++lx)
+                for (int ly = 0; ly < height; ++ly)
                 {
-                    for (int ly = 0; ly < height; ++ly)
+                    for (int lx = 0; lx < width; ++lx)
                     {
                         if (slots[slotIndex].heat != 0)
                         {
