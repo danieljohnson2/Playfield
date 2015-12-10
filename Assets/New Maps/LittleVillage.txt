@@ -14,7 +14,7 @@
 +#&,+,0,+,+,+,+,+#+++&++
 +#+,+,+,+,+,+,+,&#+&++++
 +#+,+,+,+,+,+,+,+#+++&&+
-+#&,,,,,,,,,,,,,+#++7&+,
++#&,,,,,,,,,,,,,+#+S7&+,
 .#++&++&++&++&+,&#+++,//
 .##############,##++////
 ..&&++&+Q++++++,+++,////
@@ -32,6 +32,7 @@
 / Water
 0 Grass, Player
 7 Grass, Brute
+S Grass, Club
 L Path Door, Wood Door:LittleVillageToTopLevel
 M Path Door, Wood Door:LittleVillageWestHouse
 N Path Door, Wood Door:LittleVillageTavern

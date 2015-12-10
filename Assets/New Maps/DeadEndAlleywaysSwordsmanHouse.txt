@@ -1,7 +1,7 @@
 ########
 #::::::#
 #::::6:#
-#::::::#
+#::::!:#
 #=##:::#
 #::#`:`#
 #::#:::#
@@ -12,4 +12,5 @@
 : Floor
 J Path Door, Wood Door:DeadEndAlleywaysSwordsmanHouse
 ` Floor, Sword
+! Floor, Gold Key
 = Door

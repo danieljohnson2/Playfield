@@ -133,6 +133,8 @@ public class CreatureController : MovementBlocker
         {
             hitPoints = 0;
             AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
+			if (attacker.name == "Player")
+				attacker.hitPoints += 1;
             Die();
         }
         else
@@ -202,33 +204,42 @@ public class CreatureController : MovementBlocker
     protected bool Move(int dx, int dy)
     {
         Location loc = Location.Of(gameObject).WithOffset(dx, dy);
-        return MoveTo(loc);
+		return MoveTo(loc);
     }
 
-    /// <summary>
-    /// This method moves the creature to a specific location,
-    /// which could be on a different map. Like Move(), this runs
-    /// Block() methods and returns false if the movement is blocked,
-    /// true if it succeeds. 
-    /// </summary>
-    protected bool MoveTo(Location destination)
-    {
-        if (mapController.terrain.GetTerrain(destination) == null)
-        {
-            return false;
-        }
+	/// <summary>
+	/// This method moves the creature to a specific location,
+	/// which could be on a different map. Like Move(), this runs
+	/// Block() methods and returns false if the movement is blocked,
+	/// true if it succeeds. 
+	/// </summary>
+	protected bool MoveTo(Location destination)
+	{
+		if (mapController.terrain.GetTerrain(destination) == null)
+		{
+			return false;
+		}
+		
+		foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination).Reverse())
+		{
+			if (!blocker.Block(gameObject, destination))
+				return false;
+		}
+		Vector3 charFlip;
+		charFlip = transform.localScale;
+		if (transform.localPosition.x < destination.ToPosition ().x && charFlip.x < 0) {
+			charFlip.x = -charFlip.x;
+		}
+		if (transform.localPosition.x > destination.ToPosition ().x && charFlip.x > 0) {
+			charFlip.x = -charFlip.x;
+		}
+		transform.localScale = charFlip;
+		transform.localPosition = destination.ToPosition();
 
-        foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination).Reverse())
-        {
-            if (!blocker.Block(gameObject, destination))
-                return false;
-        }
+		return true;
+	}
 
-        transform.localPosition = destination.ToPosition();
-        return true;
-    }
-
-    /// <summary>
+	/// <summary>
     /// This is called when the creature dies, and removes
     /// it from the game.
     /// </summary>

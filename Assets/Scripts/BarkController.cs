@@ -36,8 +36,14 @@ public class BarkController : MonoBehaviour
 				activeBark = Instantiate (barkPrefabs [barkIndex]);
 				
 				Vector3 localPos = activeBark.transform.localPosition;
+				Vector3 barkOrientation = activeBark.transform.localScale;
 				activeBark.transform.parent = transform;
 				activeBark.transform.localPosition = localPos;
+				if (barkOrientation.x < 0)
+				{
+					barkOrientation.x = -barkOrientation.x;
+					activeBark.transform.localScale = barkOrientation;
+				}
 			} else {
 				barkTime = PickNextTime ();
 			}

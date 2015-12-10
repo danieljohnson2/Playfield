@@ -2,7 +2,7 @@
 ....##::::##....
 ...##::::::##...
 ..##::::::::##..
-.##:`::::::::##.
+.##:T::::::::##.
 ##::::::::::::##
 #::::::::::::::#
 #::::::::::::::#
@@ -12,7 +12,7 @@ o::::::::::::::p
 # Wall
 . 
 : Floor
-` Floor, Sword
+T Floor, Mace
 n Path Door:CavesLinkTallTop
 o Path Door:CavesLinkTallLeft
 p Path Door:CavesLinkTallRight
