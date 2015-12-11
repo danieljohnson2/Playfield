@@ -133,8 +133,7 @@ public class CreatureController : MovementBlocker
         {
             hitPoints = 0;
             AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
-            if (attacker.name == "Player")
-                attacker.hitPoints += 1;
+            attacker.hitPoints += 1;
             Die();
         }
         else
@@ -270,7 +269,7 @@ public class CreatureController : MovementBlocker
         Location here = Location.Of(item.gameObject);
 
         item.SetActive(false); // make it vanish before it moves!
-       
+
         if (HasItemInInventory(item.name))
         {
             mapController.entities.RemoveEntity(item);

@@ -247,6 +247,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1484928777}
   - 114: {fileID: 1484928778}
+  - 45: {fileID: 1484928780}
+  - 45: {fileID: 1484928779}
   m_Layer: 0
   m_Name: Playfield
   m_TagString: GameController
@@ -357,6 +359,22 @@ MonoBehaviour:
     - {fileID: 154314, guid: 91036b4786081324d9736f72872cd308, type: 2}
     - {fileID: 154314, guid: 4d1e101e7756cbf4499293450cccbeff, type: 2}
     - {fileID: 154314, guid: ff140c29cd864814882ffbd2eda2f1b6, type: 2}
+--- !u!45 &1484928779
+Skybox:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1484928776}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 0}
+--- !u!45 &1484928780
+Skybox:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1484928776}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 0}
 --- !u!1 &1508657706
 GameObject:
   m_ObjectHideFlags: 0
