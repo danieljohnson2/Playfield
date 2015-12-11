@@ -133,7 +133,8 @@ public class CreatureController : MovementBlocker
         {
             hitPoints = 0;
             AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
-            attacker.hitPoints += 1;
+            if (attacker.name == "Player")
+                attacker.hitPoints += 1;
             Die();
         }
         else
