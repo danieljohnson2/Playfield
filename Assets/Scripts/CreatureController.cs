@@ -224,20 +224,46 @@ public class CreatureController : MovementBlocker
             if (!blocker.Block(gameObject, destination))
                 return false;
         }
-        Vector3 charFlip;
-        charFlip = transform.localScale;
-        if (transform.localPosition.x < destination.ToPosition().x && charFlip.x < 0)
-        {
-            charFlip.x = -charFlip.x;
-        }
-        if (transform.localPosition.x > destination.ToPosition().x && charFlip.x > 0)
-        {
-            charFlip.x = -charFlip.x;
-        }
-        transform.localScale = charFlip; //note: this can screw up barks, have not worked out where or how to fix yet: see BarkController.cs
-        transform.localPosition = destination.ToPosition();
-
+        
+        Vector3 destPos = destination.ToPosition();
+        FlipToFace(destPos);
+        transform.localPosition = destPos;
         return true;
+    }
+
+    /// <summary>
+    /// FlipToFace() updates the scale of this creature so
+    /// that he will face towards the position 'faceTo'
+    /// in a horizontal sense (only the x positions are
+    /// considered, not y or z). We do this just before
+    /// moving so that the creature faces the directory he
+    /// moves.
+    /// </summary>
+    private void FlipToFace(Vector3 faceTo)
+    {
+        Vector3 charFlip = transform.localScale;
+
+        int currentFacing = Math.Sign(charFlip.x);
+        int desiredFacing;
+
+        if (transform.localPosition.x < faceTo.x)
+            desiredFacing = 1;
+        else if (transform.localPosition.x > faceTo.x)
+            desiredFacing = -1;
+        else
+            desiredFacing = currentFacing;
+
+        if (desiredFacing != currentFacing)
+        {
+            charFlip.x = -charFlip.x;
+            transform.localScale = charFlip;
+
+            // Bark 'bubbles' must be counterflipped so that they don't
+            // appear reversed.
+
+            foreach (var bc in GetComponents<BarkController>())
+                bc.NormalizeBarkFlip();
+        }
     }
 
     /// <summary>
