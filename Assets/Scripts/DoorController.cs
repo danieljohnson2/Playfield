@@ -10,57 +10,61 @@ using System.Linq;
 /// </summary>
 public class DoorController : MovementBlocker
 {
-	public Sprite door;
-	public Sprite openDoor;
-	private SpriteRenderer spriteRenderer;
+    public Sprite door;
+    public Sprite openDoor;
+    private SpriteRenderer spriteRenderer;
 
-	public DoorController ()
-	{
-		// Unkeyed doors are more decoration than obstacle!
-		passable = true;
-	}
+    public DoorController()
+    {
+        // Unkeyed doors are more decoration than obstacle!
+        passable = true;
+    }
 
-	void Awake ()
-	{
-		this.spriteRenderer = GetComponent<SpriteRenderer> ();
-	}
+    void Awake()
+    {
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
-    // TODO: should be Update, but we need a more efficient way to update this sprite!
-	void Start ()
-	{
-		Sprite newSprite = isOpen ? openDoor : door;
+    void Update()
+    {
+        if (openDoor == door)
+            spriteRenderer.sprite = door;
+        else if (isOpen)
+            spriteRenderer.sprite = openDoor;
+        else
+            spriteRenderer.sprite = door;
+    }
 
-		if (newSprite != null)
-			spriteRenderer.sprite = newSprite;
-	}
+    /// <summary>
+    /// This is true if there is any entity standing on
+    /// the door's square; if true the door appears open.
+    /// </summary>
+    private bool isOpen
+    {
+        get
+        {
+            return mapController.entities.
+                ComponentsAt<CreatureController>(Location.Of(gameObject)).
+                Any();
+        }
+    }
 
-	/// <summary>
-	/// This is true if there is any entity standing on
-	/// the door's square; if true the door appears open.
-	/// </summary>
-	private bool isOpen {
-		get {
-			return mapController.entities.
-				ComponentsAt<CreatureController> (Location.Of (gameObject)).
-				Any ();
-		}
-	}
+    public override bool Block(GameObject mover, Location destination)
+    {
+        if (mover == null)
+            throw new System.ArgumentNullException("mover");
 
-	public override bool Block (GameObject mover, Location destination)
-	{
-		if (mover == null)
-			throw new System.ArgumentNullException ("mover");
+        Map.Cell cell = mapController.maps[destination];
 
-		Map.Cell cell = mapController.maps [destination];
+        Location doorExit;
+        if (mapController.maps.TryFindDestination(cell, destination, out doorExit))
+        {
+            mover.transform.position = doorExit.ToPosition();
+            mapController.entities.ActivateEntities();
+            mapController.entities.ActivateMapContainers();
+            return false;
+        }
 
-		Location doorExit;
-		if (mapController.maps.TryFindDestination (cell, destination, out doorExit)) {
-			mover.transform.position = doorExit.ToPosition ();
-			mapController.entities.ActivateEntities ();
-			mapController.entities.ActivateMapContainers ();
-			return false;
-		}
-
-		return base.Block (mover, destination);
-	}
+        return base.Block(mover, destination);
+    }
 }
