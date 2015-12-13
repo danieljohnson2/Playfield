@@ -177,17 +177,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
+  speed: .75
+  isPlayerControlled: 0
+  isPlayerCandidate: 1
   hitPoints: 10
   damage:
     DiceCount: 1
     DiceSize: 3
     Plus: 0
   canUseWeapons: 1
-  speed: .75
   weight: 15
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
-  heldItemPivot: {x: .949999988, y: .550000012}
+  heldItemPivot: {x: .300000012, y: .270000011}
 --- !u!114 &11484164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -333,11 +335,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
-      value: .949999988
+      value: .300000012
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.y
-      value: .550000012
+      value: .270000011
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[3]
@@ -361,6 +363,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: isPlayerCandidate
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

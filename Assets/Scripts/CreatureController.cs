@@ -49,7 +49,7 @@ public class CreatureController : PlayableEntityController
 
         if (attacker != null)
         {
-            if (!teamAware || !CompareTag(attacker.tag))
+            if (!teamAware || attacker.isPlayerControlled || !CompareTag(attacker.tag))
             {
                 Fight(attacker);
             }

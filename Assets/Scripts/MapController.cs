@@ -34,6 +34,15 @@ public class MapController : MonoBehaviour
             nextLevelInitializer = null;
             init(this);
         }
+        else
+        {
+            var candidatePlayers = entities.Components<PlayableEntityController>().
+                Where(e => e.isPlayerCandidate).ToArray();
+            int index = UnityEngine.Random.Range(0, candidatePlayers.Length);
+
+            for (int i = 0; i < candidatePlayers.Length; ++i)
+                candidatePlayers[i].isPlayerControlled = i == index;
+        }
 
         entities.ProcessRemovals();
         entities.ActivateEntities();

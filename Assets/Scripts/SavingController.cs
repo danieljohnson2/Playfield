@@ -118,11 +118,7 @@ public class SavingController : MonoBehaviour
                 foreach (var sc in go.GetComponents<SavingController>())
                 {
                     if (!sc.excludeFromSave)
-                    {
-                        var pec = sc as PlayableEntityController;
-                        if (pec != null && pec.isPlayerControlled)
-                            player = pec;
-
+                    {                       
                         Queue<byte[]> arrays;
                         if (byNames.TryGetValue(sc.saveName, out arrays))
                         {
@@ -135,8 +131,13 @@ public class SavingController : MonoBehaviour
                     }
                     else
                         shouldDestroy = false;
-                }
 
+                    // must check this after RestoreFrom()!
+                    var pec = sc as PlayableEntityController;
+                    if (pec != null && pec.isPlayerControlled)
+                        player = pec;
+                }
+                
                 if (shouldDestroy)
                     toDestroy.Add(go);
             }

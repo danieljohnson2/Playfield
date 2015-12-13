@@ -30,6 +30,12 @@ public class PlayableEntityController : MovementBlocker
     /// </summary>
     public bool isPlayerControlled;
 
+    /// <summary>
+    /// isPlayerCandidate should be a temporary thing; this lets us know
+    /// which creatures can be the player.
+    /// </summary>
+    public bool isPlayerCandidate;
+
     #region Turns
 
     /// <summary>
