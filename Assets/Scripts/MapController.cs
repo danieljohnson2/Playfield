@@ -721,6 +721,12 @@ public class MapController : MonoBehaviour
         public TextAsset[] mapTexts;
         public GameObject[] prefabs;
         private readonly LazyList<Map> lazyMaps = new LazyList<Map>();
+        private readonly Func<int, Map> mapReader;
+
+        public MapTracker()
+        {
+            this.mapReader = ReadMap;
+        }
 
         /// <summary>
         /// Maps() yields each map in turn, in map index order.
@@ -769,7 +775,7 @@ public class MapController : MonoBehaviour
                 if (mapTexts != null &&
                     mapIndex >= 0 && mapIndex < mapTexts.Length)
                 {
-                    return lazyMaps.GetOrCreate(mapIndex, ReadMap);
+                    return lazyMaps.GetOrCreate(mapIndex, mapReader);
                 }
 
                 throw new KeyNotFoundException(string.Format(
@@ -812,14 +818,49 @@ public class MapController : MonoBehaviour
             return prefab;
         }
 
-        private static readonly Location[] noLocations = new Location[0];
+        private static readonly ReadOnlyCollection<Location> noLocations = new ReadOnlyCollection<Location>(new Location[0]);
+        private readonly Dictionary<Location, CachedDestinations> cachedDestinations =
+            new Dictionary<Location, CachedDestinations>();
+
+        private struct CachedDestinations
+        {
+            public string doorName;
+            public ReadOnlyCollection<Location> destinations;
+        }
 
         /// <summary>
         /// This method returns an array containing all door destinations for
         /// the door indicated by name and location. This returns an empty array
         /// if the name is null, or if no destination can be found.
         /// </summary>
-        public Location[] FindDestinations(string doorName, Location source)
+        public ReadOnlyCollection<Location> FindDestinations(string doorName, Location source)
+        {
+            // cheap optimization- with no door name in the cell, there's
+            // no way to have a working destination.
+
+            if (doorName == null)
+                return noLocations;
+
+            // There should be one set of destinations per source location, but
+            // we'll check the door name to make sure.
+
+            CachedDestinations cd;
+            if (!cachedDestinations.TryGetValue(source, out cd) ||
+                cd.doorName != doorName)
+            {
+                cd.doorName = doorName;
+                cd.destinations = FindDestinationsCore(doorName, source);
+                cachedDestinations[source] = cd;
+            }
+
+            return cd.destinations;
+        }
+
+        /// <summary>
+        /// FindDestinationsCore() generates the location collection, without caching
+        /// it. Since destinations cannot change during play, we always cache these.
+        /// </summary>
+        private ReadOnlyCollection<Location> FindDestinationsCore(string doorName, Location source)
         {
             if (doorName != null)
             {
@@ -832,7 +873,7 @@ public class MapController : MonoBehaviour
                      FirstOrDefault();
 
                 if (found != null)
-                    return found.ToArray();
+                    return new ReadOnlyCollection<Location>(found.ToArray());
             }
 
             return noLocations;
@@ -842,7 +883,7 @@ public class MapController : MonoBehaviour
         /// This returns an array of the destinations assigned to the map
         /// cell given, or an empty array if it has none.
         /// </summary>
-        public Location[] FindDestinations(Map.Cell cell, Location source)
+        public ReadOnlyCollection<Location> FindDestinations(Map.Cell cell, Location source)
         {
             return FindDestinations(cell.doorName, source);
         }
@@ -860,10 +901,10 @@ public class MapController : MonoBehaviour
         /// </summary>
         public bool TryFindDestination(string doorName, Location source, out Location destination)
         {
-            Location[] targets = FindDestinations(doorName, source);
-            if (targets.Length > 0)
+            ReadOnlyCollection<Location> targets = FindDestinations(doorName, source);
+            if (targets.Count > 0)
             {
-                int index = UnityEngine.Random.Range(0, targets.Length);
+                int index = UnityEngine.Random.Range(0, targets.Count);
                 destination = targets[index];
                 return true;
             }
@@ -957,39 +998,26 @@ public class MapController : MonoBehaviour
         {
             where.GetAdjacentInto(adjacencyBuffer);
 
-            Map.Cell cell = mapController.maps[where];
-            Location[] destinations = mapController.maps.FindDestinations(cell, where);
-
-            if (destinations.Length == 0)
+            foreach (Location loc in adjacencyBuffer)
             {
-                // Fast path - we know there are no duplicates in 'adjacencyBuffer'
-                // so we can just iterate and test. This is allocation-free
-                // if IsPathable()'s caches are hot and 'adjacentLocation' is a
-                // list with sufficient capaciity.
-
-                foreach (Location loc in adjacencyBuffer)
-                {
-                    if (IsPathableFor(mover, loc))
-                    {
-                        adjacentLocations.Add(loc);
-                    }
-                }
+                if (IsPathableFor(mover, loc))
+                    adjacentLocations.Add(loc);
             }
-            else
+
+            Map.Cell cell = mapController.maps[where];
+            ReadOnlyCollection<Location> destinations = mapController.maps.FindDestinations(cell, where);
+
+            if (destinations.Count > 0)
             {
-                // Slow path- we must make sure we don't introduce duplicate
-                // locations so we must do a Union() and iterate the iterator
-                // produced by that. This alwys allocates, but should only happen
-                // to the cells that have doors in them.
+                // If there are destinations, they might duplicate normal
+                // 'adjacent' locations, so we'll filters those out. We use
+                // Array.IndexOf() because there can only be 4 elemenmts in it,
+                // so building a hashset won't be worth it.
 
-                IEnumerable<Location> unioned = adjacencyBuffer.Union(destinations);
-
-                foreach (Location loc in unioned)
+                foreach (Location loc in destinations)
                 {
-                    if (IsPathableFor(mover, loc))
-                    {
+                    if (Array.IndexOf(adjacencyBuffer, loc) < 0 && IsPathableFor(mover, loc))
                         adjacentLocations.Add(loc);
-                    }
                 }
             }
         }

@@ -195,12 +195,12 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     private sealed class Heater
     {
         private readonly AdjacencySelector adjacency;
-        private readonly List<Location> adjacencyBuffer;
+        private readonly List<Location> adjacencyBuffer = new List<Location>(6);
+        private readonly LocationMap<Slot> original = new LocationMap<Slot>();
 
         public Heater(AdjacencySelector adjacency)
         {
             this.adjacency = adjacency;
-            this.adjacencyBuffer = new List<Location>(6);
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         {
             bool changed = false;
 
-            var original = new LocationMap<Slot>(heatmap);
+            heatmap.CopyTo(original);
 
             original.ForEachBlock(delegate (Location upperLeft, Slot[] slots)
             {

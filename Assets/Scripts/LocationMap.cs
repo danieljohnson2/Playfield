@@ -42,12 +42,28 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
         }
     }
 
-    private static int GetBlockIndex(Location location)
+    /// <summary>
+    /// CopyInto() copies the values in this map into a destination
+    /// object. This allows us to reuse the storage arrays of
+    /// 'destination', which puts less pressure on the GC.
+    /// </summary>
+    public void CopyTo(LocationMap<T> destination)
     {
-        int bx = location.x & locationLocalMask;
-        int by = location.y & locationLocalMask;
+        foreach (KeyValuePair<Location, T[]> pair in blocks)
+        {
+            T[] block;
+            if (destination.blocks.TryGetValue(pair.Key, out block))
+                pair.Value.CopyTo(block, 0);
+            else
+                destination.blocks.Add(pair.Key, (T[])pair.Value.Clone());
+        }
 
-        return by << locationYShift | bx;
+        if (destination.blocks.Count > this.blocks.Count)
+        {
+            foreach (KeyValuePair<Location, T[]> pair in destination.blocks)
+                if (!this.blocks.ContainsKey(pair.Key))
+                    Array.Clear(pair.Value, 0, pair.Value.Length);
+        }
     }
 
     /// <summary>
@@ -109,7 +125,7 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
     {
         blocks.Clear();
     }
-    
+
     /// <summary>
     /// ForEachBlock() provides a higher speed way to access the values
     /// of the map; this gives you each storage arrage and the location
@@ -143,7 +159,7 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
             else
                 anyKept = true;
         }
-        
+
         if (!anyKept)
         {
             blocks.Clear();
@@ -154,7 +170,22 @@ public class LocationMap<T> : IEnumerable<KeyValuePair<Location, T>>
                 blocks.Remove(key);
         }
     }
-    
+
+    /// <summary>
+    /// GetBlockIndex() computes the index into a storage
+    /// block given the cell location. The location is a global
+    /// location; it is not relative to the block's upper
+    /// left, but instead this method masks out the low bits
+    /// we need.
+    /// </summary>
+    private static int GetBlockIndex(Location location)
+    {
+        int bx = location.x & locationLocalMask;
+        int by = location.y & locationLocalMask;
+
+        return by << locationYShift | bx;
+    }
+
     #region IEnumerable implementation
 
     public IEnumerator<KeyValuePair<Location, T>> GetEnumerator()
