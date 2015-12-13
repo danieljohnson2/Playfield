@@ -275,8 +275,11 @@ public class PlayableEntityController : MovementBlocker
     /// </summary>
     private Command GetCommandOfKeyPressed()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        // 'Raw' means unfiltered, unsmoothed, so we will
+        // react immediately to the axis.
+
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
         if (horizontal < 0.0f)
             return Command.Left;
