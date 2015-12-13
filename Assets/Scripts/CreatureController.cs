@@ -16,29 +16,21 @@ using System.IO;
 /// will be willing to try to move into the creature's square;
 /// if it's false they'll avoid doing this.
 /// </summary>
-public class CreatureController : MovementBlocker
+public class CreatureController : PlayableEntityController
 {
     public int hitPoints = 10;
     public DieRoll damage = new DieRoll(1, 3);
     public bool canUseWeapons = true;
-    public float speed = 1;
     public float weight = 10;
     public GameObject attackEffect;
     public bool teamAware = true;
     public Vector2 heldItemPivot = new Vector2(0.5f, 0.5f);
-    private float maxSpeed = 20.0f;
-    private float turnCounter = 0;
 
-    public CreatureController()
-    {
-        this.passable = true;
-    }
 
     public override void SaveTo(BinaryWriter writer)
     {
         base.SaveTo(writer);
 
-        writer.Write(turnCounter);
         writer.Write(hitPoints);
     }
 
@@ -46,51 +38,7 @@ public class CreatureController : MovementBlocker
     {
         base.RestoreFrom(reader);
 
-        turnCounter = reader.ReadSingle();
         hitPoints = reader.ReadInt32();
-    }
-
-    /// <summary>
-    /// This method decides if the creatures turn has
-    /// arrived; we reduce the turnCounter until it goes 0
-    /// or negative, and then its this creature's turn. By
-    /// having a larger or smaller speed, turns will come up
-    /// more or less often.
-    /// </summary>
-    public virtual bool CheckTurn()
-    {
-        if (turnCounter <= float.Epsilon)
-        {
-            turnCounter += maxSpeed;
-            return true;
-        }
-        else
-        {
-            turnCounter -= speed;
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// This is the entry point used to start the
-    /// creatures turn. The next creature's turn
-    /// begins only when this one ends, but in most
-    /// cases aren't really much of a co-routine; this
-    /// method calls DoTurn(), then ends the turn
-    /// synchronously.
-    /// </summary>
-    public virtual IEnumerator DoTurnAsync()
-    {
-        DoTurn();
-        return Enumerable.Empty<object>().GetEnumerator();
-    }
-
-    /// <summary>
-    /// This is a sychrnonous entry point; you override this
-    /// and do whatever the creature should do during its turn.
-    /// </summary>
-    protected virtual void DoTurn()
-    {
     }
 
     #region Creature Actions
@@ -195,78 +143,6 @@ public class CreatureController : MovementBlocker
     }
 
     /// <summary>
-    /// This method moves the creature by the delta indicated
-    /// within the current map. This executes Block() methods
-    /// and may fail; if the creature could not move this method
-    /// returns false. If it did move it returns true.
-    /// </summary>
-    protected bool Move(int dx, int dy)
-    {
-        Location loc = Location.Of(gameObject).WithOffset(dx, dy);
-        return MoveTo(loc);
-    }
-
-    /// <summary>
-    /// This method moves the creature to a specific location,
-    /// which could be on a different map. Like Move(), this runs
-    /// Block() methods and returns false if the movement is blocked,
-    /// true if it succeeds. 
-    /// </summary>
-    protected bool MoveTo(Location destination)
-    {
-        if (mapController.terrain.GetTerrain(destination) == null)
-        {
-            return false;
-        }
-
-        foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination).Reverse())
-        {
-            if (!blocker.Block(gameObject, destination))
-                return false;
-        }
-        
-        Vector3 destPos = destination.ToPosition();
-        FlipToFace(destPos);
-        transform.localPosition = destPos;
-        return true;
-    }
-
-    /// <summary>
-    /// FlipToFace() updates the scale of this creature so
-    /// that he will face towards the position 'faceTo'
-    /// in a horizontal sense (only the x positions are
-    /// considered, not y or z). We do this just before
-    /// moving so that the creature faces the directory he
-    /// moves.
-    /// </summary>
-    private void FlipToFace(Vector3 faceTo)
-    {
-        Vector3 charFlip = transform.localScale;
-
-        int currentFacing = Math.Sign(charFlip.x);
-        int desiredFacing;
-
-        if (transform.localPosition.x < faceTo.x)
-            desiredFacing = 1;
-        else if (transform.localPosition.x > faceTo.x)
-            desiredFacing = -1;
-        else
-            desiredFacing = currentFacing;
-
-        if (desiredFacing != currentFacing)
-        {
-            charFlip.x = -charFlip.x;
-            transform.localScale = charFlip;
-
-            // Bark 'bubbles' must be counterflipped so that they don't
-            // appear reversed.
-
-            foreach (var bc in GetComponents<BarkController>())
-                bc.NormalizeBarkFlip();
-        }
-    }
-
-    /// <summary>
     /// This is called when the creature dies, and removes
     /// it from the game.
     /// </summary>
@@ -284,6 +160,22 @@ public class CreatureController : MovementBlocker
 
         mapController.entities.RemoveEntity(gameObject);
         mapController.adjacencyGenerator.InvalidatePathability(here);
+        
+        if (isPlayerControlled)
+        {
+            UpdateStatusText();
+            mapController.GameOver();
+        }
+    }
+
+    protected override void UpdateStatusText()
+    {
+        transcript.SetPlayerStatus(string.Format("HP: {0}", hitPoints));
+    }
+
+    protected override float GetSpinnyness()
+    {
+        return 102 - Mathf.Pow(hitPoints, 2);
     }
 
     /// <summary>

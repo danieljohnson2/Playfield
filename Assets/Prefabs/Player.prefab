@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 427070}
   - 212: {fileID: 21208888}
-  - 114: {fileID: 11421886}
+  - 114: {fileID: 11416476}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -29,7 +29,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11421886
+--- !u!114 &11416476
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -37,23 +37,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 185244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8905f0a967bc747a04c81a07c5ba9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 27420d7890002544c98bdb109104c507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
+  speed: 1
+  isPlayerControlled: 1
   hitPoints: 10
   damage:
     DiceCount: 1
     DiceSize: 4
     Plus: 0
   canUseWeapons: 1
-  speed: 1
   weight: 10
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
   heldItemPivot: {x: .300000012, y: .270000011}
-  playerStatusText: {fileID: 0}
-  movingSkybox: {fileID: 0}
 --- !u!212 &21208888
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -137,6 +136,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: isPlayerControlled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

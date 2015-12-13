@@ -13,11 +13,18 @@ public class TranscriptController : MonoBehaviour
     public int maxLines = 8;
     public Text transcriptText;
     public Text transcriptShadowText;
+    public Text playerStatusText;
+    
     private readonly List<string> lines = new List<string>();
 
     public void AddLine(string format, params object[] parameters)
     {
         AddLine(string.Format(format, parameters));
+    }
+
+    public void SetPlayerStatus(string text)
+    {
+        playerStatusText.text = text;
     }
 
     public void AddLine(string text)
@@ -28,6 +35,15 @@ public class TranscriptController : MonoBehaviour
         UpdateText();
     }
 
+    /// <summary>
+    /// Lines() reteturns the collection of
+    /// lines being displayed.
+    /// </summary>
+    public IEnumerable<string> Lines()
+    {
+        return lines;
+    }
+
     private void UpdateText()
     {
         string text = string.Join(
@@ -36,14 +52,5 @@ public class TranscriptController : MonoBehaviour
 
         transcriptText.text = text;
         transcriptShadowText.text = text;
-    }
-
-    /// <summary>
-    /// Lines() reteturns the collection of
-    /// lines being displayed.
-    /// </summary>
-    public IEnumerable<string> Lines()
-    {
-        return lines;
     }
 }

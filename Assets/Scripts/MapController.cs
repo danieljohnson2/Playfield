@@ -59,35 +59,34 @@ public class MapController : MonoBehaviour
 
             playerFound = false;
 
-            foreach (var cc in entities.Components<CreatureController>().ToArray())
+            foreach (var pec in entities.Components<PlayableEntityController>().ToArray())
             {
-                bool isPlayer = cc is PlayerController;
+                bool isPlayer = pec.isPlayerControlled;
 
                 if (isPlayer && inventoryDisplay != null)
                 {
-                    inventoryDisplay.UpdateInventoryFrom(cc.gameObject);
+                    inventoryDisplay.UpdateInventoryFrom(pec.gameObject);
                 }
 
                 if (!playerFound && isPlayer)
                 {
                     playerFound = true;
-                    activeMap = maps[Location.Of(cc.gameObject).mapIndex];
+                    activeMap = maps[Location.Of(pec.gameObject).mapIndex];
                 }
 
                 Camera.main.orthographicSize = (float)Math.Sqrt(Math.Min(activeMap.width, activeMap.height)) + 1f;
 
-
-                if (cc.CheckTurn())
+                if (pec.CheckTurn())
                 {
                     if (isPlayer)
                     {
                         hasMoved.Clear();
                     }
-                    else if (Location.Of(cc.gameObject).mapIndex == activeMap.mapIndex)
+                    else if (Location.Of(pec.gameObject).mapIndex == activeMap.mapIndex)
                     {
                         // When a creature moves where we can see it, and it double-moves
                         // the player, we add a short delay to make it not look flickery.
-                        if (!hasMoved.Add(cc.gameObject))
+                        if (!hasMoved.Add(pec.gameObject))
                         {
                             // we never want to double up delays though.
                             hasMoved.Clear();
@@ -95,7 +94,7 @@ public class MapController : MonoBehaviour
                         }
                     }
 
-                    yield return StartCoroutine(cc.DoTurnAsync());
+                    yield return StartCoroutine(pec.DoTurnAsync());
 
                     if (nextLevelInitializer != null)
                         break;

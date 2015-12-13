@@ -200,6 +200,7 @@ MonoBehaviour:
   maxLines: 4
   transcriptText: {fileID: 0}
   transcriptShadowText: {fileID: 0}
+  playerStatusText: {fileID: 0}
 --- !u!114 &787772637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,6 +662,7 @@ MonoBehaviour:
   maxLines: 4
   transcriptText: {fileID: 1687694423}
   transcriptShadowText: {fileID: 787772637}
+  playerStatusText: {fileID: 2081269014}
 --- !u!1 &1937692528
 GameObject:
   m_ObjectHideFlags: 0

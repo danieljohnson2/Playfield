@@ -12,7 +12,7 @@ public class StartupController : MonoBehaviour
 
     void Start()
     {
-        if (loadGameButton != null && !PlayerController.CanRestore)
+        if (loadGameButton != null && !PlayableEntityController.CanRestore)
             loadGameButton.gameObject.SetActive(false);
 
         if (subtitleText != null)
@@ -39,7 +39,7 @@ public class StartupController : MonoBehaviour
 
     public void LoadSavedGame()
     {
-        PlayerController.Restore();
+        PlayableEntityController.Restore();
         Application.LoadLevel("Playfield");
     }
 }

@@ -108,7 +108,7 @@ public class SavingController : MonoBehaviour
 
         try
         {
-            PlayerController player = null;
+            PlayableEntityController player = null;
             var toDestroy = new List<GameObject>();
 
             foreach (GameObject go in objects)
@@ -119,8 +119,9 @@ public class SavingController : MonoBehaviour
                 {
                     if (!sc.excludeFromSave)
                     {
-                        if (sc is PlayerController)
-                            player = (PlayerController)sc;
+                        var pec = sc as PlayableEntityController;
+                        if (pec != null && pec.isPlayerControlled)
+                            player = pec;
 
                         Queue<byte[]> arrays;
                         if (byNames.TryGetValue(sc.saveName, out arrays))
