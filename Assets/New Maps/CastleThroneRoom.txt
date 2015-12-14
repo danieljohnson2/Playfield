@@ -3,9 +3,9 @@
 ./#::#######::#/.
 ./#::::###::::#/.
 ./##::::#::::##/.
-//#::::-|-::::#//
+//#:::::::::::#//
 /##:::::-:::::##/
-##:::::::::::::##
+##:::::-#-:::::##
 b:::::::::::::::c
 #::###:::::###::#
 #::::#&:::&#::::#
@@ -24,4 +24,3 @@ b:::::::::::::::c
 a Path Door, Wood Door:CastleThroneRoomMain
 b Path Door, Wood Door:CastleThroneRoomLeft
 c Path Door, Wood Door:CastleThroneRoomRight
-| PathDoor:YouWin
