@@ -256,8 +256,14 @@ public class PlayableEntityController : MovementBlocker
                 case Command.Up: Move(0, -1); break;
                 case Command.Down: Move(0, 1); break;
 
-                case Command.Save: Save(); break;
-                case Command.Restore: Restore(); break;
+                case Command.Save:
+                    Save();
+                    mapController.transcript.AddLine("Game saved.");
+                    break;
+
+                case Command.Restore:
+                    mapController.transcript.AddLine("Restoring game...");
+                    Restore(); break;
             }
         }
         finally
@@ -396,8 +402,6 @@ public class PlayableEntityController : MovementBlocker
         {
             SavingController.Save(mapController.entities.Entities(), writer);
         }
-
-        mapController.transcript.AddLine("Game saved.");
     }
 
     /// <summary>
@@ -407,7 +411,6 @@ public class PlayableEntityController : MovementBlocker
     /// </summary>
     public static void Restore()
     {
-        mapController.transcript.AddLine("Restoring game...");
         string path = GetSaveGamePath();
 
         MapController.ReloadWithInitialization(mc => RestoreAfterLoad(mapController, path));

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 /// <summary>
 /// StartupController is used only on the title screen, and handles
@@ -32,8 +33,17 @@ public class StartupController : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public void StartGame(string playerName)
     {
+        MapController.ReloadWithInitialization(delegate (MapController mapController)
+        {
+            GameObject player = mapController.entities.byName[playerName].Single();
+            var pc = player.GetComponent<PlayableEntityController>();
+            pc.isPlayerControlled = true;
+        });
+
+        // 'ReloadWithInitialization' doesn't load the level the first time,
+        // so we do that.
         Application.LoadLevel("Playfield");
     }
 
