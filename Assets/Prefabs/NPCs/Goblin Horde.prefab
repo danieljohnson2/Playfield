@@ -119,6 +119,7 @@ MonoBehaviour:
   heatmapName: loot
   heldItemAwareness: 1
   carriedItemAwareness: .25
+  itemSpecificHeat: 0
 --- !u!114 &11455920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -156,13 +157,14 @@ MonoBehaviour:
   heatmapCooling: 64
   heatmapAutoReset: 0
   preferences:
-  - Player=16
+  - Adventurer=16
   - Rat=12
   - Weapon[Held]=-16
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: fight
   heldItemAwareness: 1
   carriedItemAwareness: .25
+  itemSpecificHeat: 1
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -187,6 +189,7 @@ MonoBehaviour:
   weight: 15
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
+  bigBad: 0
   heldItemPivot: {x: .949999988, y: .550000012}
 --- !u!114 &11484164
 MonoBehaviour:
@@ -252,7 +255,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Weapon[Exposed]=32
+      value: Adventurer=16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
@@ -369,6 +372,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: isPlayerCandidate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: itemSpecificHeat
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

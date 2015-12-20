@@ -121,6 +121,7 @@ MonoBehaviour:
   heatmapName: loot
   heldItemAwareness: 1
   carriedItemAwareness: .25
+  itemSpecificHeat: 0
 --- !u!114 &11455920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,17 +155,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 1
-  heatmapRange: 5
+  heatmapRange: 12
   heatmapCooling: 64
   heatmapAutoReset: 0
   preferences:
-  - Player=16
+  - Adventurer=12
   - Rat=12
+  - Goblin=12
   - Weapon[Held]=-16
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: fight
   heldItemAwareness: 1
   carriedItemAwareness: .25
+  itemSpecificHeat: 1
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -247,7 +250,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: preferences.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: barkPrefabs.Array.size
@@ -255,7 +258,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Player=16
+      value: Adventurer=12
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
@@ -279,7 +282,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
-      value: 4
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Sprite
@@ -332,7 +335,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
-      value: Weapon[Held]=-16
+      value: Goblin=12
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
@@ -381,6 +384,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: teamAware
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: itemSpecificHeat
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -86,4 +86,10 @@ public class ItemController : MovementBlocker
 
         return true;
     }
+
+    // TODO: comment this
+    public virtual float GetHeatmapScalingFactor(GameObject mover)
+    {
+        return 1.0f;
+    }
 }

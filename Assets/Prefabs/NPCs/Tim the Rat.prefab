@@ -46,13 +46,14 @@ MonoBehaviour:
   heatmapCooling: .25
   heatmapAutoReset: 0
   preferences:
-  - Player=-4
+  - Adventurer=-4
   - Goblin=-4
   - Weapon=-8
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: 
   heldItemAwareness: 1
   carriedItemAwareness: .25
+  itemSpecificHeat: 1
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,6 +78,7 @@ MonoBehaviour:
   weight: 1
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
+  bigBad: 0
   heldItemPivot: {x: .0839999989, y: .100000001}
 --- !u!212 &21231602
 SpriteRenderer:
@@ -173,6 +175,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
       value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: itemSpecificHeat
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[0]
+      value: Adventurer=-4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76df9d3ef27836419b1092648af802a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLines: 4
+  maxLines: 10
   transcriptText: {fileID: 1687694423}
   transcriptShadowText: {fileID: 787772637}
   playerStatusText: {fileID: 2081269014}

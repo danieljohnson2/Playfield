@@ -64,7 +64,7 @@ public class CreatureController : PlayableEntityController
     /// </summary>
     protected virtual void Fight(CreatureController attacker)
     {
-        int damage = attacker.GetAttackDamage(this);
+        int damage = attacker.GetAttackDamage();
         hitPoints -= damage;
 
         if (hitPoints <= 0)
@@ -135,7 +135,7 @@ public class CreatureController : PlayableEntityController
     /// This method computes the damage this create does when it attacks
     /// the victim given.
     /// </summary>
-    protected virtual int GetAttackDamage(CreatureController victim)
+    public int GetAttackDamage()
     {
         int basicDamage = damage.Roll();
 
@@ -143,12 +143,12 @@ public class CreatureController : PlayableEntityController
         {
             return
                 (from item in Inventory().OfType<WeaponController>()
-                 select item.GetAttackDamage(this, victim)).
-                DefaultIfEmpty(basicDamage).
-                Max();
+                 select item.GetAttackDamage(this)).
+                 DefaultIfEmpty(basicDamage).
+                 Max();
         }
 
-        return basicDamage;
+        return (int)(basicDamage * (weight / 15f));
     }
 
     /// <summary>

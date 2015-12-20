@@ -74,8 +74,9 @@ public class MovementBlocker : SavingController
     /// </summary>
     public void AddTranscriptLine(string text)
     {
-        Map activeMap = mapController.activeMap;
-        if (activeMap != null && activeMap.mapIndex == Location.Of(gameObject).mapIndex)
+        // TODO: uncomment
+        //Map activeMap = mapController.activeMap;
+        //if (activeMap != null && activeMap.mapIndex == Location.Of(gameObject).mapIndex)
         {
             transcript.AddLine(text);
         }

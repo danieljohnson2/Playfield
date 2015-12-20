@@ -59,6 +59,7 @@ public class HeatmapPreferenceController : MonoBehaviour
     public string heatmapName;
     public float heldItemAwareness = 1.0f;
     public float carriedItemAwareness = 0.25f;
+    public bool itemSpecificHeat = false;
 
     public void Awake()
     {
@@ -140,6 +141,8 @@ public class HeatmapPreferenceController : MonoBehaviour
                         if (ic != null && ic.TryGetCarrier(out carrier) && carrier.gameObject != gameObject)
                         {
                             float scaling = ic.isHeldItem ? heldItemAwareness : carriedItemAwareness;
+
+                            scaling *= ic.GetHeatmapScalingFactor(gameObject);
 
                             if (scaling != 0.0f)
                             {
