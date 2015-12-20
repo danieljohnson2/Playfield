@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
-  heldDisplayPriority: 50
+  heldDisplayPriority: 40
   scaleWhenHeld: .800000012
 --- !u!212 &21209938
 SpriteRenderer:
@@ -89,7 +89,7 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: heldDisplayPriority
-      value: 50
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x

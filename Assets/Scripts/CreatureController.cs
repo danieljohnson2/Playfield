@@ -26,8 +26,7 @@ public class CreatureController : PlayableEntityController
     public bool teamAware = true;
     public bool bigBad = false;
     public Vector2 heldItemPivot = new Vector2(0.5f, 0.5f);
-
-
+    
     public override void SaveTo(BinaryWriter writer)
     {
         base.SaveTo(writer);
@@ -272,18 +271,24 @@ public class CreatureController : PlayableEntityController
         {
             if (heldItemDisplay == null)
             {
-                SpriteRenderer sr = GetComponent<SpriteRenderer>();
-                Vector2 pivot = sr.sprite.pivot;
-                pivot /= sr.sprite.pixelsPerUnit;
                 heldItemDisplay = new GameObject("Held Item Sprite", typeof(SpriteRenderer));
                 heldItemDisplay.transform.parent = transform;
-                heldItemDisplay.transform.localPosition = heldItemPivot - pivot;
+
+                SpriteRenderer sr = GetComponent<SpriteRenderer>();
+                
+                // we need evertyhing in world co-ordinates here, not pixels.
+                Vector2 characterPivot = sr.sprite.pivot / sr.sprite.pixelsPerUnit;
+                Vector3 characterSize = sr.sprite.bounds.size;
+                
+                float heldItemX = (heldItemPivot.x * characterSize.x) - characterPivot.x;
+                float heldItemY = (heldItemPivot.y * characterSize.y) - characterPivot.y;
+                heldItemDisplay.transform.localPosition = new Vector2(heldItemX, heldItemY);
             }
 
             SpriteRenderer heldItemSprite = heldItemDisplay.GetComponent<SpriteRenderer>();
             heldItemSprite.sprite = held;
             heldItemSprite.sortingOrder = 1000;
-            heldItemDisplay.transform.localScale = new Vector2(heldItem.scaleWhenHeld, heldItem.scaleWhenHeld);
+            heldItemDisplay.transform.localScale = new Vector2(-heldItem.scaleWhenHeld, heldItem.scaleWhenHeld);
         }
         else if (heldItemDisplay != null)
         {

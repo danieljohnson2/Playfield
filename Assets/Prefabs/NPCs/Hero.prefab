@@ -189,7 +189,8 @@ MonoBehaviour:
   weight: 15
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
-  heldItemPivot: {x: .916000009, y: .555999994}
+  bigBad: 0
+  heldItemPivot: {x: .925000012, y: .561999977}
 --- !u!114 &11484164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -335,11 +336,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
-      value: .916000009
+      value: .925000012
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.y
-      value: .555999994
+      value: .561999977
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[3]
