@@ -24,6 +24,7 @@ public class CreatureController : PlayableEntityController
     public float weight = 10;
     public GameObject attackEffect;
     public bool teamAware = true;
+    public bool bigBad = false;
     public Vector2 heldItemPivot = new Vector2(0.5f, 0.5f);
 
 
@@ -65,16 +66,6 @@ public class CreatureController : PlayableEntityController
     protected virtual void Fight(CreatureController attacker)
     {
         int damage = attacker.GetAttackDamage(this);
-        float animationSize = (float)damage;
-        animationSize = (float)0.5 + (animationSize / 10);
-        if (attacker.attackEffect != null && gameObject.activeSelf)
-        {
-            GameObject effect = Instantiate(attackEffect);
-            effect.transform.parent = transform.parent;
-            effect.transform.localScale = new Vector3(animationSize, animationSize, 1);
-            effect.transform.localPosition = transform.localPosition;
-        }
-
         hitPoints -= damage;
 
         if (hitPoints <= 0)
@@ -83,6 +74,12 @@ public class CreatureController : PlayableEntityController
             AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
             attacker.hitPoints += 1;
             Die();
+
+            if (bigBad)
+            {
+                transcript.AddLine("{0} wins the game!", attacker.name);
+                mapController.GameOver();
+            }
         }
         else
         {
@@ -94,6 +91,19 @@ public class CreatureController : PlayableEntityController
 
             AddTranscriptLine("{0} hit {1} for {2}!{3}", attacker.name, this.name, damage,
                 knockedBack ? " Knockback!" : "");
+        }
+             
+        if (attacker.attackEffect != null && gameObject.activeSelf)
+        {
+            float animationSize = (float)damage;
+            animationSize = (float)0.5 + (animationSize / 10);
+            if (hitPoints <= 0)
+                animationSize *= 3;
+
+            GameObject effect = Instantiate(attackEffect);
+            effect.transform.parent = transform.parent;
+            effect.transform.localScale = new Vector3(animationSize, animationSize, 1);
+            effect.transform.localPosition = transform.localPosition;
         }
     }
 

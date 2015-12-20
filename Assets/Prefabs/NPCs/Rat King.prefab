@@ -77,6 +77,7 @@ MonoBehaviour:
   weight: 20
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 0
+  bigBad: 1
   heldItemPivot: {x: .0900000036, y: .0900000036}
 --- !u!212 &21231602
 SpriteRenderer:
@@ -201,6 +202,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bigBad
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
