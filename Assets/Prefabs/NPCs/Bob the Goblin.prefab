@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 1
-  heatmapRange: 5
+  heatmapRange: 16
   heatmapCooling: 64
   heatmapAutoReset: 0
   preferences:
@@ -189,6 +189,7 @@ MonoBehaviour:
   weight: 15
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
+  bigBad: 0
   heldItemPivot: {x: .949999988, y: .550000012}
 --- !u!114 &11484164
 MonoBehaviour:
@@ -278,7 +279,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
-      value: 4
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Sprite

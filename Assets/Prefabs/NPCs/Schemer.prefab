@@ -19,7 +19,7 @@ GameObject:
   - 114: {fileID: 11455920}
   m_Layer: 0
   m_Name: Schemer
-  m_TagString: Goblin
+  m_TagString: Adventurer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,7 +188,8 @@ MonoBehaviour:
   canUseWeapons: 1
   weight: 15
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
-  teamAware: 1
+  teamAware: 0
+  bigBad: 0
   heldItemPivot: {x: .949999988, y: .550000012}
 --- !u!114 &11484164
 MonoBehaviour:
@@ -262,7 +263,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: Goblin
+      value: Adventurer
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapMarkerPrefab
@@ -360,6 +361,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: isPlayerCandidate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: teamAware
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

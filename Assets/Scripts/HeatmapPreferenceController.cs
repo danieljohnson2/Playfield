@@ -128,27 +128,30 @@ public class HeatmapPreferenceController : MonoBehaviour
 
             foreach (GameObject target in sourceID.GameObjects())
             {
-                Location targetLoc = Location.Of(target);
-
-                if (targetLoc == Location.nowhere)
+                if (target != gameObject)
                 {
-                    ItemController ic = target.GetComponent<ItemController>();
-                    CreatureController carrier;
+                    Location targetLoc = Location.Of(target);
 
-                    if (ic != null && ic.TryGetCarrier(out carrier) && carrier.gameObject != gameObject)
+                    if (targetLoc == Location.nowhere)
                     {
-                        float scaling = ic.isHeldItem ? heldItemAwareness : carriedItemAwareness;
+                        ItemController ic = target.GetComponent<ItemController>();
+                        CreatureController carrier;
 
-                        if (scaling != 0.0f)
+                        if (ic != null && ic.TryGetCarrier(out carrier) && carrier.gameObject != gameObject)
                         {
-                            targetLoc = Location.Of(carrier.gameObject);
-                            heat = (short)(heat * scaling);
+                            float scaling = ic.isHeldItem ? heldItemAwareness : carriedItemAwareness;
+
+                            if (scaling != 0.0f)
+                            {
+                                targetLoc = Location.Of(carrier.gameObject);
+                                heat = (short)(heat * scaling);
+                            }
                         }
                     }
-                }
 
-                if (targetLoc != Location.nowhere)
-                    heatmap[targetLoc] = new Heatmap.Slot(target, heat);
+                    if (targetLoc != Location.nowhere)
+                        heatmap[targetLoc] = new Heatmap.Slot(target, heat);
+                }
             }
         }
 

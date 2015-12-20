@@ -19,7 +19,7 @@ GameObject:
   - 114: {fileID: 11455920}
   m_Layer: 0
   m_Name: Hero
-  m_TagString: Goblin
+  m_TagString: Adventurer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,14 +154,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 1
-  heatmapRange: 5
+  heatmapRange: 12
   heatmapCooling: 64
   heatmapAutoReset: 0
   preferences:
-  - Player=16
+  - Adventurer=8
   - Rat=12
-  - Weapon[Held]=-16
-  heatmapMarkerPrefab: {fileID: 0}
+  - Goblin=12
+  heatmapMarkerPrefab: {fileID: 164048, guid: 0492a2c204b3b884cb64f86fb6b89e11, type: 2}
   heatmapName: fight
   heldItemAwareness: 1
   carriedItemAwareness: .25
@@ -188,7 +188,7 @@ MonoBehaviour:
   canUseWeapons: 1
   weight: 15
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
-  teamAware: 1
+  teamAware: 0
   bigBad: 0
   heldItemPivot: {x: .925000012, y: .561999977}
 --- !u!114 &11484164
@@ -255,7 +255,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Player=16
+      value: Adventurer=8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
@@ -263,12 +263,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: Goblin
+      value: Adventurer
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapMarkerPrefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 164048, guid: 0492a2c204b3b884cb64f86fb6b89e11, type: 2}
     - target: {fileID: 0}
       propertyPath: heatmapCooling
       value: 0
@@ -279,7 +279,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
-      value: 4
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Sprite
@@ -332,7 +332,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
-      value: Weapon[Held]=-16
+      value: Goblin=12
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
@@ -369,6 +369,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: isPlayerCandidate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: teamAware
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -10,6 +10,7 @@ TagManager:
   - Rat
   - Weapon
   - JewelSlot
+  - Adventurer
   layers:
   - Default
   - TransparentFX
