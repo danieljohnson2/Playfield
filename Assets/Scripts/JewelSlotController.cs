@@ -8,6 +8,13 @@ public class JewelSlotController : MovementBlocker
     public Sprite[] filledSprites;
     private string filledColor = "";
 
+    public override bool IsPathableFor(GameObject mover)
+    {
+        // if a creature has a gem, it will path right to the
+        // slot. Once the slot is full, this will then be false again.
+        return CanBeOperatedBy(mover);
+    }
+
     public override bool Block(GameObject mover, Location destination)
     {
         if (filledColor == "")
@@ -40,6 +47,15 @@ public class JewelSlotController : MovementBlocker
         }
 
         return false;
+    }
+
+    private bool CanBeOperatedBy(GameObject mover)
+    {
+        if (filledColor != "")
+            return false;
+
+        var cc = mover.GetComponent<CreatureController>();
+        return cc != null && cc.Inventory().Any(item => item.tag == "Gem");
     }
 
     public override void SaveTo(BinaryWriter writer)

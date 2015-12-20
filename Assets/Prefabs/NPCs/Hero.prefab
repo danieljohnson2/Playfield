@@ -117,6 +117,7 @@ MonoBehaviour:
   - Key=128
   - Gem=256
   - Weapon[Exposed]=128
+  - JewelSlot=256
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: loot
   heldItemAwareness: 1
@@ -249,7 +250,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: preferences.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: barkPrefabs.Array.size
@@ -346,7 +347,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[3]
-      value: 
+      value: JewelSlot=256
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: priority
