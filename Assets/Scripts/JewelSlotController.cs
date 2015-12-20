@@ -28,7 +28,7 @@ public class JewelSlotController : MovementBlocker
                     IEnumerable<GameObject> allGems = mapController.entities.byTag["Gem"];
                     IEnumerable<GameObject> otherGems = allGems.Except(new[] { gem.gameObject });
 
-                    if (otherGems.Count() <= 3)
+                    if (!otherGems.Any())
                     {
                         IEnumerable<GameObject> allSlots = mapController.entities.byTag["JewelSlot"];
 

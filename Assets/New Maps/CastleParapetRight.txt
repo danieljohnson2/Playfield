@@ -20,6 +20,6 @@
 / Water
 : Floor
 ` Floor, Sword
-c Path Door, Wood Door:CastleThroneRoomRight
+c Path Door, JewelSlot:CastleThroneRoomRight
 e Path Door, Wood Door:CastleParapetBottomRight
 = Door

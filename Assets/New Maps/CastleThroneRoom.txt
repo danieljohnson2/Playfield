@@ -4,8 +4,8 @@
 ./#::::###::::#/.
 ./##::::#::::##/.
 //#:::::::::::#//
-/##:::::-:::::##/
-##:::::-#-:::::##
+/##:::::::::::##/
+##:::::::::::::##
 b:::::::::::::::c
 #::###:::::###::#
 #::::#&:::&#::::#
@@ -21,6 +21,6 @@ b:::::::::::::::c
 . 
 / Water
 : Floor
-a Path Door, Wood Door:CastleThroneRoomMain
-b Path Door, Wood Door:CastleThroneRoomLeft
-c Path Door, Wood Door:CastleThroneRoomRight
+a Path Door, JewelSlot:CastleThroneRoomMain
+b Path Door, JewelSlot:CastleThroneRoomLeft
+c Path Door, JewelSlot:CastleThroneRoomRight

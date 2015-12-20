@@ -20,7 +20,7 @@
 & Tree
 . 
 : Floor
-a Path Door, Wood Door:CastleThroneRoomMain
+a Path Door, JewelSlot:CastleThroneRoomMain
 d Path Door, Wood Door:CastleParapetBottomLeft
 e Path Door, Wood Door:CastleParapetBottomRight
 f Path Door, Wood Door:CastleEntrywayToTopLevel

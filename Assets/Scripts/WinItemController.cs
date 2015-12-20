@@ -11,12 +11,12 @@ public class WinItemController : ItemController
     protected override void Pickup(CreatureController carrier)
     {
         base.Pickup(carrier);
-
+        /*
         if (mapController.entities.Components<WinItemController>().All(wi => wi.CarriedBy(carrier)))
         {
             transcript.AddLine("{0} wins the game!", carrier.name);
             mapController.GameOver();
-        }
+        }*/
     }
 
     /// <summary>
