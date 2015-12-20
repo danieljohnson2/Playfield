@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8139582ed09f74bb48c66d47a591c98d
-timeCreated: 1449519796
+timeCreated: 1450633514
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -79,8 +79,8 @@ TextureImporter:
         y: 117
         width: 72
         height: 104
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .536194086, y: .506264448}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Pirate
       rect:
@@ -95,7 +95,7 @@ TextureImporter:
     - name: Goblin
       rect:
         serializedVersion: 2
-        x: 303
+        x: 304
         y: 116
         width: 75
         height: 100
@@ -155,12 +155,12 @@ TextureImporter:
     - name: TimRat
       rect:
         serializedVersion: 2
-        x: 303
+        x: 302
         y: 9
         width: 80
         height: 57
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .508143604, y: .38570264}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: KimRat
       rect:

@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11472114}
   - 114: {fileID: 11415102}
   m_Layer: 0
-  m_Name: Tim the Rat
+  m_Name: Rat King
   m_TagString: Rat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,8 +25,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .100000001, y: 0, z: 0}
-  m_LocalScale: {x: .899999976, y: .899999976, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -46,9 +46,9 @@ MonoBehaviour:
   heatmapCooling: .25
   heatmapAutoReset: 0
   preferences:
-  - Player=-4
-  - Goblin=-4
-  - Weapon=-8
+  - Player=8
+  - Goblin=8
+  - Weapon=8
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: 
   heldItemAwareness: 1
@@ -68,16 +68,16 @@ MonoBehaviour:
   speed: 1.5
   isPlayerControlled: 0
   isPlayerCandidate: 0
-  hitPoints: 4
+  hitPoints: 30
   damage:
-    DiceCount: 1
-    DiceSize: 2
-    Plus: -1
-  canUseWeapons: 0
-  weight: 1
+    DiceCount: 2
+    DiceSize: 3
+    Plus: 0
+  canUseWeapons: 1
+  weight: 20
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
-  teamAware: 1
-  heldItemPivot: {x: .0839999989, y: .100000001}
+  teamAware: 0
+  heldItemPivot: {x: .0900000036, y: .0900000036}
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -123,7 +123,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
-      value: Goblin=-4
+      value: Goblin=8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapCooling
@@ -140,39 +140,67 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: canUseWeapons
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: heldItemPivot.x
-      value: .0839999989
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: heldItemPivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: preferences.Array.data[2]
-      value: Weapon=-8
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: weight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: heldItemPivot.x
+      value: .0900000036
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemPivot.y
+      value: .0900000036
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[2]
+      value: Weapon=8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: weight
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: hitPoints
-      value: 4
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
-      value: .899999976
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.y
-      value: .899999976
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
-      value: .100000001
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: teamAware
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damage.Plus
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damage.DiceCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damage.DiceSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: excludeFromSave
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[0]
+      value: Player=8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

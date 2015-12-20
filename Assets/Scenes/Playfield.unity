@@ -358,6 +358,7 @@ MonoBehaviour:
     - {fileID: 154314, guid: 91036b4786081324d9736f72872cd308, type: 2}
     - {fileID: 154314, guid: 4d1e101e7756cbf4499293450cccbeff, type: 2}
     - {fileID: 154314, guid: ff140c29cd864814882ffbd2eda2f1b6, type: 2}
+    - {fileID: 154314, guid: 14aff6694b82b054e995d5a0bbf1b0d8, type: 2}
 --- !u!45 &1484928779
 Skybox:
   m_ObjectHideFlags: 0

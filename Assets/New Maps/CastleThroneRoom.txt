@@ -4,8 +4,8 @@
 ./#::::###::::#/.
 ./##::::#::::##/.
 //#:::::::::::#//
-/##:::::::::::##/
-##:::::::::::::##
+/##:::::R:::::##/
+##::::::T::::::##
 b:::::::::::::::c
 #::###:::::###::#
 #::::#&:::&#::::#
@@ -24,3 +24,5 @@ b:::::::::::::::c
 a Path Door, JewelSlot:CastleThroneRoomMain
 b Path Door, JewelSlot:CastleThroneRoomLeft
 c Path Door, JewelSlot:CastleThroneRoomRight
+R Floor, Rat King
+T Floor, Mace

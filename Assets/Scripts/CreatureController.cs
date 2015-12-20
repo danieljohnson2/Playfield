@@ -262,9 +262,12 @@ public class CreatureController : PlayableEntityController
         {
             if (heldItemDisplay == null)
             {
+                SpriteRenderer sr = GetComponent<SpriteRenderer>();
+                Vector2 pivot = sr.sprite.pivot;
+                pivot /= sr.sprite.pixelsPerUnit;
                 heldItemDisplay = new GameObject("Held Item Sprite", typeof(SpriteRenderer));
                 heldItemDisplay.transform.parent = transform;
-                heldItemDisplay.transform.localPosition = heldItemPivot - new Vector2(0.5f, 0.5f);
+                heldItemDisplay.transform.localPosition = heldItemPivot - pivot;
             }
 
             SpriteRenderer heldItemSprite = heldItemDisplay.GetComponent<SpriteRenderer>();
