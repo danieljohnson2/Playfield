@@ -160,12 +160,28 @@ public class CreatureController : PlayableEntityController
 
         mapController.entities.RemoveEntity(gameObject);
         mapController.adjacencyGenerator.InvalidatePathability(here);
-        
+
         if (isPlayerControlled)
         {
             UpdateStatusText();
             mapController.GameOver();
         }
+    }
+
+    // TODO: comment
+    public void DropItem(ItemController item, bool makeActive = true)
+    {
+        Location here = Location.Of(gameObject);
+
+        item.transform.parent = transform.parent;
+        item.transform.localPosition = here.ToPosition();
+
+        if (makeActive)
+            item.gameObject.SetActive(true);
+
+        mapController.adjacencyGenerator.InvalidatePathability(here);
+
+        UpdateHeldItem();
     }
 
     protected override void UpdateStatusText()

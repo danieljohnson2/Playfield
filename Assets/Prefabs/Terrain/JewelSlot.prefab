@@ -9,10 +9,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 491516}
   - 212: {fileID: 21233332}
-  - 114: {fileID: 11461442}
+  - 114: {fileID: 11471574}
   m_Layer: 0
   m_Name: JewelSlot
-  m_TagString: Untagged
+  m_TagString: JewelSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11461442
+--- !u!114 &11471574
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -37,10 +37,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 166036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 133ce71eac7d8b442aa26d66d267a1b2, type: 3}
+  m_Script: {fileID: 11500000, guid: ddfb4020720a5c14998815491fd32f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  excludeFromSave: 1
+  excludeFromSave: 0
+  filledSprites:
+  - {fileID: 21300112, guid: af06595c7cdd283459677670b149572a, type: 3}
+  - {fileID: 21300114, guid: af06595c7cdd283459677670b149572a, type: 3}
+  - {fileID: 21300116, guid: af06595c7cdd283459677670b149572a, type: 3}
 --- !u!212 &21233332
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -66,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300118, guid: af06595c7cdd283459677670b149572a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
@@ -77,6 +81,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: filledSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: excludeFromSave
       value: 1
       objectReference: {fileID: 0}
@@ -85,6 +93,23 @@ Prefab:
       value: 
       objectReference: {fileID: 21300118, guid: af06595c7cdd283459677670b149572a,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: filledSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300114, guid: af06595c7cdd283459677670b149572a,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: JewelSlot
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 166036}

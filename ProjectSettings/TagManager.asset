@@ -9,6 +9,7 @@ TagManager:
   - Goblin
   - Rat
   - Weapon
+  - JewelSlot
   layers:
   - Default
   - TransparentFX
