@@ -92,7 +92,7 @@ public class CreatureController : PlayableEntityController
                 knockedBack ? " Knockback!" : "");
         }
              
-        if (attacker.attackEffect != null && gameObject.activeSelf)
+        if (attacker.attackEffect != null && gameObject.activeInHierarchy)
         {
             float animationSize = (float)damage;
             animationSize = (float)0.5 + (animationSize / 8);
