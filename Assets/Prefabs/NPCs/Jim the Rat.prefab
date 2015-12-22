@@ -66,20 +66,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
-  speed: 1.5
+  speed: 1.29999995
   isPlayerControlled: 0
   isPlayerCandidate: 0
-  hitPoints: 5
+  hitPoints: 6
   damage:
     DiceCount: 1
     DiceSize: 2
     Plus: -1
   canUseWeapons: 0
-  weight: 2
+  weight: 9
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
   bigBad: 0
-  heldItemPivot: {x: .949999988, y: .550000012}
+  heldItemPivot: {x: .912999988, y: .5}
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -158,11 +158,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
-      value: .949999988
+      value: .912999988
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.y
-      value: .550000012
+      value: .5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
@@ -170,11 +170,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: weight
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: hitPoints
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
@@ -191,6 +191,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: itemSpecificHeat
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 1.29999995
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

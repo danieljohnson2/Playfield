@@ -93,17 +93,17 @@ MonoBehaviour:
   speed: 1.5
   isPlayerControlled: 0
   isPlayerCandidate: 0
-  hitPoints: 4
+  hitPoints: 5
   damage:
     DiceCount: 1
     DiceSize: 2
     Plus: -1
   canUseWeapons: 0
-  weight: 2
+  weight: 8
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 1
   bigBad: 0
-  heldItemPivot: {x: .949999988, y: .550000012}
+  heldItemPivot: {x: .890999973, y: .56400001}
 --- !u!212 &21231602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -186,19 +186,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
-      value: .949999988
+      value: .890999973
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.y
-      value: .550000012
+      value: .56400001
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: weight
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: hitPoints
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x

@@ -42,8 +42,7 @@ public class ItemController : MovementBlocker
                 }
             }
         }
-
-        carrier.AddTranscriptLine("{0} picked up {1}!", carrier.name, name);
+		if (name != "Gold Key") carrier.AddTranscriptLine("{0} picked up {1}!", carrier.name, name);
         carrier.PlaceInInventory(gameObject);
     }
 

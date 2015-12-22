@@ -180,10 +180,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
-  speed: .75
+  speed: 1
   isPlayerControlled: 0
   isPlayerCandidate: 1
-  hitPoints: 10
+  hitPoints: 11
   damage:
     DiceCount: 1
     DiceSize: 3
@@ -193,7 +193,7 @@ MonoBehaviour:
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 0
   bigBad: 0
-  heldItemPivot: {x: .925000012, y: .561999977}
+  heldItemPivot: {x: .90200001, y: .549000025}
 --- !u!114 &11484164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -278,7 +278,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: .75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
@@ -339,11 +339,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
-      value: .925000012
+      value: .90200001
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.y
-      value: .561999977
+      value: .549000025
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[3]
@@ -376,6 +376,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: teamAware
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hitPoints
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

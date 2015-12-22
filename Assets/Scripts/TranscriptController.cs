@@ -12,7 +12,6 @@ public class TranscriptController : MonoBehaviour
 {
     public int maxLines = 8;
     public Text transcriptText;
-    public Text transcriptShadowText;
     public Text playerStatusText;
     
     private readonly List<string> lines = new List<string>();
@@ -51,6 +50,5 @@ public class TranscriptController : MonoBehaviour
             lines.ToArray());
 
         transcriptText.text = text;
-        transcriptShadowText.text = text;
     }
 }

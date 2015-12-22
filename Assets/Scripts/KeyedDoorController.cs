@@ -50,13 +50,12 @@ public class KeyedDoorController : MovementBlocker
                     mapController.entities.RemoveEntity(kdc.gameObject);
 
             // Of course the door we just opened need to go too.
-
+			if (gameObject.name != "Wood Door") AddTranscriptLine("{0} opened a {1}.", mover.name, gameObject.name);
             mapController.entities.RemoveEntity(gameObject);
-            AddTranscriptLine("{0} opened a door.", mover.name);
             return false;
         }
 
-        AddTranscriptLine("{0} needs the {1}", mover.name, keyName);
+        //AddTranscriptLine("{0} needs the {1}", mover.name, keyName);
         return false;
     }
 

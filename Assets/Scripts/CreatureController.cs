@@ -88,16 +88,18 @@ public class CreatureController : PlayableEntityController
                 myWeightScore < attackerWeightScor &&
                 KnockedBack(attacker);
 
-            AddTranscriptLine("{0} hit {1} for {2}!{3}", attacker.name, this.name, damage,
+			if (damage > 0) AddTranscriptLine("{0} hit {1} for {2}!{3}", attacker.name, this.name, damage,
                 knockedBack ? " Knockback!" : "");
         }
              
         if (attacker.attackEffect != null && gameObject.activeSelf)
         {
             float animationSize = (float)damage;
-            animationSize = (float)0.5 + (animationSize / 10);
-            if (hitPoints <= 0)
-                animationSize *= 3;
+            animationSize = (float)0.5 + (animationSize / 8);
+			if (hitPoints <= 0)
+				animationSize *= 2;
+			if (KnockedBack(attacker))
+				animationSize *= 2;
 
             GameObject effect = Instantiate(attackEffect);
             effect.transform.parent = transform.parent;
@@ -148,7 +150,7 @@ public class CreatureController : PlayableEntityController
                  Max();
         }
 
-        return (int)(basicDamage * (weight / 15f));
+        return (int)(basicDamage * (weight / 20f));
     }
 
     /// <summary>

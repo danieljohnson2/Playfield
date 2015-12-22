@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8139582ed09f74bb48c66d47a591c98d
-timeCreated: 1450638900
+timeCreated: 1450753840
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -69,8 +69,8 @@ TextureImporter:
         y: 119
         width: 72
         height: 95
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .456913114, y: .46374929}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Adventurer
       rect:
@@ -79,18 +79,18 @@ TextureImporter:
         y: 117
         width: 72
         height: 104
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .545393825, y: .486637264}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Pirate
       rect:
         serializedVersion: 2
         x: 202
-        y: 117
-        width: 72
-        height: 100
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        y: 116
+        width: 76
+        height: 101
+      alignment: 9
+      pivot: {x: .538572431, y: .477599949}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Goblin
       rect:
@@ -99,18 +99,18 @@ TextureImporter:
         y: 116
         width: 75
         height: 100
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .506956816, y: .446540982}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Duelist
       rect:
         serializedVersion: 2
         x: 397
-        y: 119
-        width: 73
-        height: 102
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        y: 117
+        width: 75
+        height: 104
+      alignment: 9
+      pivot: {x: .493106276, y: .480068654}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Heavy
       rect:
@@ -119,18 +119,18 @@ TextureImporter:
         y: 114
         width: 91
         height: 115
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .443182975, y: .410079569}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Scholar
       rect:
         serializedVersion: 2
         x: 7
-        y: 10
-        width: 67
-        height: 84
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        y: 9
+        width: 70
+        height: 85
+      alignment: 9
+      pivot: {x: .492546678, y: .542304039}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Mage
       rect:
@@ -139,8 +139,8 @@ TextureImporter:
         y: 6
         width: 86
         height: 90
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .50794363, y: .453936428}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: JimRat
       rect:
@@ -149,38 +149,38 @@ TextureImporter:
         y: 8
         width: 80
         height: 86
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .549394011, y: .437456757}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: TimRat
       rect:
         serializedVersion: 2
         x: 302
-        y: 9
-        width: 80
-        height: 57
+        y: 8
+        width: 82
+        height: 58
       alignment: 9
-      pivot: {x: .508143604, y: .38570264}
+      pivot: {x: .508144498, y: .367873609}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: KimRat
       rect:
         serializedVersion: 2
         x: 398
         y: 10
-        width: 67
+        width: 70
         height: 96
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .492413342, y: .472728491}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Goblins
       rect:
         serializedVersion: 2
         x: 482
-        y: 7
-        width: 81
-        height: 101
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        y: 6
+        width: 82
+        height: 102
+      alignment: 9
+      pivot: {x: .481140882, y: .493072361}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
