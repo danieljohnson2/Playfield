@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   priority: 0
   heatmapRange: 4
-  heatmapCooling: 0
+  heatmapCooling: 1
   heatmapAutoReset: 1
   preferences:
   - Key=128
@@ -273,7 +273,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapCooling
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed

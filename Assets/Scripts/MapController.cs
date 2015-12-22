@@ -701,6 +701,29 @@ public class MapController : MonoBehaviour
         }
 
         /// <summary>
+        /// ResetHeatmaps() resets the heapmaps that have heat
+        /// values derived from the source indicated.
+        /// </summary>
+        public void ResetHeatmaps(GameObject heatSource)
+        {
+            Location where = Location.Of(heatSource);
+
+            foreach (var hpc in Components<HeatmapPreferenceController>())
+            {
+                if (hpc.heatmapAutoReset)
+                {
+                    if (hpc.AppliesHeatFor(heatSource))
+                    {
+                        Location hpcWhere = Location.Of(hpc.gameObject);
+
+                        if (hpcWhere.mapIndex == where.mapIndex)
+                            hpc.ResetHeatmap();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// ClearEntityCaches() discards the cached lookups we keep
         /// in case they have changed; they'll be regenerated on demand.
         /// </summary>

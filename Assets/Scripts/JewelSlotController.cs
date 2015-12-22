@@ -8,6 +8,13 @@ public class JewelSlotController : MovementBlocker
     public Sprite[] filledSprites;
     private string filledColor = "";
 
+    public JewelSlotController()
+    {
+        // Block() can still block movement, but this flag means
+        // AI will at least try. We make this false again when the
+        // slot is filled.
+        passable = true;
+    }
     public override bool IsPathableFor(GameObject mover)
     {
         // if a creature has a gem, it will path right to the
@@ -26,6 +33,9 @@ public class JewelSlotController : MovementBlocker
 
                 if (gem != null)
                 {
+                    mapController.entities.ResetHeatmaps(gameObject);
+                    mapController.adjacencyGenerator.InvalidatePathability(Location.Of(gameObject));
+
                     cc.DropItem(gem, makeActive: false);
                     mapController.entities.RemoveEntity(gem.gameObject);
 
@@ -40,7 +50,11 @@ public class JewelSlotController : MovementBlocker
                         IEnumerable<GameObject> allSlots = mapController.entities.byTag["JewelSlot"];
 
                         foreach (GameObject slot in allSlots)
+                        {
+                            mapController.entities.ResetHeatmaps(slot);
+                            mapController.adjacencyGenerator.InvalidatePathability(Location.Of(slot));
                             mapController.entities.RemoveEntity(slot);
+                        }
                     }
                 }
             }
@@ -81,6 +95,7 @@ public class JewelSlotController : MovementBlocker
             {
                 var sr = GetComponent<SpriteRenderer>();
                 sr.sprite = newSprite;
+                passable = false;
             }
         }
     }

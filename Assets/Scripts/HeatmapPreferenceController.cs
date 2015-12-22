@@ -93,7 +93,7 @@ public class HeatmapPreferenceController : MonoBehaviour
     {
         var info = new Heatmap.SourceInfo(candidate);
 
-        foreach(var pair in Preferences())
+        foreach (var pair in Preferences())
         {
             if (pair.Key.Matches(info))
                 return true;
@@ -113,6 +113,8 @@ public class HeatmapPreferenceController : MonoBehaviour
     /// </summary>
     public Heatmap UpdateHeatmap()
     {
+        MapController mapController = MapController.instance;
+
         residualCooling += heatmapCooling;
 
         if (residualCooling > 0.0f)
@@ -152,7 +154,7 @@ public class HeatmapPreferenceController : MonoBehaviour
                         }
                     }
 
-                    if (targetLoc != Location.nowhere)
+                    if (targetLoc != Location.nowhere && mapController.IsPassable(targetLoc))
                         heatmap[targetLoc] = new Heatmap.Slot(target, heat);
                 }
             }
