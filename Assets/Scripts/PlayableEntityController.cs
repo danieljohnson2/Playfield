@@ -202,9 +202,9 @@ public class PlayableEntityController : MovementBlocker
         writer.Write(turnCounter);
     }
 
-    public override void RestoreFrom(BinaryReader reader)
+    public override void RestoreFrom(BinaryReader reader, Restoration restoration)
     {
-        base.RestoreFrom(reader);
+        base.RestoreFrom(reader, restoration);
 
         isPlayerControlled = reader.ReadBoolean();
         turnCounter = reader.ReadSingle();
@@ -400,7 +400,7 @@ public class PlayableEntityController : MovementBlocker
         using (Stream stream = File.Open(path, FileMode.Create))
         using (var writer = new BinaryWriter(stream))
         {
-            SavingController.Save(mapController.entities.Entities(), writer);
+            SavingController.Save(mapController, writer);
         }
     }
 
@@ -441,7 +441,7 @@ public class PlayableEntityController : MovementBlocker
         using (Stream stream = File.OpenRead(path))
         using (var reader = new BinaryReader(stream))
         {
-            SavingController.Restore(mapController.entities.Entities(), reader);
+            Restoration.Read(reader).Restore(mapController);
         }
 
         mapController.transcript.AddLine("Game restored.");

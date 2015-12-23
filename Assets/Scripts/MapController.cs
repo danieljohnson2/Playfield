@@ -566,7 +566,11 @@ public class MapController : MonoBehaviour
         public void RemoveEntity(GameObject toRemove)
         {
             if (toRemove != null)
-            {
+            { 
+                // Recursively remove children too!
+                for (int i = toRemove.transform.childCount - 1; i >= 0; --i)
+                    RemoveEntity(toRemove.transform.GetChild(i).gameObject);
+
                 pendingRemoval.Enqueue(toRemove);
             }
         }

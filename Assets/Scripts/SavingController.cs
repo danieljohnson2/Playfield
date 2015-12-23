@@ -59,7 +59,7 @@ public class SavingController : MonoBehaviour
     /// RestoreFrom() restores the state of this controller by
     /// reading the data SaveTo() writes.
     /// </summary>
-    public virtual void RestoreFrom(BinaryReader reader)
+    public virtual void RestoreFrom(BinaryReader reader, Restoration restoration)
     {
         if (saveName == name)
         {
@@ -70,7 +70,7 @@ public class SavingController : MonoBehaviour
 
             if (parentName != "")
             {
-                GameObject parent = FindGameObjectsByName(parentName).FirstOrDefault();
+                GameObject parent = restoration.gameObjectsByName[parentName].FirstOrDefault();
 
                 if (parent != null)
                     transform.parent = parent.transform;
@@ -84,11 +84,16 @@ public class SavingController : MonoBehaviour
         }
     }
 
-    // TODO: cleanup- should not be state
+    #region Saving and Restoring
 
-    public static void Save(IEnumerable<GameObject> objects, BinaryWriter writer)
+    /// <summary>
+    /// This method saves a saved game; this reads the entities from the
+    /// map controller and writes each saveable component of each one out
+    /// to the write.
+    /// </summary>
+    public static void Save(MapController mapController, BinaryWriter writer)
     {
-        foreach (GameObject go in objects)
+        foreach (GameObject go in mapController.entities.Entities())
         {
             foreach (var sc in go.GetComponents<SavingController>())
             {
@@ -114,21 +119,67 @@ public class SavingController : MonoBehaviour
         writer.Write("");
     }
 
-    public static void Restore(IEnumerable<GameObject> objects, BinaryReader reader)
+    /// <summary>
+    /// Restoration is an object used to restore games; it holds
+    /// a copy of the saved game data, and alookup to find game
+    /// objects by name. This is passed to the RestoreFrom() methods
+    /// to allow them to find their parents.
+    /// </summary>
+    public sealed class Restoration
     {
-        lazyGameObjectsByName = null;
+        private readonly Dictionary<string, Queue<byte[]>> byNames;
+        private bool restored;
 
-        Dictionary<string, Queue<byte[]>> byNames =
-            (from pair in ReadSections(reader)
-             group pair.Value by pair.Key).
-             ToDictionary(g => g.Key, g => new Queue<byte[]>(g));
-
-        try
+        private Restoration(Dictionary<string, Queue<byte[]>> byNames)
         {
+            this.byNames = byNames;
+
+            this.gameObjectsByName =
+                (from t in Resources.FindObjectsOfTypeAll<Transform>()
+                 select t.gameObject).ToLookup(go => go.name);
+        }
+
+        /// <summary>
+        /// gameObjectsByName is a lookup of all the game objects, keyed by
+        /// their names.
+        /// </summary>
+        public ILookup<string, GameObject> gameObjectsByName { get; private set; }
+
+        /// <summary>
+        /// Read() reads a saved came from a reader, and generates
+        /// a Restoration object containing an in-memory copy of
+        /// that data.
+        /// </summary>
+        public static Restoration Read(BinaryReader reader)
+        {
+            Dictionary<string, Queue<byte[]>> byNames =
+                (from pair in ReadSections(reader)
+                 group pair.Value by pair.Key).
+                 ToDictionary(g => g.Key, g => new Queue<byte[]>(g));
+
+            return new Restoration(byNames);
+        }
+
+        /// <summary>
+        /// Restore() restores a saved game, updating the entities and other state
+        /// of the map controller given. A Restoration() can be restored
+        /// only once; after that it is useless.
+        /// </summary>
+        public void Restore(MapController mapController)
+        {
+            if (restored)
+                throw new System.InvalidOperationException("A Restoration can be restored only once.");
+            restored = true;
+
             PlayableEntityController player = null;
             var toDestroy = new List<GameObject>();
 
-            foreach (GameObject go in objects)
+            // First we update all entities; we keep track of entities
+            // that should not be present, and the player. Nothing can
+            // be destroyed yet, lest a RestoreFrom() method fail because
+            // it wants an object we've destroyed.
+
+            foreach (GameObject go in mapController.entities.Entities())
             {
                 bool shouldDestroy = true;
 
@@ -142,7 +193,9 @@ public class SavingController : MonoBehaviour
                             if (arrays.Count > 0)
                             {
                                 shouldDestroy = false;
-                                sc.RestoreFrom(new BinaryReader(new MemoryStream(arrays.Dequeue())));
+                                sc.RestoreFrom(
+                                    new BinaryReader(new MemoryStream(arrays.Dequeue())),
+                                    this);
                             }
                         }
                     }
@@ -155,11 +208,10 @@ public class SavingController : MonoBehaviour
                         player = pec;
                 }
 
+                // We will destroy each object that is 
                 if (shouldDestroy)
                     toDestroy.Add(go);
             }
-
-            MapController mapController = MapController.instance;
 
             mapController.activeMap = mapController.maps[Location.Of(player.gameObject).mapIndex];
 
@@ -168,41 +220,25 @@ public class SavingController : MonoBehaviour
 
             foreach (GameObject go in toDestroy)
                 mapController.entities.RemoveEntity(go);
+
+            mapController.entities.ProcessRemovals();
         }
-        finally
+        
+        private static IEnumerable<KeyValuePair<string, byte[]>> ReadSections(BinaryReader reader)
         {
-            lazyGameObjectsByName = null;
+            for (;;)
+            {
+                string saveName = reader.ReadString();
+
+                if (saveName == "")
+                    break;
+
+                int len = reader.ReadInt32();
+                byte[] array = reader.ReadBytes(len);
+
+                yield return new KeyValuePair<string, byte[]>(saveName, array);
+            }
         }
-    }
-
-    #region Implementation
-
-    private static ILookup<string, GameObject> lazyGameObjectsByName;
-
-    private static IEnumerable<KeyValuePair<string, byte[]>> ReadSections(BinaryReader reader)
-    {
-        for (;;)
-        {
-            string saveName = reader.ReadString();
-
-            if (saveName == "")
-                break;
-
-            int len = reader.ReadInt32();
-            byte[] array = reader.ReadBytes(len);
-
-            yield return new KeyValuePair<string, byte[]>(saveName, array);
-        }
-    }
-    private static IEnumerable<GameObject> FindGameObjectsByName(string name)
-    {
-        ILookup<string, GameObject> lookup = Lazy.Init(ref lazyGameObjectsByName, delegate
-        {
-            return (from t in Resources.FindObjectsOfTypeAll<Transform>()
-                    select t.gameObject).ToLookup(go => go.name);
-        });
-
-        return lookup[name];
     }
 
     #endregion

@@ -34,9 +34,9 @@ public class CreatureController : PlayableEntityController
         writer.Write(hitPoints);
     }
 
-    public override void RestoreFrom(BinaryReader reader)
+    public override void RestoreFrom(BinaryReader reader, Restoration restoration)
     {
-        base.RestoreFrom(reader);
+        base.RestoreFrom(reader, restoration);
 
         hitPoints = reader.ReadInt32();
     }

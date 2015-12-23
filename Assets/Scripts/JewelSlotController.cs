@@ -78,9 +78,9 @@ public class JewelSlotController : MovementBlocker
         writer.Write(filledColor);
     }
 
-    public override void RestoreFrom(BinaryReader reader)
+    public override void RestoreFrom(BinaryReader reader, Restoration restoration)
     {
-        base.RestoreFrom(reader);
+        base.RestoreFrom(reader, restoration);
         filledColor = reader.ReadString();
         UpdateSprite();
     }
