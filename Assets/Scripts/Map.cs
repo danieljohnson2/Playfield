@@ -158,10 +158,13 @@ public sealed class Map
                 string[] objNames = parts[0].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 prefabs = objNames.Select(n => ResolvePrefab(n.Trim())).ToArray();
 
-                if (parts.Length > 1)
+                if (parts.Length == 2)
                 {
-                    // TODO: validate # of parts
                     doorName = parts[1].Trim();
+                }
+                else if (parts.Length > 2)
+                {
+                    throw new FormatException("'{0}' is not valid because it contains too many ':' characters.");
                 }
             }
 

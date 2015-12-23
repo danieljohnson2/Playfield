@@ -41,6 +41,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
+  transcribesLocallyOnly: 1
   keyName: Gold Key
 --- !u!212 &21233332
 SpriteRenderer:
@@ -89,6 +90,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: keyName
       value: Gold Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: transcribesLocallyOnly
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

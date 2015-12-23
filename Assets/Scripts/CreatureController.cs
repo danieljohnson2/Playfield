@@ -26,7 +26,7 @@ public class CreatureController : PlayableEntityController
     public bool teamAware = true;
     public bool bigBad = false;
     public Vector2 heldItemPivot = new Vector2(0.5f, 0.5f);
-    
+
     public override void SaveTo(BinaryWriter writer)
     {
         base.SaveTo(writer);
@@ -88,18 +88,23 @@ public class CreatureController : PlayableEntityController
                 myWeightScore < attackerWeightScor &&
                 KnockedBack(attacker);
 
-			if (damage > 0) AddTranscriptLine("{0} hit {1} for {2}!{3}", attacker.name, this.name, damage,
+            string message = string.Format("{0} hit {1} for {2}!{3}", attacker.name, this.name, damage,
                 knockedBack ? " Knockback!" : "");
+
+            if (damage > 0)
+                AddTranscriptLine(message);
+            else
+                AddLocalTranscriptLine(message);
         }
-             
+
         if (attacker.attackEffect != null && gameObject.activeInHierarchy)
         {
             float animationSize = (float)damage;
             animationSize = (float)0.5 + (animationSize / 8);
-			if (hitPoints <= 0)
-				animationSize *= 2;
-			if (KnockedBack(attacker))
-				animationSize *= 2;
+            if (hitPoints <= 0)
+                animationSize *= 2;
+            if (KnockedBack(attacker))
+                animationSize *= 2;
 
             GameObject effect = Instantiate(attackEffect);
             effect.transform.parent = transform.parent;
@@ -179,22 +184,6 @@ public class CreatureController : PlayableEntityController
         }
     }
 
-    // TODO: comment
-    public void DropItem(ItemController item, bool makeActive = true)
-    {
-        Location here = Location.Of(gameObject);
-
-        item.transform.parent = transform.parent;
-        item.transform.localPosition = here.ToPosition();
-
-        if (makeActive)
-            item.gameObject.SetActive(true);
-
-        mapController.adjacencyGenerator.InvalidatePathability(here);
-
-        UpdateHeldItem();
-    }
-
     protected override void UpdateStatusText()
     {
         transcript.SetPlayerStatus(string.Format("HP: {0}", hitPoints));
@@ -227,6 +216,32 @@ public class CreatureController : PlayableEntityController
 
         mapController.adjacencyGenerator.InvalidatePathability(here);
         UpdateHeldItem();
+    }
+
+    /// <summary>
+    /// This method causes this creature to drop the item; this
+    /// does nothing if the item is not being carried by
+    /// this creature.
+    /// 
+    /// We need to drop items before destoying them, so
+    /// 'makeActive' can can set to false to avoid showing
+    /// the item just because you have dropped it.
+    /// </summary>
+    public void DropItem(ItemController item, bool makeActive = true)
+    {
+        CreatureController carrier;
+        if (item.TryGetCarrier(out carrier) && carrier == this)
+        {
+            Location here = Location.Of(gameObject);
+
+            item.gameObject.SetActive(makeActive);
+            item.transform.parent = transform.parent;
+            item.transform.localPosition = here.ToPosition();
+
+            mapController.adjacencyGenerator.InvalidatePathability(here);
+
+            UpdateHeldItem();
+        }
     }
 
     /// <summary>
@@ -277,11 +292,11 @@ public class CreatureController : PlayableEntityController
                 heldItemDisplay.transform.parent = transform;
 
                 SpriteRenderer sr = GetComponent<SpriteRenderer>();
-                
+
                 // we need evertyhing in world co-ordinates here, not pixels.
                 Vector2 characterPivot = sr.sprite.pivot / sr.sprite.pixelsPerUnit;
                 Vector3 characterSize = sr.sprite.bounds.size;
-                
+
                 float heldItemX = (heldItemPivot.x * characterSize.x) - characterPivot.x;
                 float heldItemY = (heldItemPivot.y * characterSize.y) - characterPivot.y;
                 heldItemDisplay.transform.localPosition = new Vector2(heldItemX, heldItemY);

@@ -144,7 +144,8 @@ public class HeatmapPreferenceController : MonoBehaviour
                         {
                             float scaling = ic.isHeldItem ? heldItemAwareness : carriedItemAwareness;
 
-                            scaling *= ic.GetHeatmapScalingFactor(gameObject);
+                            if (itemSpecificHeat)
+                                scaling *= ic.GetHeatmapScalingFactor(gameObject);
 
                             if (scaling != 0.0f)
                             {

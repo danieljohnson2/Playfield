@@ -3,9 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-// TODO: comment
+/// <summary>
+/// SavingController is a controller base class for practically
+/// everything; this is used for objects that can be saved. We
+/// save in a very primitive way, by writing a 'save name' and
+/// some binary data to a writer. At restore time we match up
+/// the saved-object records with saved objects by name, and
+/// restore the binary data other than the name.
+/// 
+/// Terrain is never saved, and objects that have the excludeFromSave
+/// flag set are also skipped.
+/// </summary>
 public class SavingController : MonoBehaviour
 {
+    /// <summary>
+    /// saveName is the name used to identify this controller
+    /// in a save file. If you want to have two controllers
+    /// in the same object be saved, you'll need to override
+    /// this to give them distinct names.
+    /// </summary>
     public virtual string saveName
     {
         get { return name; }
@@ -17,8 +33,16 @@ public class SavingController : MonoBehaviour
     /// </summary>
     public bool excludeFromSave;
 
+    /// <summary>
+    /// SaveTo() writes this controllers state to the
+    /// writer.
+    /// </summary>
     public virtual void SaveTo(BinaryWriter writer)
     {
+        // We save and restore the location and parent data only
+        // if this controller has the default name, to avoid doing
+        // it more than once per GameObject.
+
         if (saveName == name)
         {
             Location location = Location.Of(gameObject);
@@ -31,6 +55,10 @@ public class SavingController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// RestoreFrom() restores the state of this controller by
+    /// reading the data SaveTo() writes.
+    /// </summary>
     public virtual void RestoreFrom(BinaryReader reader)
     {
         if (saveName == name)
@@ -56,18 +84,7 @@ public class SavingController : MonoBehaviour
         }
     }
 
-    private static IEnumerable<GameObject> FindGameObjectsByName(string name)
-    {
-        ILookup<string, GameObject> lookup = Lazy.Init(ref lazyGameObjectsByName, delegate
-        {
-            return (from t in Resources.FindObjectsOfTypeAll<Transform>()
-                    select t.gameObject).ToLookup(go => go.name);
-        });
-
-        return lookup[name];
-    }
-
-    private static ILookup<string, GameObject> lazyGameObjectsByName;
+    // TODO: cleanup- should not be state
 
     public static void Save(IEnumerable<GameObject> objects, BinaryWriter writer)
     {
@@ -118,7 +135,7 @@ public class SavingController : MonoBehaviour
                 foreach (var sc in go.GetComponents<SavingController>())
                 {
                     if (!sc.excludeFromSave)
-                    {                       
+                    {
                         Queue<byte[]> arrays;
                         if (byNames.TryGetValue(sc.saveName, out arrays))
                         {
@@ -137,7 +154,7 @@ public class SavingController : MonoBehaviour
                     if (pec != null && pec.isPlayerControlled)
                         player = pec;
                 }
-                
+
                 if (shouldDestroy)
                     toDestroy.Add(go);
             }
@@ -158,6 +175,10 @@ public class SavingController : MonoBehaviour
         }
     }
 
+    #region Implementation
+
+    private static ILookup<string, GameObject> lazyGameObjectsByName;
+
     private static IEnumerable<KeyValuePair<string, byte[]>> ReadSections(BinaryReader reader)
     {
         for (;;)
@@ -173,4 +194,16 @@ public class SavingController : MonoBehaviour
             yield return new KeyValuePair<string, byte[]>(saveName, array);
         }
     }
+    private static IEnumerable<GameObject> FindGameObjectsByName(string name)
+    {
+        ILookup<string, GameObject> lookup = Lazy.Init(ref lazyGameObjectsByName, delegate
+        {
+            return (from t in Resources.FindObjectsOfTypeAll<Transform>()
+                    select t.gameObject).ToLookup(go => go.name);
+        });
+
+        return lookup[name];
+    }
+
+    #endregion
 }

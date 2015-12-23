@@ -37,6 +37,12 @@ public class MovementBlocker : SavingController
     /// </summary>
     public bool passable { get; set; }
 
+    /// <summary>
+    /// This may be set to cause the AddTransaction() methods
+    /// to go silent if this object is not on the active map.
+    /// </summary>
+    public bool transcribesLocallyOnly;
+
     public virtual bool? pathable
     {
         get { return passable; }
@@ -69,17 +75,15 @@ public class MovementBlocker : SavingController
     }
 
     /// <summary>
-    /// This method adds a line to the transcript, but only
-    /// this object is on the active map.
+    /// This method adds a line to the transcript. If 'transcribesLocally'
+    /// is set, this will do so only if this object is on the active map.
     /// </summary>
     public void AddTranscriptLine(string text)
     {
-        // TODO: uncomment
-        //Map activeMap = mapController.activeMap;
-        //if (activeMap != null && activeMap.mapIndex == Location.Of(gameObject).mapIndex)
-        {
+        if (transcribesLocallyOnly)
+            AddLocalTranscriptLine(text);
+        else
             transcript.AddLine(text);
-        }
     }
 
     /// <summary>
@@ -89,5 +93,27 @@ public class MovementBlocker : SavingController
     public void AddTranscriptLine(string format, params object[] parameters)
     {
         AddTranscriptLine(string.Format(format, parameters));
+    }
+
+    /// <summary>
+    /// This method adds a line to the transcript. However, this will
+    /// do it only if this object is on the active map (regardless of what
+    /// transcribesLocallyOnly is set to).
+    /// </summary>
+    public void AddLocalTranscriptLine(string text)
+    {
+        Map activeMap = mapController.activeMap;
+        if (activeMap != null && activeMap.mapIndex == Location.Of(gameObject).mapIndex)
+            transcript.AddLine(text);
+    }
+
+    /// <summary>
+    /// This method adds a line to the transcript. However, this will
+    /// do it only if this object is on the active map (regardless of what
+    /// transcribesLocallyOnly is set to).
+    /// </summary>
+    public void AddLocalTranscriptLine(string format, params object[] parameters)
+    {
+        AddLocalTranscriptLine(string.Format(format, parameters));
     }
 }

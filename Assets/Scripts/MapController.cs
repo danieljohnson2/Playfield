@@ -318,11 +318,16 @@ public class MapController : MonoBehaviour
         return true;
     }
 
-    // TODO: recomment
     /// <summary>
-    /// IsPathableFor determines whether heatmaps can make a path through
+    /// IsPathable determines whether heatmaps can make a path through
     /// this cell; it is false outside the map, and may be false for cells
     /// inside depending on what movement blockers are found there.
+    /// 
+    /// Unlike IsPathableFor(), this method does not know which creature is
+    /// moving along the path, so it cannot consider keys and gems. If
+    /// the cell may be pathable or may not, depending on who is moving,
+    /// this method returns null. This lets us build a cache of the
+    /// pathability data we do know that all creatures can use.
     /// </summary>
     public bool? IsPathable(Location where)
     {
