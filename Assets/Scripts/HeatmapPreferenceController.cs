@@ -150,15 +150,28 @@ public class HeatmapPreferenceController : MonoBehaviour
                             if (itemSpecificHeat)
                                 scaling *= ic.GetHeatmapScalingFactor(gameObject);
 
-                            if (scaling != 0.0f)
+                            if (scaling == 0.0f)
+                                heat = 0;
+                            else
                             {
                                 targetLoc = Location.Of(carrier.gameObject);
-                                heat = (short)(heat * scaling);
+
+                                // we must apply the scaling in such a way that
+                                // we don't overflow the heat value, which is only
+                                // a short.
+                                float scaledHeat = heat * scaling;
+
+                                if (scaledHeat <= short.MinValue)
+                                    heat = short.MinValue;
+                                else if (scaledHeat >= short.MaxValue)
+                                    heat = short.MaxValue;
+                                else
+                                    heat = (short)scaledHeat;
                             }
                         }
                     }
 
-                    if (targetLoc != Location.nowhere && mapController.IsPassable(targetLoc))
+                    if (heat != 0 && targetLoc != Location.nowhere && mapController.IsPassable(targetLoc))
                         heatmap[targetLoc] = new Heatmap.Slot(target, heat);
                 }
             }

@@ -160,7 +160,7 @@ MonoBehaviour:
   heatmapCooling: 64
   heatmapAutoReset: 0
   preferences:
-  - Player=16
+  - Adventurer=16
   - Rat=12
   - Weapon[Held]=-16
   heatmapMarkerPrefab: {fileID: 0}
@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
+  transcribesLocallyOnly: 0
   speed: 1.00999999
   isPlayerControlled: 0
   isPlayerCandidate: 1
@@ -258,7 +259,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Player=16
+      value: Adventurer=16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]

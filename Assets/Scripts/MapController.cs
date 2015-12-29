@@ -11,8 +11,9 @@ using System.IO;
 /// what it creates so we can find them again more efficiently, without
 /// depending upon tags.
 /// 
-/// There can be only one of these for the entire game; it loads and
-/// tracks the maps and active entities.
+/// There can be only one of these during the game; it loads and
+/// tracks the maps and active entities. The map controller is destroyed
+/// and recreated if you load a save, but there can never be two of them.
 /// </summary>
 public class MapController : MonoBehaviour
 {
@@ -68,7 +69,7 @@ public class MapController : MonoBehaviour
 
             playerFound = false;
 
-            foreach (var pec in entities.Components<PlayableEntityController>().ToArray())
+            foreach (PlayableEntityController pec in GetOrderedPlayableEntities())
             {
                 bool isPlayer = pec.isPlayerControlled;
 
@@ -118,6 +119,31 @@ public class MapController : MonoBehaviour
             lazyInstance = null;
             Application.LoadLevel(Application.loadedLevel);
         }
+    }
+
+    /// <summary>
+    /// GetOrderedPlayableEntities() returns hte playable entities in the
+    /// order they should execute their turns. This order places the player
+    /// last, and entities on the same map first (and nearby maps after
+    /// that). This is supposed to allow those entities to have the best
+    /// chance to update their heatmaps- as once the player tries to move
+    /// heatmaps can no longer be updated (it's too slow).
+    /// </summary>
+    private PlayableEntityController[] GetOrderedPlayableEntities()
+    {
+        PlayableEntityController[] unordered = entities.Components<PlayableEntityController>().ToArray();
+        PlayableEntityController player = unordered.FirstOrDefault(pec => pec.isPlayerControlled);
+
+        if (player == null)
+            return unordered;
+
+        int playerMapIndex = Location.Of(player.gameObject).mapIndex;
+
+        return (from pec in unordered
+                let loc = Location.Of(pec.gameObject)
+                orderby pec.isPlayerControlled, Math.Abs(playerMapIndex - loc.mapIndex)
+                select pec).
+                ToArray();
     }
 
     #region Singleton Instance
@@ -566,11 +592,7 @@ public class MapController : MonoBehaviour
         public void RemoveEntity(GameObject toRemove)
         {
             if (toRemove != null)
-            { 
-                // Recursively remove children too!
-                for (int i = toRemove.transform.childCount - 1; i >= 0; --i)
-                    RemoveEntity(toRemove.transform.GetChild(i).gameObject);
-
+            {
                 pendingRemoval.Enqueue(toRemove);
             }
         }
@@ -583,15 +605,26 @@ public class MapController : MonoBehaviour
         {
             if (pendingRemoval.Count > 0)
             {
+                GameObject[] toDestroy = pendingRemoval.ToArray();
+
                 while (pendingRemoval.Count > 0)
                 {
                     GameObject toRemove = pendingRemoval.Dequeue();
+                    
+                    // Recursively remove children too!
+                    Transform t = toRemove.transform;
+                    for (int i = t.childCount - 1; i >= 0; --i)
+                        pendingRemoval.Enqueue(t.GetChild(i).gameObject);
 
                     mapController.adjacencyGenerator.InvalidatePathability(Location.Of(toRemove));
-
                     entities.Remove(toRemove);
-                    Destroy(toRemove);
                 }
+
+                // destroying an object will destroy its children, so we defer
+                // that to the end.
+
+                foreach (GameObject go in toDestroy)
+                    Destroy(go);
 
                 ClearEntityCaches();
             }

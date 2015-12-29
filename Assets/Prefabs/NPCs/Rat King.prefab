@@ -46,7 +46,7 @@ MonoBehaviour:
   heatmapCooling: .25
   heatmapAutoReset: 0
   preferences:
-  - Player=8
+  - Adventurer=8
   - Goblin=8
   - Weapon=8
   heatmapMarkerPrefab: {fileID: 0}
@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
+  transcribesLocallyOnly: 0
   speed: .699999988
   isPlayerControlled: 0
   isPlayerCandidate: 0
@@ -198,7 +199,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Player=8
+      value: Adventurer=8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.y

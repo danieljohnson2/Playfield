@@ -314,7 +314,11 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         /// </summary>
         public static Slot Max(Slot left, Slot right)
         {
-            if (Math.Abs(left.heat) < Math.Abs(right.heat))
+            // we must upcast to int here because Math.Abs(short.MinValue)
+            // will fail with OverflowException; its the whackiness of
+            // 2s-complement arithmetic.
+
+            if (Math.Abs((int)left.heat) < Math.Abs((int)right.heat))
                 return right;
             else
                 return left;
