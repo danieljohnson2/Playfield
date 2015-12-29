@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using UnityEngine;
+using System.Threading;
 
 /// <summary>
 /// This class holds a heat value for each cell in your map;
@@ -164,8 +163,9 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     /// </summary>
     public void Heat(AdjacencySelector adjacency)
     {
-        var heater = new Heater(adjacency);
-        heater.Heat(this);
+        var heater = Heater.Create();
+        heater.Heat(this, adjacency);
+        heater.Recycle();
     }
 
     /// <summary>
@@ -174,19 +174,21 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     /// </summary>
     public void Heat(int repeats, AdjacencySelector adjacency)
     {
-        var heater = new Heater(adjacency);
-
+        var heater = Heater.Create();
+        
         for (int i = 0; i < repeats; ++i)
         {
-            if (!heater.Heat(this))
+            if (!heater.Heat(this, adjacency))
             {
                 // If heating did nothing, heating again won't either,
                 // so we can just bail.
                 break;
             }
         }
-    }
 
+        heater.Recycle();
+    }
+    
     /// <summary>
     /// This structure is a utility to make heatmap heatings faster;
     /// this holds onto various buffers so they can be reused, and
@@ -194,13 +196,28 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     /// </summary>
     private sealed class Heater
     {
-        private readonly AdjacencySelector adjacency;
         private readonly List<Location> adjacencyBuffer = new List<Location>(6);
         private readonly LocationMap<Slot> original = new LocationMap<Slot>();
 
-        public Heater(AdjacencySelector adjacency)
+        private static Heater recycledInstance;
+
+        /// <summary>
+        /// Create() constructs a heater and returns it. This will reuse
+        /// a recycled heater if one is available.
+        /// </summary>
+        public static Heater Create()
         {
-            this.adjacency = adjacency;
+            return Interlocked.Exchange(ref recycledInstance, null) ?? new Heater();
+        }
+
+        /// <summary>
+        /// Recycle() stores this as a recycled heater, so it can be reused by
+        /// the next call to Create(). Don't continue to use the heater after
+        /// this call.
+        /// </summary>
+        public void Recycle()
+        {
+            Interlocked.Exchange(ref recycledInstance, this);
         }
 
         /// <summary>
@@ -211,7 +228,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         /// This method returns true if it found any changes to make,
         /// and false if it did nothing.
         /// </summary>
-        public bool Heat(Heatmap heatmap)
+        public bool Heat(Heatmap heatmap, AdjacencySelector adjacency)
         {
             bool changed = false;
 
