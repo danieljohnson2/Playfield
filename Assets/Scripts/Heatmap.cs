@@ -265,13 +265,11 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     /// <summary>
     /// This structure describes the data held in one cell of
     /// the heatmap.
-    /// 
-    /// This struct is mutable as an optimization
     /// </summary>
     public struct Slot : IEquatable<Slot>
     {
-        public SourceInfo source;
-        public short heat;
+        public readonly SourceInfo source;
+        public readonly short heat;
 
         public Slot(UnityEngine.GameObject source, short heat) :
             this(new SourceInfo(source), heat)
