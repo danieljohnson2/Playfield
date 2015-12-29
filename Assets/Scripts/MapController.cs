@@ -141,9 +141,19 @@ public class MapController : MonoBehaviour
 
         return (from pec in unordered
                 let loc = Location.Of(pec.gameObject)
-                orderby pec.isPlayerControlled, Math.Abs(playerMapIndex - loc.mapIndex)
+                orderby pec.isPlayerControlled, Math.Abs(playerMapIndex - loc.mapIndex), GetHeatmapSkipCount(gameObject) descending
                 select pec).
                 ToArray();
+    }
+
+    /// <summary>
+    /// GetHeatmapSkipCount() sums up the number of times the heatmap updates have
+    /// been skipped for the game object; we'll schedule entities that have been
+    /// skipped first, since they our more out of date.
+    /// </summary>
+    private static int GetHeatmapSkipCount(GameObject gameObject)
+    {
+        return gameObject.GetComponents<HeatmapPreferenceController>().Sum(hpc => hpc.heatmapSkipCount);
     }
 
     #region Singleton Instance

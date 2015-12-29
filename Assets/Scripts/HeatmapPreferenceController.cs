@@ -61,6 +61,8 @@ public class HeatmapPreferenceController : MonoBehaviour
     public float carriedItemAwareness = 0.25f;
     public bool itemSpecificHeat = false;
 
+    public int heatmapSkipCount { get; set; }
+
     public void Awake()
     {
         this.heatmap.name = heatmapName;
@@ -114,7 +116,12 @@ public class HeatmapPreferenceController : MonoBehaviour
     public Heatmap UpdateHeatmap()
     {
         if (PlayableEntityController.isCommandPending)
+        {
+            ++heatmapSkipCount;
             return heatmap;
+        }
+        else
+            heatmapSkipCount = 0;
 
         MapController mapController = MapController.instance;
 
