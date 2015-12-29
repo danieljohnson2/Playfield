@@ -219,40 +219,39 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 
             original.ForEachBlock(delegate (Location upperLeft, Slot[] slots)
             {
-                int width = LocationMap<Slot>.blockSize;
-                int height = LocationMap<Slot>.blockSize;
+                int lx = 0, ly = 0;
 
-                int slotIndex = 0;
-
-                for (int ly = 0; ly < height; ++ly)
+                for (int slotIndex = 0; slotIndex < slots.Length; ++slotIndex)
                 {
-                    for (int lx = 0; lx < width; ++lx)
+                    if (slots[slotIndex].heat != 0)
                     {
-                        if (slots[slotIndex].heat != 0)
+                        Slot min = slots[slotIndex].ToReduced(1);
+
+                        if (min.heat != 0)
                         {
-                            Slot min = slots[slotIndex].ToReduced(1);
+                            Location srcLoc = upperLeft.WithOffset(lx, ly);
+                            adjacencyBuffer.Clear();
+                            adjacency(srcLoc, adjacencyBuffer);
 
-                            if (min.heat != 0)
+                            foreach (Location adj in adjacencyBuffer)
                             {
-                                Location srcLoc = upperLeft.WithOffset(lx, ly);
-                                adjacencyBuffer.Clear();
-                                adjacency(srcLoc, adjacencyBuffer);
+                                Slot oldSlot = original[adj];
+                                Slot newSlot = Slot.Max(oldSlot, min);
 
-                                foreach (Location adj in adjacencyBuffer)
+                                if (oldSlot.heat != newSlot.heat)
                                 {
-                                    Slot oldSlot = original[adj];
-                                    Slot newSlot = Slot.Max(oldSlot, min);
-
-                                    if (!oldSlot.Equals(newSlot))
-                                    {
-                                        heatmap[adj] = newSlot;
-                                        changed = true;
-                                    }
-                                };
-                            }
+                                    heatmap[adj] = newSlot;
+                                    changed = true;
+                                }
+                            };
                         }
+                    }
 
-                        ++slotIndex;
+                    ++lx;
+                    if (lx >= blockSize)
+                    {
+                        lx = 0;
+                        ++ly;
                     }
                 }
             });
@@ -266,11 +265,13 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     /// <summary>
     /// This structure describes the data held in one cell of
     /// the heatmap.
+    /// 
+    /// This struct is mutable as an optimization
     /// </summary>
     public struct Slot : IEquatable<Slot>
     {
-        public readonly SourceInfo source;
-        public readonly short heat;
+        public SourceInfo source;
+        public short heat;
 
         public Slot(UnityEngine.GameObject source, short heat) :
             this(new SourceInfo(source), heat)
