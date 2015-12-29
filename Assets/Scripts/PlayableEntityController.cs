@@ -217,6 +217,8 @@ public class PlayableEntityController : MovementBlocker
     private Command commandStarted;
     private Command commandCommanded;
 
+    public static bool isCommandPending;
+
     /// <summary>
     /// UpdateCommandSelection() examines the buttons pressed
     /// and updates 'commandStarted' and 'commandCommanded',
@@ -232,11 +234,13 @@ public class PlayableEntityController : MovementBlocker
         {
             commandCommanded = commandStarted;
             commandStarted = Command.None;
+            isCommandPending = true;
         }
         else if (cmd != Command.None)
         {
             commandStarted = cmd;
             commandCommanded = Command.None;
+            isCommandPending = true;
         }
     }
 
@@ -270,6 +274,7 @@ public class PlayableEntityController : MovementBlocker
         {
             commandCommanded = Command.None;
             commandStarted = Command.None;
+            isCommandPending = false;
         }
     }
 

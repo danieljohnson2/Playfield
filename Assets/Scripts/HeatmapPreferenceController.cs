@@ -113,6 +113,9 @@ public class HeatmapPreferenceController : MonoBehaviour
     /// </summary>
     public Heatmap UpdateHeatmap()
     {
+        if (PlayableEntityController.isCommandPending)
+            return heatmap;
+
         MapController mapController = MapController.instance;
 
         residualCooling += heatmapCooling;
