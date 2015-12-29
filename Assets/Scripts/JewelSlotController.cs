@@ -13,7 +13,7 @@ public class JewelSlotController : MovementBlocker
         // Block() can still block movement, but this flag means
         // AI will at least try. We make this false again when the
         // slot is filled.
-        passable = true;
+        passable = false;
     }
     public override bool IsPathableFor(GameObject mover)
     {
