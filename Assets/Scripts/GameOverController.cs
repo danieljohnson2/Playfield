@@ -30,6 +30,7 @@ public class GameOverController : MonoBehaviour
 
     public static void GameOver()
     {
-        Application.LoadLevel("Intro");
+        Application.LoadLevel("Game Over");
+		//formerly back to Intro, but it doesn't work as we've destroyed the gameobject
     }
 }
