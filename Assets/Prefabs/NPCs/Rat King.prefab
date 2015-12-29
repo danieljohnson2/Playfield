@@ -78,6 +78,16 @@ MonoBehaviour:
   canUseWeapons: 1
   weight: 25
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  jimButton: {fileID: 0}
+  kimButton: {fileID: 0}
+  bobButton: {fileID: 0}
+  bruteButton: {fileID: 0}
+  ladyButton: {fileID: 0}
+  schemerButton: {fileID: 0}
+  wizardButton: {fileID: 0}
+  pirateButton: {fileID: 0}
+  swordsmanButton: {fileID: 0}
+  heroButton: {fileID: 0}
   teamAware: 1
   bigBad: 1
   heldItemPivot: {x: .916999996, y: .108999997}

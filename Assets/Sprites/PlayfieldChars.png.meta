@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8139582ed09f74bb48c66d47a591c98d
-timeCreated: 1451401170
+timeCreated: 1451412012
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -155,10 +155,10 @@ TextureImporter:
     - name: TimRat
       rect:
         serializedVersion: 2
-        x: 796
-        y: 21
-        width: 219
-        height: 134
+        x: 792
+        y: 17
+        width: 215
+        height: 137
       alignment: 9
       pivot: {x: .508144498, y: .367873609}
       border: {x: 0, y: 0, z: 0, w: 0}

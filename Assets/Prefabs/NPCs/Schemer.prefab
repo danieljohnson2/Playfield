@@ -31,8 +31,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: .100000001, y: 0, z: 0}
+  m_LocalScale: {x: .899999976, y: .899999976, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
+  transcribesLocallyOnly: 0
   speed: .939999998
   isPlayerControlled: 0
   isPlayerCandidate: 1
@@ -192,6 +193,16 @@ MonoBehaviour:
   canUseWeapons: 1
   weight: 10
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  jimButton: {fileID: 0}
+  kimButton: {fileID: 0}
+  bobButton: {fileID: 0}
+  bruteButton: {fileID: 0}
+  ladyButton: {fileID: 0}
+  schemerButton: {fileID: 0}
+  wizardButton: {fileID: 0}
+  pirateButton: {fileID: 0}
+  swordsmanButton: {fileID: 0}
+  heroButton: {fileID: 0}
   teamAware: 0
   bigBad: 0
   heldItemPivot: {x: .90200001, y: .549000025}
@@ -377,6 +388,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: hitPoints
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.x
+      value: .899999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.y
+      value: .899999976
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
