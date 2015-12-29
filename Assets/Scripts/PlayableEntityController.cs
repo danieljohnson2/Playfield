@@ -102,15 +102,25 @@ public class PlayableEntityController : MovementBlocker
         }
         else
         {
-            DoTurn();
+            yield return mapController.StartCoroutine(DoAITurnAsync());
         }
+    }
+
+    /// <summary>
+    /// This is an asychrnonous entry point; you override this
+    /// and do whatever the creature should do during its turn.
+    /// </summary>
+    protected virtual IEnumerator DoAITurnAsync()
+    {
+        DoAITurn();
+        return Enumerable.Empty<object>().GetEnumerator();
     }
 
     /// <summary>
     /// This is a sychrnonous entry point; you override this
     /// and do whatever the creature should do during its turn.
     /// </summary>
-    protected virtual void DoTurn()
+    protected virtual void DoAITurn()
     {
     }
 
@@ -357,8 +367,8 @@ public class PlayableEntityController : MovementBlocker
     {
         if (isPlayerControlled)
         {
-			UpdateCommandSelection();
-			SyncCamera();
+            UpdateCommandSelection();
+            SyncCamera();
         }
     }
 
@@ -370,11 +380,11 @@ public class PlayableEntityController : MovementBlocker
     {
         Vector3 playerPos = transform.position;
         playerPos.z = -10f;
-		Vector3 cameraPos = Camera.main.transform.position;
+        Vector3 cameraPos = Camera.main.transform.position;
 
-		if (cameraPos.z != -10f) cameraPos = playerPos;
-		else cameraPos = Vector3.Lerp (cameraPos, playerPos, 0.5f);
-		//we interpolate exactly one frame. If z shows we last interpolated, we go directly to target.
+        if (cameraPos.z != -10f) cameraPos = playerPos;
+        else cameraPos = Vector3.Lerp(cameraPos, playerPos, 0.5f);
+        //we interpolate exactly one frame. If z shows we last interpolated, we go directly to target.
 
         Camera.main.transform.position = cameraPos;
     }

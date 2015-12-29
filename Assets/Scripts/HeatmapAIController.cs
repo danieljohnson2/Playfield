@@ -13,81 +13,87 @@ using System.Text;
 /// </summary>
 public class HeatmapAIController : CreatureController
 {
-	/// <summary>
-	/// This is the heatmap that was most recently used
-	/// to make a move, or null if none could be used.
-	/// </summary>
-	public Heatmap activeHeatmap { get; private set; }
+    /// <summary>
+    /// This is the heatmap that was most recently used
+    /// to make a move, or null if none could be used.
+    /// </summary>
+    public Heatmap activeHeatmap { get; private set; }
 
-	/// <summary>
-	/// This tests to see if the active heatmap is the one named, and
-	/// if the active location in came from the source indicated, and has
-	/// the minimum strength indicated.
-	/// </summary>
-	public bool CheckActiveHeatmap (string heatmapName, int minimumHeatmapStrength, HeatSourceIdentifier source)
-	{
-		if (activeHeatmap != null && 
-			(heatmapName ?? "") == activeHeatmap.name) {
-			Location loc = Location.Of (gameObject);
-			Heatmap.Slot slot = activeHeatmap [loc];
-			
-			return
-				slot.heat >= minimumHeatmapStrength &&
-				source.Matches (slot.source);
-		}
+    /// <summary>
+    /// This tests to see if the active heatmap is the one named, and
+    /// if the active location in came from the source indicated, and has
+    /// the minimum strength indicated.
+    /// </summary>
+    public bool CheckActiveHeatmap(string heatmapName, int minimumHeatmapStrength, HeatSourceIdentifier source)
+    {
+        if (activeHeatmap != null &&
+            (heatmapName ?? "") == activeHeatmap.name)
+        {
+            Location loc = Location.Of(gameObject);
+            Heatmap.Slot slot = activeHeatmap[loc];
 
-		return false;
-	}
+            return
+                slot.heat >= minimumHeatmapStrength &&
+                source.Matches(slot.source);
+        }
 
-	protected override void DoTurn ()
-	{
-		List<Heatmap> heatmaps = UpdateHeatmaps ();
+        return false;
+    }
 
-		// Note that the candidate moves must be to
-		// passable cells, not pathable ones- it's
-		// potentially different.
+    protected override IEnumerator DoAITurnAsync()
+    {
+        List<Heatmap> heatmaps = new List<Heatmap>();
 
-		Location[] candidateMoves =
-			Location.Of (gameObject).Adjacent ().
-			Where (mapController.IsPassable).
-			ToArray ();
+        yield return mapController.StartCoroutine(UpdateHeatmaps(heatmaps));
 
-		if (candidateMoves.Length > 0) {
-			foreach (Heatmap heatmap in heatmaps) {
-				Location picked;
-				if (heatmap.TryPickMove (candidateMoves, out picked)) {
-					activeHeatmap = heatmap;
-					MoveTo (picked);
-					return;
-				}
-			}
+        // Note that the candidate moves must be to
+        // passable cells, not pathable ones- it's
+        // potentially different.
 
-			int randomIndex = Random.Range (0, candidateMoves.Length);
-			activeHeatmap = null;
-			MoveTo (candidateMoves [randomIndex]);
-		} else {
-			activeHeatmap = null;
-		}
-	}
+        Location[] candidateMoves =
+            Location.Of(gameObject).Adjacent().
+            Where(mapController.IsPassable).
+            ToArray();
 
-	/// <summary>
-	/// This method updates each HeatmapPreferenceController's heatmap
-	/// at start of turn, and returns a list containing all of
-	/// them.
-	/// </summary>
-	private List<Heatmap> UpdateHeatmaps ()
-	{
-		var heatmaps = new List<Heatmap> ();
+        if (candidateMoves.Length > 0)
+        {
+            foreach (Heatmap heatmap in heatmaps)
+            {
+                Location picked;
+                if (heatmap.TryPickMove(candidateMoves, out picked))
+                {
+                    activeHeatmap = heatmap;
+                    MoveTo(picked);
+                    yield break;
+                }
+            }
 
-		var components =
-			from hpc in GetComponents<HeatmapPreferenceController> ()
-			orderby hpc.priority descending, hpc.heatmapRange, hpc.heatmapCooling descending
-			select hpc;
+            int randomIndex = Random.Range(0, candidateMoves.Length);
+            activeHeatmap = null;
+            MoveTo(candidateMoves[randomIndex]);
+        }
+        else
+        {
+            activeHeatmap = null;
+        }
+    }
 
-		foreach (var hpc in components) {
-			heatmaps.Add (hpc.UpdateHeatmap ());
-		}
+    /// <summary>
+    /// This method updates each HeatmapPreferenceController's heatmap
+    /// at start of turn, and returns a list containing all of
+    /// them.
+    /// </summary>
+    private IEnumerator UpdateHeatmaps(List<Heatmap> heatmaps)
+    {
+        var components =
+            from hpc in GetComponents<HeatmapPreferenceController>()
+            orderby hpc.priority descending, hpc.heatmapRange, hpc.heatmapCooling descending
+            select hpc;
 
-		return heatmaps;
-	}
+        foreach (var hpc in components)
+        {
+            heatmaps.Add(hpc.UpdateHeatmap());
+            yield return null;
+        }
+    }
 }
