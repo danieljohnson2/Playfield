@@ -82,16 +82,16 @@ public class CreatureController : PlayableEntityController
             hitPoints = 0;
             AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
 
-			if (attacker.isPlayerControlled && this.name == "Jim the Rat") {jimButton = (Button)jimButton.GetComponent(typeof(Button)); jimButton.interactable = true;}
-			if (attacker.isPlayerControlled && this.name == "Kim the Rat") {kimButton = (Button)kimButton.GetComponent(typeof(Button)); kimButton.interactable = true;}
-			if (attacker.isPlayerControlled && this.name == "Bob the Goblin") {bobButton = (Button)bobButton.GetComponent(typeof(Button)); bobButton.interactable = true;}
-			if (attacker.isPlayerControlled && this.name == "Brute") {bruteButton = (Button)bruteButton.GetComponent(typeof(Button)); bruteButton.interactable = true;}
-			if (attacker.isPlayerControlled && this.name == "Lady") {ladyButton = (Button)ladyButton.GetComponent(typeof(Button)); ladyButton.interactable = true;}
-			if (attacker.isPlayerControlled && this.name == "Schemer") {schemerButton = (Button)schemerButton.GetComponent(typeof(Button)); schemerButton.interactable = true;}
-			if (attacker.isPlayerControlled && this.name == "Wizard") {wizardButton = (Button)wizardButton.GetComponent(typeof(Button)); wizardButton.interactable = true;}
-			if (attacker.isPlayerControlled && this.name == "Pirate") {pirateButton = (Button)pirateButton.GetComponent(typeof(Button)); pirateButton.interactable = true;}
-			if (attacker.isPlayerControlled && this.name == "Swordsman") {swordsmanButton = (Button)swordsmanButton.GetComponent(typeof(Button)); swordsmanButton.interactable = true;}
-			if (attacker.isPlayerControlled && this.name == "Hero") {heroButton = (Button)heroButton.GetComponent(typeof(Button)); heroButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Jim the Rat") {jimButton = (Button)jimButton.GetComponent(typeof(Button)); jimButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Kim the Rat") {kimButton = (Button)kimButton.GetComponent(typeof(Button)); kimButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Bob the Goblin") {bobButton = (Button)bobButton.GetComponent(typeof(Button)); bobButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Brute") {bruteButton = (Button)bruteButton.GetComponent(typeof(Button)); bruteButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Lady") {ladyButton = (Button)ladyButton.GetComponent(typeof(Button)); ladyButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Schemer") {schemerButton = (Button)schemerButton.GetComponent(typeof(Button)); schemerButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Wizard") {wizardButton = (Button)wizardButton.GetComponent(typeof(Button)); wizardButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Pirate") {pirateButton = (Button)pirateButton.GetComponent(typeof(Button)); pirateButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Swordsman") {swordsmanButton = (Button)swordsmanButton.GetComponent(typeof(Button)); swordsmanButton.interactable = true;}
+//			if (attacker.isPlayerControlled && this.name == "Hero") {heroButton = (Button)heroButton.GetComponent(typeof(Button)); heroButton.interactable = true;}
 			//hero starts out interactable
 
             attacker.hitPoints += 1;
