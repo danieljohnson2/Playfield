@@ -357,8 +357,8 @@ public class PlayableEntityController : MovementBlocker
     {
         if (isPlayerControlled)
         {
-            UpdateCommandSelection();
-            SyncCamera();
+			UpdateCommandSelection();
+			SyncCamera();
         }
     }
 
@@ -370,7 +370,13 @@ public class PlayableEntityController : MovementBlocker
     {
         Vector3 playerPos = transform.position;
         playerPos.z = -10f;
-        Camera.main.transform.position = playerPos;
+		Vector3 cameraPos = Camera.main.transform.position;
+
+		if (cameraPos.z != -10f) cameraPos = playerPos;
+		else cameraPos = Vector3.Lerp (cameraPos, playerPos, 0.5f);
+		//we interpolate exactly one frame. If z shows we last interpolated, we go directly to target.
+
+        Camera.main.transform.position = cameraPos;
     }
 
     /// <summary>
