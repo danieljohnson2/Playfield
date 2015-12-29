@@ -1,11 +1,21 @@
 fileFormatVersion: 2
 guid: 27420d7890002544c98bdb109104c507
-timeCreated: 1449608084
+timeCreated: 1451406113
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
+  - jimButton: {fileID: 11443944, guid: 2706ffbb1b1c34885ad5d042512f6348, type: 2}
+  - kimButton: {fileID: 11417492, guid: ee3be670c0fd0440dbc40e5afc8efbb7, type: 2}
+  - bobButton: {fileID: 11404582, guid: f56d1f0371b7341999348ec814db49cb, type: 2}
+  - bruteButton: {fileID: 11444008, guid: 43c79458372c249f89061edf123549b8, type: 2}
+  - ladyButton: {fileID: 11447152, guid: c1db422b7fd55473b92fc7e76673cf6f, type: 2}
+  - schemerButton: {fileID: 11496206, guid: 60cf9130300b24724bcf79065c3c76dd, type: 2}
+  - wizardButton: {fileID: 11405272, guid: c984004457cb949118754a6cfc6bfe00, type: 2}
+  - pirateButton: {fileID: 11430576, guid: 21780add5543e4110895b1bcc8f658a5, type: 2}
+  - swordsmanButton: {fileID: 11471374, guid: f59195c754fc04b91bbb52257921291d, type: 2}
+  - heroButton: {fileID: 11469036, guid: be28087d12ecd4d5f844c5879a85dc3d, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

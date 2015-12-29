@@ -30,6 +30,6 @@ public class GameOverController : MonoBehaviour
 
     public static void GameOver()
     {
-        Application.LoadLevel("Game Over");
+        Application.LoadLevel("Intro");
     }
 }

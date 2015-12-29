@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8139582ed09f74bb48c66d47a591c98d
-timeCreated: 1450753840
+timeCreated: 1451401170
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -51,12 +51,12 @@ TextureImporter:
   compressionQuality: 50
   allowsAlphaSplitting: 0
   spriteMode: 2
-  spriteExtrude: 1
+  spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 256
   alphaIsTransparency: 1
   textureType: 5
   buildTargetSettings: []
@@ -65,120 +65,120 @@ TextureImporter:
     - name: Princess
       rect:
         serializedVersion: 2
-        x: 6
-        y: 119
-        width: 72
-        height: 95
+        x: 16
+        y: 311
+        width: 189
+        height: 244
       alignment: 9
       pivot: {x: .456913114, y: .46374929}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Adventurer
       rect:
         serializedVersion: 2
-        x: 104
-        y: 117
-        width: 72
-        height: 104
+        x: 271
+        y: 305
+        width: 199
+        height: 278
       alignment: 9
       pivot: {x: .545393825, y: .486637264}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Pirate
       rect:
         serializedVersion: 2
-        x: 202
-        y: 116
-        width: 76
-        height: 101
+        x: 528
+        y: 305
+        width: 200
+        height: 268
       alignment: 9
       pivot: {x: .538572431, y: .477599949}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Goblin
       rect:
         serializedVersion: 2
-        x: 304
-        y: 116
-        width: 75
-        height: 100
+        x: 796
+        y: 303
+        width: 204
+        height: 259
       alignment: 9
       pivot: {x: .506956816, y: .446540982}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Duelist
       rect:
         serializedVersion: 2
-        x: 397
-        y: 117
-        width: 75
-        height: 104
+        x: 1044
+        y: 312
+        width: 200
+        height: 271
       alignment: 9
       pivot: {x: .493106276, y: .480068654}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Heavy
       rect:
         serializedVersion: 2
-        x: 487
-        y: 114
-        width: 91
-        height: 115
+        x: 1283
+        y: 299
+        width: 247
+        height: 309
       alignment: 9
       pivot: {x: .443182975, y: .410079569}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Scholar
       rect:
         serializedVersion: 2
-        x: 7
-        y: 9
-        width: 70
-        height: 85
+        x: 20
+        y: 24
+        width: 171
+        height: 204
       alignment: 9
       pivot: {x: .492546678, y: .542304039}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Mage
       rect:
         serializedVersion: 2
-        x: 91
-        y: 6
-        width: 86
-        height: 90
+        x: 239
+        y: 13
+        width: 232
+        height: 239
       alignment: 9
       pivot: {x: .50794363, y: .453936428}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: JimRat
       rect:
         serializedVersion: 2
-        x: 202
-        y: 8
-        width: 80
-        height: 86
+        x: 530
+        y: 20
+        width: 217
+        height: 206
       alignment: 9
       pivot: {x: .549394011, y: .437456757}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: TimRat
       rect:
         serializedVersion: 2
-        x: 302
-        y: 8
-        width: 82
-        height: 58
+        x: 796
+        y: 21
+        width: 219
+        height: 134
       alignment: 9
       pivot: {x: .508144498, y: .367873609}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: KimRat
       rect:
         serializedVersion: 2
-        x: 398
-        y: 10
-        width: 70
-        height: 96
+        x: 1046
+        y: 25
+        width: 183
+        height: 247
       alignment: 9
       pivot: {x: .492413342, y: .472728491}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Goblins
       rect:
         serializedVersion: 2
-        x: 482
-        y: 6
-        width: 82
-        height: 102
+        x: 1276
+        y: 22
+        width: 206
+        height: 246
       alignment: 9
       pivot: {x: .481140882, y: .493072361}
       border: {x: 0, y: 0, z: 0, w: 0}

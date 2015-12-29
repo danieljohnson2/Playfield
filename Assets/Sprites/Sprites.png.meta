@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1450753644
+timeCreated: 1451401612
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -447,8 +447,8 @@ TextureImporter:
     - name: Sprites_33
       rect:
         serializedVersion: 2
-        x: 127
-        y: 385
+        x: 128
+        y: 384
         width: 128
         height: 128
       alignment: 0

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,17 @@ public class CreatureController : PlayableEntityController
     public bool canUseWeapons = true;
     public float weight = 10;
     public GameObject attackEffect;
-    public bool teamAware = true;
+	public Button jimButton;
+	public Button kimButton;
+	public Button bobButton;
+	public Button bruteButton;
+	public Button ladyButton;
+	public Button schemerButton;
+	public Button wizardButton;
+	public Button pirateButton;
+	public Button swordsmanButton;
+	public Button heroButton;
+	public bool teamAware = true;
     public bool bigBad = false;
     public Vector2 heldItemPivot = new Vector2(0.5f, 0.5f);
 
@@ -66,18 +77,43 @@ public class CreatureController : PlayableEntityController
     {
         int damage = attacker.GetAttackDamage();
         hitPoints -= damage;
-
         if (hitPoints <= 0)
         {
             hitPoints = 0;
             AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
+
+			if (attacker.isPlayerControlled && this.name == "Jim the Rat") jimButton.interactable = true;
+			if (attacker.isPlayerControlled && this.name == "Kim the Rat") kimButton.interactable = true;
+			if (attacker.isPlayerControlled && this.name == "Bob the Goblin") bobButton.interactable = true;
+			if (attacker.isPlayerControlled && this.name == "Brute") bruteButton.interactable = true;
+			if (attacker.isPlayerControlled && this.name == "Lady") ladyButton.interactable = true;
+			if (attacker.isPlayerControlled && this.name == "Schemer") schemerButton.interactable = true;
+			if (attacker.isPlayerControlled && this.name == "Wizard") wizardButton.interactable = true;
+			if (attacker.isPlayerControlled && this.name == "Pirate") pirateButton.interactable = true;
+			if (attacker.isPlayerControlled && this.name == "Swordsman") swordsmanButton.interactable = true;
+			if (attacker.isPlayerControlled && this.name == "Hero") heroButton.interactable = true;
+			//hero starts out interactable
+
             attacker.hitPoints += 1;
             Die();
 
             if (bigBad)
             {
                 transcript.AddLine("{0} wins the game!", attacker.name);
+
+				if (attacker.name == "Jim the Rat") jimButton.interactable = false;
+				if (attacker.name == "Kim the Rat") kimButton.interactable = false;
+				if (attacker.name == "Bob the Goblin") bobButton.interactable = false;
+				if (attacker.name == "Brute") bruteButton.interactable = false;
+				if (attacker.name == "Lady") ladyButton.interactable = false;
+				if (attacker.name == "Schemer") schemerButton.interactable = false;
+				if (attacker.name == "Wizard") wizardButton.interactable = false;
+				if (attacker.name == "Pirate") pirateButton.interactable = false;
+				if (attacker.name == "Swordsman") swordsmanButton.interactable = false;
+				if (attacker.name == "Hero") heroButton.interactable = false;
+				//if a character wins, they remove themselves from playability and must be re-killed to play as them!
                 mapController.GameOver();
+				//modified to go back to Intro screen. Possibly a final win for winning with all the characters unlocked?
             }
         }
         else
