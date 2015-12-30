@@ -204,8 +204,17 @@ public class CreatureController : PlayableEntityController
                  select item.GetAttackDamage(this)).
                  DefaultIfEmpty(basicDamage).
                  Max();
+			//this is driving me crazy. Please fix.
+			//It needs to roll only from the weapon in hand, not take the highest of all rolls of all weapons in inventory.
+			//That defeats the purpose of constructing die rolls out of multiple dice, forces all the attacks to be super effective
+			//from characters with many weapons, and worst of all I can't begin to solve this because there's no telling where it
+			//does what it does. Virtual functions? selects? running GetAttackDamage on the entire contents of the collection?
+			//I just tried to check the inventory for presence of things like Sword, to do a series of if statements in crude form
+			//and therefore return first a Sword hit, then if no sword a Mace and so on, and I couldn't even do that.
+			//Since we're not talking on the phone or teamspeak or something, I can only make a comment.
+			//Please make this return only damage of weapon in hand. I can't even get autocomplete to show that parameter, but
+			//weapon in hand priority IS one of the properties of the items, and I want to select by that.
         }
-
         return (int)(basicDamage * (weight / 20f));
     }
 
