@@ -78,21 +78,57 @@ public class CreatureController : PlayableEntityController
 
             if (attacker.isPlayerControlled && this.isPlayerCandidate)
                 CharacterActivation.instance[name] = true;
+				//if player kills something, that character is always unlocked
+
+			if (this.isPlayerControlled)
+			{
+				CharacterActivation.instance[name] = false;
+				//if we the player are killed, we will always lock that character even if it's the last one
+				//generally 
+
+				if (this.name != "Rat King") //the purpose of this test is to see if ALL the unlocks have been LOCKED.
+					//asking if it's Rat King is just a silly way to make us keep respawning for the time being
+				{
+					transcript.AddLine("Your {0} was defeated! Better try with another character!", this.name);
+					Application.LoadLevel("Intro");
+				}
+				else
+				{
+					transcript.AddLine("You have no characters left! Game over, man, game over!");
+					mapController.GameOver();
+				}
+			}
+
 
             attacker.hitPoints += 1;
             Die();
 
             if (bigBad)
             {
-                transcript.AddLine("{0} wins the game!", attacker.name);
+                transcript.AddLine("{0} killed the Rat King!", attacker.name);
 
                 // A character that wins the game ceases to be available;
-                // CharacterActivation will ensure that Hero is always available.
-                //
-                // I don't like this much; punishing the player for winning seems
-                // wrong to me. But we'll go with it for now.
-                CharacterActivation.instance[attacker.name] = false;
-                mapController.GameOver();
+                // only if it is not the player. Player wins always remain available.
+				// This is only in the rare event that AI can win the game while the player
+				// is doing other things.
+
+				if (!attacker.isPlayerControlled)
+					CharacterActivation.instance[attacker.name] = false;
+
+				if (attacker.name != "Rat King") //the purpose of this test is to see if ALL the unlocks have been unlocked.
+					//asking if it's Rat King is just a silly way to make us keep respawning for the time being
+				{
+					transcript.AddLine("Continue with a new character!");
+					Application.LoadLevel("Intro");
+				}
+				else
+				{
+					transcript.AddLine("You won the game as {0}!", attacker.name);
+					mapController.GameOver();
+				}
+				//if all characters have been unlocked and you've just won with one of them,
+				//overall game is won also and we go to GameOver.
+
             }
         }
         else
