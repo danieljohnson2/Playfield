@@ -336,7 +336,7 @@ public class PlayableEntityController : MovementBlocker
         {
             // As time goes on, we slow down the
             // spin.
-            spin *= 0.98f;
+            spin *= 0.985f;
 
             // Clamp the spin to be no less than 1 (or -1 if negative).
 

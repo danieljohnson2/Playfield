@@ -151,7 +151,7 @@ public class CreatureController : PlayableEntityController
         if (attacker.attackEffect != null && gameObject.activeInHierarchy)
         {
             float animationSize = (float)damage;
-            animationSize = (float)0.5 + (animationSize / 8);
+            animationSize = (float)0.3 + (animationSize / 7);
             if (hitPoints <= 0)
                 animationSize *= 2;
             if (KnockedBack(attacker))
