@@ -24,8 +24,7 @@ public class CreatureController : PlayableEntityController
     public bool canUseWeapons = true;
     public float weight = 10;
     public GameObject attackEffect;
-	public GameObject introCanvas; 
-	public bool teamAware = true;
+    public bool teamAware = true;
     public bool bigBad = false;
     public Vector2 heldItemPivot = new Vector2(0.5f, 0.5f);
 
@@ -73,27 +72,12 @@ public class CreatureController : PlayableEntityController
             hitPoints = 0;
             AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
 
-			introCanvas = (GameObject) GameObject.Find("/Canvas/JimButton");
-			if (introCanvas != null) introCanvas.GetComponent<Button> ().interactable = true;
+            // If the player kills something that he can control, we record
+            // it as activated. This will take effect even if the player
+            // is later killed, or never saves.
 
-			//the reason this does nothing is, Canvas no longer exists. It was in a previous scene. When this scene ends and/if we
-			//relaunch Intro hoping to have a new selection of playable characters, this scene also is destroyed.
-			//Therefore to make this work, that's pretty much the syntax, but I can't manage the scene-destroy aspect today.
-			//If you use DontDestroyOnLoad, then the Canvas is still there to be accessed here... but launching Intro again
-			//makes there be two canvases, the one we want and a fresh one! I'm not sure how to do this short of saving/loading prefs.
-
-
-//			if (attacker.isPlayerControlled && this.name == "Jim the Rat") jimButton.interactable = true;
-//			if (attacker.isPlayerControlled && this.name == "Kim the Rat") kimButton.interactable = true;
-//			if (attacker.isPlayerControlled && this.name == "Bob the Goblin") bobButton.interactable = true;
-//			if (attacker.isPlayerControlled && this.name == "Brute") bruteButton.interactable = true;
-//			if (attacker.isPlayerControlled && this.name == "Lady") ladyButton.interactable = true;
-//			if (attacker.isPlayerControlled && this.name == "Schemer") schemerButton.interactable = true;
-//			if (attacker.isPlayerControlled && this.name == "Wizard") wizardButton.interactable = true;
-//			if (attacker.isPlayerControlled && this.name == "Pirate") pirateButton.interactable = true;
-//			if (attacker.isPlayerControlled && this.name == "Swordsman") swordsmanButton.interactable = true;
-//			if (attacker.isPlayerControlled && this.name == "Hero") heroButton.interactable = true;
-			//hero starts out interactable
+            if (attacker.isPlayerControlled && this.isPlayerCandidate)
+                CharacterActivation.instance[name] = true;
 
             attacker.hitPoints += 1;
             Die();
@@ -102,19 +86,13 @@ public class CreatureController : PlayableEntityController
             {
                 transcript.AddLine("{0} wins the game!", attacker.name);
 
-//				if (attacker.name == "Jim the Rat") jimButton.interactable = false;
-//				if (attacker.name == "Kim the Rat") kimButton.interactable = false;
-//				if (attacker.name == "Bob the Goblin") bobButton.interactable = false;
-//				if (attacker.name == "Brute") bruteButton.interactable = false;
-//				if (attacker.name == "Lady") ladyButton.interactable = false;
-//				if (attacker.name == "Schemer") schemerButton.interactable = false;
-//				if (attacker.name == "Wizard") wizardButton.interactable = false;
-//				if (attacker.name == "Pirate") pirateButton.interactable = false;
-//				if (attacker.name == "Swordsman") swordsmanButton.interactable = false;
-//				if (attacker.name == "Hero") heroButton.interactable = false;
-				//if a character wins, they remove themselves from playability and must be re-killed to play as them!
+                // A character that wins the game ceases to be available;
+                // CharacterActivation will ensure that Hero is always available.
+                //
+                // I don't like this much; punishing the player for winning seems
+                // wrong to me. But we'll go with it for now.
+                CharacterActivation.instance[attacker.name] = false;
                 mapController.GameOver();
-				//here is where it would go back to Intro screen and reset. Possibly a final win for winning with all the characters unlocked?
             }
         }
         else

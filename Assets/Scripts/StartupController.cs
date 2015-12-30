@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
+using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 /// <summary>
 /// StartupController is used only on the title screen, and handles
@@ -8,13 +10,27 @@ using System.Linq;
 /// </summary>
 public class StartupController : MonoBehaviour
 {
-    public UnityEngine.UI.Button loadGameButton;
-    public UnityEngine.UI.Text subtitleText;
+    public Button loadGameButton;
+    public Text subtitleText;
+    public Button[] characterButtons;
+    private const string characterButtonSuffix = " Button";
 
     void Start()
     {
         if (loadGameButton != null && !PlayableEntityController.CanRestore)
             loadGameButton.gameObject.SetActive(false);
+
+        var activation = CharacterActivation.instance;
+
+        foreach (Button button in characterButtons ?? Enumerable.Empty<Button>())
+        {
+            string buttonName = button.name;
+            if (buttonName.EndsWith(characterButtonSuffix))
+            {
+                string charName = buttonName.Substring(0, buttonName.Length - characterButtonSuffix.Length);
+                button.interactable = activation[charName];
+            }
+        }
 
         if (subtitleText != null)
         {

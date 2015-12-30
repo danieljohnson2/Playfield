@@ -188,9 +188,19 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 100302, guid: 2706ffbb1b1c34885ad5d042512f6348, type: 2}
+      propertyPath: m_Name
+      value: Jim the Rat Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2706ffbb1b1c34885ad5d042512f6348, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &70291222 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11443944, guid: 2706ffbb1b1c34885ad5d042512f6348,
+    type: 2}
+  m_PrefabInternal: {fileID: 70291221}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!224 &74480479 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22451486, guid: f56d1f0371b7341999348ec814db49cb,
@@ -512,6 +522,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadGameButton: {fileID: 0}
   subtitleText: {fileID: 0}
+  characterButtons:
+  - {fileID: 70291222}
+  - {fileID: 1417340574}
+  - {fileID: 1866633211}
+  - {fileID: 1008400506}
+  - {fileID: 1532369393}
+  - {fileID: 2085984751}
+  - {fileID: 1367810551}
+  - {fileID: 1906495779}
+  - {fileID: 1304253248}
+  - {fileID: 2132824459}
 --- !u!4 &665769532
 Transform:
   m_ObjectHideFlags: 0
@@ -760,6 +781,10 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 190232, guid: be28087d12ecd4d5f844c5879a85dc3d, type: 2}
+      propertyPath: m_Name
+      value: Hero Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be28087d12ecd4d5f844c5879a85dc3d, type: 2}
   m_IsPrefabParent: 0
@@ -884,9 +909,19 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 115476, guid: 43c79458372c249f89061edf123549b8, type: 2}
+      propertyPath: m_Name
+      value: Brute Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 43c79458372c249f89061edf123549b8, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1008400506 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11444008, guid: 43c79458372c249f89061edf123549b8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1008400505}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &1304253247
 Prefab:
   m_ObjectHideFlags: 0
@@ -998,9 +1033,19 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 161352, guid: f59195c754fc04b91bbb52257921291d, type: 2}
+      propertyPath: m_Name
+      value: Swordsman Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f59195c754fc04b91bbb52257921291d, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1304253248 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11471374, guid: f59195c754fc04b91bbb52257921291d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1304253247}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &1367810550
 Prefab:
   m_ObjectHideFlags: 0
@@ -1112,9 +1157,19 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 130854, guid: c984004457cb949118754a6cfc6bfe00, type: 2}
+      propertyPath: m_Name
+      value: Wizard Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c984004457cb949118754a6cfc6bfe00, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1367810551 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11405272, guid: c984004457cb949118754a6cfc6bfe00,
+    type: 2}
+  m_PrefabInternal: {fileID: 1367810550}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &1417340573
 Prefab:
   m_ObjectHideFlags: 0
@@ -1226,9 +1281,19 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 181332, guid: ee3be670c0fd0440dbc40e5afc8efbb7, type: 2}
+      propertyPath: m_Name
+      value: Kim the Rat Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee3be670c0fd0440dbc40e5afc8efbb7, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1417340574 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11417492, guid: ee3be670c0fd0440dbc40e5afc8efbb7,
+    type: 2}
+  m_PrefabInternal: {fileID: 1417340573}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!224 &1469757522 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22464646, guid: be28087d12ecd4d5f844c5879a85dc3d,
@@ -1345,9 +1410,19 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 103612, guid: c1db422b7fd55473b92fc7e76673cf6f, type: 2}
+      propertyPath: m_Name
+      value: Lady Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c1db422b7fd55473b92fc7e76673cf6f, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1532369393 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11447152, guid: c1db422b7fd55473b92fc7e76673cf6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1532369392}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1569401030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1534,9 +1609,19 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 153364, guid: f56d1f0371b7341999348ec814db49cb, type: 2}
+      propertyPath: m_Name
+      value: Bob the Goblin Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f56d1f0371b7341999348ec814db49cb, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1866633211 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11404582, guid: f56d1f0371b7341999348ec814db49cb,
+    type: 2}
+  m_PrefabInternal: {fileID: 1866633210}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &1906495778
 Prefab:
   m_ObjectHideFlags: 0
@@ -1648,9 +1733,19 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 108392, guid: 21780add5543e4110895b1bcc8f658a5, type: 2}
+      propertyPath: m_Name
+      value: Pirate Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 21780add5543e4110895b1bcc8f658a5, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1906495779 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11430576, guid: 21780add5543e4110895b1bcc8f658a5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1906495778}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1994130303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1916,11 +2011,27 @@ Prefab:
       propertyPath: m_Colors.m_PressedColor.g
       value: .420689583
       objectReference: {fileID: 0}
+    - target: {fileID: 172508, guid: 60cf9130300b24724bcf79065c3c76dd, type: 2}
+      propertyPath: m_Name
+      value: Schemer Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60cf9130300b24724bcf79065c3c76dd, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &2085984751 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11496206, guid: 60cf9130300b24724bcf79065c3c76dd,
+    type: 2}
+  m_PrefabInternal: {fileID: 2085984750}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!224 &2092579370 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22496782, guid: 60cf9130300b24724bcf79065c3c76dd,
     type: 2}
   m_PrefabInternal: {fileID: 2085984750}
+--- !u!114 &2132824459 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11469036, guid: be28087d12ecd4d5f844c5879a85dc3d,
+    type: 2}
+  m_PrefabInternal: {fileID: 785413621}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
