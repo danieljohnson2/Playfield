@@ -63,13 +63,13 @@ public class ItemController : MovementBlocker
         }
     }
 
-    public override bool Block(GameObject mover, Location destination)
+    public override MoveEffect Block(GameObject mover, Location destination)
     {
         var cc = mover.GetComponent<CreatureController>();
         if (cc != null)
             Pickup(cc);
 
-        return true;
+        return MoveEffect.Moved;
     }
 
     /// <summary>

@@ -73,7 +73,7 @@ public class PlayableEntityController : MovementBlocker
         {
             UpdateStatusText();
 
-            bool moveComplete = false;
+            MoveEffect effect;
             do
             {
                 // we'll yield until the user enters a move.
@@ -81,15 +81,11 @@ public class PlayableEntityController : MovementBlocker
                 while (commandCommanded == Command.None)
                     yield return null;
 
-                // IF we are saving the game, we'll continue waiting
-                // for a real move. For anything else, including 'Restore',
-                // we must return to allow other creatures to move.
+                // we'll continue processing until we get a move that has;
+                // an effect; saving or moving into walls does not count.
 
-                if (commandCommanded != Command.Save)
-                    moveComplete = true;
-
-                PerformCommandedCommand();
-
+                effect = PerformCommandedCommand();
+                
                 // The spinny backgrounds spins faster the more
                 // you are damaged.
 
@@ -98,7 +94,7 @@ public class PlayableEntityController : MovementBlocker
                     spin = -spin;
 
                 SyncCamera();
-            } while (!moveComplete);
+            } while (effect == MoveEffect.None);
         }
         else
         {
@@ -124,7 +120,7 @@ public class PlayableEntityController : MovementBlocker
     /// and may fail; if the creature could not move this method
     /// returns false. If it did move it returns true.
     /// </summary>
-    protected bool Move(int dx, int dy)
+    protected MoveEffect Move(int dx, int dy)
     {
         Location loc = Location.Of(gameObject).WithOffset(dx, dy);
         return MoveTo(loc);
@@ -136,23 +132,24 @@ public class PlayableEntityController : MovementBlocker
     /// Block() methods and returns false if the movement is blocked,
     /// true if it succeeds. 
     /// </summary>
-    protected bool MoveTo(Location destination)
+    protected MoveEffect MoveTo(Location destination)
     {
         if (mapController.terrain.GetTerrain(destination) == null)
         {
-            return false;
+            return MoveEffect.None;
         }
 
         foreach (var blocker in mapController.ComponentsInCell<MovementBlocker>(destination).Reverse())
         {
-            if (!blocker.Block(gameObject, destination))
-                return false;
+            MoveEffect effect = blocker.Block(gameObject, destination);
+            if (effect != MoveEffect.Moved)
+                return effect;
         }
 
         Vector3 destPos = destination.ToPosition();
         FlipToFace(destPos);
         transform.localPosition = destPos;
-        return true;
+        return MoveEffect.Moved;
     }
 
     /// <summary>
@@ -249,25 +246,29 @@ public class PlayableEntityController : MovementBlocker
     /// 'commandCommanded', and it also clears the command fields so the
     /// command is not repeated.
     /// </summary>
-    private void PerformCommandedCommand()
+    private MoveEffect PerformCommandedCommand()
     {
         try
         {
             switch (commandCommanded)
             {
-                case Command.Left: Move(-1, 0); lastDeltaX = -1; break;
-                case Command.Right: Move(1, 0); lastDeltaX = 1; break;
-                case Command.Up: Move(0, -1); break;
-                case Command.Down: Move(0, 1); break;
+                case Command.Left: lastDeltaX = -1; return Move(-1, 0);
+                case Command.Right: lastDeltaX = 1; return Move(1, 0);
+                case Command.Up: return Move(0, -1);
+                case Command.Down: return Move(0, 1);
 
                 case Command.Save:
                     Save();
                     mapController.transcript.AddLine("Game saved.");
-                    break;
+                    return MoveEffect.None;
 
                 case Command.Restore:
                     mapController.transcript.AddLine("Restoring game...");
-                    Restore(); break;
+                    Restore();
+                    return MoveEffect.None;
+
+                default:
+                    return MoveEffect.None;
             }
         }
         finally
@@ -304,8 +305,6 @@ public class PlayableEntityController : MovementBlocker
             return Command.Save;
         else if (Input.GetButton("Restore"))
             return Command.Restore;
-        else if (Input.GetButton("Pass"))
-            return Command.Pass;
         else
             return Command.None;
     }
@@ -313,7 +312,6 @@ public class PlayableEntityController : MovementBlocker
     private enum Command
     {
         None,
-        Pass,
         Up,
         Down,
         Left,
@@ -357,8 +355,8 @@ public class PlayableEntityController : MovementBlocker
     {
         if (isPlayerControlled)
         {
-			UpdateCommandSelection();
-			SyncCamera();
+            UpdateCommandSelection();
+            SyncCamera();
         }
     }
 
@@ -370,11 +368,11 @@ public class PlayableEntityController : MovementBlocker
     {
         Vector3 playerPos = transform.position;
         playerPos.z = -10f;
-		Vector3 cameraPos = Camera.main.transform.position;
+        Vector3 cameraPos = Camera.main.transform.position;
 
-		if (cameraPos.z != -10f) cameraPos = playerPos;
-		else cameraPos = Vector3.Lerp (cameraPos, playerPos, 0.5f);
-		//we interpolate exactly one frame. If z shows we last interpolated, we go directly to target.
+        if (cameraPos.z != -10f) cameraPos = playerPos;
+        else cameraPos = Vector3.Lerp(cameraPos, playerPos, 0.5f);
+        //we interpolate exactly one frame. If z shows we last interpolated, we go directly to target.
 
         Camera.main.transform.position = cameraPos;
     }

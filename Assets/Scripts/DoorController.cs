@@ -49,7 +49,7 @@ public class DoorController : MovementBlocker
         }
     }
 
-    public override bool Block(GameObject mover, Location destination)
+    public override MoveEffect Block(GameObject mover, Location destination)
     {
         if (mover == null)
             throw new System.ArgumentNullException("mover");
@@ -62,7 +62,7 @@ public class DoorController : MovementBlocker
             mover.transform.position = doorExit.ToPosition();
             mapController.entities.ActivateEntities();
             mapController.entities.ActivateMapContainers();
-            return false;
+            return MoveEffect.Action; // this is not a normal movement, but more like a teleportation.
         }
 
         return base.Block(mover, destination);

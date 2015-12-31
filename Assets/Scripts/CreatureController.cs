@@ -44,7 +44,7 @@ public class CreatureController : PlayableEntityController
 
     #region Creature Actions
 
-    public override bool Block(GameObject mover, Location destination)
+    public override MoveEffect Block(GameObject mover, Location destination)
     {
         var attacker = mover.GetComponent<CreatureController>();
 
@@ -53,10 +53,11 @@ public class CreatureController : PlayableEntityController
             if (!teamAware || attacker.isPlayerControlled || !CompareTag(attacker.tag))
             {
                 Fight(attacker);
+                return MoveEffect.Action;
             }
         }
 
-        return false;
+        return MoveEffect.None;
     }
 
     /// <summary>

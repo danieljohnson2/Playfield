@@ -34,7 +34,7 @@ public class KeyedDoorController : MovementBlocker
         return CanBeOpenedBy(mover);
     }
 
-    public override bool Block(GameObject mover, Location destination)
+    public override MoveEffect Block(GameObject mover, Location destination)
     {
         if (CanBeOpenedBy(mover))
         {
@@ -52,11 +52,10 @@ public class KeyedDoorController : MovementBlocker
             // Of course the door we just opened need to go too.
             AddTranscriptLine("{0} opened a {1}.", mover.name, gameObject.name);
             mapController.entities.RemoveEntity(gameObject);
-            return false;
+            return MoveEffect.Action;
         }
 
-        //AddTranscriptLine("{0} needs the {1}", mover.name, keyName);
-        return false;
+        return MoveEffect.None;
     }
 
     private bool CanBeOpenedBy(GameObject mover)

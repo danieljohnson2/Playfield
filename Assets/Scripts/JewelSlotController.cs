@@ -22,7 +22,7 @@ public class JewelSlotController : MovementBlocker
         return CanBeOperatedBy(mover);
     }
 
-    public override bool Block(GameObject mover, Location destination)
+    public override MoveEffect Block(GameObject mover, Location destination)
     {
         if (filledColor == "")
         {
@@ -56,11 +56,13 @@ public class JewelSlotController : MovementBlocker
                             mapController.entities.RemoveEntity(slot);
                         }
                     }
+
+                    return MoveEffect.Action;
                 }
             }
         }
 
-        return false;
+        return MoveEffect.None;
     }
 
     private bool CanBeOperatedBy(GameObject mover)

@@ -60,18 +60,47 @@ public class MovementBlocker : SavingController
     }
 
     /// <summary>
+    /// MoveEffect is an enum to summarize the result of a move.
+    /// </summary>
+    public enum MoveEffect
+    {
+        /// <summary>
+        /// None means no move was made, or the move didn't count
+        /// because it was blocked. The game state has not changed,
+        /// and we don't go onto the next creature's turn.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Moved means the move was made normally; the creature
+        /// moves to a new place, and other effets (like item
+        /// pickups) can happen on the way.
+        /// </summary>
+        Moved,
+
+        /// <summary>
+        /// Action means the move was not made normally, but osmething
+        /// else happened like an attack or a teleportion. This is still
+        /// a valid move, but you don't wind up in the space you moved
+        /// into.
+        /// </summary>
+        Action
+    }
+
+    /// <summary>
     /// This method is called when some object tries to
-    /// move into this square. It can return true to allow
-    /// the move or false to fail it, and can take other
-    /// actions triggered by the movement as well.
+    /// move into this square. It can return 'Moved' to allow
+    /// the move, or 'None' or 'Action' to disallow it. If it
+    /// takes any action in response to the move, it should return
+    /// Action to indicate that something did happen.
     /// 
     /// Movement blockers are sometimes terrain, so this
     /// can be called on a prefab; for that reasons the destination
     /// must be supplied explicitly.
     /// </summary>
-    public virtual bool Block(GameObject mover, Location destination)
+    public virtual MoveEffect Block(GameObject mover, Location destination)
     {
-        return passable;
+        return passable ? MoveEffect.Moved : MoveEffect.None;
     }
 
     /// <summary>
