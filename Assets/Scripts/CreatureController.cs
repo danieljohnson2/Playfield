@@ -70,7 +70,8 @@ public class CreatureController : PlayableEntityController
         if (hitPoints <= 0)
         {
             hitPoints = 0;
-            AddTranscriptLine("{0} killed {1}!", attacker.name, this.name);
+
+            AddTranscriptLine("{0} killed {1}{2}", attacker.name, this.name, bigBad ? "!" : ".");
 
             // If the player kills something that he can control, we record
             // it as activated. This will take effect even if the player
@@ -93,31 +94,20 @@ public class CreatureController : PlayableEntityController
             Die();
 
             if (bigBad)
-            {
-                transcript.AddLine("{0} killed the Rat King!", attacker.name);
+            {              
+                // If the player kills the big bad, he gets a special message.
 
-                // A character that wins the game ceases to be available;
-                // only if it is not the player. Player wins always remain available.
-                // This is only in the rare event that AI can win the game while the player
-                // is doing other things.
+                // If an AI does so, he gets a real bonus- he's locks, so the player
+                // can't play has him anymore. This should be rare though.
 
-                if (!attacker.isPlayerControlled)
+                if (attacker.isPlayerControlled)
+                    transcript.AddLine("You won the game as {0}!", attacker.name);
+                else
                     CharacterActivation.instance[attacker.name] = false;
 
-                if (attacker.name != "Rat King") //the purpose of this test is to see if ALL the unlocks have been unlocked.
-                                                 //asking if it's Rat King is just a silly way to make us keep respawning for the time being
-                {
-                    transcript.AddLine("Continue with a new character!");
-                    Application.LoadLevel("Intro");
-                }
-                else
-                {
-                    transcript.AddLine("You won the game as {0}!", attacker.name);
-                    mapController.GameOver();
-                }
-                //if all characters have been unlocked and you've just won with one of them,
-                //overall game is won also and we go to GameOver.
+                // If anyone kills the big bad, it is game over.
 
+                mapController.GameOver();
             }
         }
         else
