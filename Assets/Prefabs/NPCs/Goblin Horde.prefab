@@ -177,9 +177,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
+  transcribesLocallyOnly: 0
   speed: .75
   isPlayerControlled: 0
-  isPlayerCandidate: 1
+  isPlayerCandidate: 0
   hitPoints: 14
   damage:
     DiceCount: 1
@@ -372,7 +373,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: isPlayerCandidate
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: itemSpecificHeat

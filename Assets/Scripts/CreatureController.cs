@@ -77,7 +77,6 @@ public class CreatureController : PlayableEntityController
             // it as activated. This will take effect even if the player
             // is later killed, or never saves.
 
-            //if player kills something, that character is always unlocked
             if (attacker.isPlayerControlled && this.isPlayerCandidate)
                 CharacterActivation.instance[name] = true;
 
@@ -94,7 +93,7 @@ public class CreatureController : PlayableEntityController
             Die();
 
             if (bigBad)
-            {              
+            {
                 // If the player kills the big bad, he gets a special message.
 
                 // If an AI does so, he gets a real bonus- he's locks, so the player
@@ -174,27 +173,24 @@ public class CreatureController : PlayableEntityController
     /// </summary>
     public int GetAttackDamage()
     {
-        int basicDamage = damage.Roll();
-
         if (canUseWeapons)
         {
-            return
-                (from item in Inventory().OfType<WeaponController>()
-                 select item.GetAttackDamage(this)).
-                 DefaultIfEmpty(basicDamage).
-                 Max();
-            //this is driving me crazy. Please fix.
-            //It needs to roll only from the weapon in hand, not take the highest of all rolls of all weapons in inventory.
-            //That defeats the purpose of constructing die rolls out of multiple dice, forces all the attacks to be super effective
-            //from characters with many weapons, and worst of all I can't begin to solve this because there's no telling where it
-            //does what it does. Virtual functions? selects? running GetAttackDamage on the entire contents of the collection?
-            //I just tried to check the inventory for presence of things like Sword, to do a series of if statements in crude form
-            //and therefore return first a Sword hit, then if no sword a Mace and so on, and I couldn't even do that.
-            //Since we're not talking on the phone or teamspeak or something, I can only make a comment.
-            //Please make this return only damage of weapon in hand. I can't even get autocomplete to show that parameter, but
-            //weapon in hand priority IS one of the properties of the items, and I want to select by that.
+            // we pick the weapon the player should be holding- the one with the higest
+            // priority. This is more-or-less consistent with what the graphics are showing.
+
+            WeaponController weaponInHand =
+                  (from item in Inventory().OfType<WeaponController>()
+                   orderby item.heldDisplayPriority descending
+                   select item).FirstOrDefault();
+
+            if (weaponInHand != null)
+                return weaponInHand.GetAttackDamage(this);
         }
-        return (int)(basicDamage * (weight / 20f));
+
+        // If we aren't using a weapon, then we use the damage
+        // of the creature, modified by weight.
+
+        return (int)(damage.Roll() * (weight / 20f));
     }
 
     /// <summary>
