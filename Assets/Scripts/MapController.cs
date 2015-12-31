@@ -22,6 +22,10 @@ public class MapController : MonoBehaviour
 
     void Start()
     {
+        // Make sure we don't keep the old controller around, in
+        // case of a restart.
+        lazyInstance = null;
+
         foreach (Map map in maps.Maps())
         {
             terrain.Load(map);

@@ -11,6 +11,9 @@ using System.Text;
 /// 
 /// This is a singleton because it represents a single file; the list of characters is shared
 /// between all games.
+/// 
+/// The singleton keeps a list of characters locked and unlocked; this can be reset, and is used
+/// to populate the game-over screen.
 /// </summary>
 internal sealed class CharacterActivation
 {
@@ -55,9 +58,10 @@ internal sealed class CharacterActivation
 
         set
         {
+            bool changed;
+
             lock (activeCharacters)
             {
-                bool changed;
 
                 if (value)
                     changed = activeCharacters.Add(characterName);
@@ -67,8 +71,64 @@ internal sealed class CharacterActivation
                 if (changed)
                     WriteActiveCharacters();
             }
+
+            if (changed)
+            {
+                lock (recentChanges)
+                {
+                    recentChanges[characterName] = value;
+                }
+            }
         }
     }
+
+    #region Lock and Unlock Tracking
+
+    private readonly Dictionary<string, bool> recentChanges = new Dictionary<string, bool>(StringComparer.InvariantCultureIgnoreCase);
+
+    /// <summary>
+    /// ResetRecentChanges() resets the storage of recent changes, so that
+    /// RecentlyLocked() and RecentlyUnlocked() return empty collections.
+    /// </summary>
+    public void ResetRecentChanges()
+    {
+        lock (recentChanges)
+        {
+            recentChanges.Clear();
+        }
+    }
+
+    /// <summary>
+    /// RecentlyLocked() returns the alphabetized list of characters locked
+    /// since we started the game, or last called ResetRecentChanges().
+    /// </summary>
+    public IEnumerable<string> RecentlyLocked()
+    {
+        lock (recentChanges)
+        {
+            return (from pair in recentChanges
+                    where !pair.Value
+                    orderby pair.Key
+                    select pair.Key).ToArray();
+        }
+    }
+
+    /// <summary>
+    /// RecentlyUnlocked() returns the alphabetized list of characters unlocked
+    /// since we started the game, or last called ResetRecentChanges().
+    /// </summary>
+    public IEnumerable<string> RecentlyUnlocked()
+    {
+        lock (recentChanges)
+        {
+            return (from pair in recentChanges
+                    where pair.Value
+                    orderby pair.Key
+                    select pair.Key).ToArray();
+        }
+    }
+
+    #endregion
 
     #region File Access
 

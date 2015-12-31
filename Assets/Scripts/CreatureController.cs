@@ -76,29 +76,18 @@ public class CreatureController : PlayableEntityController
             // it as activated. This will take effect even if the player
             // is later killed, or never saves.
 
+            //if player kills something, that character is always unlocked
             if (attacker.isPlayerControlled && this.isPlayerCandidate)
                 CharacterActivation.instance[name] = true;
-				//if player kills something, that character is always unlocked
 
-			if (this.isPlayerControlled)
-			{
-				CharacterActivation.instance[name] = false;
-				//if we the player are killed, we will always lock that character even if it's the last one
-				//generally 
+            // if we the player is killed, we will always lock that character even if it's the last one
+            // generally.
 
-				if (this.name != "Rat King") //the purpose of this test is to see if ALL the unlocks have been LOCKED.
-					//asking if it's Rat King is just a silly way to make us keep respawning for the time being
-				{
-					transcript.AddLine("Your {0} was defeated! Better try with another character!", this.name);
-					Application.LoadLevel("Intro");
-				}
-				else
-				{
-					transcript.AddLine("You have no characters left! Game over, man, game over!");
-					mapController.GameOver();
-				}
-			}
-
+            if (this.isPlayerControlled)
+            {
+                CharacterActivation.instance[name] = false;
+                mapController.GameOver();
+            }
 
             attacker.hitPoints += 1;
             Die();
@@ -109,25 +98,25 @@ public class CreatureController : PlayableEntityController
 
                 // A character that wins the game ceases to be available;
                 // only if it is not the player. Player wins always remain available.
-				// This is only in the rare event that AI can win the game while the player
-				// is doing other things.
+                // This is only in the rare event that AI can win the game while the player
+                // is doing other things.
 
-				if (!attacker.isPlayerControlled)
-					CharacterActivation.instance[attacker.name] = false;
+                if (!attacker.isPlayerControlled)
+                    CharacterActivation.instance[attacker.name] = false;
 
-				if (attacker.name != "Rat King") //the purpose of this test is to see if ALL the unlocks have been unlocked.
-					//asking if it's Rat King is just a silly way to make us keep respawning for the time being
-				{
-					transcript.AddLine("Continue with a new character!");
-					Application.LoadLevel("Intro");
-				}
-				else
-				{
-					transcript.AddLine("You won the game as {0}!", attacker.name);
-					mapController.GameOver();
-				}
-				//if all characters have been unlocked and you've just won with one of them,
-				//overall game is won also and we go to GameOver.
+                if (attacker.name != "Rat King") //the purpose of this test is to see if ALL the unlocks have been unlocked.
+                                                 //asking if it's Rat King is just a silly way to make us keep respawning for the time being
+                {
+                    transcript.AddLine("Continue with a new character!");
+                    Application.LoadLevel("Intro");
+                }
+                else
+                {
+                    transcript.AddLine("You won the game as {0}!", attacker.name);
+                    mapController.GameOver();
+                }
+                //if all characters have been unlocked and you've just won with one of them,
+                //overall game is won also and we go to GameOver.
 
             }
         }
@@ -204,16 +193,16 @@ public class CreatureController : PlayableEntityController
                  select item.GetAttackDamage(this)).
                  DefaultIfEmpty(basicDamage).
                  Max();
-			//this is driving me crazy. Please fix.
-			//It needs to roll only from the weapon in hand, not take the highest of all rolls of all weapons in inventory.
-			//That defeats the purpose of constructing die rolls out of multiple dice, forces all the attacks to be super effective
-			//from characters with many weapons, and worst of all I can't begin to solve this because there's no telling where it
-			//does what it does. Virtual functions? selects? running GetAttackDamage on the entire contents of the collection?
-			//I just tried to check the inventory for presence of things like Sword, to do a series of if statements in crude form
-			//and therefore return first a Sword hit, then if no sword a Mace and so on, and I couldn't even do that.
-			//Since we're not talking on the phone or teamspeak or something, I can only make a comment.
-			//Please make this return only damage of weapon in hand. I can't even get autocomplete to show that parameter, but
-			//weapon in hand priority IS one of the properties of the items, and I want to select by that.
+            //this is driving me crazy. Please fix.
+            //It needs to roll only from the weapon in hand, not take the highest of all rolls of all weapons in inventory.
+            //That defeats the purpose of constructing die rolls out of multiple dice, forces all the attacks to be super effective
+            //from characters with many weapons, and worst of all I can't begin to solve this because there's no telling where it
+            //does what it does. Virtual functions? selects? running GetAttackDamage on the entire contents of the collection?
+            //I just tried to check the inventory for presence of things like Sword, to do a series of if statements in crude form
+            //and therefore return first a Sword hit, then if no sword a Mace and so on, and I couldn't even do that.
+            //Since we're not talking on the phone or teamspeak or something, I can only make a comment.
+            //Please make this return only damage of weapon in hand. I can't even get autocomplete to show that parameter, but
+            //weapon in hand priority IS one of the properties of the items, and I want to select by that.
         }
         return (int)(basicDamage * (weight / 20f));
     }
