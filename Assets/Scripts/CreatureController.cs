@@ -79,14 +79,14 @@ public class CreatureController : PlayableEntityController
             // is later killed, or never saves.
 
             if (attacker.isPlayerControlled && this.isPlayerCandidate)
-                CharacterActivation.instance[name] = true;
+                CharacterActivation.Activate(name);
 
             // if we the player is killed, we will always lock that character even if it's the last one
             // generally.
 
             if (this.isPlayerControlled)
             {
-                CharacterActivation.instance[name] = false;
+                CharacterActivation.Deactivate(name);
                 mapController.GameOver();
             }
 
@@ -103,7 +103,7 @@ public class CreatureController : PlayableEntityController
                 if (attacker.isPlayerControlled)
                     transcript.AddLine("You won the game as {0}!", attacker.name);
                 else
-                    CharacterActivation.instance[attacker.name] = false;
+                    CharacterActivation.Deactivate(attacker.name);
 
                 // If anyone kills the big bad, it is game over.
 

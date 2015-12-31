@@ -85,7 +85,7 @@ public class PlayableEntityController : MovementBlocker
                 // an effect; saving or moving into walls does not count.
 
                 effect = PerformCommandedCommand();
-                
+
                 // The spinny backgrounds spins faster the more
                 // you are damaged.
 
@@ -263,8 +263,14 @@ public class PlayableEntityController : MovementBlocker
                     return MoveEffect.None;
 
                 case Command.Restore:
-                    mapController.transcript.AddLine("Restoring game...");
-                    Restore();
+                    if (File.Exists(GetSaveGamePath()))
+                    {
+                        mapController.transcript.AddLine("Restoring game...");
+                        Restore();
+                    }
+                    else
+                        mapController.transcript.AddLine("No saved game to restore!");
+
                     return MoveEffect.None;
 
                 default:
@@ -398,7 +404,7 @@ public class PlayableEntityController : MovementBlocker
     #endregion
 
     #region Saved Games
-    
+
     /// <summary>
     /// Save() saves the game.
     /// </summary>

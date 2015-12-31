@@ -5,117 +5,102 @@ using System.IO;
 using System.Text;
 
 /// <summary>
-/// CharacterActivation is a singleton that keeps track of which characters are active.
+/// CharacterActivation is a static class that keeps track of which characters are active.
 /// Most characters are inactive until you kill them in game; they then become available
 /// to play as.
 /// 
-/// This is a singleton because it represents a single file; the list of characters is shared
-/// between all games.
+/// This is static because there is just one list of active characters across all games;
+/// this date is simply kept in a file.
 /// 
-/// The singleton keeps a list of characters locked and unlocked; this can be reset, and is used
-/// to populate the game-over screen.
+/// We do keep track of 'recent' activations and deactivations for the UI though; these
+/// are not persisted to disk.
 /// </summary>
-internal sealed class CharacterActivation
+internal static class CharacterActivation
 {
-    public static readonly CharacterActivation instance = new CharacterActivation(GetActiveCharactersPath());
-
-    private readonly string path;
-    private readonly HashSet<string> activeCharacters;
-    private const string initialCharacterName = "Hero";
-
-    private CharacterActivation(string path)
-    {
-        this.path = path;
-        this.activeCharacters = ReadActiveCharacters(path);
-        this.isDefault = activeCharacters.Count == 0;
-
-        if (isDefault)
-            this.activeCharacters.Add(initialCharacterName);
-    }
+    private const string defaultCharacterName = "Hero";
 
     /// <summary>
     /// isDefault is true if no changes have been made to the
     /// activation settings.
     /// </summary>
-    public bool isDefault { get; private set; }
+    public static bool isDefault
+    {
+        get { return !File.Exists(GetActiveCharactersPath()); }
+    }
 
     /// <summary>
     /// Reset() discards all changes, deletes the storage
     /// files, and puts this activation to its default state.
     /// </summary>
-    public void Reset()
+    public static void Reset()
     {
-        File.Delete(path);
-
-        activeCharacters.Clear();
-        activeCharacters.Add(initialCharacterName);
-        isDefault = true;
+        File.Delete(GetActiveCharactersPath());
     }
 
     /// <summary>
-    /// This indexer lets you check to see if a character is active, or
-    /// to change that set.
-    /// 
-    /// If you use this indexer to activate or deactivate a character, it
-    /// will immediately write the storage file out.
-    /// 
-    /// (To access the getter, use
-    ///    CharacterActivation.instance["Bob"]
-    /// to access the setter, use
-    ///   CharacterActivation.instance["Bob"] = true
-    /// C# is full of fun stuff like this!).
-    /// 
-    /// This indexer is synchronized; multiple threads can use this at a the
-    /// same time. However, we don't actually do this. I'm just being paranoid.
+    /// GetActivatedCharacters() reads the list of active
+    /// characters and returns them in a set.
     /// </summary>
-    public bool this[string characterName]
+    public static HashSet<string> GetActivatedCharacters()
     {
-        get
+        HashSet<string> names = ReadStorage();
+
+        // just in case somebody left blank lines in there!
+        names.RemoveWhere(n => n == "");
+        
+        if (names.Count == 0)
+            names.Add(defaultCharacterName);
+
+        return names;
+    }
+
+    /// <summary>
+    /// Activate() actives a character; the change is written
+    /// to a disk file immediately.
+    /// </summary>
+    public static void Activate(string characterName)
+    {
+        HashSet<string> names = GetActivatedCharacters();
+
+        if (names.Add(characterName))
         {
-            lock (activeCharacters)
+            lock (recentChanges)
             {
-                return activeCharacters.Contains(characterName);
+                recentChanges[characterName] = true;
             }
         }
 
-        set
+        WriteStorage(names);
+    }
+
+    /// <summary>
+    /// Deactivate() deactives a character; the change is written
+    /// to a disk file immediately.
+    /// </summary>
+    public static void Deactivate(string characterName)
+    {
+        HashSet<string> names = GetActivatedCharacters();
+
+        if (names.Remove(characterName))
         {
-            bool changed;
-
-            lock (activeCharacters)
+            lock (recentChanges)
             {
-
-                if (value)
-                    changed = activeCharacters.Add(characterName);
-                else
-                    changed = activeCharacters.Remove(characterName);
-
-                if (changed)
-                {
-                    isDefault = false;
-                    WriteActiveCharacters();
-                }
-            }
-
-            if (changed)
-            {
-                lock (recentChanges)
-                {
-                    recentChanges[characterName] = value;
-                }
+                recentChanges[characterName] = true;
             }
         }
+
+        WriteStorage(names);
     }
 
     #region Lock and Unlock Tracking
 
-    private readonly Dictionary<string, bool> recentChanges = new Dictionary<string, bool>(StringComparer.InvariantCultureIgnoreCase);
+    private static readonly Dictionary<string, bool> recentChanges = new Dictionary<string, bool>(StringComparer.InvariantCultureIgnoreCase);
 
     /// <summary>
     /// ResetRecentChanges() resets the storage of recent changes, so that
     /// RecentlyLocked() and RecentlyUnlocked() return empty collections.
     /// </summary>
-    public void ResetRecentChanges()
+    public static void ResetRecentChanges()
     {
         lock (recentChanges)
         {
@@ -127,7 +112,7 @@ internal sealed class CharacterActivation
     /// RecentlyLocked() returns the alphabetized list of characters locked
     /// since we started the game, or last called ResetRecentChanges().
     /// </summary>
-    public IEnumerable<string> RecentlyLocked()
+    public static IEnumerable<string> RecentlyLocked()
     {
         lock (recentChanges)
         {
@@ -142,7 +127,7 @@ internal sealed class CharacterActivation
     /// RecentlyUnlocked() returns the alphabetized list of characters unlocked
     /// since we started the game, or last called ResetRecentChanges().
     /// </summary>
-    public IEnumerable<string> RecentlyUnlocked()
+    public static IEnumerable<string> RecentlyUnlocked()
     {
         lock (recentChanges)
         {
@@ -158,13 +143,15 @@ internal sealed class CharacterActivation
     #region File Access
 
     /// <summary>
-    /// ReadActiveCharacters() reads the lines of the text file at the
+    /// ReadStorage() reads the lines of the text file at the
     /// path given, and returns them in a set. The set is case-insensitive.
     /// If the file at the path is missing, this method returns an empty
     /// set.
     /// </summary>
-    private static HashSet<string> ReadActiveCharacters(string path)
+    private static HashSet<string> ReadStorage()
     {
+        string path = GetActiveCharactersPath();
+
         if (File.Exists(path))
         {
             return new HashSet<string>(
@@ -172,24 +159,21 @@ internal sealed class CharacterActivation
                 StringComparer.InvariantCultureIgnoreCase);
         }
         else
-            return new HashSet<string>();
+            return new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
     }
 
     /// <summary>
-    /// WriteActiveCharacters() writes the names in 'activeCharacters' to the
+    /// WriteStorage() writes the names in 'activeCharacters' to the
     /// path we loaded from, creating this file if needed.
     /// 
     /// This method sorts the names just to make it look neat.
     /// </summary>
-    private void WriteActiveCharacters()
+    private static void WriteStorage(IEnumerable<string> activeCharacters)
     {
-        lock (activeCharacters)
-        {
-            string[] sorted = activeCharacters.ToArray();
-            System.Array.Sort(sorted);
+        string[] sorted = activeCharacters.ToArray();
+        System.Array.Sort(sorted);
 
-            File.WriteAllLines(path, sorted);
-        }
+        File.WriteAllLines(GetActiveCharactersPath(), sorted);
     }
 
     /// <summary>

@@ -11,7 +11,7 @@ public class ResetGameController : MonoBehaviour
 {
     public void ResetGame()
     {
-        CharacterActivation.instance.Reset();
+        CharacterActivation.Reset();
         File.Delete(PlayableEntityController.GetSaveGamePath());
 
         Application.LoadLevel("Intro");

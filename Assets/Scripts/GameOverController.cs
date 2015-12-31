@@ -24,16 +24,14 @@ public class GameOverController : MonoBehaviour
     {
         if (messageText != null)
             messageText.text = (gameOverMessage ?? "").Trim();
-
-        var activation = CharacterActivation.instance;
-
+        
         if (lockedCharactersText != null)
-            lockedCharactersText.text = GetLockMessage("Characters locked", activation.RecentlyLocked());
+            lockedCharactersText.text = GetLockMessage("Characters locked", CharacterActivation.RecentlyLocked());
 
         if (unlockedCharactersText != null)
-            unlockedCharactersText.text = GetLockMessage("Characters unlocked", activation.RecentlyUnlocked());
+            unlockedCharactersText.text = GetLockMessage("Characters unlocked", CharacterActivation.RecentlyUnlocked());
 
-        activation.ResetRecentChanges();
+        CharacterActivation.ResetRecentChanges();
     }
 
     /// <summary>

@@ -21,14 +21,14 @@ public class StartupController : MonoBehaviour
         if (loadGameButton != null && !PlayableEntityController.CanRestore)
             loadGameButton.gameObject.SetActive(false);
         
-        var activation = CharacterActivation.instance;
-
         if (resetGameButton != null &&
-            activation.isDefault &&
+            CharacterActivation.isDefault &&
             !File.Exists(PlayableEntityController.GetSaveGamePath()))
         {
             resetGameButton.gameObject.SetActive(false);
         }
+
+        HashSet<string> activeCharacters = CharacterActivation.GetActivatedCharacters();
 
         foreach (Button button in characterButtons ?? Enumerable.Empty<Button>())
         {
@@ -36,7 +36,7 @@ public class StartupController : MonoBehaviour
             if (buttonName.EndsWith(characterButtonSuffix))
             {
                 string charName = buttonName.Substring(0, buttonName.Length - characterButtonSuffix.Length);
-                button.interactable = activation[charName];
+                button.interactable = activeCharacters.Contains(charName);
             }
         }
 
