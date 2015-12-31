@@ -398,13 +398,13 @@ public class PlayableEntityController : MovementBlocker
     #endregion
 
     #region Saved Games
-
+    
     /// <summary>
     /// Save() saves the game.
     /// </summary>
     private void Save()
     {
-        string path = Path.Combine(Application.persistentDataPath, @"Save.dat");
+        string path = GetSaveGamePath();
 
         using (Stream stream = File.Open(path, FileMode.Create))
         using (var writer = new BinaryWriter(stream))
@@ -436,7 +436,7 @@ public class PlayableEntityController : MovementBlocker
     /// <summary>
     /// GetSaveGamePath() reutrns the path to the saved game file.
     /// </summary>
-    private static string GetSaveGamePath()
+    public static string GetSaveGamePath()
     {
         return Path.Combine(Application.persistentDataPath, @"Save.dat");
     }

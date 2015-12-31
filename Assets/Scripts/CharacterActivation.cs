@@ -27,7 +27,29 @@ internal sealed class CharacterActivation
     {
         this.path = path;
         this.activeCharacters = ReadActiveCharacters(path);
-        this.activeCharacters.Add(initialCharacterName);
+        this.isDefault = activeCharacters.Count == 0;
+
+        if (isDefault)
+            this.activeCharacters.Add(initialCharacterName);
+    }
+
+    /// <summary>
+    /// isDefault is true if no changes have been made to the
+    /// activation settings.
+    /// </summary>
+    public bool isDefault { get; private set; }
+
+    /// <summary>
+    /// Reset() discards all changes, deletes the storage
+    /// files, and puts this activation to its default state.
+    /// </summary>
+    public void Reset()
+    {
+        File.Delete(path);
+
+        activeCharacters.Clear();
+        activeCharacters.Add(initialCharacterName);
+        isDefault = true;
     }
 
     /// <summary>
@@ -69,7 +91,10 @@ internal sealed class CharacterActivation
                     changed = activeCharacters.Remove(characterName);
 
                 if (changed)
+                {
+                    isDefault = false;
                     WriteActiveCharacters();
+                }
             }
 
             if (changed)
@@ -171,7 +196,7 @@ internal sealed class CharacterActivation
     /// GetActiveCharactersPath() generates the path where we will save the list
     /// of active characters.
     /// </summary>
-    private static string GetActiveCharactersPath()
+    public static string GetActiveCharactersPath()
     {
         return Path.Combine(UnityEngine.Application.persistentDataPath, @"ActiveCharacters.txt");
     }

@@ -11,6 +11,7 @@ using System.IO;
 public class StartupController : MonoBehaviour
 {
     public Button loadGameButton;
+    public Button resetGameButton;
     public Text subtitleText;
     public Button[] characterButtons;
     private const string characterButtonSuffix = " Button";
@@ -19,8 +20,15 @@ public class StartupController : MonoBehaviour
     {
         if (loadGameButton != null && !PlayableEntityController.CanRestore)
             loadGameButton.gameObject.SetActive(false);
-
+        
         var activation = CharacterActivation.instance;
+
+        if (resetGameButton != null &&
+            activation.isDefault &&
+            !File.Exists(PlayableEntityController.GetSaveGamePath()))
+        {
+            resetGameButton.gameObject.SetActive(false);
+        }
 
         foreach (Button button in characterButtons ?? Enumerable.Empty<Button>())
         {
@@ -61,6 +69,16 @@ public class StartupController : MonoBehaviour
         // 'ReloadWithInitialization' doesn't load the level the first time,
         // so we do that.
         Application.LoadLevel("Playfield");
+    }
+
+    public void ResetGame()
+    {
+        Application.LoadLevel("Reset Game");
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
     public void LoadSavedGame()
