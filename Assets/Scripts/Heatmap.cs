@@ -82,9 +82,11 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
             {
                 for (int x = minX; x <= maxX; ++x)
                 {
-                    short heat = this[new Location(x, y, grp.Key)].heat;
-                    b.AppendFormat("{0:X2}", Math.Abs(heat));
+                    int heat = this[new Location(x, y, grp.Key)].heat;
+                    int reducedHeat = heat == int.MinValue ? 0xFF : Math.Abs(heat) >> 23;
+                    b.AppendFormat("{0:X2}", reducedHeat);
                 }
+
                 b.AppendLine();
             }
         }
@@ -175,7 +177,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     public void Heat(int repeats, AdjacencySelector adjacency)
     {
         var heater = Heater.Create();
-        
+
         for (int i = 0; i < repeats; ++i)
         {
             if (!heater.Heat(this, adjacency))
@@ -188,7 +190,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
 
         heater.Recycle();
     }
-    
+
     /// <summary>
     /// This structure is a utility to make heatmap heatings faster;
     /// this holds onto various buffers so they can be reused, and
@@ -219,7 +221,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         {
             Interlocked.Exchange(ref recycledInstance, this);
         }
-
+        
         /// <summary>
         /// Heat() applies heat to the heatmap given. The resulting
         /// values are queued and applied only at the end, so
@@ -237,7 +239,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
             original.ForEachBlock(delegate (Location upperLeft, Slot[] slots)
             {
                 int lx = 0, ly = 0;
-
+                
                 for (int slotIndex = 0; slotIndex < slots.Length; ++slotIndex)
                 {
                     if (slots[slotIndex].heat != 0)
@@ -286,14 +288,14 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     public struct Slot : IEquatable<Slot>
     {
         public readonly SourceInfo source;
-        public readonly short heat;
+        public readonly int heat;
 
-        public Slot(UnityEngine.GameObject source, short heat) :
+        public Slot(UnityEngine.GameObject source, int heat) :
             this(new SourceInfo(source), heat)
         {
         }
 
-        public Slot(SourceInfo source, short heat)
+        public Slot(SourceInfo source, int heat)
         {
             this.source = source;
             this.heat = heat;
@@ -314,11 +316,15 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         /// </summary>
         public static Slot Max(Slot left, Slot right)
         {
-            // we must upcast to int here because Math.Abs(short.MinValue)
-            // will fail with OverflowException; its the whackiness of
-            // 2s-complement arithmetic.
+            // We treak int.Minvalue specially because Math.Abs(int.MinValue)
+            // will throw; 2s complement arithmetic is a little funny this way,
+            // as -int.MinValue is not representable.
 
-            if (Math.Abs((int)left.heat) < Math.Abs((int)right.heat))
+            if (right.heat == int.MinValue)
+                return right;
+            else if (left.heat == int.MinValue)
+                return left;
+            else if (Math.Abs(left.heat) < Math.Abs(right.heat))
                 return right;
             else
                 return left;
@@ -329,12 +335,12 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         /// </summary>
         public Slot ToReduced(int amount)
         {
-            short newHeat = heat;
+            int newHeat = heat;
 
             if (heat > 0)
-                newHeat = (short)Math.Max(0, heat - amount);
+                newHeat = Math.Max(0, heat - amount);
             else if (heat < 0)
-                newHeat = (short)Math.Min(0, heat + amount);
+                newHeat = Math.Min(0, heat + amount);
             else
                 newHeat = 0;
 

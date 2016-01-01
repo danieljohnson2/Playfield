@@ -68,23 +68,23 @@ public class HeatmapPreferenceController : MonoBehaviour
         this.heatmap.name = heatmapName;
     }
 
-    private KeyValuePair<HeatSourceIdentifier, short>[] lazyPreferences;
+    private KeyValuePair<HeatSourceIdentifier, int>[] lazyPreferences;
 
-    private IEnumerable<KeyValuePair<HeatSourceIdentifier, short>> Preferences()
+    private IEnumerable<KeyValuePair<HeatSourceIdentifier, int>> Preferences()
     {
         return Lazy.Init(ref lazyPreferences, delegate
         {
             if (preferences == null)
-                return new KeyValuePair<HeatSourceIdentifier, short>[0];
+                return new KeyValuePair<HeatSourceIdentifier, int>[0];
 
-            var b = new List<KeyValuePair<HeatSourceIdentifier, short>>(preferences.Length);
+            var b = new List<KeyValuePair<HeatSourceIdentifier, int>>(preferences.Length);
 
             foreach (string prefText in preferences)
             {
                 HeatSourceIdentifier sourceID;
-                short heat;
+                int heat;
                 ParsePreference(prefText, MapController.instance, out sourceID, out heat);
-                b.Add(new KeyValuePair<HeatSourceIdentifier, short>(sourceID, heat));
+                b.Add(new KeyValuePair<HeatSourceIdentifier, int>(sourceID, heat));
             }
 
             return b.ToArray();
@@ -134,10 +134,10 @@ public class HeatmapPreferenceController : MonoBehaviour
             residualCooling -= cool;
         }
 
-        foreach (KeyValuePair<HeatSourceIdentifier, short> pair in Preferences())
+        foreach (KeyValuePair<HeatSourceIdentifier, int> pair in Preferences())
         {
             HeatSourceIdentifier sourceID = pair.Key;
-            short heat = pair.Value;
+            int heat = pair.Value;
 
             foreach (GameObject target in sourceID.GameObjects())
             {
@@ -165,15 +165,15 @@ public class HeatmapPreferenceController : MonoBehaviour
 
                                 // we must apply the scaling in such a way that
                                 // we don't overflow the heat value, which is only
-                                // a short.
+                                // a int.
                                 float scaledHeat = heat * scaling;
 
-                                if (scaledHeat <= short.MinValue)
-                                    heat = short.MinValue;
-                                else if (scaledHeat >= short.MaxValue)
-                                    heat = short.MaxValue;
+                                if (scaledHeat <= int.MinValue)
+                                    heat = int.MinValue;
+                                else if (scaledHeat >= int.MaxValue)
+                                    heat = int.MaxValue;
                                 else
-                                    heat = (short)scaledHeat;
+                                    heat = (int)scaledHeat;
                             }
                         }
                     }
@@ -232,7 +232,7 @@ public class HeatmapPreferenceController : MonoBehaviour
     /// targets and a heat value. If the heat value is omitted we
     /// assume 'heatmapRange' as the default.
     /// </summary>
-    private void ParsePreference(string text, MapController mapController, out HeatSourceIdentifier sourceID, out short heat)
+    private void ParsePreference(string text, MapController mapController, out HeatSourceIdentifier sourceID, out int heat)
     {
         string[] parts = (text ?? "").Trim().Split('=');
 
@@ -248,12 +248,8 @@ public class HeatmapPreferenceController : MonoBehaviour
         sourceID = HeatSourceIdentifier.Parse(tag);
 
         if (parts.Length > 1)
-        {
-            heat = short.Parse(parts[1]);
-        }
+            heat = int.Parse(parts[1]);
         else
-        {
             heat = heatmapRange;
-        }
     }
 }
