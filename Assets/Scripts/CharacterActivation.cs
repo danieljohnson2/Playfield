@@ -85,7 +85,7 @@ internal static class CharacterActivation
         {
             lock (recentChanges)
             {
-                recentChanges[characterName] = true;
+                recentChanges[characterName] = false;
             }
         }
 

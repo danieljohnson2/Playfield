@@ -169,6 +169,7 @@ public class SavingController : MonoBehaviour
         {
             if (restored)
                 throw new System.InvalidOperationException("A Restoration can be restored only once.");
+
             restored = true;
 
             PlayableEntityController player = null;

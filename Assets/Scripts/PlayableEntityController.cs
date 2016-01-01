@@ -267,11 +267,14 @@ public class PlayableEntityController : MovementBlocker
                     {
                         mapController.transcript.AddLine("Restoring game...");
                         Restore();
+                        // we need to end the turn to allow the game to reload the level!
+                        return MoveEffect.Action;
                     }
                     else
+                    {
                         mapController.transcript.AddLine("No saved game to restore!");
-
-                    return MoveEffect.None;
+                        return MoveEffect.None;
+                    }
 
                 default:
                     return MoveEffect.None;

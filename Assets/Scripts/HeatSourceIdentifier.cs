@@ -85,7 +85,7 @@ public struct HeatSourceIdentifier : IEquatable<HeatSourceIdentifier>
             SourceDisposition captured = disposition.Value;
 
             return from go in candidates
-                   where new Heatmap.SourceInfo(go).Disposition == captured
+                   where Heatmap.SourceInfo.GetDisposition(go) == captured
                    select go;
         }
 

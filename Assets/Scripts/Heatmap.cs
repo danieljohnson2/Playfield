@@ -28,6 +28,39 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
     /// </summary>
     public string name { get; set; }
 
+    public int GetSourceInfoCount()
+    {
+        var buffer = new List<SourceInfo>();
+
+        foreach (var pair in this)
+        {
+            SourceInfo si = pair.Value.source;
+
+            if (si != null)
+            {
+                buffer.RemoveAll(s => s == si);
+                buffer.Add(si);
+            }
+        }
+
+        return buffer.Count;
+    }
+
+    public int GetDistinctSourceInfoCount()
+    {
+        var buffer = new HashSet<SourceInfo>();
+
+        foreach (var pair in this)
+        {
+            SourceInfo si = pair.Value.source;
+
+            if (si != null)
+                buffer.Add(si);
+        }
+
+        return buffer.Count;
+    }
+
     /// <summary>
     /// Picks the best move from the candidates given; that is, it picks
     /// the cell with the largest heat value. If a tie for hottest cell is
@@ -221,7 +254,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         {
             Interlocked.Exchange(ref recycledInstance, this);
         }
-        
+
         /// <summary>
         /// Heat() applies heat to the heatmap given. The resulting
         /// values are queued and applied only at the end, so
@@ -239,7 +272,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
             original.ForEachBlock(delegate (Location upperLeft, Slot[] slots)
             {
                 int lx = 0, ly = 0;
-                
+
                 for (int slotIndex = 0; slotIndex < slots.Length; ++slotIndex)
                 {
                     if (slots[slotIndex].heat != 0)
@@ -291,7 +324,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         public readonly int heat;
 
         public Slot(UnityEngine.GameObject source, int heat) :
-            this(new SourceInfo(source), heat)
+            this(new SourceInfo(source).Intern(), heat)
         {
         }
 
@@ -388,17 +421,7 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         {
             this.Name = source.name;
             this.Tag = source.tag;
-
-            var ic = source.GetComponent<ItemController>();
-            CreatureController carrier;
-            if (ic == null)
-                Disposition = null;
-            else if (!ic.TryGetCarrier(out carrier))
-                Disposition = SourceDisposition.Exposed;
-            else if (ic.isHeldItem)
-                Disposition = SourceDisposition.Held;
-            else
-                Disposition = SourceDisposition.Carried;
+            this.Disposition = GetDisposition(source);
         }
 
         public SourceInfo(string name, string tag, SourceDisposition? disposition)
@@ -416,6 +439,65 @@ public sealed class Heatmap : LocationMap<Heatmap.Slot>
         {
             return string.Format("{0} {1}", Name, Disposition).Trim();
         }
+
+        /// <summary>
+        /// GetDisposition() works out the disposition of a given
+        /// game object. We use this when generating a SourceInfo for
+        /// a game object.
+        /// </summary>
+        public static SourceDisposition? GetDisposition(UnityEngine.GameObject source)
+        {
+            var ic = source.GetComponent<ItemController>();
+            CreatureController carrier;
+            if (ic == null)
+                return null;
+            else if (!ic.TryGetCarrier(out carrier))
+                return SourceDisposition.Exposed;
+            else if (ic.isHeldItem)
+                return SourceDisposition.Held;
+            else
+                return SourceDisposition.Carried;
+        }
+
+        #region Interning
+
+        private static readonly List<WeakReference> internedSourceInfos = new List<WeakReference>();
+
+        /// <summary>
+        /// Intern() returns this source info, or a pre-existing on that is iequal
+        /// to it. Using this reduces trhe number of source infos we 'keep alive'.
+        /// 
+        /// We use this only for SourceInfos that are in 'Slot' structs; only these
+        /// persist long enough for interning to help.
+        /// </summary>
+        public SourceInfo Intern()
+        {
+            lock (internedSourceInfos)
+            {
+                // Using a list like this seems inefficent, but I observe that the
+                // number of 'live' source infos is around 25; this iz small enough to
+                // linear scan, and that means we get to use weak-references in a simple
+                // way, so we can avoid keep unused source infos alive!
+
+                for (int i = internedSourceInfos.Count - 1; i >= 0; --i)
+                {
+                    SourceInfo info = (SourceInfo)internedSourceInfos[i].Target;
+
+                    // The weak reference gives us null if the source info has been garbage collected;
+                    // after that the weak references itself is useless and we can discard it.
+
+                    if (info == null)
+                        internedSourceInfos.RemoveAt(i);
+                    else if (this.Equals(info))
+                        return info;
+                }
+
+                internedSourceInfos.Add(new WeakReference(this));
+                return this;
+            }
+        }
+
+        #endregion
 
         #region IEquatable implementation
 
