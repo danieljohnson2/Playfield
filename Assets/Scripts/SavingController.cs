@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Text;
+using System;
 
 /// <summary>
 /// SavingController is a controller base class for practically
@@ -87,12 +89,24 @@ public class SavingController : MonoBehaviour
     #region Saving and Restoring
 
     /// <summary>
+    /// saveFileSignature contains the the bytes we put at the start of the
+    /// save file. This makes it possible to identify our save game format,
+    /// which we use to validate that the file is a real save file.
+    /// </summary>
+    private static readonly byte[] saveFileSignature = Encoding.ASCII.GetBytes("Playfield");
+
+    /// <summary>
     /// This method saves a saved game; this reads the entities from the
     /// map controller and writes each saveable component of each one out
     /// to the write.
     /// </summary>
     public static void Save(MapController mapController, BinaryWriter writer)
     {
+        // write a signature so we can recognize the data.
+        writer.Write(saveFileSignature);
+        // write a version number so we can do compatibility hackery if we need to.
+        writer.Write((byte)1);
+
         foreach (GameObject go in mapController.entities.Entities())
         {
             foreach (var sc in go.GetComponents<SavingController>())
@@ -152,6 +166,16 @@ public class SavingController : MonoBehaviour
         /// </summary>
         public static Restoration Read(BinaryReader reader)
         {
+            byte[] signature = reader.ReadBytes(saveFileSignature.Length);
+
+            if (!signature.SequenceEqual(saveFileSignature))
+                throw new FormatException("The file does not contain a Playfield save.");
+
+            byte version = reader.ReadByte();
+
+            if (version != 1)
+                throw new FormatException("The save file is of an unknown version.");
+
             Dictionary<string, Queue<byte[]>> byNames =
                 (from pair in ReadSections(reader)
                  group pair.Value by pair.Key).
@@ -224,7 +248,7 @@ public class SavingController : MonoBehaviour
 
             mapController.entities.ProcessRemovals();
         }
-        
+
         private static IEnumerable<KeyValuePair<string, byte[]>> ReadSections(BinaryReader reader)
         {
             for (;;)
