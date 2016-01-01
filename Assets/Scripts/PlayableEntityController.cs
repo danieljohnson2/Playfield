@@ -71,6 +71,8 @@ public class PlayableEntityController : MovementBlocker
     {
         if (isPlayerControlled)
         {
+            Location startingLocation = Location.Of(gameObject);
+
             UpdateStatusText();
 
             MoveEffect effect;
@@ -92,9 +94,9 @@ public class PlayableEntityController : MovementBlocker
                 spin = GetSpinnyness();
                 if (lastDeltaX == 1)
                     spin = -spin;
-
-                SyncCamera();
             } while (effect == MoveEffect.None);
+
+            SyncCamera(smooth: startingLocation.mapIndex == Location.Of(gameObject).mapIndex);
         }
         else
         {
@@ -373,17 +375,16 @@ public class PlayableEntityController : MovementBlocker
     /// SyncCamera() moves the camera to point right
     /// at the player.
     /// </summary>
-    private void SyncCamera()
+    private void SyncCamera(bool smooth = true)
     {
-        Vector3 playerPos = transform.position;
-        playerPos.z = -10f;
+        Vector3 newCameraPos = transform.position;
+        newCameraPos.z = -10f;
         Vector3 cameraPos = Camera.main.transform.position;
 
-        if (cameraPos.z != -10f) cameraPos = playerPos;
-        else cameraPos = Vector3.Lerp(cameraPos, playerPos, 0.5f);
-        //we interpolate exactly one frame. If z shows we last interpolated, we go directly to target.
+        if (smooth)
+            newCameraPos = Vector3.Lerp(cameraPos, newCameraPos, 3 * Time.deltaTime);
 
-        Camera.main.transform.position = cameraPos;
+        Camera.main.transform.position = newCameraPos;
     }
 
     /// <summary>
