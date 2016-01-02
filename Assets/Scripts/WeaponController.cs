@@ -26,12 +26,12 @@ public class WeaponController : ItemController
         {
             int myDamage = damage.Roll();
             int moverDamage = cc.GetAttackDamage();
-			float enemyBrave = (float)(cc.hitPoints)/3f;
+			float enemyBrave = (float)(cc.hitPoints)/20f;
 			//purpose of this is to make the AIs more cowardly the fewer hit points they have.
 			if (enemyBrave < 0.5f) enemyBrave = 0.5f;
 			//sanity check in case we're given hit points less than zero upon a kill
 			//increasing this value makes them more combative: 10 was very fighty, 1 relatively unfighty
-			return moverDamage - (myDamage / enemyBrave);
+			return 1; //(moverDamage + myDamage) / enemyBrave;
         }
 
         return base.GetHeatmapScalingFactor(mover);
