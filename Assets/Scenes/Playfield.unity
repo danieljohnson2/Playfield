@@ -825,7 +825,7 @@ MonoBehaviour:
     m_RichText: 0
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
-    m_LineSpacing: 1
+    m_LineSpacing: 1.5
   m_Text: 'HP:'
 --- !u!222 &2081269015
 CanvasRenderer:
