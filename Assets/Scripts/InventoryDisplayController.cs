@@ -27,6 +27,7 @@ public class InventoryDisplayController : MonoBehaviour
 			from i in Enumerable.Range (0, player.transform.childCount)
 			select player.transform.GetChild (i).GetComponent<ItemController> () into item
 			where item != null
+            orderby item.heldDisplayPriority descending, item.name
 			select item);
 	}
 

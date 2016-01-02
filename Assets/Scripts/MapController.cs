@@ -88,12 +88,7 @@ public class MapController : MonoBehaviour
                     activeMap = maps[Location.Of(pec.gameObject).mapIndex];
                 }
 
-				float intendedCameraSize = 3f;
-				if (activeMap.name == "LittleVillage") intendedCameraSize = 4f;
-				if (activeMap.name == "DeadEndAlleyways") intendedCameraSize = 4f;
-				if (activeMap.name == "Venice") intendedCameraSize = 4f;
-				if (activeMap.name == "TopLevel") intendedCameraSize = 5f;
-				Camera.main.orthographicSize = intendedCameraSize;
+                Camera.main.orthographicSize = activeMap.cameraSize;;
 
                 if (pec.CheckTurn())
                 {

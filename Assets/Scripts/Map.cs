@@ -24,8 +24,9 @@ public sealed class Map
     public readonly string name;
     public readonly int width;
     public readonly int height;
+    public readonly float cameraSize;
 
-    private Map(int mapIndex, string name, string[] mapText, MapLegend mapLegend)
+    private Map(int mapIndex, string name, float cameraSize, string[] mapText, MapLegend mapLegend)
     {
         this.mapIndex = mapIndex;
         this.name = name;
@@ -33,6 +34,7 @@ public sealed class Map
         this.mapLegend = mapLegend;
         this.width = mapText.Max(l => l.Length);
         this.height = mapText.Length;
+        this.cameraSize = cameraSize;
     }
 
     /// <summary>
@@ -92,6 +94,7 @@ public sealed class Map
     {
         var mapLegendByName = new Dictionary<char, string>();
         var buffer = new List<string>();
+        float cameraSize = 3f;
 
         string line;
         while ((line = reader.ReadLine()) != null)
@@ -104,14 +107,32 @@ public sealed class Map
 
         while ((line = reader.ReadLine()) != null)
         {
+            line = line.Trim();
+
             if (line.Length > 0)
             {
-                char ch = line[0];
-                mapLegendByName.Add(ch, line.Substring(1).Trim());
+                int firstSpace = line.IndexOf(' ');
+
+                if (firstSpace == 1)
+                    mapLegendByName.Add(line[0], line.Substring(1).Trim());
+                else if (firstSpace < 0 && line.Length == 1)
+                    mapLegendByName.Add(line[0], "");
+                else if (firstSpace > 1)
+                {
+                    string optionName = line.Substring(0, firstSpace);
+                    string optionValue = line.Substring(firstSpace + 1);
+
+                    if (optionName.Equals("CameraSize", StringComparison.InvariantCultureIgnoreCase))
+                        cameraSize = float.Parse(optionValue);
+                    else
+                        throw new FormatException(string.Format("'{0}' is not a valid map option.", optionName));
+                }
+                else
+                    throw new FormatException(string.Format("Map legend line '{0}' is malformed", line));
             }
         }
 
-        return new Map(mapIndex, name, buffer.ToArray(), new MapLegend(mapLegendByName, prefabs));
+        return new Map(mapIndex, name, cameraSize, buffer.ToArray(), new MapLegend(mapLegendByName, prefabs));
     }
 
     /// <summary>

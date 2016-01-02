@@ -209,6 +209,10 @@ public class CreatureController : PlayableEntityController
             child.transform.localPosition = here.ToPosition();
             child.gameObject.SetActive(true);
         }
+        
+        // if the game ends, we might not actually process removals,
+        // so we'll conceal the body this wya.
+        gameObject.SetActive(false);
 
         mapController.entities.RemoveEntity(gameObject);
         mapController.adjacencyGenerator.InvalidatePathability(here);
