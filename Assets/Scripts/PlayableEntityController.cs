@@ -215,6 +215,7 @@ public class PlayableEntityController : MovementBlocker
 
     private Command commandStarted;
     private Command commandCommanded;
+	private Command lastCommand;
 
     public static bool isCommandPending;
 
@@ -232,6 +233,7 @@ public class PlayableEntityController : MovementBlocker
         if (commandStarted != Command.None && cmd == Command.None)
         {
             commandCommanded = commandStarted;
+			lastCommand = commandStarted;
             commandStarted = Command.None;
             isCommandPending = true;
         }
@@ -379,10 +381,17 @@ public class PlayableEntityController : MovementBlocker
     {
         Vector3 newCameraPos = transform.position;
         newCameraPos.z = -10f;
-        Vector3 cameraPos = Camera.main.transform.position;
+		if (lastCommand == Command.Up) newCameraPos.y += 1.25f;
+		if (lastCommand == Command.Down) newCameraPos.y -= 1.25f;
+		if (lastCommand == Command.Right) newCameraPos.x += 1.25f;
+		if (lastCommand == Command.Left) newCameraPos.x -= 1.25f;
+		//offset the target camera location so that our visibility doesn't severely lag behind character position:
+		//if we're moving in a direction and slowed by lerp, our attention is on what we're moving towards
+
+		Vector3 cameraPos = Camera.main.transform.position;
 
         if (smooth)
-            newCameraPos = Vector3.Lerp(cameraPos, newCameraPos, 3 * Time.deltaTime);
+            newCameraPos = Vector3.Lerp(cameraPos, newCameraPos, 2.3f * Time.deltaTime);
 
         Camera.main.transform.position = newCameraPos;
     }
