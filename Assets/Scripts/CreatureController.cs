@@ -149,13 +149,16 @@ public class CreatureController : PlayableEntityController
                 AddLocalTranscriptLine(message);
         }
 
-        if (attacker.attackEffect != null && gameObject.activeInHierarchy)
+        if (attacker.attackEffect != null &&
+            transform.parent != null &&
+            transform.parent.gameObject.activeInHierarchy)
         {
             float animationSize = (float)damage;
-            animationSize = (float)0.3 + (animationSize / 7);
+            animationSize = 0.3f + (animationSize / 7.0f);
+
             if (hitPoints <= 0)
                 animationSize *= 2;
-            if (KnockedBack(attacker))
+            else if (KnockedBack(attacker))
                 animationSize *= 2;
 
             GameObject effect = Instantiate(attackEffect);
