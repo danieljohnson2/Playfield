@@ -19,5 +19,5 @@
 : Floor
 i PathDoor, Red Door:CavesToCastle
 j Path Door:CavesMainATop
-{ Floor, Tim the Rat
-} Floor, Goblin Horde
+{ Floor, Rat
+} Floor, Goblin

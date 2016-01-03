@@ -14,4 +14,4 @@
 : Floor
 R Floor, Dagger
 h Path Door, Wood Door:CastleBasementRight
-{ Floor, Tim the Rat
+{ Floor, Rat

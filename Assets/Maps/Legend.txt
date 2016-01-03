@@ -73,7 +73,7 @@ FF0016:w:Path Door, Red Door:VeniceLighthouse
 FF0017:x:Path Door, Green Door:VeniceLonghouseTop
 FF0018:y:Path Door, Green Door:VeniceLonghouseBottom
 FF0019:z:Path Door, Green Door:VeniceArboretumTop
-09FFFF:{:Floor, Tim the Rat
+09FFFF:{:Floor, Rat
 7F00FF:|:PathDoor:YouWin
-0AFFFF:}:Floor, Goblin Horde
+0AFFFF:}:Floor, Goblin
 7B7B7B:~:Door

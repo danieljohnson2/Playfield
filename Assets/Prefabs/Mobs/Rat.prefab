@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11472114}
   - 114: {fileID: 11415102}
   m_Layer: 0
-  m_Name: Tim the Rat
+  m_Name: Rat
   m_TagString: Rat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

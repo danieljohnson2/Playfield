@@ -18,7 +18,7 @@ GameObject:
   - 114: {fileID: 11484164}
   - 114: {fileID: 11455920}
   m_Layer: 0
-  m_Name: Goblin Horde
+  m_Name: Goblin
   m_TagString: Goblin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
