@@ -123,8 +123,6 @@ public class HeatmapPreferenceController : MonoBehaviour
         else
             heatmapSkipCount = 0;
 
-        MapController mapController = MapController.instance;
-
         residualCooling += heatmapCooling;
 
         if (residualCooling > 0.0f)
@@ -133,6 +131,54 @@ public class HeatmapPreferenceController : MonoBehaviour
             heatmap.Reduce(cool);
             residualCooling -= cool;
         }
+
+        UpdateHeatmapCore();
+
+        heatmap.TrimExcess();
+
+        if (heatmapMarkerPrefab != null)
+            ShowHeatmap();
+
+        return heatmap;
+    }
+
+    /// <summary>
+    /// UpdateHeatmapCore() applies the heat to the heatmap;
+    /// if two heats apply to the same location, this combines
+    /// them, applying the sum of the heats.
+    /// </summary>
+    private void UpdateHeatmapCore()
+    {
+        ILookup<Location, Heatmap.Slot> heats = SlotsToHeat().
+            ToLookup(pair => pair.Key, pair => pair.Value);
+
+        foreach (var grp in heats)
+        {
+            Location targetLoc = grp.Key;
+            Heatmap.SourceInfo bestInfo =
+                (from slot in grp
+                 orderby Math.Abs(slot.heat) descending
+                 select slot.source).First();
+
+            int totalHeat = grp.Sum(slot => slot.heat);
+
+            heatmap[targetLoc] = new Heatmap.Slot(bestInfo, totalHeat);
+        }
+
+        MapController.AdjacencyGenerator adjGen = MapController.instance.adjacencyGenerator;
+
+        heatmap.Heat(heatmapRange, (loc, adj) =>
+            adjGen.GetAdjacentLocationsInto(gameObject, loc, adj));
+    }
+
+    /// <summary>
+    /// SlotsToHeat() works out where to apply heat to the heatmap;
+    /// it yields a locations and the heat to apply in pairs, but
+    /// there can be more than one pair per location.
+    /// </summary>
+    private IEnumerable<KeyValuePair<Location, Heatmap.Slot>> SlotsToHeat()
+    {
+        MapController mapController = MapController.instance;
 
         foreach (KeyValuePair<HeatSourceIdentifier, int> pair in Preferences())
         {
@@ -179,22 +225,12 @@ public class HeatmapPreferenceController : MonoBehaviour
                     }
 
                     if (heat != 0 && targetLoc != Location.nowhere && mapController.IsPassable(targetLoc))
-                        heatmap[targetLoc] = new Heatmap.Slot(target, heat);
+                    {
+                        yield return new KeyValuePair<Location, Heatmap.Slot>(targetLoc, new Heatmap.Slot(target, heat));
+                    }
                 }
             }
         }
-
-        MapController.AdjacencyGenerator adjGen = MapController.instance.adjacencyGenerator;
-
-        heatmap.Heat(heatmapRange, (loc, adj) =>
-            adjGen.GetAdjacentLocationsInto(gameObject, loc, adj));
-
-        heatmap.TrimExcess();
-
-        if (heatmapMarkerPrefab != null)
-            ShowHeatmap();
-
-        return heatmap;
     }
 
     private void ShowHeatmap()
