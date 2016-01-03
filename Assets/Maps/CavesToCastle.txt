@@ -20,4 +20,4 @@
 i PathDoor, Red Door:CavesToCastle
 j Path Door:CavesMainATop
 { Floor, Rat
-3 Grass, Kim the Rat
+3 Floor, Kim the Rat

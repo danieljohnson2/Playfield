@@ -27,12 +27,14 @@ public class CreatureController : PlayableEntityController
     public bool teamAware = true;
     public bool bigBad = false;
     public Vector2 heldItemPivot = new Vector2(0.5f, 0.5f);
+    private bool hatesPlayer = false;
 
     public override void SaveTo(BinaryWriter writer)
     {
         base.SaveTo(writer);
 
         writer.Write(hitPoints);
+        writer.Write(hatesPlayer);
     }
 
     public override void RestoreFrom(BinaryReader reader, Restoration restoration)
@@ -40,6 +42,7 @@ public class CreatureController : PlayableEntityController
         base.RestoreFrom(reader, restoration);
 
         hitPoints = reader.ReadInt32();
+        hatesPlayer = reader.ReadBoolean();
     }
 
     #region Creature Actions
@@ -50,7 +53,7 @@ public class CreatureController : PlayableEntityController
 
         if (attacker != null)
         {
-            if (!teamAware || attacker.isPlayerControlled || !CompareTag(attacker.tag))
+            if (attacker.AllowedToAttack(this))
             {
                 Fight(attacker);
                 return MoveEffect.Action;
@@ -58,6 +61,22 @@ public class CreatureController : PlayableEntityController
         }
 
         return MoveEffect.None;
+    }
+
+    /// <summary>
+    /// AllowedToAttack() determines if this creature can attack
+    /// the victim; this lets us avoid accidental attacks
+    /// between goblins or rats that are in a pack.
+    /// </summary>
+    private bool AllowedToAttack(CreatureController victim)
+    {
+        if (!teamAware || isPlayerControlled)
+            return true;
+
+        if (victim.isPlayerControlled && hatesPlayer)
+            return true;
+
+        return !this.CompareTag(victim.tag);
     }
 
     /// <summary>
@@ -120,6 +139,9 @@ public class CreatureController : PlayableEntityController
 
             string message = string.Format("{0} hit {1} for {2}!{3}", attacker.name, this.name, damage,
                 knockedBack ? " Knockback!" : "");
+
+            if (attacker.isPlayerControlled)
+                hatesPlayer = true;
 
             if (damage > 0)
                 AddTranscriptLine(message);
@@ -209,7 +231,7 @@ public class CreatureController : PlayableEntityController
             child.transform.localPosition = here.ToPosition();
             child.gameObject.SetActive(true);
         }
-        
+
         // if the game ends, we might not actually process removals,
         // so we'll conceal the body this wya.
         gameObject.SetActive(false);
