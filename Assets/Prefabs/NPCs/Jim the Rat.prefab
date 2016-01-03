@@ -67,7 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   excludeFromSave: 0
   transcribesLocallyOnly: 0
-  speed: 1.29999995
+  speed: 1.60000002
   isPlayerControlled: 0
   isPlayerCandidate: 1
   hitPoints: 4
@@ -195,7 +195,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: 1.29999995
+      value: 1.60000002
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: isPlayerCandidate

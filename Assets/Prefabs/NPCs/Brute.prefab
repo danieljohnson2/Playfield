@@ -181,7 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
-  speed: .800000012
+  transcribesLocallyOnly: 0
+  speed: .600000024
   isPlayerControlled: 0
   isPlayerCandidate: 1
   hitPoints: 15
@@ -279,7 +280,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: .800000012
+      value: .600000024
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange

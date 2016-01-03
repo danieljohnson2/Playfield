@@ -178,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   excludeFromSave: 0
   transcribesLocallyOnly: 0
-  speed: .75
+  speed: .5
   isPlayerControlled: 0
   isPlayerCandidate: 0
   hitPoints: 14
@@ -276,7 +276,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: .75
+      value: .5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
@@ -382,6 +382,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: hitPoints
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: transcribesLocallyOnly
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

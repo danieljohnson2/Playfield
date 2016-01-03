@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   excludeFromSave: 0
   transcribesLocallyOnly: 0
-  speed: .939999998
+  speed: .879999995
   isPlayerControlled: 0
   isPlayerCandidate: 1
   hitPoints: 9
@@ -193,16 +193,6 @@ MonoBehaviour:
   canUseWeapons: 1
   weight: 10
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
-  jimButton: {fileID: 0}
-  kimButton: {fileID: 0}
-  bobButton: {fileID: 0}
-  bruteButton: {fileID: 0}
-  ladyButton: {fileID: 0}
-  schemerButton: {fileID: 0}
-  wizardButton: {fileID: 0}
-  pirateButton: {fileID: 0}
-  swordsmanButton: {fileID: 0}
-  heroButton: {fileID: 0}
   teamAware: 0
   bigBad: 0
   heldItemPivot: {x: .90200001, y: .549000025}
@@ -290,7 +280,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: .939999998
+      value: .879999995
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
