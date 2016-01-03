@@ -1,5 +1,5 @@
 .........######
-.........#::::i
+.........#::3:i
 ........##::::#
 .......##:{:::#
 ......##:::::##
@@ -20,4 +20,4 @@
 i PathDoor, Red Door:CavesToCastle
 j Path Door:CavesMainATop
 { Floor, Rat
-} Floor, Goblin
+3 Grass, Kim the Rat
