@@ -44,13 +44,21 @@ public class StartupController : MonoBehaviour
         {
             string[] subtitles =
                 {
-                    "The Search for Subtitle",
-                    "This Time It's Personal",
-                    "Forever",
-                    "I Want to Subtitle",
-                    "With a Vengeange",
-                    "The Quest for Subtitle",
-                    "The Quickening"
+                "The Search for Subtitle",
+                "This Time It's Personal",
+                "Forever",
+                "I Want to Subtitle",
+                "With a Vengeance",
+                "The Quest for Subtitle",
+                "The Quickening",
+				"More Play, More Field",
+				"If There's Play On The Field",
+				"Diagonal Combat Exploit",
+				"Inexplicably Luminous",
+				"Jewels Glow?",
+				"Paint The Key",
+				"You Dirty Rat",
+				"Inconceivable!"
                 };
 
             subtitleText.text = subtitles[Random.Range(0, subtitles.Length)];
