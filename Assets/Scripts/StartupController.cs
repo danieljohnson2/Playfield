@@ -14,13 +14,16 @@ public class StartupController : MonoBehaviour
     public Button resetGameButton;
     public Text subtitleText;
     public Button[] characterButtons;
+    public Text startPrompt;
+
+    private float startPromptTime;
     private const string characterButtonSuffix = " Button";
 
     void Start()
     {
         if (loadGameButton != null && !PlayableEntityController.CanRestore)
             loadGameButton.gameObject.SetActive(false);
-        
+
         if (resetGameButton != null &&
             CharacterActivation.isDefault &&
             !File.Exists(PlayableEntityController.GetSaveGamePath()))
@@ -51,20 +54,46 @@ public class StartupController : MonoBehaviour
                 "With a Vengeance",
                 "The Quest for Subtitle",
                 "The Quickening",
-				"More Play, More Field",
-				"If There's Play On The Field",
-				"Diagonal Combat Exploit",
-				"Inexplicably Luminous",
-				"Jewels Glow?",
-				"Paint The Key",
-				"You Dirty Rat",
-				"Inconceivable!"
+                "More Play, More Field",
+                "If There's Play On The Field",
+                "Diagonal Combat Exploit",
+                "Inexplicably Luminous",
+                "Jewels Glow?",
+                "Paint The Key",
+                "You Dirty Rat",
+                "Inconceivable!"
                 };
 
             subtitleText.text = subtitles[Random.Range(0, subtitles.Length)];
         }
+
+        startPromptTime = Time.time + 5f;
     }
 
+    void Update()
+    {
+        // after 5 seconds we'll fade in instructions on how to start.
+
+        if (startPrompt != null && Time.time >= startPromptTime)
+        {
+            Color color = startPrompt.color;
+            if (color.a < 1f)
+            {
+                if (color.a < 0.99f)
+                    color.a = Mathf.Lerp(color.a, 1f, Time.deltaTime);
+                else
+                    color.a = 1f;
+
+                startPrompt.color = color;
+            }
+        }
+    }
+
+    /// <summary>
+    /// StartGame() loads the playfield scene, but places a delegate to be
+    /// executed on game start; this will condigure the player named to be
+    /// player controlled.
+    /// </summary>
     public void StartGame(string playerName)
     {
         MapController.ReloadWithInitialization(delegate (MapController mapController)
@@ -79,22 +108,37 @@ public class StartupController : MonoBehaviour
         Application.LoadLevel("Playfield");
     }
 
+    /// <summary>
+    /// ResetGame() doesn't immediately reset the saved game state, but
+    /// instead goes to a scene where the user can do this.
+    /// </summary>
     public void ResetGame()
     {
         Application.LoadLevel("Reset Game");
     }
 
+    /// <summary>
+    /// ExitGame() is a way out of here.
+    /// </summary>
     public void ExitGame()
     {
         Application.Quit();
     }
 
+    /// <summary>
+    /// LoadSavedGame()triggers the loading of the Playfield
+    /// scene, but places a delegate to cause it to load the
+    /// saved game.
+    /// </summary>
     public void LoadSavedGame()
     {
         PlayableEntityController.Restore();
         Application.LoadLevel("Playfield");
     }
 
+    /// <summary>
+    /// ShowCredits() transitions to our bragging scene.
+    /// </summary>
     public void ShowCredits()
     {
         Application.LoadLevel("Credits");
