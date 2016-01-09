@@ -116,13 +116,13 @@ MonoBehaviour:
   preferences:
   - Key=128
   - Gem=256
-  - Weapon[Exposed]=128
+  - Weapon[Exposed]=16
   - JewelSlot=256
+  - '"Sword"=256'
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: loot
   heldItemAwareness: 1
   carriedItemAwareness: .25
-  itemSpecificHeat: 0
 --- !u!114 &11455920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,7 +168,6 @@ MonoBehaviour:
   heatmapName: fight
   heldItemAwareness: 1
   carriedItemAwareness: .25
-  itemSpecificHeat: 0
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -252,7 +251,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: preferences.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: barkPrefabs.Array.size
@@ -337,7 +336,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
-      value: '"Rat King"=32'
+      value: Weapon[Exposed]=16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
@@ -373,7 +372,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[4]
-      value: Goblin=16
+      value: '"Sword"=256'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

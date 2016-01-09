@@ -11,6 +11,7 @@ GameObject:
   - 212: {fileID: 21231602}
   - 114: {fileID: 11472114}
   - 114: {fileID: 11415102}
+  - 114: {fileID: 11429754}
   m_Layer: 0
   m_Name: Jim the Rat
   m_TagString: Rat
@@ -50,10 +51,31 @@ MonoBehaviour:
   - Goblin=-4
   - Weapon=-8
   heatmapMarkerPrefab: {fileID: 0}
-  heatmapName: 
+  heatmapName: fight
   heldItemAwareness: 1
   carriedItemAwareness: .25
-  itemSpecificHeat: 1
+--- !u!114 &11429754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32afa8f63e5d224792618212002a094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 0
+  heatmapRange: 16
+  heatmapCooling: 128
+  heatmapAutoReset: 0
+  preferences:
+  - Key=64
+  - Gem=32
+  heatmapMarkerPrefab: {fileID: 0}
+  heatmapName: loot
+  heldItemAwareness: .25
+  carriedItemAwareness: 0
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,7 +148,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
-      value: Goblin=-4
+      value: Gem=32
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
@@ -138,7 +160,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Adventurer=4
+      value: Key=64
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapMarkerPrefab
@@ -204,6 +226,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: isPlayerControlled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapName
+      value: loot
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: carriedItemAwareness
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemAwareness
+      value: .25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

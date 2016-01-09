@@ -47,13 +47,12 @@ MonoBehaviour:
   heatmapCooling: 128
   heatmapAutoReset: 0
   preferences:
-  - Key=8
-  - Gem=-2
+  - Key=64
+  - Gem=128
   heatmapMarkerPrefab: {fileID: 0}
-  heatmapName: 
-  heldItemAwareness: 1
-  carriedItemAwareness: .25
-  itemSpecificHeat: 0
+  heatmapName: loot
+  heldItemAwareness: .25
+  carriedItemAwareness: 0
 --- !u!114 &11415102
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -74,10 +73,9 @@ MonoBehaviour:
   - Goblin=-4
   - Weapon=-8
   heatmapMarkerPrefab: {fileID: 0}
-  heatmapName: 
+  heatmapName: fight
   heldItemAwareness: 1
   carriedItemAwareness: .25
-  itemSpecificHeat: 1
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,7 +148,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
-      value: Goblin=-4
+      value: Gem=128
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
@@ -162,7 +160,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Adventurer=-4
+      value: Key=64
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
@@ -228,6 +226,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: speed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapName
+      value: loot
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: carriedItemAwareness
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heldItemAwareness
+      value: .25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
