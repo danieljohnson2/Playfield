@@ -71,19 +71,4 @@ public class ItemController : MovementBlocker
 
         return MoveEffect.Moved;
     }
-
-    /// <summary>
-    /// GetHeatmapScalingFactor() is used to create 'dynamic' heatmap effects;
-    /// the heat produced by this item in a heatmap will be scaled by the
-    /// factor this method returns. The 'mover' is the creature who will use
-    /// the heatmap given; with this we can generate a relative effect, where
-    /// we compare the item against the mover to decide what factor to use.
-    /// 
-    /// This is used only if the itemSpecificHeat flag is set for the mover's
-    /// heatmap preference controller.
-    /// </summary>
-    public virtual float GetHeatmapScalingFactor(GameObject mover)
-    {
-        return 1.0f;
-    }
 }
