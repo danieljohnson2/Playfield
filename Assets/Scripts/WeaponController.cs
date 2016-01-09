@@ -25,7 +25,7 @@ public class WeaponController : ItemController
         if (cc != null)
         {
             // TODO: fix this. Not clear but I think this is supposed to make
-            // the heatmap more intensse dependingon the relative strength
+            // the heatmap more intense dependingon the relative strength
             // of the mover vs the weapon.
 
             int myDamage = damage.Roll();

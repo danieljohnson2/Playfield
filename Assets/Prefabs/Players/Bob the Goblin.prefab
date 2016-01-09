@@ -162,6 +162,7 @@ MonoBehaviour:
   - Adventurer=16
   - Rat=12
   - Weapon[Held]=-16
+  - '"Rat King"=32'
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: fight
   heldItemAwareness: 1
@@ -180,10 +181,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   excludeFromSave: 0
   transcribesLocallyOnly: 0
-  speed: .800000012
+  speed: .600000024
   isPlayerControlled: 0
   isPlayerCandidate: 1
-  hitPoints: 12
+  hitPoints: 14
   damage:
     DiceCount: 1
     DiceSize: 3
@@ -250,7 +251,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: preferences.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: barkPrefabs.Array.size
@@ -278,7 +279,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: .800000012
+      value: .600000024
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapRange
@@ -347,7 +348,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[3]
-      value: 
+      value: '"Rat King"=32'
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: priority
@@ -371,7 +372,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: hitPoints
-      value: 12
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

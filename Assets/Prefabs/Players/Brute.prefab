@@ -163,7 +163,7 @@ MonoBehaviour:
   - Adventurer=12
   - Rat=12
   - Goblin=12
-  - Weapon[Held]=-16
+  - '"Rat King"=32'
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: fight
   heldItemAwareness: 1
@@ -349,7 +349,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[3]
-      value: JewelSlot=256
+      value: '"Rat King"=32'
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: priority
@@ -394,6 +394,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: hitPoints
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[4]
+      value: '"Rat King"=32'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

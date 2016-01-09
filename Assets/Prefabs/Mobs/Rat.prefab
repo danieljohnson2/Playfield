@@ -11,6 +11,7 @@ GameObject:
   - 212: {fileID: 21231602}
   - 114: {fileID: 11472114}
   - 114: {fileID: 11415102}
+  - 114: {fileID: 11448612}
   m_Layer: 0
   m_Name: Rat
   m_TagString: Rat
@@ -50,10 +51,28 @@ MonoBehaviour:
   - Goblin=-4
   - Weapon=-8
   heatmapMarkerPrefab: {fileID: 0}
-  heatmapName: 
+  heatmapName: fight
   heldItemAwareness: 1
   carriedItemAwareness: .25
   itemSpecificHeat: 1
+--- !u!114 &11448612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7840811b967e3304f8077fb1d2b05612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkPrefabs:
+  - {fileID: 164048, guid: 71d5e618e706e2b48b9569fc168f70f8, type: 2}
+  - {fileID: 164048, guid: b0bdd323133120345bf0701f2f660326, type: 2}
+  barkDuration: 3
+  barkChance: .5
+  minimumBarkInterval: 5
+  maximumBarkInterval: 10
 --- !u!114 &11472114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -119,6 +138,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: preferences.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: barkPrefabs.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -192,6 +215,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: isPlayerControlled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapName
+      value: fight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

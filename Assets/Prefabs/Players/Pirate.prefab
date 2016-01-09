@@ -160,10 +160,10 @@ MonoBehaviour:
   heatmapCooling: 64
   heatmapAutoReset: 0
   preferences:
-  - Adventurer=12
-  - Rat=12
+  - Adventurer=24
+  - Rat=8
   - Goblin=12
-  - Weapon[Held]=-12
+  - '"Rat King"=32'
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: fight
   heldItemAwareness: 1
@@ -260,11 +260,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Adventurer=12
+      value: Adventurer=24
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
-      value: Weapon[Held]=-12
+      value: Rat=8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -349,7 +349,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[3]
-      value: JewelSlot=256
+      value: '"Rat King"=32'
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: priority
@@ -390,6 +390,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: hitPoints
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[4]
+      value: '"Rat King"=32'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

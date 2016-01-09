@@ -46,11 +46,11 @@ MonoBehaviour:
   heatmapCooling: .25
   heatmapAutoReset: 0
   preferences:
-  - Adventurer=8
-  - Goblin=8
-  - Weapon=8
+  - Adventurer=32
+  - Goblin=32
+  - Weapon=32
   heatmapMarkerPrefab: {fileID: 0}
-  heatmapName: 
+  heatmapName: fight
   heldItemAwareness: 1
   carriedItemAwareness: .25
   itemSpecificHeat: 0
@@ -72,9 +72,9 @@ MonoBehaviour:
   isPlayerCandidate: 0
   hitPoints: 30
   damage:
-    DiceCount: 2
+    DiceCount: 3
     DiceSize: 3
-    Plus: 0
+    Plus: 1
   canUseWeapons: 1
   weight: 25
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
@@ -126,7 +126,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[1]
-      value: Goblin=8
+      value: Goblin=32
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heatmapCooling
@@ -155,7 +155,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
-      value: Weapon=8
+      value: Weapon=32
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: weight
@@ -183,11 +183,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage.Plus
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage.DiceCount
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage.DiceSize
@@ -199,7 +199,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[0]
-      value: Adventurer=8
+      value: Adventurer=32
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.y
@@ -212,6 +212,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: speed
       value: .400000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preferences.Array.data[3]
+      value: Weapon=32
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: heatmapName
+      value: fight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

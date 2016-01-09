@@ -132,9 +132,9 @@ public class CreatureController : PlayableEntityController
         else
         {
             float myWeightScore = UnityEngine.Random.Range(weight / 2, weight);
-            float attackerWeightScor = UnityEngine.Random.Range(attacker.weight / 2, attacker.weight);
+            float attackerWeightScore = UnityEngine.Random.Range(attacker.weight / 2, attacker.weight);
             bool knockedBack =
-                myWeightScore < attackerWeightScor &&
+                myWeightScore < attackerWeightScore &&
                 KnockedBack(attacker);
 
             string message = string.Format("{0} hit {1} for {2}!{3}", attacker.name, this.name, damage,
@@ -214,9 +214,10 @@ public class CreatureController : PlayableEntityController
         }
 
         // If we aren't using a weapon, then we use the damage
-        // of the creature, modified by weight.
+        // of the creature itself. We don't bother to use the weight
+        // here; we can just have a low damage level when desired.
 
-        return (int)(damage.Roll() * (weight / 20f));
+        return damage.Roll();
     }
 
     /// <summary>

@@ -162,7 +162,8 @@ MonoBehaviour:
   preferences:
   - Adventurer=8
   - Rat=12
-  - Goblin=12
+  - Goblin=24
+  - '"Rat King"=64'
   heatmapMarkerPrefab: {fileID: 0}
   heatmapName: fight
   heldItemAwareness: 1
@@ -180,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludeFromSave: 0
+  transcribesLocallyOnly: 0
   speed: 1
   isPlayerControlled: 0
   isPlayerCandidate: 1
@@ -335,7 +337,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[2]
-      value: Goblin=12
+      value: Goblin=24
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: heldItemPivot.x
@@ -347,7 +349,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[3]
-      value: JewelSlot=256
+      value: '"Rat King"=64'
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: priority
