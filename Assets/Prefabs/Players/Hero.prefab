@@ -183,13 +183,13 @@ MonoBehaviour:
   speed: 1
   isPlayerControlled: 0
   isPlayerCandidate: 1
-  hitPoints: 11
+  hitPoints: 10
   damage:
     DiceCount: 1
     DiceSize: 3
     Plus: 0
   canUseWeapons: 1
-  weight: 15
+  weight: 14
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 0
   bigBad: 0
@@ -359,7 +359,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: weight
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
@@ -379,7 +379,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: hitPoints
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

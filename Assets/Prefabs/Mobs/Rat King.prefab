@@ -69,7 +69,7 @@ MonoBehaviour:
   speed: .400000006
   isPlayerControlled: 0
   isPlayerCandidate: 0
-  hitPoints: 30
+  hitPoints: 45
   damage:
     DiceCount: 3
     DiceSize: 3
@@ -162,7 +162,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: hitPoints
-      value: 30
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x

@@ -190,7 +190,7 @@ MonoBehaviour:
     DiceSize: 3
     Plus: 0
   canUseWeapons: 1
-  weight: 9
+  weight: 6
   attackEffect: {fileID: 164048, guid: 29893b14179e7b446bc5488707c5ebd9, type: 2}
   teamAware: 0
   bigBad: 0
@@ -360,7 +360,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: weight
-      value: 9
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: isPlayerCandidate

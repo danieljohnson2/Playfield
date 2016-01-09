@@ -183,7 +183,7 @@ MonoBehaviour:
   speed: .600000024
   isPlayerControlled: 0
   isPlayerCandidate: 1
-  hitPoints: 15
+  hitPoints: 20
   damage:
     DiceCount: 1
     DiceSize: 3
@@ -391,7 +391,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: hitPoints
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: preferences.Array.data[4]
