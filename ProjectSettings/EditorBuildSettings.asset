@@ -13,3 +13,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Game Over.unity
   - enabled: 1
     path: Assets/Scenes/Reset Game.unity
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity

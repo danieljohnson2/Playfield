@@ -94,4 +94,9 @@ public class StartupController : MonoBehaviour
         PlayableEntityController.Restore();
         Application.LoadLevel("Playfield");
     }
+
+    public void ShowCredits()
+    {
+        Application.LoadLevel("Credits");
+    }
 }
