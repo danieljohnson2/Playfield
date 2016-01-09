@@ -370,6 +370,14 @@ public class PlayableEntityController : MovementBlocker
         {
             UpdateCommandSelection();
             SyncCamera();
+
+            if (transcript != null)
+            {
+                transcript.isInstructionTextVisible =
+                    commandStarted == Command.None &&
+                    commandCommanded == Command.None &&
+                    Input.anyKey;
+            }
         }
     }
 

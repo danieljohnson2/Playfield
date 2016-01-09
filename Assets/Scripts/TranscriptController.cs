@@ -13,8 +13,23 @@ public class TranscriptController : MonoBehaviour
     public int maxLines = 8;
     public Text transcriptText;
     public Text playerStatusText;
-    
+    public Text instructionText;
+
     private readonly List<string> lines = new List<string>();
+
+    /// <summary>
+    /// isInstructionTextVisible is used to show or hide the instruction text.
+    /// </summary>
+    public bool isInstructionTextVisible
+    {
+        get { return instructionText != null && instructionText.gameObject.activeInHierarchy; }
+
+        set
+        {
+            if (instructionText != null && instructionText.gameObject.activeSelf != value)
+                instructionText.gameObject.SetActive(value);
+        }
+    }
 
     public void AddLine(string format, params object[] parameters)
     {
@@ -31,7 +46,10 @@ public class TranscriptController : MonoBehaviour
         lines.Add(text);
         while (lines.Count > maxLines)
             lines.RemoveAt(0);
-        UpdateText();
+
+        transcriptText.text = string.Join(
+            System.Environment.NewLine,
+            lines.ToArray());
     }
 
     /// <summary>
@@ -41,14 +59,5 @@ public class TranscriptController : MonoBehaviour
     public IEnumerable<string> Lines()
     {
         return lines;
-    }
-
-    private void UpdateText()
-    {
-        string text = string.Join(
-            System.Environment.NewLine,
-            lines.ToArray());
-
-        transcriptText.text = text;
     }
 }

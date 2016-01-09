@@ -23,7 +23,7 @@ public class MovementBlocker : SavingController
     }
 
     /// <summary>
-    /// This property proides conevnient access to
+    /// This property proides convenient access to
     /// the transcript object, so we can print messages.
     /// </summary>
     protected TranscriptController transcript
