@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// ResetGameController handles the 'reset game' screen, which
@@ -14,11 +15,11 @@ public class ResetGameController : MonoBehaviour
         CharacterActivation.Reset();
         File.Delete(PlayableEntityController.GetSaveGamePath());
 
-        Application.LoadLevel("Intro");
+		SceneManager.LoadScene("Intro");
     }
 
     public void Cancel()
     {
-        Application.LoadLevel("Intro");
+		SceneManager.LoadScene("Intro");
     }
 }

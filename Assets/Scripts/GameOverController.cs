@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// GameOverController controls the game over screen, and
@@ -53,11 +54,11 @@ public class GameOverController : MonoBehaviour
 
     public void RestartGame()
     {
-        Application.LoadLevel("Intro");
+		SceneManager.LoadScene("Intro");
     }
 
     public static void GameOver()
     {
-        Application.LoadLevel("Game Over");
+		SceneManager.LoadScene("Game Over");
     }
 }

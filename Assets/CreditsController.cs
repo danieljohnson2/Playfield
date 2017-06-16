@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// CreditsController does little; just provides the handler
@@ -9,6 +10,6 @@ public class CreditsController : MonoBehaviour
 {
     public void ReturnToIntro()
     {
-        Application.LoadLevel("Intro");
+		SceneManager.LoadScene("Intro");
     }
 }

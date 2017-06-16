@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This class loads the map and places all game-objects; it keeps track of
@@ -121,7 +122,7 @@ public class MapController : MonoBehaviour
         if (nextLevelInitializer != null)
         {
             lazyInstance = null;
-            Application.LoadLevel(Application.loadedLevel);
+			SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
         }
     }
 
