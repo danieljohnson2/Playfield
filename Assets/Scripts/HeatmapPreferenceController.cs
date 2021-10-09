@@ -244,7 +244,7 @@ public class HeatmapPreferenceController : MonoBehaviour
                     GameObject marker = markers.Count > 0 ?
                         markers.Dequeue() : Instantiate(heatmapMarkerPrefab);
 
-                    marker.transform.localPosition = pair.Key.ToPosition();
+                    marker.transform.localPosition = pair.Key.ToLocalPosition();
                     marker.name = string.Format("Heat = {0}", pair.Value);
                     usedMarkers.Add(marker);
                 }

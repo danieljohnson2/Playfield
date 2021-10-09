@@ -162,7 +162,7 @@ public class CreatureController : PlayableEntityController
                 animationSize *= 2;
 
             GameObject effect = Instantiate(attackEffect);
-            effect.transform.parent = transform.parent;
+            effect.transform.SetParent(transform.parent, false);
             effect.transform.localScale = new Vector3(animationSize, animationSize, 1);
             effect.transform.localPosition = transform.localPosition;
         }
@@ -231,8 +231,8 @@ public class CreatureController : PlayableEntityController
         ItemController[] inventory = Inventory().ToArray();
         foreach (ItemController child in inventory)
         {
-            child.transform.parent = transform.parent;
-            child.transform.localPosition = here.ToPosition();
+            child.transform.SetParent(transform.parent, false);
+            child.transform.localPosition = here.ToLocalPosition();
             child.gameObject.SetActive(true);
         }
 
@@ -276,8 +276,8 @@ public class CreatureController : PlayableEntityController
         }
         else
         {
-            item.transform.parent = transform;
-            item.transform.localPosition = Location.nowhere.ToPosition();
+            item.transform.SetParent(transform, false);
+            item.transform.localPosition = Location.nowhere.ToLocalPosition();
         }
 
         mapController.adjacencyGenerator.InvalidatePathability(here);
@@ -301,8 +301,8 @@ public class CreatureController : PlayableEntityController
             Location here = Location.Of(gameObject);
 
             item.gameObject.SetActive(makeActive);
-            item.transform.parent = transform.parent;
-            item.transform.localPosition = here.ToPosition();
+            item.transform.SetParent(transform.parent, false);
+            item.transform.localPosition = here.ToLocalPosition();
 
             mapController.adjacencyGenerator.InvalidatePathability(here);
 
@@ -355,7 +355,7 @@ public class CreatureController : PlayableEntityController
             if (heldItemDisplay == null)
             {
                 heldItemDisplay = new GameObject("Held Item Sprite", typeof(SpriteRenderer));
-                heldItemDisplay.transform.parent = transform;
+                heldItemDisplay.transform.SetParent(transform, false);
 
                 SpriteRenderer sr = GetComponent<SpriteRenderer>();
 

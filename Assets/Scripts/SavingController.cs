@@ -75,14 +75,14 @@ public class SavingController : MonoBehaviour
                 GameObject parent = restoration.gameObjectsByName[parentName].FirstOrDefault();
 
                 if (parent != null)
-                    transform.parent = parent.transform;
+                    transform.SetParent(parent.transform, false);
                 else
                 {
                     Debug.LogError(string.Format("Parent {0} not found for {1}.", parentName, name));
                 }
             }
 
-            gameObject.transform.localPosition = location.ToPosition();
+            gameObject.transform.localPosition = location.ToLocalPosition();
         }
     }
 

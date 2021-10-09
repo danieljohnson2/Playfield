@@ -148,7 +148,7 @@ public class PlayableEntityController : MovementBlocker
                 return effect;
         }
 
-        Vector3 destPos = destination.ToPosition();
+        Vector3 destPos = destination.ToLocalPosition();
         FlipToFace(destPos);
         transform.localPosition = destPos;
         return MoveEffect.Moved;

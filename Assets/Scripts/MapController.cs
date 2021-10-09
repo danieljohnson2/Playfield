@@ -546,7 +546,7 @@ public class MapController : MonoBehaviour
             return lazyMapContainers.GetOrCreate(map.mapIndex, delegate
             {
                 var c = new GameObject(map.name);
-                c.transform.parent = mapController.transform;
+                c.transform.SetParent(mapController.transform, false);
                 return c;
             });
         }
@@ -592,8 +592,8 @@ public class MapController : MonoBehaviour
             Map map = mapController.maps[location.mapIndex];
 
             GameObject created = GameObject.Instantiate(prefab);
-            created.transform.parent = GetMapContainer(map).transform;
-            created.transform.localPosition = location.ToPosition();
+            created.transform.SetParent(GetMapContainer(map).transform, false);
+            created.transform.localPosition = location.ToLocalPosition();
             entities.Add(created);
             ClearEntityCaches();
             return created;
@@ -732,7 +732,7 @@ public class MapController : MonoBehaviour
                     Transform mapContainerTransform = GetMapContainer(map).transform;
 
                     if (goTransform.parent != mapContainerTransform)
-                        goTransform.parent = mapContainerTransform;
+                        goTransform.SetParent(mapContainerTransform, false);
 
                     shouldBeActive = true;
                 }

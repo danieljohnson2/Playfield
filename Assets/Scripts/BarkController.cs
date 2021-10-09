@@ -41,10 +41,7 @@ public class BarkController : MonoBehaviour
             {
                 int barkIndex = Random.Range(0, barkPrefabs.Length);
                 activeBark = Instantiate(barkPrefabs[barkIndex]);
-
-                Vector3 localPos = activeBark.transform.localPosition;
-                activeBark.transform.parent = transform;
-                activeBark.transform.localPosition = localPos;
+                activeBark.transform.SetParent(transform, false);
                 NormalizeBarkFlip();
             }
             else

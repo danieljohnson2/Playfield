@@ -51,10 +51,10 @@ public struct Location : IEquatable<Location>
     /// <summary>
     /// This method converts the position to a Unity scene-space
     /// position. The z co-ordinate is always 0, and the y is
-    /// inverted (typically negatie) because Unity's co-ordinates
+    /// inverted (typically negative) because Unity's co-ordinates
     /// have (0,0) in the bottom left.
     /// </summary>
-    public Vector3 ToPosition()
+    public Vector3 ToLocalPosition()
     {
         return new Vector3(x, -y, mapIndex);
     }

@@ -59,7 +59,7 @@ public class DoorController : MovementBlocker
         Location doorExit;
         if (mapController.maps.TryFindDestination(cell, destination, out doorExit))
         {
-            mover.transform.position = doorExit.ToPosition();
+            mover.transform.localPosition = doorExit.ToLocalPosition();
             mapController.entities.ActivateEntities();
             mapController.entities.ActivateMapContainers();
             return MoveEffect.Action; // this is not a normal movement, but more like a teleportation.
