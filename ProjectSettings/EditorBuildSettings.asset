@@ -7,11 +7,17 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Intro.unity
+    guid: baaff652a61b96f43a76ca6ba6966669
   - enabled: 1
     path: Assets/Scenes/Playfield.unity
+    guid: f5dcdb031efc9e2499955e515e643a1d
   - enabled: 1
     path: Assets/Scenes/Game Over.unity
+    guid: a182e401b3a094f49a3c0190ef03bab8
   - enabled: 1
     path: Assets/Scenes/Reset Game.unity
+    guid: 33db1bdea9ee5b04297a8efc358ee5b9
   - enabled: 1
     path: Assets/Scenes/Credits.unity
+    guid: 735e620034b70084d967809e52e12c2e
+  m_configObjects: {}

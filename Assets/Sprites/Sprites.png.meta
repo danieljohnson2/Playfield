@@ -1,120 +1,277 @@
 fileFormatVersion: 2
 guid: af06595c7cdd283459677670b149572a
-timeCreated: 1451401612
-licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: CastleWall_0000
-    21300002: CastleWall_0001
-    21300004: CastleWall_0010
-    21300006: CastleWall_0011
-    21300008: CastleWall_0100
-    21300010: CastleWall_0101
-    21300012: CastleWall_0110
-    21300014: CastleWall_0111
-    21300016: CastleWall_1000
-    21300018: CastleWall_1001
-    21300020: CastleWall_1010
-    21300022: CastleWall_1011
-    21300024: CastleWall_1100
-    21300026: CastleWall_1101
-    21300028: CastleWall_1110
-    21300030: CastleWall_1111
-    21300032: Open Door
-    21300034: Red Door
-    21300036: Green Door
-    21300038: Blue Door
-    21300040: Wooden Door
-    21300042: Door
-    21300044: Sprites_22
-    21300046: Sprites_23
-    21300048: Sprites_24
-    21300050: Sprites_25
-    21300052: Water TL
-    21300054: Water TR
-    21300056: MountainsideTL
-    21300058: MountainsideTR
-    21300060: Tree 1
-    21300062: Tree 2
-    21300064: Sprites_32
-    21300066: Sprites_33
-    21300068: Water BL
-    21300070: Water BR
-    21300072: MountainsideBL
-    21300074: MountainsideBR
-    21300076: Tree 3
-    21300078: Tree 4
-    21300080: Red Gem
-    21300082: Green Gem
-    21300084: Blue Gem
-    21300086: Sword
-    21300088: Sprites_44
-    21300090: Dagger
-    21300092: Club
-    21300094: Mace
-    21300096: Red Key
-    21300098: Green Key
-    21300100: Blue Key
-    21300102: Yellow Key
-    21300104: Sprites_52
-    21300106: Sprites_53
-    21300108: Grass Tree 1
-    21300110: Grass Tree 2
-    21300112: RedHole
-    21300114: GreenHole
-    21300116: BlueHole
-    21300118: GemHole
-    21300120: Axe
-    21300122: Sprites_61
-    21300124: Grass Tree 3
-    21300126: Grass Tree 4
-  serializedVersion: 2
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: CastleWall_0000
+  - first:
+      213: 21300002
+    second: CastleWall_0001
+  - first:
+      213: 21300004
+    second: CastleWall_0010
+  - first:
+      213: 21300006
+    second: CastleWall_0011
+  - first:
+      213: 21300008
+    second: CastleWall_0100
+  - first:
+      213: 21300010
+    second: CastleWall_0101
+  - first:
+      213: 21300012
+    second: CastleWall_0110
+  - first:
+      213: 21300014
+    second: CastleWall_0111
+  - first:
+      213: 21300016
+    second: CastleWall_1000
+  - first:
+      213: 21300018
+    second: CastleWall_1001
+  - first:
+      213: 21300020
+    second: CastleWall_1010
+  - first:
+      213: 21300022
+    second: CastleWall_1011
+  - first:
+      213: 21300024
+    second: CastleWall_1100
+  - first:
+      213: 21300026
+    second: CastleWall_1101
+  - first:
+      213: 21300028
+    second: CastleWall_1110
+  - first:
+      213: 21300030
+    second: CastleWall_1111
+  - first:
+      213: 21300032
+    second: Open Door
+  - first:
+      213: 21300034
+    second: Red Door
+  - first:
+      213: 21300036
+    second: Green Door
+  - first:
+      213: 21300038
+    second: Blue Door
+  - first:
+      213: 21300040
+    second: Wooden Door
+  - first:
+      213: 21300042
+    second: Door
+  - first:
+      213: 21300044
+    second: Sprites_22
+  - first:
+      213: 21300046
+    second: Sprites_23
+  - first:
+      213: 21300048
+    second: Sprites_24
+  - first:
+      213: 21300050
+    second: Sprites_25
+  - first:
+      213: 21300052
+    second: Water TL
+  - first:
+      213: 21300054
+    second: Water TR
+  - first:
+      213: 21300056
+    second: MountainsideTL
+  - first:
+      213: 21300058
+    second: MountainsideTR
+  - first:
+      213: 21300060
+    second: Tree 1
+  - first:
+      213: 21300062
+    second: Tree 2
+  - first:
+      213: 21300064
+    second: Sprites_32
+  - first:
+      213: 21300066
+    second: Sprites_33
+  - first:
+      213: 21300068
+    second: Water BL
+  - first:
+      213: 21300070
+    second: Water BR
+  - first:
+      213: 21300072
+    second: MountainsideBL
+  - first:
+      213: 21300074
+    second: MountainsideBR
+  - first:
+      213: 21300076
+    second: Tree 3
+  - first:
+      213: 21300078
+    second: Tree 4
+  - first:
+      213: 21300080
+    second: Red Gem
+  - first:
+      213: 21300082
+    second: Green Gem
+  - first:
+      213: 21300084
+    second: Blue Gem
+  - first:
+      213: 21300086
+    second: Sword
+  - first:
+      213: 21300088
+    second: Sprites_44
+  - first:
+      213: 21300090
+    second: Dagger
+  - first:
+      213: 21300092
+    second: Club
+  - first:
+      213: 21300094
+    second: Mace
+  - first:
+      213: 21300096
+    second: Red Key
+  - first:
+      213: 21300098
+    second: Green Key
+  - first:
+      213: 21300100
+    second: Blue Key
+  - first:
+      213: 21300102
+    second: Yellow Key
+  - first:
+      213: 21300104
+    second: Sprites_52
+  - first:
+      213: 21300106
+    second: Sprites_53
+  - first:
+      213: 21300108
+    second: Grass Tree 1
+  - first:
+      213: 21300110
+    second: Grass Tree 2
+  - first:
+      213: 21300112
+    second: RedHole
+  - first:
+      213: 21300114
+    second: GreenHole
+  - first:
+      213: 21300116
+    second: BlueHole
+  - first:
+      213: 21300118
+    second: GemHole
+  - first:
+      213: 21300120
+    second: Axe
+  - first:
+      213: 21300122
+    second: Sprites_61
+  - first:
+      213: 21300124
+    second: Grass Tree 3
+  - first:
+      213: 21300126
+    second: Grass Tree 4
+  externalObjects: {}
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 8
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -2
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: 0
     aniso: 16
-    mipBias: -1
-    wrapMode: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
   alphaIsTransparency: 1
-  textureType: 5
-  buildTargetSettings: []
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: CastleWall_0000
+    - serializedVersion: 2
+      name: CastleWall_0000
       rect:
         serializedVersion: 2
         x: 0
@@ -122,9 +279,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_0001
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02305410000000000800000000000000
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_0001
       rect:
         serializedVersion: 2
         x: 128
@@ -132,9 +300,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_0010
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22305410000000000800000000000000
+      internalID: 21300002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_0010
       rect:
         serializedVersion: 2
         x: 256
@@ -142,9 +321,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_0011
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42305410000000000800000000000000
+      internalID: 21300004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_0011
       rect:
         serializedVersion: 2
         x: 384
@@ -152,9 +342,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_0100
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62305410000000000800000000000000
+      internalID: 21300006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_0100
       rect:
         serializedVersion: 2
         x: 512
@@ -162,9 +363,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_0101
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82305410000000000800000000000000
+      internalID: 21300008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_0101
       rect:
         serializedVersion: 2
         x: 640
@@ -172,9 +384,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_0110
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2305410000000000800000000000000
+      internalID: 21300010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_0110
       rect:
         serializedVersion: 2
         x: 768
@@ -182,9 +405,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_0111
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2305410000000000800000000000000
+      internalID: 21300012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_0111
       rect:
         serializedVersion: 2
         x: 896
@@ -192,9 +426,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_1000
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2305410000000000800000000000000
+      internalID: 21300014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_1000
       rect:
         serializedVersion: 2
         x: 0
@@ -202,9 +447,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_1001
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03305410000000000800000000000000
+      internalID: 21300016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_1001
       rect:
         serializedVersion: 2
         x: 128
@@ -212,9 +468,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_1010
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23305410000000000800000000000000
+      internalID: 21300018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_1010
       rect:
         serializedVersion: 2
         x: 256
@@ -222,9 +489,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_1011
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43305410000000000800000000000000
+      internalID: 21300020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_1011
       rect:
         serializedVersion: 2
         x: 384
@@ -232,9 +510,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_1100
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63305410000000000800000000000000
+      internalID: 21300022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_1100
       rect:
         serializedVersion: 2
         x: 512
@@ -242,9 +531,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_1101
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83305410000000000800000000000000
+      internalID: 21300024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_1101
       rect:
         serializedVersion: 2
         x: 640
@@ -252,9 +552,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_1110
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3305410000000000800000000000000
+      internalID: 21300026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_1110
       rect:
         serializedVersion: 2
         x: 768
@@ -262,9 +573,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: CastleWall_1111
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3305410000000000800000000000000
+      internalID: 21300028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CastleWall_1111
       rect:
         serializedVersion: 2
         x: 896
@@ -272,9 +594,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Open Door
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3305410000000000800000000000000
+      internalID: 21300030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Open Door
       rect:
         serializedVersion: 2
         x: 0
@@ -282,9 +615,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Red Door
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04305410000000000800000000000000
+      internalID: 21300032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Door
       rect:
         serializedVersion: 2
         x: 128
@@ -292,9 +636,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Green Door
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24305410000000000800000000000000
+      internalID: 21300034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Green Door
       rect:
         serializedVersion: 2
         x: 256
@@ -302,9 +657,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Blue Door
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44305410000000000800000000000000
+      internalID: 21300036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue Door
       rect:
         serializedVersion: 2
         x: 384
@@ -312,9 +678,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Wooden Door
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64305410000000000800000000000000
+      internalID: 21300038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wooden Door
       rect:
         serializedVersion: 2
         x: 512
@@ -322,9 +699,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Door
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84305410000000000800000000000000
+      internalID: 21300040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door
       rect:
         serializedVersion: 2
         x: 640
@@ -332,9 +720,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_22
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4305410000000000800000000000000
+      internalID: 21300042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_22
       rect:
         serializedVersion: 2
         x: 768
@@ -342,9 +741,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_23
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4305410000000000800000000000000
+      internalID: 21300044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_23
       rect:
         serializedVersion: 2
         x: 896
@@ -352,9 +762,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_24
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4305410000000000800000000000000
+      internalID: 21300046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_24
       rect:
         serializedVersion: 2
         x: 0
@@ -362,9 +783,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_25
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05305410000000000800000000000000
+      internalID: 21300048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_25
       rect:
         serializedVersion: 2
         x: 127
@@ -372,9 +804,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Water TL
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25305410000000000800000000000000
+      internalID: 21300050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Water TL
       rect:
         serializedVersion: 2
         x: 256
@@ -382,9 +825,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Water TR
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45305410000000000800000000000000
+      internalID: 21300052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Water TR
       rect:
         serializedVersion: 2
         x: 384
@@ -392,9 +846,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: MountainsideTL
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65305410000000000800000000000000
+      internalID: 21300054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MountainsideTL
       rect:
         serializedVersion: 2
         x: 512
@@ -402,9 +867,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: MountainsideTR
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85305410000000000800000000000000
+      internalID: 21300056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MountainsideTR
       rect:
         serializedVersion: 2
         x: 641
@@ -412,9 +888,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Tree 1
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5305410000000000800000000000000
+      internalID: 21300058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tree 1
       rect:
         serializedVersion: 2
         x: 768
@@ -422,9 +909,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Tree 2
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5305410000000000800000000000000
+      internalID: 21300060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tree 2
       rect:
         serializedVersion: 2
         x: 896
@@ -432,9 +930,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_32
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5305410000000000800000000000000
+      internalID: 21300062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_32
       rect:
         serializedVersion: 2
         x: 0
@@ -442,9 +951,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_33
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06305410000000000800000000000000
+      internalID: 21300064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_33
       rect:
         serializedVersion: 2
         x: 128
@@ -452,9 +972,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Water BL
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26305410000000000800000000000000
+      internalID: 21300066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Water BL
       rect:
         serializedVersion: 2
         x: 256
@@ -462,9 +993,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Water BR
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46305410000000000800000000000000
+      internalID: 21300068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Water BR
       rect:
         serializedVersion: 2
         x: 384
@@ -472,9 +1014,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: MountainsideBL
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66305410000000000800000000000000
+      internalID: 21300070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MountainsideBL
       rect:
         serializedVersion: 2
         x: 512
@@ -482,9 +1035,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: MountainsideBR
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86305410000000000800000000000000
+      internalID: 21300072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MountainsideBR
       rect:
         serializedVersion: 2
         x: 640
@@ -492,9 +1056,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Tree 3
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6305410000000000800000000000000
+      internalID: 21300074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tree 3
       rect:
         serializedVersion: 2
         x: 768
@@ -502,9 +1077,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Tree 4
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6305410000000000800000000000000
+      internalID: 21300076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tree 4
       rect:
         serializedVersion: 2
         x: 896
@@ -512,9 +1098,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Red Gem
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6305410000000000800000000000000
+      internalID: 21300078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Gem
       rect:
         serializedVersion: 2
         x: 11
@@ -522,9 +1119,20 @@ TextureImporter:
         width: 79
         height: 85
       alignment: 9
-      pivot: {x: .65398705, y: .373396218}
+      pivot: {x: 0.65398705, y: 0.37339622}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Green Gem
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07305410000000000800000000000000
+      internalID: 21300080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Green Gem
       rect:
         serializedVersion: 2
         x: 138
@@ -532,9 +1140,20 @@ TextureImporter:
         width: 81
         height: 76
       alignment: 9
-      pivot: {x: .673290312, y: .290683538}
+      pivot: {x: 0.6732903, y: 0.29068354}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Blue Gem
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27305410000000000800000000000000
+      internalID: 21300082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue Gem
       rect:
         serializedVersion: 2
         x: 270
@@ -542,9 +1161,20 @@ TextureImporter:
         width: 71
         height: 74
       alignment: 9
-      pivot: {x: .71746695, y: .33560881}
+      pivot: {x: 0.71746695, y: 0.3356088}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sword
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47305410000000000800000000000000
+      internalID: 21300084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sword
       rect:
         serializedVersion: 2
         x: 394
@@ -552,9 +1182,20 @@ TextureImporter:
         width: 51
         height: 69
       alignment: 9
-      pivot: {x: .836099088, y: .115015887}
+      pivot: {x: 0.8360991, y: 0.11501589}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_44
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67305410000000000800000000000000
+      internalID: 21300086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_44
       rect:
         serializedVersion: 2
         x: 512
@@ -562,9 +1203,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Dagger
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87305410000000000800000000000000
+      internalID: 21300088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dagger
       rect:
         serializedVersion: 2
         x: 664
@@ -572,9 +1224,20 @@ TextureImporter:
         width: 53
         height: 55
       alignment: 9
-      pivot: {x: .647464395, y: .248429179}
+      pivot: {x: 0.6474644, y: 0.24842918}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Club
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7305410000000000800000000000000
+      internalID: 21300090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Club
       rect:
         serializedVersion: 2
         x: 748
@@ -582,9 +1245,20 @@ TextureImporter:
         width: 45
         height: 61
       alignment: 9
-      pivot: {x: .826757789, y: .101392902}
+      pivot: {x: 0.8267578, y: 0.1013929}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Mace
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7305410000000000800000000000000
+      internalID: 21300092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mace
       rect:
         serializedVersion: 2
         x: 833
@@ -592,9 +1266,20 @@ TextureImporter:
         width: 46
         height: 61
       alignment: 9
-      pivot: {x: .822712779, y: .132717445}
+      pivot: {x: 0.8227128, y: 0.13271745}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Red Key
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7305410000000000800000000000000
+      internalID: 21300094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Key
       rect:
         serializedVersion: 2
         x: 21
@@ -602,9 +1287,20 @@ TextureImporter:
         width: 40
         height: 49
       alignment: 9
-      pivot: {x: .752635479, y: .203024417}
+      pivot: {x: 0.7526355, y: 0.20302442}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Green Key
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08305410000000000800000000000000
+      internalID: 21300096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Green Key
       rect:
         serializedVersion: 2
         x: 149
@@ -612,9 +1308,20 @@ TextureImporter:
         width: 41
         height: 51
       alignment: 9
-      pivot: {x: .766191423, y: .206745222}
+      pivot: {x: 0.7661914, y: 0.20674522}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Blue Key
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28305410000000000800000000000000
+      internalID: 21300098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue Key
       rect:
         serializedVersion: 2
         x: 274
@@ -622,9 +1329,20 @@ TextureImporter:
         width: 39
         height: 51
       alignment: 9
-      pivot: {x: .73838377, y: .214670226}
+      pivot: {x: 0.73838377, y: 0.21467023}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Yellow Key
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48305410000000000800000000000000
+      internalID: 21300100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Yellow Key
       rect:
         serializedVersion: 2
         x: 401
@@ -632,9 +1350,20 @@ TextureImporter:
         width: 41
         height: 52
       alignment: 9
-      pivot: {x: .76662612, y: .186027229}
+      pivot: {x: 0.7666261, y: 0.18602723}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_52
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68305410000000000800000000000000
+      internalID: 21300102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_52
       rect:
         serializedVersion: 2
         x: 512
@@ -642,9 +1371,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_53
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88305410000000000800000000000000
+      internalID: 21300104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_53
       rect:
         serializedVersion: 2
         x: 640
@@ -652,9 +1392,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Grass Tree 1
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8305410000000000800000000000000
+      internalID: 21300106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Grass Tree 1
       rect:
         serializedVersion: 2
         x: 769
@@ -662,9 +1413,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Grass Tree 2
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8305410000000000800000000000000
+      internalID: 21300108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Grass Tree 2
       rect:
         serializedVersion: 2
         x: 896
@@ -672,9 +1434,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RedHole
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8305410000000000800000000000000
+      internalID: 21300110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RedHole
       rect:
         serializedVersion: 2
         x: 0
@@ -682,9 +1455,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: GreenHole
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09305410000000000800000000000000
+      internalID: 21300112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreenHole
       rect:
         serializedVersion: 2
         x: 128
@@ -692,9 +1476,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: BlueHole
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29305410000000000800000000000000
+      internalID: 21300114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlueHole
       rect:
         serializedVersion: 2
         x: 256
@@ -702,9 +1497,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: GemHole
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49305410000000000800000000000000
+      internalID: 21300116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GemHole
       rect:
         serializedVersion: 2
         x: 384
@@ -712,9 +1518,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Axe
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69305410000000000800000000000000
+      internalID: 21300118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Axe
       rect:
         serializedVersion: 2
         x: 924
@@ -722,9 +1539,20 @@ TextureImporter:
         width: 43
         height: 56
       alignment: 9
-      pivot: {x: .886735797, y: .124774933}
+      pivot: {x: 0.8867358, y: 0.12477493}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Sprites_61
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89305410000000000800000000000000
+      internalID: 21300120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_61
       rect:
         serializedVersion: 2
         x: 640
@@ -732,9 +1560,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Grass Tree 3
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9305410000000000800000000000000
+      internalID: 21300122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Grass Tree 3
       rect:
         serializedVersion: 2
         x: 769
@@ -742,9 +1581,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Grass Tree 4
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9305410000000000800000000000000
+      internalID: 21300124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Grass Tree 4
       rect:
         serializedVersion: 2
         x: 896
@@ -752,9 +1602,31 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9305410000000000800000000000000
+      internalID: 21300126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
   spritePackingTag: '[RECT]'
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
