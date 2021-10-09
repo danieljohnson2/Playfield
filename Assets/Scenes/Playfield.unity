@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.20886242, g: 0.0546849, b: 0.3467779, a: 1}
+  m_IndirectSpecularColor: {r: 0.20885861, g: 0.054708138, b: 0.34673637, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &4
 LightmapSettings:
@@ -395,8 +395,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1484928777}
   - component: {fileID: 1484928778}
-  - component: {fileID: 1484928780}
-  - component: {fileID: 1484928779}
   m_Layer: 0
   m_Name: Playfield
   m_TagString: GameController
@@ -508,24 +506,6 @@ MonoBehaviour:
     - {fileID: 154314, guid: 4d1e101e7756cbf4499293450cccbeff, type: 3}
     - {fileID: 154314, guid: ff140c29cd864814882ffbd2eda2f1b6, type: 3}
     - {fileID: 154314, guid: 14aff6694b82b054e995d5a0bbf1b0d8, type: 3}
---- !u!45 &1484928779
-Skybox:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1484928776}
-  m_Enabled: 1
-  m_CustomSkybox: {fileID: 0}
---- !u!45 &1484928780
-Skybox:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1484928776}
-  m_Enabled: 1
-  m_CustomSkybox: {fileID: 0}
 --- !u!1 &1508657706
 GameObject:
   m_ObjectHideFlags: 0
